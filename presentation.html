@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#020617">
   <title>Team SJA's Site — Presentation</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #020617;
-      --surface: rgba(15,23,42,0.8);
+      --surface: rgba(15,23,42,0.85);
+      --surface2: rgba(30,41,59,0.9);
       --border: rgba(255,255,255,0.08);
       --cyan: #06b6d4;
       --blue: #3b82f6;
@@ -20,16 +22,18 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
     body {
       background: var(--bg);
       font-family: 'Outfit', sans-serif;
       color: var(--text);
-      height: 100vh;
-      overflow: hidden;
-      user-select: none;
     }
 
-    /* ─── Background grid ─── */
     body::before {
       content: '';
       position: fixed;
@@ -44,29 +48,58 @@
 
     canvas#bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-    /* ─── Slideshow shell ─── */
+    /* ── Progress bar ── */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transition: width 0.4s ease;
+      z-index: 200;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* ── Slide counter ── */
+    .slide-badge {
+      position: fixed;
+      top: 10px; left: 14px;
+      font-size: 0.65rem;
+      color: var(--dim);
+      font-family: 'Fira Code', monospace;
+      z-index: 200;
+    }
+    .key-hint {
+      position: fixed;
+      top: 10px; right: 14px;
+      font-size: 0.65rem;
+      color: var(--dim);
+      font-family: 'Fira Code', monospace;
+      z-index: 200;
+    }
+    @media (max-width: 500px) { .key-hint { display: none; } }
+
+    /* ── Deck & Slides ── */
     .deck {
       position: relative;
       z-index: 1;
       width: 100vw;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
-    /* ─── Slide ─── */
     .slide {
       position: absolute;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 4rem 5vw 5rem;
+      justify-content: flex-start;
+      padding: clamp(3rem, 8vh, 5rem) clamp(1rem, 5vw, 4rem) clamp(4rem, 9vh, 6rem);
+      overflow-y: auto;
       opacity: 0;
       transform: translateX(60px);
-      transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
+      transition: opacity 0.5s cubic-bezier(.4,0,.2,1), transform 0.5s cubic-bezier(.4,0,.2,1);
       pointer-events: none;
+      -webkit-overflow-scrolling: touch;
     }
     .slide.active {
       opacity: 1;
@@ -76,361 +109,322 @@
     .slide.exit {
       opacity: 0;
       transform: translateX(-60px);
+      pointer-events: none;
     }
 
-    /* ─── Progress bar ─── */
-    .progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--blue), var(--cyan));
-      transition: width 0.4s ease;
-      z-index: 99;
-      box-shadow: 0 0 8px var(--cyan);
-    }
-
-    /* ─── Nav ─── */
+    /* ── Nav ── */
     .nav {
       position: fixed;
-      bottom: 2rem;
+      bottom: env(safe-area-inset-bottom, 1rem);
+      bottom: max(env(safe-area-inset-bottom), 12px);
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       align-items: center;
-      gap: 1.25rem;
-      background: rgba(15,23,42,0.9);
+      gap: 0.75rem;
+      background: rgba(15,23,42,0.92);
       border: 1px solid var(--border);
       border-radius: 9999px;
-      padding: 0.6rem 1.5rem;
-      backdrop-filter: blur(12px);
-      z-index: 99;
+      padding: 0.5rem 1.1rem;
+      backdrop-filter: blur(16px);
+      z-index: 200;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     }
-
     .nav button {
       background: none;
       border: none;
       color: var(--muted);
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: color 0.2s, transform 0.15s;
-      padding: 0.1rem 0.4rem;
+      padding: 0.25rem 0.5rem;
       border-radius: 6px;
+      transition: color 0.2s, transform 0.15s;
+      min-width: 36px; min-height: 36px;
     }
     .nav button:hover { color: var(--cyan); transform: scale(1.15); }
-    .nav button:disabled { color: var(--dim); cursor: default; transform: none; }
-
+    .nav button:disabled { color: var(--dim); transform: none; }
     .slide-counter {
       font-family: 'Fira Code', monospace;
-      font-size: 0.82rem;
+      font-size: 0.75rem;
       color: var(--muted);
-      min-width: 52px;
+      min-width: 40px;
       text-align: center;
     }
-
-    .nav .dot-row {
-      display: flex;
-      gap: 0.4rem;
-      align-items: center;
-    }
+    .dot-row { display: flex; gap: 0.35rem; align-items: center; }
     .dot {
-      width: 7px; height: 7px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--dim);
       transition: all 0.3s;
       cursor: pointer;
     }
-    .dot.active { background: var(--cyan); transform: scale(1.4); }
+    .dot.active { background: var(--cyan); transform: scale(1.5); }
+    @media (max-width: 420px) { .dot { display: none; } .dot:nth-child(-n+5) { display: block; } }
 
-    /* ─── Slide keyboard hint ─── */
-    .key-hint {
-      position: fixed;
-      top: 1.2rem;
-      right: 1.5rem;
-      font-size: 0.72rem;
-      color: var(--dim);
-      font-family: 'Fira Code', monospace;
-      z-index: 99;
-    }
-
-    /* ─── Slide number badge ─── */
-    .slide-badge {
-      position: fixed;
-      top: 1.2rem;
-      left: 1.5rem;
-      font-size: 0.72rem;
-      color: var(--dim);
-      font-family: 'Fira Code', monospace;
-      z-index: 99;
-    }
-
-    /* ─────────── SLIDE CONTENT STYLES ─────────── */
+    /* ────────── CONTENT ELEMENTS ────────── */
 
     .tag {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.78rem;
+      font-size: clamp(0.6rem, 1.8vw, 0.78rem);
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       color: var(--cyan);
       background: rgba(6,182,212,0.1);
       border: 1px solid rgba(6,182,212,0.3);
-      padding: 0.3rem 0.9rem;
+      padding: 0.28rem 0.85rem;
       border-radius: 9999px;
-      margin-bottom: 1.5rem;
+      margin-bottom: clamp(0.6rem, 2vh, 1.25rem);
+      flex-shrink: 0;
     }
 
     h1.hero {
-      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-size: clamp(1.8rem, 6vw, 5rem);
       font-weight: 800;
       text-align: center;
       line-height: 1.1;
-      background: linear-gradient(135deg, #fff 30%, var(--muted) 65%, var(--cyan) 100%);
+      background: linear-gradient(135deg, #fff 30%, var(--muted) 60%, var(--cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.03em;
-      margin-bottom: 1.25rem;
+      margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
     }
 
     h2.slide-title {
-      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-size: clamp(1.3rem, 4.5vw, 3rem);
       font-weight: 700;
       text-align: center;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       background: linear-gradient(135deg, #fff 40%, var(--cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .subtitle {
-      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-size: clamp(0.8rem, 2.2vw, 1.05rem);
       color: var(--muted);
       text-align: center;
-      max-width: 680px;
+      max-width: 640px;
       line-height: 1.6;
       font-weight: 300;
-      margin-bottom: 2.5rem;
+      margin-bottom: clamp(1rem, 3vh, 2rem);
     }
 
-    /* ─── Card grid ─── */
+    .divider {
+      width: 50px; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 9999px;
+      margin: 0.5rem auto 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Card grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(0.6rem, 2vw, 1.25rem);
       width: 100%;
-      max-width: 960px;
+      max-width: 900px;
+    }
+    @media (max-width: 500px) {
+      .card-grid { grid-template-columns: 1fr; }
     }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 12px;
+      padding: clamp(0.8rem, 2vw, 1.4rem);
       backdrop-filter: blur(12px);
-      transition: border-color 0.3s, transform 0.3s;
+      transition: border-color 0.3s;
     }
-    .card:hover { border-color: rgba(6,182,212,0.35); transform: translateY(-4px); }
+    .card:hover { border-color: rgba(6,182,212,0.35); }
+    .card-icon { font-size: clamp(1.2rem, 3vw, 1.8rem); margin-bottom: 0.5rem; }
+    .card h3 { font-size: clamp(0.8rem, 2vw, 1rem); font-weight: 600; margin-bottom: 0.3rem; }
+    .card p { font-size: clamp(0.72rem, 1.6vw, 0.85rem); color: var(--muted); line-height: 1.5; }
 
-    .card-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-    .card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text); }
-    .card p { font-size: 0.87rem; color: var(--muted); line-height: 1.55; }
-
-    /* ─── Metrics row ─── */
+    /* ── Metrics ── */
     .metrics-row {
-      display: flex;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 900px;
-      margin-top: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: clamp(0.5rem, 1.5vw, 1rem);
+      width: 100%;
+      max-width: 820px;
     }
-
     .metric {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.2rem 1.75rem;
+      border-radius: 12px;
+      padding: clamp(0.7rem, 2vw, 1.2rem);
       text-align: center;
-      backdrop-filter: blur(10px);
-      min-width: 140px;
     }
     .metric .val {
-      font-size: 2rem;
+      font-size: clamp(1.1rem, 3.5vw, 2rem);
       font-weight: 700;
       background: linear-gradient(135deg, var(--cyan), var(--blue));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .metric .lbl { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+    .metric .lbl { font-size: clamp(0.62rem, 1.5vw, 0.78rem); color: var(--muted); margin-top: 0.2rem; }
 
-    /* ─── Code block ─── */
+    /* ── Code block ── */
     pre.code-block {
       background: rgba(2,6,23,0.95);
       border: 1px solid rgba(6,182,212,0.2);
-      border-radius: 12px;
-      padding: 1.5rem 1.75rem;
+      border-radius: 10px;
+      padding: clamp(0.8rem, 2vw, 1.4rem);
       font-family: 'Fira Code', monospace;
-      font-size: 0.88rem;
+      font-size: clamp(0.6rem, 1.8vw, 0.85rem);
       color: #a5f3fc;
-      line-height: 1.7;
+      line-height: 1.6;
       text-align: left;
-      max-width: 700px;
+      max-width: 680px;
       width: 100%;
-      overflow: hidden;
+      overflow-x: auto;
     }
 
-    /* ─── Comparison table ─── */
+    /* ── Comparison table ── */
+    .table-wrap { width: 100%; max-width: 760px; overflow-x: auto; }
     .cmp-table {
       border-collapse: collapse;
       width: 100%;
-      max-width: 760px;
-      font-size: 0.92rem;
+      min-width: 480px;
+      font-size: clamp(0.65rem, 1.6vw, 0.88rem);
     }
     .cmp-table th, .cmp-table td {
-      padding: 0.85rem 1.1rem;
+      padding: clamp(0.5rem, 1.5vw, 0.85rem) clamp(0.5rem, 1.5vw, 1rem);
       border-bottom: 1px solid var(--border);
       text-align: left;
+      white-space: nowrap;
     }
-    .cmp-table th {
-      font-weight: 600;
-      color: var(--text);
-      background: rgba(15,23,42,0.6);
-    }
+    .cmp-table th { font-weight: 600; color: var(--text); background: rgba(15,23,42,0.6); }
     .cmp-table td { color: var(--muted); }
     .cmp-table td.good { color: var(--green); font-weight: 600; }
-    .cmp-table tr:hover td { background: rgba(255,255,255,0.02); }
 
-    /* ─── Step list ─── */
+    /* ── Step list ── */
     .step-list {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      max-width: 720px;
+      gap: clamp(0.5rem, 1.5vh, 0.9rem);
+      max-width: 700px;
       width: 100%;
-      text-align: left;
     }
     .step {
       display: flex;
-      gap: 1.1rem;
+      gap: 0.9rem;
       align-items: flex-start;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      backdrop-filter: blur(8px);
+      border-radius: 10px;
+      padding: clamp(0.7rem, 2vw, 1rem) clamp(0.8rem, 2vw, 1.25rem);
     }
     .step-num {
-      width: 30px; height: 30px;
+      width: 26px; height: 26px;
       background: linear-gradient(135deg, var(--blue), var(--cyan));
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.85rem;
+      font-weight: 700; font-size: 0.78rem;
       flex-shrink: 0;
     }
-    .step-body h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .step-body p { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+    .step-body h4 { font-size: clamp(0.8rem, 2vw, 0.95rem); font-weight: 600; margin-bottom: 0.15rem; }
+    .step-body p { font-size: clamp(0.7rem, 1.6vw, 0.83rem); color: var(--muted); line-height: 1.45; }
 
-    /* ─── Feature highlight ─── */
+    /* ── Feature row ── */
     .feature-row {
-      display: flex;
-      gap: 1.5rem;
-      max-width: 980px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.6rem, 1.5vw, 1.2rem);
+      max-width: 920px;
       width: 100%;
-      flex-wrap: wrap;
-      justify-content: center;
+    }
+    @media (max-width: 600px) {
+      .feature-row { grid-template-columns: 1fr; }
     }
     .feat {
-      flex: 1;
-      min-width: 200px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: clamp(0.8rem, 2vw, 1.4rem);
       text-align: left;
-      transition: border-color 0.3s;
     }
-    .feat:hover { border-color: rgba(168,85,247,0.4); }
-    .feat .feat-icon { font-size: 1.75rem; margin-bottom: 0.6rem; }
-    .feat h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--cyan); }
-    .feat ul { list-style: none; padding: 0; }
-    .feat ul li { font-size: 0.84rem; color: var(--muted); padding: 0.2rem 0; }
+    .feat .feat-icon { font-size: clamp(1.2rem, 3vw, 1.75rem); margin-bottom: 0.5rem; }
+    .feat h3 { font-size: clamp(0.78rem, 2vw, 1rem); font-weight: 600; margin-bottom: 0.4rem; color: var(--cyan); }
+    .feat ul { list-style: none; }
+    .feat ul li { font-size: clamp(0.68rem, 1.6vw, 0.83rem); color: var(--muted); padding: 0.18rem 0; }
     .feat ul li::before { content: '→ '; color: var(--cyan); }
 
-    /* ─── Thank you slide ─── */
-    .glow-circle {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.18;
-      pointer-events: none;
-    }
-
-    .link-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: rgba(6,182,212,0.1);
-      border: 1px solid rgba(6,182,212,0.4);
-      border-radius: 9999px;
-      padding: 0.5rem 1.25rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.9rem;
-      color: var(--cyan);
-      margin-top: 0.5rem;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .link-badge:hover { background: rgba(6,182,212,0.2); }
-
-    .divider {
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--blue), var(--cyan));
-      border-radius: 9999px;
-      margin: 1rem auto 1.5rem;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      padding: 0.3rem 0.85rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin: 0.2rem;
-    }
-
-    /* ─── Trie visual ─── */
+    /* ── Trie compare ── */
     .trie-compare {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      max-width: 820px;
+      gap: clamp(0.7rem, 2vw, 1.5rem);
+      max-width: 780px;
       width: 100%;
+    }
+    @media (max-width: 540px) {
+      .trie-compare { grid-template-columns: 1fr; }
     }
     .trie-box {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.25rem;
+      border-radius: 12px;
+      padding: clamp(0.8rem, 2vw, 1.2rem);
       font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
+      font-size: clamp(0.62rem, 1.5vw, 0.8rem);
       color: var(--muted);
-      line-height: 1.8;
+      line-height: 1.7;
     }
     .trie-box.radix { border-color: rgba(6,182,212,0.35); }
-    .trie-box h4 { font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
-    .badge-red { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; padding: 0.1rem 0.5rem; font-size: 0.72rem; }
-    .badge-green { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); border-radius: 6px; padding: 0.1rem 0.5rem; font-size: 0.72rem; }
+    .trie-box h4 { font-family: 'Outfit',sans-serif; font-size: clamp(0.78rem, 2vw, 0.9rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
 
-    @media (max-width: 640px) {
-      .trie-compare { grid-template-columns: 1fr; }
-      .card-grid { grid-template-columns: 1fr; }
+    .badge-red { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; padding: 0.1rem 0.45rem; font-size: 0.68rem; }
+    .badge-green { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); border-radius: 6px; padding: 0.1rem 0.45rem; font-size: 0.68rem; }
+
+    /* ── Pill row ── */
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      max-width: 640px;
+    }
+    .pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 0.28rem 0.75rem;
+      font-size: clamp(0.65rem, 1.6vw, 0.78rem);
+      color: var(--muted);
+    }
+
+    /* ── Glow orbs ── */
+    .glow { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.13; pointer-events: none; z-index: 0; }
+
+    /* ── Link badge ── */
+    .link-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(6,182,212,0.1);
+      border: 1px solid rgba(6,182,212,0.4);
+      border-radius: 9999px;
+      padding: 0.45rem 1.1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: clamp(0.62rem, 1.8vw, 0.88rem);
+      color: var(--cyan);
+      margin-top: 0.5rem;
+      text-decoration: none;
+      word-break: break-all;
+      text-align: center;
+    }
+
+    /* Make slide content not overflow on very small phones */
+    @media (max-height: 600px) {
+      .slide { padding-top: 2.5rem; padding-bottom: 3.5rem; }
+      .divider { margin: 0.25rem auto 0.6rem; }
+      .subtitle { margin-bottom: 0.75rem; }
     }
   </style>
 </head>
@@ -439,267 +433,207 @@
 <canvas id="bg"></canvas>
 <div class="progress-bar" id="progress"></div>
 <div class="slide-badge" id="slideBadge">01 / 10</div>
-<div class="key-hint">← → Arrow Keys to Navigate</div>
+<div class="key-hint">← → swipe or tap arrows</div>
 
 <div class="deck" id="deck">
 
-  <!-- ══════════════════════ SLIDE 1: TITLE ══════════════════════ -->
+  <!-- ══ SLIDE 1: TITLE ══ -->
   <div class="slide active" id="s1">
-    <div class="glow-circle" style="width:500px;height:500px;background:var(--blue);top:-10%;left:-10%;"></div>
-    <div class="glow-circle" style="width:400px;height:400px;background:var(--cyan);bottom:-15%;right:-5%;"></div>
+    <div class="glow" style="width:350px;height:350px;background:var(--blue);top:-10%;left:-10%;"></div>
+    <div class="glow" style="width:280px;height:280px;background:var(--cyan);bottom:-10%;right:-5%;"></div>
     <div class="tag">✦ Academic Project Presentation</div>
     <h1 class="hero">Team SJA's Site</h1>
     <div class="divider"></div>
-    <p class="subtitle">A high-performance <strong>Radix Tree Autocomplete Engine</strong>, Database Seed Exporter & Indian City Spelling Game — built with zero dependencies in pure JavaScript.</p>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem;">
+    <p class="subtitle">A high-performance <strong>Radix Tree Autocomplete Engine</strong>, Database Seed Exporter & Indian City Spelling Game — built with zero dependencies.</p>
+    <div class="pill-row" style="margin-bottom:1.5rem;">
       <span class="pill">🏙️ 15,000 Cities</span>
-      <span class="pill">⚡ Sub-millisecond Lookups</span>
+      <span class="pill">⚡ Sub-ms Lookups</span>
       <span class="pill">🎮 Built-in Game</span>
-      <span class="pill">💻 DB Seed Exporter</span>
-      <span class="pill">📱 Fully Responsive</span>
+      <span class="pill">💻 DB Exporter</span>
+      <span class="pill">📱 Responsive</span>
+    </div>
+    <div class="card-grid" style="max-width:600px;">
+      <div class="card"><div class="card-icon">🔍</div><h3>Autocomplete Engine</h3><p>Instant prefix search with live Radix Tree visualizer.</p></div>
+      <div class="card"><div class="card-icon">💻</div><h3>Seed Exporter</h3><p>Generate JSON, SQL, CSV database seed files.</p></div>
+      <div class="card"><div class="card-icon">🎮</div><h3>Spelling Game</h3><p>Unscramble Indian cities with clue & scoring system.</p></div>
+      <div class="card"><div class="card-icon">📊</div><h3>Live Benchmarks</h3><p>Real-time metrics, stress tests, Trie comparison.</p></div>
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 2: OVERVIEW ══════════════════════ -->
+  <!-- ══ SLIDE 2: OVERVIEW ══ -->
   <div class="slide" id="s2">
     <div class="tag">📋 Overview</div>
     <h2 class="slide-title">What is Team SJA's Site?</h2>
-    <p class="subtitle">A multi-purpose developer hub combining a search engine, a utility tool, and a game — all powered by the same Radix Tree data structure.</p>
+    <div class="divider"></div>
+    <p class="subtitle">A multi-purpose developer hub combining a search engine, utility tool, and a game — all powered by the same Radix Tree data structure.</p>
     <div class="card-grid">
-      <div class="card">
-        <div class="card-icon">🔍</div>
-        <h3>Autocomplete Engine</h3>
-        <p>Instantly search 15,000 Indian cities using a custom Radix Tree with a live interactive visualizer.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">💻</div>
-        <h3>Database Seed Exporter</h3>
-        <p>Generate ready-to-use JSON, SQL (PostgreSQL/MySQL), or CSV database seed files in seconds.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🎮</div>
-        <h3>Geoguess Spelling Game</h3>
-        <p>Unscramble Indian city names with clue reveals, autocomplete hints, and persistent scoring.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">📊</div>
-        <h3>Live Benchmarks</h3>
-        <p>Real-time lookup speed metrics, 10,000-query stress tests, and Radix vs Standard Trie comparisons.</p>
-      </div>
+      <div class="card"><div class="card-icon">🔍</div><h3>Autocomplete Engine</h3><p>Instantly search 15,000 Indian cities with sub-millisecond response. SVG visualizer shows the tree live.</p></div>
+      <div class="card"><div class="card-icon">💻</div><h3>Database Seed Exporter</h3><p>Generate production-ready JSON, PostgreSQL, MySQL, or CSV seed files with state & suffix filters.</p></div>
+      <div class="card"><div class="card-icon">🎮</div><h3>Geoguess Spelling Game</h3><p>Unscramble Indian city names with progressive clues, autocomplete hints, and persistent streak scoring.</p></div>
+      <div class="card"><div class="card-icon">📊</div><h3>Live Benchmarks</h3><p>Real-time speed bar, 10K-query stress test, ops/second throughput, and Radix vs Standard Trie comparison.</p></div>
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 3: RADIX TREE ══════════════════════ -->
+  <!-- ══ SLIDE 3: RADIX TREE ══ -->
   <div class="slide" id="s3">
     <div class="tag">🧠 Core Technology</div>
     <h2 class="slide-title">What is a Radix Tree?</h2>
-    <p class="subtitle">A <strong>Radix Tree</strong> (Compressed Trie) stores strings by merging chains of single-child nodes into compact edge labels — dramatically reducing memory and improving cache performance.</p>
+    <div class="divider"></div>
+    <p class="subtitle">Compresses chains of single-child nodes into compact edge labels — fewer nodes, less memory, same O(L) search speed.</p>
     <div class="trie-compare">
       <div class="trie-box">
         <h4>Standard Trie <span class="badge-red">Uncompressed</span></h4>
-        root → m → u → m → [end]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ b → a → i → [end]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ b → l → e → [end]<br><br>
+        root→m→u→m→[END]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→b→a→i→[END]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→b→l→e→[END]<br><br>
         <span style="color:#f87171;">⚠ 12 nodes for 3 words</span>
       </div>
       <div class="trie-box radix">
-        <h4>Radix Tree <span class="badge-green">Compressed</span></h4>
-        root → "mum" → [end]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ "bai" → [end]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ "ble" → [end]<br><br>
+        <h4>Radix Tree <span class="badge-green">Compressed ✓</span></h4>
+        root→"mum"→[END]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→"bai"→[END]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→"ble"→[END]<br><br>
         <span style="color:#34d399;">✅ 4 nodes — 70% fewer!</span>
       </div>
     </div>
-    <p style="font-size:0.85rem;color:var(--dim);margin-top:1.25rem;">Search complexity remains O(L) — same speed, far less memory.</p>
+    <div class="metrics-row" style="margin-top:1.25rem;max-width:560px;">
+      <div class="metric"><div class="val">O(L)</div><div class="lbl">Search Speed</div></div>
+      <div class="metric"><div class="val">~70%</div><div class="lbl">Fewer Nodes</div></div>
+      <div class="metric"><div class="val">3×</div><div class="lbl">Memory Saved</div></div>
+    </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 4: ENGINE TAB ══════════════════════ -->
+  <!-- ══ SLIDE 4: ENGINE ══ -->
   <div class="slide" id="s4">
     <div class="tag">🔍 Tab 1</div>
     <h2 class="slide-title">Autocomplete Engine</h2>
-    <p class="subtitle">Type a prefix and instantly get matching Indian cities — with a live animated tree showing exactly how the search traverses the Radix Tree.</p>
+    <div class="divider"></div>
+    <p class="subtitle">Type a prefix and instantly get matching Indian cities — with a live animated tree showing how the search traverses the Radix Tree.</p>
     <div class="feature-row">
       <div class="feat">
         <div class="feat-icon">⚡</div>
         <h3>Instant Search</h3>
         <ul>
           <li>15,000 city dataset</li>
-          <li>Sub-millisecond DFS lookups</li>
-          <li>Top 10 suggestions shown</li>
-          <li>Prefix highlighting in results</li>
+          <li>Sub-millisecond DFS</li>
+          <li>Top 10 suggestions</li>
+          <li>Prefix highlighting</li>
         </ul>
       </div>
       <div class="feat">
         <div class="feat-icon">📈</div>
         <h3>Benchmarking</h3>
         <ul>
-          <li>Live speed bar (5ms limit)</li>
-          <li>Exact microsecond timing</li>
+          <li>Live speed bar (5ms)</li>
+          <li>Microsecond timing</li>
           <li>10,000-query stress test</li>
-          <li>ops/second throughput</li>
+          <li>ops/second display</li>
         </ul>
       </div>
       <div class="feat">
         <div class="feat-icon">🌿</div>
         <h3>Tree Visualizer</h3>
         <ul>
-          <li>Drag & zoom SVG canvas</li>
-          <li>Playground: insert words live</li>
-          <li>Search: trace query path</li>
-          <li>Animated edge compression</li>
+          <li>Drag & zoom SVG</li>
+          <li>Playground mode</li>
+          <li>Search trace mode</li>
+          <li>Animated edge splits</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 5: EXPORTER ══════════════════════ -->
+  <!-- ══ SLIDE 5: EXPORTER ══ -->
   <div class="slide" id="s5">
     <div class="tag">💻 Tab 2</div>
     <h2 class="slide-title">Database Seed Exporter</h2>
-    <p class="subtitle">A developer utility to generate production-ready database seeding scripts for Indian city data — filter, format, and export in seconds.</p>
+    <div class="divider"></div>
+    <p class="subtitle">Generate production-ready database seeding scripts for Indian city data — filter, format, and export in seconds.</p>
     <div class="step-list">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h4>Search & Add Cities</h4>
-          <p>Use the autocomplete search to manually add specific cities to your seed basket.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h4>Apply Filters</h4>
-          <p>Filter by State (e.g. Maharashtra) or naming suffix (e.g. cities ending in <code style="color:var(--cyan)">pur</code>, <code style="color:var(--cyan)">abad</code>).</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h4>Choose Output Format</h4>
-          <p>Pick from JSON Array, PostgreSQL INSERT, MySQL INSERT, or CSV — with schema auto-generated.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h4>Copy or Download</h4>
-          <p>One-click copy to clipboard or download as a file — ready to paste into your project.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Search & Add Cities</h4><p>Use autocomplete to manually add specific cities to your seed basket.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Apply Filters</h4><p>Filter by State (e.g. Maharashtra) or suffix (e.g. ending in <code style="color:var(--cyan)">pur</code>, <code style="color:var(--cyan)">abad</code>).</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Choose Output Format</h4><p>JSON Array, PostgreSQL INSERT, MySQL INSERT, or CSV — schema auto-generated.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Copy or Download</h4><p>One-click copy to clipboard or download file — ready to paste into your project.</p></div></div>
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 6: GAME ══════════════════════ -->
+  <!-- ══ SLIDE 6: GAME ══ -->
   <div class="slide" id="s6">
     <div class="tag">🎮 Tab 3</div>
     <h2 class="slide-title">Geoguess Spelling Game</h2>
-    <p class="subtitle">An interactive game where players unscramble the names of Indian cities — with progressive clues, autocomplete assistance, and streak-based scoring.</p>
-    <div class="card-grid" style="max-width:780px;">
-      <div class="card" style="border-color:rgba(168,85,247,0.35);">
-        <div class="card-icon">🔀</div>
-        <h3>Scrambled City Name</h3>
-        <p>A random Indian city name is shown in scrambled letters. Figure out what city it is!</p>
-      </div>
-      <div class="card" style="border-color:rgba(168,85,247,0.35);">
-        <div class="card-icon">💡</div>
-        <h3>Progressive Clues</h3>
-        <p>Reveal clues one at a time: word length → third letter → last letter. Each clue costs points.</p>
-      </div>
-      <div class="card" style="border-color:rgba(168,85,247,0.35);">
-        <div class="card-icon">🔍</div>
-        <h3>Autocomplete Hints</h3>
-        <p>Use the search box to find valid city names as spelling hints from the 15,000 city database.</p>
-      </div>
-      <div class="card" style="border-color:rgba(168,85,247,0.35);">
-        <div class="card-icon">🏆</div>
-        <h3>Persistent Scoring</h3>
-        <p>Score, streak & best streak saved locally — come back to beat your own record!</p>
-      </div>
+    <div class="divider"></div>
+    <p class="subtitle">Unscramble Indian city names — with progressive clues, autocomplete hints, and streak-based scoring.</p>
+    <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.35);border-radius:12px;padding:1rem 1.5rem;text-align:center;margin-bottom:1rem;max-width:400px;width:100%;">
+      <div style="font-size:0.7rem;color:var(--purple);font-weight:600;letter-spacing:.1em;margin-bottom:0.4rem;">SCRAMBLED CITY NAME</div>
+      <div style="font-size:clamp(1.4rem,5vw,2.2rem);font-weight:800;letter-spacing:0.15em;">M U B I A M</div>
+      <div style="font-size:0.72rem;color:var(--dim);margin-top:0.3rem;">Answer: MUMBAI</div>
+    </div>
+    <div class="card-grid">
+      <div class="card" style="border-color:rgba(168,85,247,0.3);"><div class="card-icon">🔀</div><h3>Scrambled Display</h3><p>Random Indian city name scrambled — figure out what city it is!</p></div>
+      <div class="card" style="border-color:rgba(168,85,247,0.3);"><div class="card-icon">💡</div><h3>Progressive Clues</h3><p>Word length → third letter → last letter. Each clue costs 2 points.</p></div>
+      <div class="card" style="border-color:rgba(168,85,247,0.3);"><div class="card-icon">🔍</div><h3>Autocomplete Hints</h3><p>Type partial guesses to find valid city spellings from the 15K database.</p></div>
+      <div class="card" style="border-color:rgba(168,85,247,0.3);"><div class="card-icon">🏆</div><h3>Persistent Scoring</h3><p>Score, streak & best streak saved locally — beat your own record!</p></div>
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 7: METRICS ══════════════════════ -->
+  <!-- ══ SLIDE 7: METRICS ══ -->
   <div class="slide" id="s7">
     <div class="tag">📊 Performance Metrics</div>
     <h2 class="slide-title">By the Numbers</h2>
+    <div class="divider"></div>
     <p class="subtitle">Real performance benchmarks from the live engine running in the browser.</p>
-    <div class="metrics-row">
-      <div class="metric"><div class="val">15,000</div><div class="lbl">Indian Cities</div></div>
-      <div class="metric"><div class="val">&lt; 1ms</div><div class="lbl">Avg Lookup Speed</div></div>
+    <div class="metrics-row" style="margin-bottom:1.25rem;">
+      <div class="metric"><div class="val">15K</div><div class="lbl">Indian Cities</div></div>
+      <div class="metric"><div class="val">&lt;1ms</div><div class="lbl">Avg Lookup</div></div>
       <div class="metric"><div class="val">~70%</div><div class="lbl">Node Reduction</div></div>
-      <div class="metric"><div class="val">500K+</div><div class="lbl">Ops / Second</div></div>
+      <div class="metric"><div class="val">500K+</div><div class="lbl">Ops / Sec</div></div>
       <div class="metric"><div class="val">0</div><div class="lbl">Dependencies</div></div>
     </div>
-    <div style="margin-top:2rem;width:100%;max-width:760px;">
+    <div class="table-wrap">
       <table class="cmp-table">
-        <thead>
-          <tr><th>Metric</th><th>Standard Trie</th><th>Radix Tree</th><th>Improvement</th></tr>
-        </thead>
+        <thead><tr><th>Metric</th><th>Standard Trie</th><th>Radix Tree</th><th>Result</th></tr></thead>
         <tbody>
           <tr><td>Total Nodes</td><td>~95,000</td><td>~28,000</td><td class="good">70% fewer</td></tr>
-          <tr><td>Search Complexity</td><td>O(L) — char steps</td><td>O(L) — edge steps</td><td class="good">Higher cache locality</td></tr>
-          <tr><td>Memory Layout</td><td>Sparse char maps</td><td>Compressed edges</td><td class="good">~3× compaction</td></tr>
+          <tr><td>Search</td><td>O(L) char steps</td><td>O(L) edge steps</td><td class="good">Better cache</td></tr>
+          <tr><td>Memory</td><td>Sparse char maps</td><td>Compressed edges</td><td class="good">~3× smaller</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 8: DATASET ══════════════════════ -->
+  <!-- ══ SLIDE 8: DATASET ══ -->
   <div class="slide" id="s8">
     <div class="tag">🗄️ Dataset Pipeline</div>
     <h2 class="slide-title">How the City Database Was Built</h2>
+    <div class="divider"></div>
     <p class="subtitle">The 15,000-city dataset was prepared from the raw <strong>GeoNames</strong> geographical database for India.</p>
     <div class="step-list">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h4>Download & Extract</h4>
-          <p>Fetched <code style="color:var(--cyan)">IN.zip</code> from GeoNames containing all Indian geographical features in <code style="color:var(--cyan)">IN.txt</code>.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h4>Populated Place Filtering</h4>
-          <p>Kept only Class <code style="color:var(--cyan)">P</code> records (cities & towns). Removed lakes, monuments, and administrative regions.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h4>Heuristic Sorting</h4>
-          <p>Prioritized state and national capitals first, then sorted remaining cities by descending census population.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h4>Clean & Deduplicate</h4>
-          <p>Normalized to lowercase, collapsed spaces, removed punctuation, extracted top 15,000 unique city names.</p>
-        </div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Download & Extract</h4><p>Fetched <code style="color:var(--cyan)">IN.zip</code> from GeoNames — all Indian geographical features.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Populated Place Filtering</h4><p>Kept only Class <code style="color:var(--cyan)">P</code> records (cities & towns). Removed lakes, monuments, admin regions.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Heuristic Sorting</h4><p>State & national capitals first, then sorted by descending census population.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Clean & Deduplicate</h4><p>Normalized to lowercase, removed punctuation, extracted top 15,000 unique city names.</p></div></div>
     </div>
+    <p style="font-size:0.75rem;color:var(--dim);margin-top:1rem;text-align:center;">Source: geonames.org  •  Feature Class P  •  Country IN  •  CC BY 4.0</p>
   </div>
 
-  <!-- ══════════════════════ SLIDE 9: TECH STACK ══════════════════════ -->
+  <!-- ══ SLIDE 9: TECH STACK ══ -->
   <div class="slide" id="s9">
     <div class="tag">🛠️ Tech Stack</div>
     <h2 class="slide-title">Built With Zero Dependencies</h2>
+    <div class="divider"></div>
     <p class="subtitle">The entire site runs on pure browser-native technologies — no frameworks, no build tools, no libraries.</p>
     <pre class="code-block">team-sja/
-├── index.html    ← Structure: 3-tab SPA layout
-├── index.css     ← Glassmorphism dark UI, responsive
-├── app.js        ← All logic: autocomplete, game, exporter
-│                    Web Audio synthesizer, canvas particles
-│                    SVG tree renderer, benchmark engine
-├── trie.js       ← RadixTrie + StandardTrie implementations
-│                    insert(), search(), autocomplete()
-│                    exportToJSON(), exportSubtreeToJSON()
-└── cities.js     ← 15,000 GeoNames Indian cities (208 KB)</pre>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-top:1.25rem;">
-      <span class="pill">HTML5 Semantic</span>
+├── index.html  — 3-tab SPA, responsive viewport
+├── index.css   — Glassmorphism dark UI, animations
+├── app.js      — Autocomplete, game, exporter,
+│                 Web Audio, canvas, SVG renderer
+├── trie.js     — RadixTrie + StandardTrie
+│                 insert, search, autocomplete
+└── cities.js   — 15,000 GeoNames cities (208 KB)</pre>
+    <div class="pill-row" style="margin-top:1rem;">
+      <span class="pill">HTML5</span>
       <span class="pill">Vanilla CSS</span>
-      <span class="pill">ES6+ JavaScript</span>
+      <span class="pill">ES6+ JS</span>
       <span class="pill">Web Audio API</span>
       <span class="pill">Canvas API</span>
       <span class="pill">SVG DOM</span>
@@ -708,30 +642,29 @@
     </div>
   </div>
 
-  <!-- ══════════════════════ SLIDE 10: THANK YOU ══════════════════════ -->
+  <!-- ══ SLIDE 10: THANK YOU ══ -->
   <div class="slide" id="s10">
-    <div class="glow-circle" style="width:500px;height:500px;background:var(--purple);top:-15%;right:-10%;"></div>
-    <div class="glow-circle" style="width:400px;height:400px;background:var(--cyan);bottom:-20%;left:-5%;"></div>
+    <div class="glow" style="width:350px;height:350px;background:var(--purple);top:-15%;right:-10%;"></div>
+    <div class="glow" style="width:280px;height:280px;background:var(--cyan);bottom:-10%;left:-5%;"></div>
     <div class="tag">🎉 Thank You</div>
-    <h1 class="hero" style="font-size:clamp(2.2rem,5vw,4rem);">Team SJA's Site</h1>
+    <h1 class="hero">Team SJA's Site</h1>
     <div class="divider"></div>
     <p class="subtitle">Built with ❤️ using pure JavaScript — no frameworks, no dependencies, just raw data structures and browser APIs.</p>
     <a class="link-badge" href="https://iamhardikarora321-wq.github.io/team-sja" target="_blank">
       🌐 iamhardikarora321-wq.github.io/team-sja
     </a>
-    <div style="margin-top:2rem;display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;">
+    <div class="pill-row" style="margin-top:1.25rem;">
       <span class="pill">👥 Team SJA</span>
-      <span class="pill">🏙️ 15,000 Indian Cities</span>
-      <span class="pill">⚡ Radix Tree Engine</span>
+      <span class="pill">🏙️ 15,000 Cities</span>
+      <span class="pill">⚡ Radix Tree</span>
       <span class="pill">🎮 Spelling Game</span>
-      <span class="pill">💻 DB Seed Exporter</span>
+      <span class="pill">💻 DB Exporter</span>
     </div>
-    <p style="margin-top:2rem;font-size:0.82rem;color:var(--dim);">Press ← to go back · Press F for fullscreen</p>
+    <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--dim);">Swipe or use arrow keys to navigate</p>
   </div>
-
 </div>
 
-<!-- ─── Navigation ─── -->
+<!-- Nav -->
 <div class="nav">
   <button id="prevBtn" onclick="changeSlide(-1)" disabled>◀</button>
   <div class="dot-row" id="dots"></div>
@@ -742,35 +675,31 @@
 <script>
   const TOTAL = 10;
   let current = 0;
-
-  const slides = document.querySelectorAll('.slide');
+  const slides = Array.from(document.querySelectorAll('.slide'));
   const progress = document.getElementById('progress');
   const counter = document.getElementById('counter');
   const badge = document.getElementById('slideBadge');
-  const dotsContainer = document.getElementById('dots');
+  const dotsEl = document.getElementById('dots');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
 
-  // Build dots
   for (let i = 0; i < TOTAL; i++) {
     const d = document.createElement('div');
     d.className = 'dot' + (i === 0 ? ' active' : '');
     d.onclick = () => goTo(i);
-    dotsContainer.appendChild(d);
+    dotsEl.appendChild(d);
   }
 
   function goTo(n) {
     if (n < 0 || n >= TOTAL || n === current) return;
     slides[current].classList.remove('active');
     slides[current].classList.add('exit');
-    setTimeout(() => slides[current - (n > current ? 0 : 0)].classList.remove('exit'), 600);
-
     const prev = current;
+    setTimeout(() => slides[prev].classList.remove('exit'), 550);
     current = n;
-    slides[prev].classList.remove('active');
-    setTimeout(() => slides[prev].classList.remove('exit'), 600);
     slides[current].classList.add('active');
-
+    // Scroll the new slide to top
+    slides[current].scrollTop = 0;
     updateUI();
   }
 
@@ -780,32 +709,38 @@
     const pct = ((current + 1) / TOTAL) * 100;
     progress.style.width = pct + '%';
     counter.textContent = `${current + 1} / ${TOTAL}`;
-    badge.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+    badge.textContent = String(current + 1).padStart(2, '0') + ' / ' + TOTAL;
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === TOTAL - 1;
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
-  // Keyboard navigation
+  // Keyboard
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); changeSlide(-1); }
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
     if (e.key === 'f' || e.key === 'F') document.documentElement.requestFullscreen?.();
     if (e.key === 'Home') goTo(0);
     if (e.key === 'End') goTo(TOTAL - 1);
   });
 
-  // Touch/swipe
-  let touchX = 0;
-  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  // Touch swipe
+  let touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
   document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
-  });
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 45) {
+      changeSlide(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
 
   updateUI();
 
-  // ─── Particle canvas ───
+  // Particle background
   const canvas = document.getElementById('bg');
   const ctx = canvas.getContext('2d');
   let W, H, pts = [];
@@ -817,13 +752,16 @@
   resize();
   window.addEventListener('resize', resize);
 
-  for (let i = 0; i < 60; i++) {
+  const isMobile = window.innerWidth < 600;
+  const count = isMobile ? 30 : 55;
+  for (let i = 0; i < count; i++) {
     pts.push({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.5 + 0.4,
-      a: Math.random() * 0.4 + 0.1
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: Math.random() * 1.2 + 0.3,
+      a: Math.random() * 0.3 + 0.08
     });
   }
 
@@ -838,18 +776,19 @@
       ctx.fillStyle = `rgba(6,182,212,${p.a})`;
       ctx.fill();
     });
-    // Draw faint connection lines between nearby particles
-    for (let i = 0; i < pts.length; i++) {
-      for (let j = i + 1; j < pts.length; j++) {
-        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(pts[i].x, pts[i].y);
-          ctx.lineTo(pts[j].x, pts[j].y);
-          ctx.strokeStyle = `rgba(6,182,212,${0.06 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
+    if (!isMobile) {
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(6,182,212,${0.05*(1-dist/110)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
         }
       }
     }

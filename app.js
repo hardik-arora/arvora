@@ -75,12 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnPattern = document.getElementById("tab-btn-pattern");
   const tabBtnAnalytics = document.getElementById("tab-btn-analytics");
   const tabBtnScanner = document.getElementById("tab-btn-scanner");
+  const tabBtnTravel = document.getElementById("tab-btn-travel");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
   const tabContentPattern = document.getElementById("tab-content-pattern");
   const tabContentAnalytics = document.getElementById("tab-content-analytics");
   const tabContentScanner = document.getElementById("tab-content-scanner");
+  const tabContentTravel = document.getElementById("tab-content-travel");
 
   // Exporter DOM elements
   const routeDestination = document.getElementById("route-destination");
@@ -387,6 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tabBtnPattern.addEventListener("click", () => switchTab('pattern'));
     tabBtnAnalytics.addEventListener("click", () => switchTab('analytics'));
     tabBtnScanner.addEventListener("click", () => switchTab('scanner'));
+    tabBtnTravel.addEventListener("click", () => switchTab('travel'));
 
     // --- Tab 1: Engine search input autocomplete handler ---
     searchInput.addEventListener("input", (e) => {
@@ -530,9 +533,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => btn.classList.toggle("active", i === idx));
@@ -552,6 +555,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Render analytics lazily on first visit
     if (tabId === 'analytics') {
       renderAnalytics();
+    }
+    // Initialize or load first quiz question on travel tab visit
+    if (tabId === 'travel') {
+      initQuiz();
     }
   }
 
@@ -1658,4 +1665,310 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   setupTextScanner();
 
+  // =====================================================================
+  // TAB 7: GEOGRAPHY & TRAVEL HUB
+  // =====================================================================
+  let quizScore = 0;
+  let quizStreak = 0;
+  let quizCurrentAnswer = '';
+  let quizInitialized = false;
+
+  const STATES_LIST = [
+    "Maharashtra", "Delhi", "Karnataka", "Tamil Nadu", "West Bengal",
+    "Uttar Pradesh", "Gujarat", "Rajasthan", "Kerala", "Telangana",
+    "Haryana", "Punjab", "Bihar", "Madhya Pradesh", "Andhra Pradesh",
+    "Odisha", "Assam", "Jammu & Kashmir", "Goa", "Himachal Pradesh"
+  ];
+
+  function initQuiz() {
+    if (quizInitialized) return;
+    quizInitialized = true;
+    
+    const quizDiff = document.getElementById('quiz-diff');
+    const btnQuizNext = document.getElementById('btn-quiz-next');
+    
+    quizDiff.addEventListener('change', () => {
+      quizStreak = 0;
+      document.getElementById('quiz-streak').textContent = '0';
+      generateQuizQuestion();
+    });
+
+    btnQuizNext.addEventListener('click', () => {
+      generateQuizQuestion();
+      btnQuizNext.style.display = 'none';
+      document.getElementById('quiz-feedback').textContent = '';
+    });
+
+    generateQuizQuestion();
+    setupRoutePlanner();
+  }
+
+  function generateQuizQuestion() {
+    const diff = document.getElementById('quiz-diff').value;
+    const questionText = document.getElementById('quiz-question');
+    const optionsContainer = document.getElementById('quiz-options');
+    const feedback = document.getElementById('quiz-feedback');
+    feedback.textContent = '';
+    optionsContainer.innerHTML = '';
+
+    // Pick a random city
+    const randomCity = CITIES_DATA[Math.floor(Math.random() * CITIES_DATA.length)];
+    const coords = getCityCoords(randomCity);
+    const facts = computeLogisticsFacts(randomCity, coords, 0.5);
+
+    let question = '';
+    let options = [];
+    let correct = '';
+
+    if (diff === 'easy') {
+      question = `Which state is the city <strong>"${capitalizeWord(randomCity)}"</strong> located in?`;
+      correct = facts.state;
+      options = [correct];
+      while (options.length < 4) {
+        const rState = STATES_LIST[Math.floor(Math.random() * STATES_LIST.length)];
+        if (!options.includes(rState)) options.push(rState);
+      }
+    } else if (diff === 'medium') {
+      question = `Which region/district code belongs to the city <strong>"${capitalizeWord(randomCity)}"</strong>?`;
+      correct = facts.district;
+      options = [correct];
+      while (options.length < 4) {
+        const dummyCity = CITIES_DATA[Math.floor(Math.random() * CITIES_DATA.length)];
+        const dCoords = getCityCoords(dummyCity);
+        const dummyDist = computeLogisticsFacts(dummyCity, dCoords, 0.5).district;
+        if (!options.includes(dummyDist)) options.push(dummyDist);
+      }
+    } else {
+      // Hard: pin code starting digit
+      const pinStart = facts.zipCode[0];
+      question = `What is the starting digit of the PIN Code for the city <strong>"${capitalizeWord(randomCity)}"</strong> (located in ${facts.state})?`;
+      correct = pinStart;
+      options = [correct];
+      while (options.length < 4) {
+        const digit = Math.floor(Math.random() * 8 + 1).toString();
+        if (!options.includes(digit)) options.push(digit);
+      }
+    }
+
+    // Shuffle options
+    options.sort(() => Math.random() - 0.5);
+    quizCurrentAnswer = correct;
+
+    questionText.innerHTML = question;
+
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.innerHTML = opt;
+      btn.style.cssText = 'width:100%; text-align:left; background:rgba(255,255,255,0.03); border:2px solid var(--card-border); color:var(--text-primary); border-radius:var(--radius-sm); padding:0.65rem 1rem; font-size:0.9rem; cursor:pointer; font-family:inherit; font-weight:500; transition:all 0.15s ease;';
+      
+      btn.addEventListener('mouseover', () => {
+        if (!btn.disabled) btn.style.borderColor = 'var(--color-primary)';
+      });
+      btn.addEventListener('mouseout', () => {
+        if (!btn.disabled) btn.style.borderColor = 'var(--card-border)';
+      });
+
+      btn.addEventListener('click', () => {
+        // Disable all buttons after select
+        const allBtns = optionsContainer.querySelectorAll('button');
+        allBtns.forEach(b => b.disabled = true);
+
+        if (opt === quizCurrentAnswer) {
+          btn.style.borderColor = 'var(--color-success)';
+          btn.style.background = 'rgba(16,185,129,0.1)';
+          feedback.textContent = '🎉 Correct Answer! Well done.';
+          feedback.style.color = 'var(--color-success)';
+          quizScore += 10;
+          quizStreak += 1;
+          playSuccessSound();
+        } else {
+          btn.style.borderColor = 'var(--color-purple)';
+          btn.style.background = 'rgba(168,85,247,0.1)';
+          feedback.textContent = `❌ Incorrect. The correct answer was "${quizCurrentAnswer}".`;
+          feedback.style.color = 'var(--color-purple)';
+          quizStreak = 0;
+          playErrorSound();
+
+          // Highlight correct answer button
+          allBtns.forEach(b => {
+            if (b.innerHTML === quizCurrentAnswer) {
+              b.style.borderColor = 'var(--color-success)';
+            }
+          });
+        }
+
+        document.getElementById('quiz-score').textContent = quizScore.toLocaleString();
+        document.getElementById('quiz-streak').textContent = quizStreak.toLocaleString();
+        document.getElementById('btn-quiz-next').style.display = 'block';
+      });
+
+      optionsContainer.appendChild(btn);
+    });
+  }
+
+  // --- Route Planner ---
+  function setupRoutePlanner() {
+    const rStart = document.getElementById('route-start');
+    const rEnd = document.getElementById('route-end');
+    const listStart = document.getElementById('list-route-start');
+    const listEnd = document.getElementById('list-route-end');
+    const dropStart = document.getElementById('dropdown-route-start');
+    const dropEnd = document.getElementById('dropdown-route-end');
+    const btnGen = document.getElementById('btn-generate-route');
+
+    rStart.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (q.length > 0) {
+        dropStart.style.display = 'block';
+        handleAutocompleteInput(rStart, dropStart, listStart, null, q, 5, (selected) => {
+          rStart.value = capitalizeWord(selected);
+          dropStart.style.display = 'none';
+        });
+      } else {
+        dropStart.style.display = 'none';
+      }
+    });
+
+    rEnd.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (q.length > 0) {
+        dropEnd.style.display = 'block';
+        handleAutocompleteInput(rEnd, dropEnd, listEnd, null, q, 5, (selected) => {
+          rEnd.value = capitalizeWord(selected);
+          dropEnd.style.display = 'none';
+        });
+      } else {
+        dropEnd.style.display = 'none';
+      }
+    });
+
+    btnGen.addEventListener('click', () => {
+      const startCity = rStart.value.trim().toLowerCase();
+      const endCity = rEnd.value.trim().toLowerCase();
+
+      if (!startCity || !endCity) {
+        alert("Please enter both a start city and a destination city.");
+        return;
+      }
+
+      // Compute details
+      const c1 = getCityCoords(startCity);
+      const c2 = getCityCoords(endCity);
+      const f1 = computeLogisticsFacts(startCity, c1, 0.5);
+      const f2 = computeLogisticsFacts(endCity, c2, 0.5);
+
+      // Distance
+      const dist = haversineDistance(c1, c2);
+
+      // Estimate timings
+      const driveHrs = dist / 65;
+      const trainHrs = dist / 75;
+      const flightHrs = dist / 800 + 0.4; // constant overhead for take off
+
+      document.getElementById('travel-dist').textContent = `${Math.round(dist).toLocaleString()} km`;
+      document.getElementById('travel-drive').textContent = driveHrs < 1 ? `${Math.round(driveHrs * 60)} min` : `${Math.floor(driveHrs)}h ${Math.round((driveHrs % 1) * 60)}m`;
+      document.getElementById('travel-flight').textContent = `${Math.floor(flightHrs)}h ${Math.round((flightHrs % 1) * 60)}m`;
+
+      // Log text description
+      const log = `🎒 <strong>Journey Outline:</strong> Depart from <strong>${capitalizeWord(startCity)}</strong> (${f1.state}, PIN: ${f1.zipCode}). Heading through <strong>${f1.district}</strong>. Traversing cross-country coordinates to reach <strong>${capitalizeWord(endCity)}</strong> (${f2.state}, PIN: ${f2.zipCode}, regional district: <strong>${f2.district}</strong>). Total air displacement is ${Math.round(dist)} km.`;
+      document.getElementById('travel-diary').innerHTML = log;
+
+      // Draw SVG Route
+      drawRouteSvg(c1, c2, capitalizeWord(startCity), capitalizeWord(endCity));
+
+      document.getElementById('travel-output').style.display = 'flex';
+      playTone(587.33, "sine", 0.2, 0.15); // D5
+    });
+  }
+
+  function haversineDistance(c1, c2) {
+    const R = 6371; // Earth radius in km
+    const dLat = (c2.lat - c1.lat) * Math.PI / 180;
+    const dLon = (c2.lng - c1.lng) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(c1.lat * Math.PI / 180) * Math.cos(c2.lat * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
+  function drawRouteSvg(c1, c2, sName, eName) {
+    const svg = document.getElementById('travel-svg');
+    svg.innerHTML = '';
+
+    const width = svg.clientWidth || 300;
+    const height = 150;
+
+    // Define coords inside SVG coordinate space with margins
+    const margin = 35;
+    const x1 = margin;
+    const y1 = height - margin - 20;
+    const x2 = width - margin;
+    const y2 = margin + 15;
+
+    // Control point for a smooth bezier curve
+    const cx = (x1 + x2) / 2;
+    const cy = Math.min(y1, y2) - 40;
+
+    // Create Path
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+    path.setAttribute("d", d);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "rgba(59, 130, 246, 0.4)");
+    path.setAttribute("stroke-width", "3");
+    path.setAttribute("stroke-dasharray", "5,5");
+    svg.appendChild(path);
+
+    // Glowing dot moving along path
+    const animatedDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    animatedDot.setAttribute("r", "5");
+    animatedDot.setAttribute("fill", "var(--color-accent)");
+    animatedDot.setAttribute("filter", "drop-shadow(0 0 8px var(--color-accent))");
+    
+    const animateMotion = document.createElementNS("http://www.w3.org/2000/svg", "animateMotion");
+    animateMotion.setAttribute("path", d);
+    animateMotion.setAttribute("dur", "3s");
+    animateMotion.setAttribute("repeatCount", "indefinite");
+    animatedDot.appendChild(animateMotion);
+    svg.appendChild(animatedDot);
+
+    // Node 1 (Start)
+    const n1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    n1.setAttribute("cx", x1);
+    n1.setAttribute("cy", y1);
+    n1.setAttribute("r", "6");
+    n1.setAttribute("fill", "var(--color-primary)");
+    svg.appendChild(n1);
+
+    // Node 2 (End)
+    const n2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    n2.setAttribute("cx", x2);
+    n2.setAttribute("cy", y2);
+    n2.setAttribute("r", "6");
+    n2.setAttribute("fill", "var(--color-success)");
+    svg.appendChild(n2);
+
+    // Start text
+    const t1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    t1.setAttribute("x", x1);
+    t1.setAttribute("y", y1 + 18);
+    t1.setAttribute("fill", "var(--text-secondary)");
+    t1.setAttribute("font-size", "11px");
+    t1.setAttribute("text-anchor", "middle");
+    t1.textContent = sName;
+    svg.appendChild(t1);
+
+    // End text
+    const t2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    t2.setAttribute("x", x2);
+    t2.setAttribute("y", y2 - 12);
+    t2.setAttribute("fill", "var(--text-secondary)");
+    t2.setAttribute("font-size", "11px");
+    t2.setAttribute("text-anchor", "middle");
+    t2.textContent = eName;
+    svg.appendChild(t2);
+  }
+
 });
+

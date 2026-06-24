@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#020617">
-  <title>Team SJA's Autocomplete Engine & Developer Hub</title>
-  <meta name="description" content="A highly optimized Radix Tree engine featuring a city geoguess game, SQL/JSON database seeding tool, and benchmark suites by Team SJA.">
+  <title>BharatPulse — Indian Cities Explorer & Developer Suite</title>
+  <meta name="description" content="BharatPulse: A highly optimized Radix Tree autocomplete engine, interactive Indian state tourism showcase, geoguess spelling game, and database seed exporter.">
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -22,8 +22,8 @@
     <!-- Header Section -->
     <header>
       <div class="brand-section">
-        <h1>Team SJA's <span style="color: var(--color-accent);">Site</span></h1>
-        <p>Radix Tree Autocomplete Engine, Database Seed Exporter & Gaming Hub</p>
+        <h1>Bharat<span style="color: var(--color-accent);">Pulse</span></h1>
+        <p>Indian Cities Explorer, Database Seed Exporter & Interactive Developer Hub</p>
         <div class="brand-badges">
           <span class="badge success">
             <span style="display:inline-block; width:8px; height:8px; background:var(--color-success); border-radius:50%"></span>
@@ -34,6 +34,9 @@
           </span>
           <button id="audio-toggle-btn" class="badge" style="cursor: pointer; background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3); color: var(--color-primary); font-family: inherit;">
             <span>🔊</span> Sounds: On
+          </button>
+          <button id="theme-toggle-btn" class="badge" style="cursor: pointer; background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.3); color: var(--color-purple); font-family: inherit;">
+            <span>🎨</span> Theme: Midnight Indigo
           </button>
         </div>
       </div>
@@ -47,6 +50,7 @@
         <button id="tab-btn-analytics" class="tab-btn"><span>📊</span> City Analytics</button>
         <button id="tab-btn-scanner" class="tab-btn"><span>📋</span> Text Scanner</button>
         <button id="tab-btn-travel" class="tab-btn"><span>🗺️</span> Geography &amp; Travel Hub</button>
+        <button id="tab-btn-tourism" class="tab-btn"><span>🏛️</span> State Showcase</button>
       </div>
     </header>
 
@@ -446,7 +450,7 @@
 
     <!-- Page Footer -->
     <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem;">
-      <p>Team SJA's Site • Designed for Academics &amp; Benchmarks • JavaScript ES6 implementation</p>
+      <p>BharatPulse • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     </footer>
 
   </div>
@@ -728,6 +732,87 @@
             <span style="font-size:0.8rem; font-weight:600; color:var(--text-primary);">📝 Travel Diary & Route Log</span>
             <div id="travel-diary" style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:var(--radius-sm); padding:0.75rem; font-size:0.85rem; line-height:1.5; color:var(--text-secondary); max-height:100px; overflow-y:auto; margin-top:0.4rem;"></div>
           </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TAB 8: STATE SHOWCASE & TOURISM GUIDE
+       ===================================================================== -->
+  <div id="tab-content-tourism" class="tab-content" style="display:none;">
+    <div style="max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:1.5rem; padding: 0 1.5rem 2.5rem 1.5rem;">
+      
+      <!-- Top Overview Panel -->
+      <div class="panel">
+        <h2 class="panel-title"><span>🏛️</span> State Showcase &amp; Virtual Tour</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem; margin-bottom:1rem;">
+          Select any state or union territory from our database to explore its rich geography, local sightseeing landmarks, famous culinary delicacies, and view all its cities.
+        </p>
+        
+        <!-- State Grid Selector -->
+        <div id="tourism-state-grid" class="state-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Main Showcase Layout -->
+      <div class="tourism-detail-container">
+        
+        <!-- Left Column: Details, Sightseeing & Food -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          
+          <!-- Attractions Panel -->
+          <div class="panel" style="flex-grow: 1;">
+            <h3 style="font-size:1.15rem; font-weight:600; margin-bottom:1.25rem; color:var(--color-accent); display:flex; align-items:center; gap:0.5rem;">
+              <span>🌅</span> Top Sightseeing Landmarks
+            </h3>
+            <div id="tourism-attractions" style="display:flex; flex-direction:column;">
+              <!-- Populated dynamically -->
+              <div style="color:var(--text-muted); text-align:center; padding:2rem;">Select a state above to start your journey...</div>
+            </div>
+          </div>
+
+          <!-- Culinary Highlights Panel -->
+          <div class="panel">
+            <h3 style="font-size:1.15rem; font-weight:600; margin-bottom:1rem; color:var(--color-success); display:flex; align-items:center; gap:0.5rem;">
+              <span>🍲</span> Famous Culinary Delights
+            </h3>
+            <div id="tourism-foods" class="food-grid">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: State Cities Directory & Spotlight -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          
+          <!-- State Cities Directory -->
+          <div class="panel" style="display:flex; flex-direction:column; height:350px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:0.75rem; margin-bottom:1rem;">
+              <h3 style="font-size:1.1rem; font-weight:600; color:var(--color-primary); margin:0;">
+                <span>🏙️</span> Cities in State
+              </h3>
+              <span id="tourism-city-count" style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">0 cities</span>
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:0.75rem;">
+              Click on any city below to load its coordinates, district jurisdiction, and estimated ZIP code.
+            </p>
+            <div style="flex-grow:1; overflow-y:auto; background:rgba(2,6,23,0.4); border:1px solid var(--card-border); border-radius:var(--radius-sm);">
+              <div id="tourism-cities-list" class="state-cities-list">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- City Spotlight Panel -->
+          <div id="tourism-city-spotlight" class="panel spotlight-card" style="display:none;">
+            <!-- Populated dynamically -->
+          </div>
+
         </div>
 
       </div>

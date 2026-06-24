@@ -386,14 +386,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // --- Tab Navigation Handlers ---
-    tabBtnEngine.addEventListener("click", () => switchTab('engine'));
-    tabBtnRoutes.addEventListener("click", () => switchTab('routes'));
-    tabBtnGame.addEventListener("click", () => switchTab('game'));
-    tabBtnPattern.addEventListener("click", () => switchTab('pattern'));
-    tabBtnAnalytics.addEventListener("click", () => switchTab('analytics'));
-    tabBtnScanner.addEventListener("click", () => switchTab('scanner'));
-    tabBtnTravel.addEventListener("click", () => switchTab('travel'));
-    tabBtnTourism.addEventListener("click", () => switchTab('tourism'));
+    if (tabBtnEngine) tabBtnEngine.addEventListener("click", () => switchTab('engine'));
+    if (tabBtnRoutes) tabBtnRoutes.addEventListener("click", () => switchTab('routes'));
+    if (tabBtnGame) tabBtnGame.addEventListener("click", () => switchTab('game'));
+    if (tabBtnPattern) tabBtnPattern.addEventListener("click", () => switchTab('pattern'));
+    if (tabBtnAnalytics) tabBtnAnalytics.addEventListener("click", () => switchTab('analytics'));
+    if (tabBtnScanner) tabBtnScanner.addEventListener("click", () => switchTab('scanner'));
+    if (tabBtnTravel) tabBtnTravel.addEventListener("click", () => switchTab('travel'));
+    if (tabBtnTourism) tabBtnTourism.addEventListener("click", () => switchTab('tourism'));
 
     // --- Theme Switcher Event Listener ---
     if (themeToggleBtn) {

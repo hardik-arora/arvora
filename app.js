@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnAnalytics = document.getElementById("tab-btn-analytics");
   const tabBtnScanner = document.getElementById("tab-btn-scanner");
   const tabBtnTravel = document.getElementById("tab-btn-travel");
+  const tabBtnTourism = document.getElementById("tab-btn-tourism");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
@@ -83,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentAnalytics = document.getElementById("tab-content-analytics");
   const tabContentScanner = document.getElementById("tab-content-scanner");
   const tabContentTravel = document.getElementById("tab-content-travel");
+  const tabContentTourism = document.getElementById("tab-content-tourism");
+  const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
   const routeDestination = document.getElementById("route-destination");
@@ -390,6 +393,12 @@ document.addEventListener("DOMContentLoaded", () => {
     tabBtnAnalytics.addEventListener("click", () => switchTab('analytics'));
     tabBtnScanner.addEventListener("click", () => switchTab('scanner'));
     tabBtnTravel.addEventListener("click", () => switchTab('travel'));
+    tabBtnTourism.addEventListener("click", () => switchTab('tourism'));
+
+    // --- Theme Switcher Event Listener ---
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", cycleTheme);
+    }
 
     // --- Tab 1: Engine search input autocomplete handler ---
     searchInput.addEventListener("input", (e) => {
@@ -533,12 +542,14 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism'];
     const idx = tabIds.indexOf(tabId);
 
-    allTabBtns.forEach((btn, i) => btn.classList.toggle("active", i === idx));
+    allTabBtns.forEach((btn, i) => {
+      if (btn) btn.classList.toggle("active", i === idx);
+    });
     allTabContents.forEach((content, i) => {
       if (content) {
         content.classList.toggle("active", i === idx);
@@ -559,6 +570,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize or load first quiz question on travel tab visit
     if (tabId === 'travel') {
       initQuiz();
+    }
+    // Initialize state showcase on visit
+    if (tabId === 'tourism') {
+      initTourism();
     }
   }
 
@@ -1968,6 +1983,552 @@ document.addEventListener("DOMContentLoaded", () => {
     t2.setAttribute("text-anchor", "middle");
     t2.textContent = eName;
     svg.appendChild(t2);
+  }
+
+  // =====================================================================
+  // THEME SWITCHER LOGIC
+  // =====================================================================
+  const THEMES = ["theme-indigo", "theme-saffron", "theme-forest", "theme-cyber"];
+  const THEME_NAMES = ["Midnight Indigo", "Saffron Sunset", "Emerald Forest", "Cyberpunk Neon"];
+  let currentTheme = localStorage.getItem("bharatpulse-theme") || "theme-indigo";
+
+  function applyTheme(themeId) {
+    THEMES.forEach(t => document.body.classList.remove(t));
+    document.body.classList.add(themeId);
+    currentTheme = themeId;
+    localStorage.setItem("bharatpulse-theme", themeId);
+    
+    if (themeToggleBtn) {
+      const nameIdx = THEMES.indexOf(themeId);
+      themeToggleBtn.innerHTML = `<span>🎨</span> Theme: ${THEME_NAMES[nameIdx]}`;
+    }
+  }
+
+  function cycleTheme() {
+    initAudio();
+    const currentIdx = THEMES.indexOf(currentTheme);
+    const nextIdx = (currentIdx + 1) % THEMES.length;
+    applyTheme(THEMES[nextIdx]);
+    playTone(600, "sine", 0.08, 0.1);
+  }
+
+  // Apply default or saved theme on boot
+  applyTheme(currentTheme);
+
+  // =====================================================================
+  // STATE TOURISM SHOWCASE & DIRECTORY DATABASE & LOGIC
+  // =====================================================================
+  let tourismInitialized = false;
+  let activeState = "";
+
+  const TOURISM_DATABASE = {
+    "Maharashtra": {
+      capital: "Mumbai",
+      language: "Marathi",
+      climate: "Tropical Monsoon (Best: Oct-Mar)",
+      desc: "Land of historic caves, massive forts, beaches, and the bustling financial capital of India.",
+      attractions: [
+        { name: "Gateway of India", icon: "🏛️", desc: "A spectacular 20th-century arch monument overlooking the Arabian Sea in Mumbai." },
+        { name: "Ajanta & Ellora Caves", icon: "🗿", desc: "UNESCO World Heritage site featuring rock-cut Buddhist, Hindu, and Jain cave monuments." },
+        { name: "Western Ghats & Lonavala", icon: "⛰️", desc: "Lush green hill stations famous for deep valleys, gorgeous waterfalls, and historic forts." }
+      ],
+      foods: [
+        { name: "Vada Pav", desc: "The iconic street food consisting of a spicy potato dumpling inside a bread bun." },
+        { name: "Misal Pav", desc: "A spicy curry made from sprouted moth beans, topped with farsan and served with pav." },
+        { name: "Puran Poli", desc: "A sweet flatbread stuffed with a sweet lentil filling made of chana dal and jaggery." }
+      ]
+    },
+    "Delhi": {
+      capital: "New Delhi",
+      language: "Hindi, Punjabi, English",
+      climate: "Semi-arid (Best: Oct-Mar)",
+      desc: "India's capital territory, a rich historical hub blending Mughal monuments with modern avenues.",
+      attractions: [
+        { name: "Red Fort (Lal Qila)", icon: "🏰", desc: "The historic octagonal Mughal fort built in red sandstone by Emperor Shah Jahan." },
+        { name: "Qutub Minar", icon: "🗼", desc: "A towering 73-meter victory tower and minaret constructed in the 12th century." },
+        { name: "India Gate", icon: "🎖️", desc: "A majestic war memorial archway commemorating soldiers who fell in the World War." }
+      ],
+      foods: [
+        { name: "Chole Bhature", desc: "Spicy chickpea curry paired with giant fluffy fried leavened bread." },
+        { name: "Butter Chicken", desc: "Succulent tandoori chicken simmered in a rich, creamy, tomato-butter gravy." },
+        { name: "Paranthas", desc: "Crispy, shallow-fried flatbreads stuffed with potatoes, paneer, or radishes." }
+      ]
+    },
+    "Karnataka": {
+      capital: "Bengaluru",
+      language: "Kannada",
+      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
+      desc: "India's high-tech hub, offering a stunning mix of royal palaces, ancient empires, and wild forests.",
+      attractions: [
+        { name: "Mysore Palace", icon: "🕌", desc: "A breathtaking royal palace famous for its Indo-Saracenic architecture and grand heritage." },
+        { name: "Hampi Ruins", icon: "🏛️", desc: "The mesmerizing UNESCO World Heritage site showcasing the capital of the Vijayanagara Empire." },
+        { name: "Coorg Hills", icon: "☕", desc: "A scenic coffee country known as the 'Scotland of India' with mist-covered hills." }
+      ],
+      foods: [
+        { name: "Bisi Bele Bath", desc: "A delicious, spicy hot lentil rice dish cooked with vegetables and tamarind." },
+        { name: "Mysore Pak", desc: "A rich, melt-in-the-mouth sweet made of generous amounts of ghee, sugar, and gram flour." },
+        { name: "Idli & Vada", desc: "Steamed rice cakes and crispy lentil donuts served with coconut chutney and sambar." }
+      ]
+    },
+    "Tamil Nadu": {
+      capital: "Chennai",
+      language: "Tamil",
+      climate: "Tropical Wet & Dry (Best: Nov-Feb)",
+      desc: "Famous for its ancient Dravidian temples, rich classical music/dance, and beautiful coastline.",
+      attractions: [
+        { name: "Brihadeeswarar Temple", icon: "🛕", desc: "A majestic Chola temple in Thanjavur, famous for its grand vimana tower made of granite." },
+        { name: "Mahabalipuram Shore", icon: "🏖️", desc: "UNESCO-listed 7th-century rock-cut monuments and temples along the Coromandel Coast." },
+        { name: "Ooty Gardens", icon: "🌲", desc: "A scenic hill station nestled in the Nilgiri Hills, famous for tea gardens and toy train." }
+      ],
+      foods: [
+        { name: "Masala Dosa", desc: "A thin, crispy fermented rice crepe stuffed with spiced mashed potatoes." },
+        { name: "Filter Coffee", desc: "A strong, frothy traditional chicory-blended brew served in a brass tumbler." },
+        { name: "Idiyappam & Kurma", desc: "Steamed string hoppers served with a flavorful spiced vegetable coconut gravy." }
+      ]
+    },
+    "West Bengal": {
+      capital: "Kolkata",
+      language: "Bengali",
+      climate: "Sub-tropical Monsoon (Best: Oct-Mar)",
+      desc: "The cultural heartland of India, famous for literature, colonial architecture, and sweet delicacies.",
+      attractions: [
+        { name: "Victoria Memorial", icon: "🏛️", desc: "A magnificent white marble palace built in memory of Queen Victoria, set in lush gardens." },
+        { name: "Sundarbans Park", icon: "🐅", desc: "The world's largest mangrove forest, home to the elusive Royal Bengal Tiger." },
+        { name: "Darjeeling Hills", icon: "⛰️", desc: "A beautiful Himalayan town famous for premium tea plantations and views of Mount Kanchenjunga." }
+      ],
+      foods: [
+        { name: "Kosha Mangsho", desc: "A rich, slow-cooked spicy mutton curry full of deep caramelized onion flavors." },
+        { name: "Roshogolla", desc: "Soft, spongy cottage-cheese balls soaked in sweet light sugar syrup." },
+        { name: "Bengali Fish Curry", desc: "A light, aromatic mustard-oil based fish stew seasoned with panch phoron spices." }
+      ]
+    },
+    "Uttar Pradesh": {
+      capital: "Agra (Heritage) / Lucknow",
+      language: "Hindi, Urdu",
+      climate: "Humid Sub-tropical (Best: Oct-Mar)",
+      desc: "The spiritual and historical heartland, housing the iconic Taj Mahal and sacred ancient towns.",
+      attractions: [
+        { name: "Taj Mahal", icon: "🕌", desc: "The ultimate monument to love, a stunning white marble mausoleum built by Shah Jahan in Agra." },
+        { name: "Varanasi Ghats", icon: "🛕", desc: "One of the oldest continuously inhabited cities in the world, sacred for Ganga Aarti rituals." },
+        { name: "Bara Imambara", icon: "🏛️", desc: "A grand historical shrine in Lucknow famous for its incredible pillarless arched hall." }
+      ],
+      foods: [
+        { name: "Tunday Kababi", desc: "Melt-in-the-mouth minced buffalo meat kebabs flavored with over 150 spices." },
+        { name: "Petha", desc: "A translucent soft candy made from ash gourd, originating from the city of Agra." },
+        { name: "Kachori Sabzi", desc: "Flaky deep-fried breads stuffed with lentils, served with spicy potato curry." }
+      ]
+    },
+    "Gujarat": {
+      capital: "Gandhinagar",
+      language: "Gujarati",
+      climate: "Semi-arid (Best: Oct-Mar)",
+      desc: "Land of vibrant festivals, historic stepwells, the Gir lions, and delicious vegetarian platters.",
+      attractions: [
+        { name: "Statue of Unity", icon: "🗽", desc: "The world's tallest statue (182 meters) depicting Sardar Vallabhbhai Patel by the Narmada River." },
+        { name: "Rann of Kutch", icon: "⛺", desc: "A vast white salt desert that comes alive with music, crafts, and tents during Rann Utsav." },
+        { name: "Gir National Park", icon: "🦁", desc: "The sole sanctuary in the world sheltering the majestic Asiatic Lion in the wild." }
+      ],
+      foods: [
+        { name: "Dhokla", desc: "A soft, spongy, fermented savory cake made of chickpea flour, tempered with mustard seeds." },
+        { name: "Theple", desc: "Thin, nutritious flatbreads spiced with fresh fenugreek leaves (methi) and yogurt." },
+        { name: "Khandvi", desc: "Tempting yellow rolls made of gram flour and buttermilk, garnished with coconut." }
+      ]
+    },
+    "Rajasthan": {
+      capital: "Jaipur",
+      language: "Hindi, Rajasthani",
+      climate: "Arid Desert (Best: Oct-Mar)",
+      desc: "The land of kings, royal forts, shimmering desert sands, and majestic palaces.",
+      attractions: [
+        { name: "Amber Fort", icon: "🏰", desc: "A grand hilltop fortress in Jaipur blending Hindu artistic elements with red sandstone architecture." },
+        { name: "Hawa Mahal", icon: "🏛️", desc: "The iconic 'Palace of Winds' featuring a stunning honeycomb facade of 953 small windows." },
+        { name: "Thar Desert Dunes", icon: "🐪", desc: "Golden sand dunes of Jaisalmer, famous for camel safaris and folk campfire nights." }
+      ],
+      foods: [
+        { name: "Dal Baati Churma", desc: "Spiced baked wheat balls (baati) served with lentil curry (dal) and sweet crumbled wheat (churma)." },
+        { name: "Laal Maas", desc: "A fiery-hot, garlic-infused Rajasthani mutton curry cooked in pure ghee and red chilies." },
+        { name: "Gatte ki Sabzi", desc: "Spiced gram flour dumplings simmered in a rich, tangy yogurt-based gravy." }
+      ]
+    },
+    "Kerala": {
+      capital: "Thiruvananthapuram",
+      language: "Malayalam",
+      climate: "Tropical Wet (Best: Sep-Mar)",
+      desc: "Known as 'God's Own Country', offering serene backwaters, palm-lined beaches, and Ayurveda.",
+      attractions: [
+        { name: "Alappuzha Backwaters", icon: "🛶", desc: "A labyrinth of canals and lakes dotted with traditional thatched houseboats." },
+        { name: "Munnar Tea Gardens", icon: "⛰️", desc: "Lush green hills and tea plantations situated at the confluence of three mountain streams." },
+        { name: "Athirappilly Falls", icon: "🌊", desc: "A spectacular 80-foot waterfall nicknamed the 'Niagara of India', surrounded by forests." }
+      ],
+      foods: [
+        { name: "Appam with Stew", desc: "Lacy fermented rice pancakes with soft centers, served with aromatic coconut-milk veg stew." },
+        { name: "Kerala Parotta & Beef", desc: "Layered, flaky flatbread paired with spiced, slow-roasted dry beef fry." },
+        { name: "Karimeen Pollichathu", desc: "Pearl spot fish marinated in rich spices, wrapped in banana leaf and pan-fried." }
+      ]
+    },
+    "Telangana": {
+      capital: "Hyderabad",
+      language: "Telugu, Urdu",
+      climate: "Semi-arid (Best: Oct-Mar)",
+      desc: "A rich mix of ancient Deccan sultanates, magnificent structures, and a thriving IT sector.",
+      attractions: [
+        { name: "Charminar", icon: "🕌", desc: "A historic 16th-century mosque and monument featuring four grand arches and minarets in Hyderabad." },
+        { name: "Golconda Fort", icon: "🏰", desc: "A massive medieval fortress renowned for its acoustic engineering and diamond mines history." },
+        { name: "Ramappa Temple", icon: "🛕", desc: "UNESCO World Heritage Kakatiya-era temple celebrated for its intricate carvings and floating bricks." }
+      ],
+      foods: [
+        { name: "Hyderabadi Biryani", desc: "Fragrant basmati rice and marinated meat slow-cooked on 'dum' with spices and saffron." },
+        { name: "Double ka Meetha", desc: "A luscious bread pudding dessert soaked in sugar syrup, milk, and cardamom." },
+        { name: "Mirchi ka Salan", desc: "A tangy, spicy gravy made with green chilies, sesame seeds, and peanuts, served with biryani." }
+      ]
+    },
+    "Haryana": {
+      capital: "Chandigarh",
+      language: "Haryanvi, Hindi",
+      climate: "Semi-arid (Best: Oct-Mar)",
+      desc: "A historic land hosting Mahabharata sites alongside cutting-edge smart cities like Gurugram.",
+      attractions: [
+        { name: "Kingdom of Dreams", icon: "🎭", desc: "India's first live entertainment, theatre, and leisure destination in Gurugram." },
+        { name: "Sultanpur Sanctuary", icon: "🦆", desc: "A popular national park attracting hundreds of migratory bird species every winter." },
+        { name: "Kurukshetra Tanks", icon: "🛕", desc: "The ancient holy land of the Mahabharata war, featuring large sacred water reservoirs." }
+      ],
+      foods: [
+        { name: "Bajra Khichri", desc: "A warm, healthy porridge made of crushed pearl millet, served with ghee and lassi." },
+        { name: "Singri ki Sabzi", desc: "A dry preparation of wild desert beans stir-fried with mustard oil and dry spices." },
+        { name: "Besan Pinni", desc: "Nutritious sweet round balls made of roasted chickpea flour, ghee, and chopped nuts." }
+      ]
+    },
+    "Punjab": {
+      capital: "Amritsar (Spiritual) / Chandigarh",
+      language: "Punjabi",
+      climate: "Semi-arid (Best: Oct-Mar)",
+      desc: "The land of five rivers, vibrant Bhangra beats, expansive wheat fields, and golden spirituality.",
+      attractions: [
+        { name: "The Golden Temple", icon: "🕌", desc: "The holiest Sikh shrine in Amritsar, a breathtaking gilded temple reflecting in a sacred pool." },
+        { name: "Wagah Border Ceremony", icon: "🎖️", desc: "A thrilling daily military practice and beating retreat ceremony on the India-Pakistan border." },
+        { name: "Rock Garden", icon: "🗿", desc: "A unique sculpture garden in Chandigarh created entirely from recycled industrial waste." }
+      ],
+      foods: [
+        { name: "Sarson ka Saag & Makki di Roti", desc: "Spiced mustard greens curry served with golden, shallow-fried cornbread." },
+        { name: "Amritsari Kulcha", desc: "Crispy, layered flatbread stuffed with spiced potatoes, baked in a clay tandoor." },
+        { name: "Lassi", desc: "A tall glass of thick, sweet, yogurt-based drink topped with a thick dollop of cream." }
+      ]
+    },
+    "Bihar": {
+      capital: "Patna",
+      language: "Hindi, Maithili, Bhojpuri",
+      climate: "Humid Sub-tropical (Best: Oct-Mar)",
+      desc: "The cradle of ancient empires, Buddhism, and home to Nalanda, the world's oldest university.",
+      attractions: [
+        { name: "Mahabodhi Temple", icon: "🛕", desc: "UNESCO site in Bodh Gaya housing the sacred Bodhi Tree where Lord Buddha attained enlightenment." },
+        { name: "Nalanda Ruins", icon: "🏛️", desc: "The archaeological remains of the world-renowned 5th-century Buddhist monastic university." },
+        { name: "Sher Shah Suri Tomb", icon: "🕌", desc: "A spectacular red sandstone mausoleum built in the middle of an artificial lake in Sasaram." }
+      ],
+      foods: [
+        { name: "Litti Chokha", desc: "Baked wheat balls stuffed with spiced roasted gram flour (sattu), eaten with mashed eggplant." },
+        { name: "Thekua", desc: "A crispy, deep-fried sweet cookie made of whole wheat flour, jaggery, and dry coconut." },
+        { name: "Sattu Paratha", desc: "Nutritious flatbread stuffed with spiced roasted gram flour, onions, and lemon juice." }
+      ]
+    },
+    "Madhya Pradesh": {
+      capital: "Bhopal",
+      language: "Hindi",
+      climate: "Sub-tropical Dry (Best: Oct-Mar)",
+      desc: "The heart of India, rich in national tiger reserves, medieval temples, and pre-historic rock shelters.",
+      attractions: [
+        { name: "Khajuraho Temples", icon: "🛕", desc: "UNESCO-listed temples celebrated for their intricate, expressive medieval carvings." },
+        { name: "Sanchi Stupa", icon: "🕌", desc: "One of the oldest stone structures in India, a magnificent Buddhist dome built by Emperor Ashoka." },
+        { name: "Kanha Tiger Reserve", icon: "🐅", desc: "A sprawling national park that inspired Rudyard Kipling's famous 'Jungle Book'." }
+      ],
+      foods: [
+        { name: "Poha Jalebi", desc: "Spiced flattened rice topped with sev, paired with hot, crispy, syrup-filled pretzels." },
+        { name: "Bhutte ka Kees", desc: "A savory street snack made of grated corn cooked with milk, ghee, and mustard seeds." },
+        { name: "Mawa Bati", desc: "A rich sweet similar to gulab jamun, stuffed with dry fruits and mawa." }
+      ]
+    },
+    "Andhra Pradesh": {
+      capital: "Amaravati",
+      language: "Telugu",
+      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
+      desc: "Land of sacred hill temples, a long coastline, and rich Carnatic musical heritage.",
+      attractions: [
+        { name: "Tirumala Venkateswara Temple", icon: "🛕", desc: "A world-famous hilltop temple in Tirupati, attracting millions of spiritual pilgrims." },
+        { name: "Araku Valley", icon: "⛰️", desc: "A scenic, misty hill station in the Eastern Ghats, famous for coffee plantations." },
+        { name: "Belum Caves", icon: "🕳️", desc: "The second-longest cave system in the Indian subcontinent, renowned for stalactites." }
+      ],
+      foods: [
+        { name: "Gongura Pachadi", desc: "A fiery-tangy traditional chutney made from fresh sorrel leaves and dry chilies." },
+        { name: "Pootharekulu", desc: "A wafer-thin sweet 'paper sweet' roll made of rice starch, stuffed with sugar/jaggery." },
+        { name: "Pesarattu Dosa", desc: "A nutritious, savory crepe made from whole green gram batter, served with ginger chutney." }
+      ]
+    },
+    "Odisha": {
+      capital: "Bhubaneswar",
+      language: "Odia",
+      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
+      desc: "Land of majestic temples, serene lakes, pristine beaches, and classical Odissi dance.",
+      attractions: [
+        { name: "Konark Sun Temple", icon: "🛕", desc: "A breathtaking Chariot-shaped Chola temple built in the 13th century, dedicated to the Sun God." },
+        { name: "Jagannath Temple (Puri)", icon: "🕌", desc: "A world-famous sacred temple famous for its annual colorful Rath Yatra chariot festival." },
+        { name: "Chilika Lake", icon: "🦆", desc: "Asia's largest brackish water lagoon, hosting migratory birds and rare Irrawaddy dolphins." }
+      ],
+      foods: [
+        { name: "Chhena Poda", desc: "A mouth-watering baked cheese dessert made of fresh paneer, sugar, and cardamom." },
+        { name: "Dahi Bara Aloo Dum", desc: "Lentil fritters soaked in yogurt (dahi), topped with a spicy, rich potato gravy." },
+        { name: "Rasabali", desc: "Deep-fried cottage cheese patties soaked in thick, sweetened, cardamom-flavored milk." }
+      ]
+    },
+    "Assam": {
+      capital: "Dispur",
+      language: "Assamese",
+      climate: "Sub-tropical Humid (Best: Nov-Apr)",
+      desc: "The gateway to the Northeast, famous for premium tea estates, the Brahmaputra River, and wildlife.",
+      attractions: [
+        { name: "Kaziranga National Park", icon: "🦏", desc: "UNESCO World Heritage reserve holding two-thirds of the world's great Indian one-horned rhinos." },
+        { name: "Kamakhya Temple", icon: "🛕", desc: "A sacred hilltop temple in Guwahati dedicated to the mother goddess Kamakhya." },
+        { name: "Majuli Island", icon: "🏝️", desc: "The world's largest river island, situated on the mighty Brahmaputra River." }
+      ],
+      foods: [
+        { name: "Masor Tenga", desc: "A light, tangy fish curry flavored with tomatoes and outenga (elephant apple)." },
+        { name: "Pitha", desc: "Steamed or roasted rice flour rolls stuffed with sweet sesame seeds or coconut." },
+        { name: "Khar", desc: "A unique starter dish prepared by filtering water through the ashes of sun-dried banana peels." }
+      ]
+    },
+    "Jammu & Kashmir": {
+      capital: "Srinagar / Jammu",
+      language: "Kashmiri, Urdu, Dogri",
+      climate: "Alpine / Temperate (Best: Apr-Oct)",
+      desc: "Often called 'Heaven on Earth', featuring snow-capped peaks, alpine lakes, and shikara rides.",
+      attractions: [
+        { name: "Dal Lake Shikaras", icon: "🛶", desc: "A scenic lake in Srinagar, famous for its floating markets and wooden houseboats." },
+        { name: "Gulmarg Gondola", icon: "🚠", desc: "One of the highest cable cars in the world, offering views of snow-clad mountains." },
+        { name: "Vaishno Devi Shrine", icon: "🛕", desc: "A highly revered holy cave temple nestled in the Trikuta Mountains in Jammu." }
+      ],
+      foods: [
+        { name: "Rogan Josh", desc: "An aromatic lamb dish slow-cooked in a rich gravy of yogurt, saffron, and Kashmiri chilies." },
+        { name: "Kahwa Tea", desc: "A traditional green tea brewed with saffron, cinnamon, cardamoms, and slivered almonds." },
+        { name: "Yakhni Pulav", desc: "A highly fragrant rice and mutton dish cooked in a spiced yogurt-based broth." }
+      ]
+    },
+    "Goa": {
+      capital: "Panaji",
+      language: "Konkani",
+      climate: "Tropical Wet & Dry (Best: Nov-Feb)",
+      desc: "A beautiful fusion of Portuguese heritage, golden beaches, vibrant nightlife, and seafood.",
+      attractions: [
+        { name: "Basilica of Bom Jesus", icon: "🏛️", desc: "UNESCO World Heritage church in Old Goa, housing the sacred remains of St. Francis Xavier." },
+        { name: "Calangute Beach", icon: "🏖️", desc: "A popular, lively golden beach offering water sports, beach shacks, and shops." },
+        { name: "Dudhsagar Falls", icon: "🌊", desc: "A majestic four-tiered waterfall on the Mandovi River, resembling a sea of milk." }
+      ],
+      foods: [
+        { name: "Fish Curry Rice", desc: "A hot, comforting staple of rice served with a tangy, coconut-rich fish curry." },
+        { name: "Bebinca", desc: "A rich, multi-layered traditional Goan dessert made of coconut milk, ghee, and egg yolks." },
+        { name: "Chicken Xacuti", desc: "A highly spiced, aromatic curry prepared with toasted coconut and red chilies." }
+      ]
+    },
+    "Himachal Pradesh": {
+      capital: "Shimla",
+      language: "Hindi, Pahari",
+      climate: "Alpine / Cold (Best: Mar-Jun, Oct-Dec)",
+      desc: "A majestic mountain state offering snow-capped panoramas, trekking paths, and apple orchards.",
+      attractions: [
+        { name: "Shimla Mall Road", icon: "🏔️", desc: "A popular pedestrian avenue in the capital city, boasting panoramic mountain views." },
+        { name: "Manali Solang Valley", icon: "🏂", desc: "A hub for adventure sports like paragliding, skiing, and zorbing against a snowy backdrop." },
+        { name: "McLeod Ganj Monasteries", icon: "☸️", desc: "The peaceful home of the Dalai Lama, famous for Tibetan monasteries and trekking." }
+      ],
+      foods: [
+        { name: "Siddu", desc: "A steamed, stuffed wheat bread flavored with poppy seeds, walnuts, and ghee." },
+        { name: "Madra", desc: "A rich Pahari chickpea slow-cooked in yogurt, spiced with cardamoms and cloves." },
+        { name: "Dham", desc: "A traditional festive mid-day meal served on leaf plates, consisting of multiple lentil curries." }
+      ]
+    }
+  };
+
+  function initTourism() {
+    if (tourismInitialized) return;
+    tourismInitialized = true;
+
+    const stateGrid = document.getElementById("tourism-state-grid");
+    if (!stateGrid) return;
+
+    stateGrid.innerHTML = "";
+    
+    // Sort states alphabetically for presentation
+    const states = [...STATES_LIST].sort();
+    
+    states.forEach(state => {
+      const btn = document.createElement("button");
+      btn.className = "state-btn";
+      btn.textContent = state;
+      btn.addEventListener("click", () => {
+        // Toggle active button
+        document.querySelectorAll(".state-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        loadStateDetails(state);
+        playTone(800, "sine", 0.04, 0.08);
+      });
+      stateGrid.appendChild(btn);
+    });
+
+    // Load first state by default (e.g. Maharashtra)
+    const defaultState = "Maharashtra";
+    const defaultBtn = Array.from(stateGrid.children).find(btn => btn.textContent === defaultState);
+    if (defaultBtn) {
+      defaultBtn.classList.add("active");
+      loadStateDetails(defaultState);
+    }
+  }
+
+  function loadStateDetails(stateName) {
+    activeState = stateName;
+    const attractionsContainer = document.getElementById("tourism-attractions");
+    const foodsContainer = document.getElementById("tourism-foods");
+    const cityCountLabel = document.getElementById("tourism-city-count");
+    const citiesListContainer = document.getElementById("tourism-cities-list");
+    const spotlightContainer = document.getElementById("tourism-city-spotlight");
+
+    const data = TOURISM_DATABASE[stateName];
+    if (!data) return;
+
+    // Hide spotlight card initially
+    if (spotlightContainer) spotlightContainer.style.display = "none";
+
+    // RENDER SIGHTSEEING LANDMARKS
+    if (attractionsContainer) {
+      attractionsContainer.innerHTML = "";
+      data.attractions.forEach(att => {
+        const item = document.createElement("div");
+        item.className = "attraction-item";
+        item.innerHTML = `
+          <div class="attraction-icon">${att.icon}</div>
+          <div style="flex-grow: 1;">
+            <h4 style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary); margin: 0 0 0.2rem 0;">${att.name}</h4>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45; margin: 0;">${att.desc}</p>
+          </div>
+        `;
+        attractionsContainer.appendChild(item);
+      });
+    }
+
+    // RENDER CULINARY DELIGHTS
+    if (foodsContainer) {
+      foodsContainer.innerHTML = "";
+      data.foods.forEach(food => {
+        const item = document.createElement("div");
+        item.className = "food-item";
+        item.innerHTML = `
+          <div class="food-title">${food.name}</div>
+          <div class="food-desc">${food.desc}</div>
+        `;
+        foodsContainer.appendChild(item);
+      });
+    }
+
+    // FILTER CITIES THAT HASH TO THIS STATE
+    const stateCities = [];
+    for (let i = 0; i < CITIES_DATA.length; i++) {
+      const city = CITIES_DATA[i];
+      // Compute state dynamically via hash
+      const coords = getCityCoords(city);
+      const facts = computeLogisticsFacts(city, coords, 0.5);
+      if (facts.state === stateName) {
+        stateCities.push(city);
+      }
+    }
+
+    // Render city count
+    if (cityCountLabel) {
+      cityCountLabel.textContent = `${stateCities.length.toLocaleString()} cities`;
+    }
+
+    // Render city pills
+    if (citiesListContainer) {
+      citiesListContainer.innerHTML = "";
+      // Render first 200 cities to keep UI responsive and extremely fast
+      const displayCities = stateCities.slice(0, 200);
+      displayCities.forEach(city => {
+        const pill = document.createElement("button");
+        pill.className = "state-city-pill";
+        pill.textContent = capitalizeWord(city);
+        pill.addEventListener("click", () => {
+          showCitySpotlight(city);
+          playTone(900, "sine", 0.03, 0.05);
+        });
+        citiesListContainer.appendChild(pill);
+      });
+
+      if (stateCities.length > 200) {
+        const moreIndicator = document.createElement("span");
+        moreIndicator.style.cssText = "font-size: 0.75rem; color: var(--text-muted); align-self: center; padding: 0.5rem;";
+        moreIndicator.textContent = `+ ${stateCities.length - 200} more cities`;
+        citiesListContainer.appendChild(moreIndicator);
+      }
+    }
+  }
+
+  function showCitySpotlight(cityName) {
+    const spotlightContainer = document.getElementById("tourism-city-spotlight");
+    if (!spotlightContainer) return;
+
+    const coords = getCityCoords(cityName);
+    const facts = computeLogisticsFacts(cityName, coords, 0.5);
+
+    spotlightContainer.style.display = "block";
+    spotlightContainer.innerHTML = `
+      <h4 style="font-weight: 700; font-size: 1.15rem; color: var(--color-accent); margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.4rem;">
+        <span>📍</span> ${capitalizeWord(cityName)}
+      </h4>
+      <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; display: flex; flex-direction: column; gap: 0.4rem;">
+        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.25rem;">
+          <span>District:</span> <strong style="color:var(--text-primary);">${facts.district}</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.25rem;">
+          <span>State:</span> <strong style="color:var(--text-primary);">${facts.state}</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.25rem;">
+          <span>ZIP Code:</span> <strong style="color:var(--color-success); font-family:var(--font-mono);">${facts.zipCode}</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.25rem;">
+          <span>Latitude:</span> <strong style="color:var(--text-primary); font-family:var(--font-mono);">${coords.lat.toFixed(4)}° N</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-bottom: 0.5rem;">
+          <span>Longitude:</span> <strong style="color:var(--text-primary); font-family:var(--font-mono);">${coords.lng.toFixed(4)}° E</strong>
+        </div>
+      </div>
+      <button id="btn-spotlight-route" class="visualizer-btn" style="width:100%; margin-top:0.75rem; background:var(--color-primary); border-color:var(--color-primary); color:white; font-weight:600;">
+        Plan Route to ${capitalizeWord(cityName)} 🚗
+      </button>
+    `;
+
+    // Hook up button to plan route
+    const btnRoute = document.getElementById("btn-spotlight-route");
+    if (btnRoute) {
+      btnRoute.addEventListener("click", () => {
+        // Pre-fill route destination
+        const routeEnd = document.getElementById("route-end");
+        if (routeEnd) {
+          routeEnd.value = capitalizeWord(cityName);
+          
+          // Trigger custom autocomplete input handler if needed to bind values internally
+          const event = new Event('input', { bubbles: true });
+          routeEnd.dispatchEvent(event);
+        }
+        
+        // Switch to Travel tab
+        switchTab('travel');
+
+        // Automatically trigger calculation if start city is filled
+        const routeStart = document.getElementById("route-start");
+        if (routeStart && routeStart.value.trim().length > 0) {
+          const btnGenerate = document.getElementById("btn-generate-route");
+          if (btnGenerate) {
+            setTimeout(() => {
+              btnGenerate.click();
+            }, 100);
+          }
+        }
+      });
+    }
   }
 
 });

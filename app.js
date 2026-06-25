@@ -6,7 +6,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- SITE ACCESS PROTECTION ---
-  const correctPasswordHash = "arvora2026";
+  const correctPasswordHash = "27672";
   const body = document.body;
   const lockOverlay = document.getElementById("site-lock-overlay");
   const passwordInput = document.getElementById("site-access-password");

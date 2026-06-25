@@ -51,6 +51,7 @@
         <button id="tab-btn-scanner" class="tab-btn"><span>📋</span> Text Scanner</button>
         <button id="tab-btn-travel" class="tab-btn"><span>🗺️</span> Geography &amp; Travel Hub</button>
         <button id="tab-btn-tourism" class="tab-btn"><span>🏛️</span> State Showcase</button>
+        <button id="tab-btn-trip" class="tab-btn"><span>🗃️</span> Trip Planner</button>
       </div>
     </header>
 
@@ -820,9 +821,164 @@
     </div>
   </div>
 
+  <!-- =====================================================================
+       TAB 9: TRIP PLANNER & ITINERARY BUILDER
+       ===================================================================== -->
+  <div id="tab-content-trip" class="tab-content" style="display:none;">
+    <div style="max-width:1200px; margin:0 auto; padding: 0 1rem 3rem;">
+
+      <!-- Hero Header -->
+      <div class="panel trip-hero-panel">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🗃️</span> Trip Planner &amp; Itinerary Builder</h2>
+            <p style="color:var(--text-secondary); font-size:0.95rem;">Plan your perfect India trip — add cities, set dates, build your day-by-day itinerary and export it.</p>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button id="trip-btn-copy" class="visualizer-btn" style="background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.35); color:var(--color-success); font-weight:600;">📋 Copy Itinerary</button>
+            <button id="trip-btn-download" class="visualizer-btn" style="background:rgba(6,182,212,0.12); border-color:rgba(6,182,212,0.35); color:var(--color-accent); font-weight:600;">⬇️ Download .txt</button>
+            <button id="trip-btn-reset" class="visualizer-btn" style="background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.3); color:#f87171; font-weight:600;">🔄 New Trip</button>
+          </div>
+        </div>
+
+        <!-- Trip Name -->
+        <div style="margin-top:1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+          <div style="flex:1; min-width:200px;">
+            <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.3rem; font-weight:500;">Trip Name</label>
+            <input type="text" id="trip-name-input" placeholder="e.g. Golden Triangle Adventure 2025" autocomplete="off"
+              style="width:100%; background:rgba(2,6,23,0.85); border:2px solid var(--card-border); border-radius:var(--radius-sm); padding:0.6rem 0.9rem; color:var(--text-primary); font-family:inherit; font-size:1rem; font-weight:600; transition:border-color 0.2s;">
+          </div>
+          <div>
+            <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.3rem; font-weight:500;">Budget Tier</label>
+            <select id="trip-budget-select" style="background:rgba(2,6,23,0.85); border:2px solid var(--card-border); border-radius:var(--radius-sm); padding:0.6rem 0.9rem; color:var(--text-primary); font-family:inherit; font-size:0.9rem; cursor:pointer;">
+              <option value="budget">🪙 Budget (~₹1,500/day)</option>
+              <option value="mid" selected>🏨 Mid-Range (~₹4,000/day)</option>
+              <option value="luxury">✨ Luxury (~₹12,000/day)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout: Left=Builder+Itinerary, Right=Summary+Packing -->
+      <div style="display:grid; grid-template-columns:1fr 340px; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+
+        <!-- LEFT COLUMN -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+
+          <!-- City Stop Adder -->
+          <div class="panel">
+            <h3 style="font-size:1rem; font-weight:700; color:var(--color-accent); margin-bottom:1rem;"><span>📍</span> Add City Stop</h3>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <div style="flex:1; min-width:200px; position:relative;">
+                <div class="search-input-container">
+                  <span class="search-icon">🔍</span>
+                  <input type="text" id="trip-city-input" placeholder="Search Indian city... (e.g. Jaipur)" autocomplete="off">
+                </div>
+                <div id="trip-city-dropdown" class="suggestion-dropdown" style="display:none; width:100%; position:absolute; z-index:200;">
+                  <div id="trip-city-list"></div>
+                </div>
+              </div>
+              <button id="trip-btn-add-city" class="visualizer-btn" style="background:var(--color-accent); border-color:var(--color-accent); color:var(--bg-primary); font-weight:700; padding:0.6rem 1.25rem;">➕ Add Stop</button>
+            </div>
+            <p id="trip-city-error" style="color:#f87171; font-size:0.8rem; margin-top:0.5rem; display:none;">Please search and select a city first.</p>
+          </div>
+
+          <!-- City Stops List -->
+          <div class="panel" id="trip-stops-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="font-size:1rem; font-weight:700; color:var(--color-purple);"><span>🗺️</span> Your Stops <span id="trip-stop-count" style="font-size:0.8rem; color:var(--text-muted); font-weight:400;">0 cities</span></h3>
+            </div>
+            <div id="trip-stops-list">
+              <div id="trip-empty-state" style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted);">
+                <div style="font-size:2.5rem; margin-bottom:0.75rem;">🏞️</div>
+                <p style="font-size:0.95rem;">No stops added yet.</p>
+                <p style="font-size:0.85rem;">Search a city above and click "Add Stop" to begin.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Day-by-Day Itinerary -->
+          <div class="panel" id="trip-itinerary-panel" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+              <h3 style="font-size:1rem; font-weight:700; color:var(--color-success);"><span>📝</span> Day-by-Day Itinerary</h3>
+              <span id="trip-total-days-label" style="font-size:0.8rem; color:var(--text-muted);"></span>
+            </div>
+            <div id="trip-itinerary-view" style="display:flex; flex-direction:column; gap:0;"></div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+
+          <!-- Trip Summary Card -->
+          <div class="panel trip-summary-card">
+            <h3 style="font-size:1rem; font-weight:700; color:var(--color-accent); margin-bottom:1.25rem;"><span>📊</span> Trip Summary</h3>
+            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+              <div class="trip-stat-row">
+                <span>🏙️ Cities</span>
+                <span id="summary-cities" style="color:var(--color-accent); font-weight:700;">0</span>
+              </div>
+              <div class="trip-stat-row">
+                <span>📅 Total Days</span>
+                <span id="summary-days" style="color:var(--color-primary); font-weight:700;">0</span>
+              </div>
+              <div class="trip-stat-row">
+                <span>✈️ Travels</span>
+                <span id="summary-travels" style="color:var(--color-purple); font-weight:700;">0</span>
+              </div>
+              <div style="border-top:1px solid var(--card-border); padding-top:0.75rem; margin-top:0.25rem;">
+                <div class="trip-stat-row">
+                  <span>💰 Est. Budget</span>
+                  <span id="summary-budget" style="color:var(--color-success); font-weight:700;">-</span>
+                </div>
+                <p style="font-size:0.7rem; color:var(--text-muted); margin-top:0.3rem;">Based on selected budget tier</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Packing Checklist -->
+          <div class="panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <h3 style="font-size:1rem; font-weight:700; color:var(--color-purple);"><span>🧳</span> Packing Checklist</h3>
+              <span id="pack-progress-label" style="font-size:0.8rem; color:var(--text-muted);">0%</span>
+            </div>
+            <!-- Progress bar -->
+            <div style="background:rgba(255,255,255,0.06); border-radius:9999px; height:6px; margin-bottom:1rem; overflow:hidden;">
+              <div id="pack-progress-bar" style="height:100%; width:0%; background:linear-gradient(90deg, var(--color-accent), var(--color-purple)); border-radius:9999px; transition:width 0.4s ease;"></div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:1rem;">
+              <button class="pack-cat-btn active" data-cat="clothes">👗 Clothes</button>
+              <button class="pack-cat-btn" data-cat="docs">💼 Docs</button>
+              <button class="pack-cat-btn" data-cat="medical">💊 Medical</button>
+              <button class="pack-cat-btn" data-cat="electronics">📱 Tech</button>
+              <button class="pack-cat-btn" data-cat="toiletries">🧴 Toiletries</button>
+              <button class="pack-cat-btn" data-cat="custom">➕ Custom</button>
+            </div>
+
+            <!-- Items list -->
+            <div id="pack-items-list" style="display:flex; flex-direction:column; gap:0.4rem; max-height:220px; overflow-y:auto;"></div>
+
+            <!-- Custom item adder (shown on custom tab) -->
+            <div id="pack-custom-adder" style="display:none; margin-top:0.75rem; display:none;">
+              <div style="display:flex; gap:0.5rem;">
+                <input type="text" id="pack-custom-input" placeholder="Add custom item..." autocomplete="off"
+                  style="flex:1; background:rgba(2,6,23,0.85); border:1px solid var(--card-border); border-radius:var(--radius-sm); padding:0.4rem 0.7rem; color:var(--text-primary); font-family:inherit; font-size:0.85rem;">
+                <button id="pack-custom-add-btn" class="visualizer-btn" style="padding:0.4rem 0.75rem; font-size:0.8rem;">➕</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Include code modules -->
-  <script src="cities.js?v=2.0.1"></script>
-  <script src="trie.js?v=2.0.1"></script>
-  <script src="app.js?v=2.0.1"></script>
+  <script src="cities.js?v=2.0.2"></script>
+  <script src="trie.js?v=2.0.2"></script>
+  <script src="app.js?v=2.0.2"></script>
 </body>
 </html>

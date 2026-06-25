@@ -9,6 +9,19 @@
   <link rel="stylesheet" href="index.css?v=2.1.0">
 </head>
 <body>
+  <!-- Site access lock overlay -->
+  <div id="site-lock-overlay" class="site-lock-overlay">
+    <div class="lock-card">
+      <div class="lock-icon">🔒</div>
+      <h2>Arvora Secure Access</h2>
+      <p>Please enter the access code to unlock BharatPulse</p>
+      <div class="password-input-wrapper">
+        <input type="password" id="site-access-password" placeholder="Enter Access Code" autofocus>
+        <button id="site-unlock-btn" class="visualizer-btn">Unlock</button>
+      </div>
+      <div id="lock-error-msg" class="lock-error-msg"></div>
+    </div>
+  </div>
 
   <!-- Background canvas for active particle effects -->
   <canvas id="particle-canvas"></canvas>

@@ -5,6 +5,56 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // --- SITE ACCESS PROTECTION ---
+  const correctPasswordHash = "arvora2026";
+  const body = document.body;
+  const lockOverlay = document.getElementById("site-lock-overlay");
+  const passwordInput = document.getElementById("site-access-password");
+  const unlockBtn = document.getElementById("site-unlock-btn");
+  const lockErrorMsg = document.getElementById("lock-error-msg");
+
+  function checkLockStatus() {
+    if (sessionStorage.getItem("arvora_authorized") === "true") {
+      if (lockOverlay) lockOverlay.classList.add("unlocked");
+      body.classList.remove("locked");
+    } else {
+      body.classList.add("locked");
+      if (lockOverlay) lockOverlay.classList.remove("unlocked");
+      if (passwordInput) setTimeout(() => passwordInput.focus(), 50);
+    }
+  }
+
+  function handleUnlock() {
+    if (!passwordInput || !lockOverlay) return;
+    const inputVal = passwordInput.value.trim();
+    if (inputVal === correctPasswordHash) {
+      sessionStorage.setItem("arvora_authorized", "true");
+      lockOverlay.classList.add("unlocked");
+      body.classList.remove("locked");
+      playSelectSound();
+    } else {
+      const card = lockOverlay.querySelector(".lock-card");
+      if (card) {
+        card.classList.add("shake");
+        setTimeout(() => card.classList.remove("shake"), 500);
+      }
+      if (lockErrorMsg) lockErrorMsg.textContent = "Incorrect Access Code. Please try again.";
+      passwordInput.value = "";
+      passwordInput.focus();
+    }
+  }
+
+  if (unlockBtn) {
+    unlockBtn.addEventListener("click", handleUnlock);
+  }
+  if (passwordInput) {
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleUnlock();
+    });
+  }
+
+  checkLockStatus();
+
   // --- STATE VARIABLES ---
   let radixTrie = new RadixTrie();
   let standardTrie = new StandardTrie();

@@ -3190,19 +3190,19 @@ document.addEventListener("DOMContentLoaded", () => {
       discoverSearchInput.addEventListener("input", (e) => {
         const query = e.target.value.trim().toLowerCase();
         if (query.length > 0) {
+          discoverDropdown.style.display = "block";
           handleAutocompleteInput(discoverSearchInput, discoverDropdown, discoverSuggestionsList, null, query, 6, (selected) => {
             discoverSearchInput.value = capitalizeWord(selected);
-            discoverDropdown.classList.remove("active");
+            discoverDropdown.style.display = "none";
             showCityCard(selected);
           });
-          discoverDropdown.classList.add("active");
         } else {
-          discoverDropdown.classList.remove("active");
+          discoverDropdown.style.display = "none";
         }
       });
       document.addEventListener("click", (e) => {
         if (!discoverSearchInput.contains(e.target) && !discoverDropdown.contains(e.target)) {
-          discoverDropdown.classList.remove("active");
+          discoverDropdown.style.display = "none";
         }
       });
     }
@@ -3485,15 +3485,15 @@ document.addEventListener("DOMContentLoaded", () => {
       compInput1.addEventListener("input", (e) => {
         const query = e.target.value.trim().toLowerCase();
         if (query.length > 0) {
+          compDropdown1.style.display = "block";
           handleAutocompleteInput(compInput1, compDropdown1, compList1, null, query, 5, (selected) => {
             compInput1.value = capitalizeWord(selected);
-            compDropdown1.classList.remove("active");
+            compDropdown1.style.display = "none";
             cityCompare1 = selected;
             performCityComparison();
           });
-          compDropdown1.classList.add("active");
         } else {
-          compDropdown1.classList.remove("active");
+          compDropdown1.style.display = "none";
         }
       });
     }
@@ -3502,22 +3502,22 @@ document.addEventListener("DOMContentLoaded", () => {
       compInput2.addEventListener("input", (e) => {
         const query = e.target.value.trim().toLowerCase();
         if (query.length > 0) {
+          compDropdown2.style.display = "block";
           handleAutocompleteInput(compInput2, compDropdown2, compList2, null, query, 5, (selected) => {
             compInput2.value = capitalizeWord(selected);
-            compDropdown2.classList.remove("active");
+            compDropdown2.style.display = "none";
             cityCompare2 = selected;
             performCityComparison();
           });
-          compDropdown2.classList.add("active");
         } else {
-          compDropdown2.classList.remove("active");
+          compDropdown2.style.display = "none";
         }
       });
     }
 
     document.addEventListener("click", (e) => {
-      if (compInput1 && !compInput1.contains(e.target) && compDropdown1) compDropdown1.classList.remove("active");
-      if (compInput2 && !compInput2.contains(e.target) && compDropdown2) compDropdown2.classList.remove("active");
+      if (compInput1 && !compInput1.contains(e.target) && compDropdown1) compDropdown1.style.display = "none";
+      if (compInput2 && !compInput2.contains(e.target) && compDropdown2) compDropdown2.style.display = "none";
     });
 
     if (btnAddBoth) {

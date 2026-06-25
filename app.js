@@ -695,6 +695,39 @@ document.addEventListener("DOMContentLoaded", () => {
     if (suggestionsMetrics) suggestionsMetrics.textContent = "0 matches";
   }
 
+  /**
+   * Simple autocomplete for dropdowns that use style.display instead of .active class.
+   * Renders items directly into the container div and shows/hides it.
+   */
+  function simpleAutocomplete(inputElem, dropdownElem, listContainerElem, query, limit, onSelectCallback) {
+    const suggestions = radixTrie.autocomplete(query.toLowerCase(), limit);
+
+    listContainerElem.innerHTML = '';
+    if (suggestions.length === 0) {
+      const d = document.createElement('div');
+      d.className = 'suggestion-item';
+      d.style.cssText = 'padding:0.65rem 1rem; color:var(--text-muted); font-size:0.85rem;';
+      d.textContent = 'No matches found';
+      listContainerElem.appendChild(d);
+    } else {
+      suggestions.forEach(item => {
+        const d = document.createElement('div');
+        d.className = 'suggestion-item';
+        const matchedPart = item.startsWith(query.toLowerCase()) ? `<span style="color:var(--color-accent);font-weight:700">${query.toLowerCase()}</span>${item.slice(query.length)}` : item;
+        d.innerHTML = `<span>${matchedPart}</span><span style="color:var(--text-muted);font-size:0.8rem;">➔</span>`;
+        d.addEventListener('mouseenter', playHoverSound);
+        d.addEventListener('click', () => {
+          playSelectSound();
+          inputElem.value = capitalizeWord(item);
+          dropdownElem.style.display = 'none';
+          onSelectCallback(item);
+        });
+        listContainerElem.appendChild(d);
+      });
+    }
+    dropdownElem.style.display = 'block';
+  }
+
   // =====================================================================
   // PLAYGROUND ACTION
   // =====================================================================
@@ -3188,10 +3221,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (discoverSearchInput) {
       discoverSearchInput.addEventListener("input", (e) => {
-        const query = e.target.value.trim().toLowerCase();
+        const query = e.target.value.trim();
         if (query.length > 0) {
-          discoverDropdown.style.display = "block";
-          handleAutocompleteInput(discoverSearchInput, discoverDropdown, discoverSuggestionsList, null, query, 6, (selected) => {
+          simpleAutocomplete(discoverSearchInput, discoverDropdown, discoverSuggestionsList, query, 6, (selected) => {
             discoverSearchInput.value = capitalizeWord(selected);
             discoverDropdown.style.display = "none";
             showCityCard(selected);
@@ -3483,10 +3515,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (compInput1) {
       compInput1.addEventListener("input", (e) => {
-        const query = e.target.value.trim().toLowerCase();
+        const query = e.target.value.trim();
         if (query.length > 0) {
-          compDropdown1.style.display = "block";
-          handleAutocompleteInput(compInput1, compDropdown1, compList1, null, query, 5, (selected) => {
+          simpleAutocomplete(compInput1, compDropdown1, compList1, query, 5, (selected) => {
             compInput1.value = capitalizeWord(selected);
             compDropdown1.style.display = "none";
             cityCompare1 = selected;
@@ -3500,10 +3531,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (compInput2) {
       compInput2.addEventListener("input", (e) => {
-        const query = e.target.value.trim().toLowerCase();
+        const query = e.target.value.trim();
         if (query.length > 0) {
-          compDropdown2.style.display = "block";
-          handleAutocompleteInput(compInput2, compDropdown2, compList2, null, query, 5, (selected) => {
+          simpleAutocomplete(compInput2, compDropdown2, compList2, query, 5, (selected) => {
             compInput2.value = capitalizeWord(selected);
             compDropdown2.style.display = "none";
             cityCompare2 = selected;

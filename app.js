@@ -78,6 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnTravel = document.getElementById("tab-btn-travel");
   const tabBtnTourism = document.getElementById("tab-btn-tourism");
   const tabBtnTrip = document.getElementById("tab-btn-trip");
+  const tabBtnDiscovery = document.getElementById("tab-btn-discovery");
+  const tabBtnFestivals = document.getElementById("tab-btn-festivals");
+  const tabBtnCompare = document.getElementById("tab-btn-compare");
+  const tabBtnBudget = document.getElementById("tab-btn-budget");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
@@ -87,6 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentTravel = document.getElementById("tab-content-travel");
   const tabContentTourism = document.getElementById("tab-content-tourism");
   const tabContentTrip = document.getElementById("tab-content-trip");
+  const tabContentDiscovery = document.getElementById("tab-content-discovery");
+  const tabContentFestivals = document.getElementById("tab-content-festivals");
+  const tabContentCompare = document.getElementById("tab-content-compare");
+  const tabContentBudget = document.getElementById("tab-content-budget");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -397,6 +405,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabBtnTravel) tabBtnTravel.addEventListener("click", () => switchTab('travel'));
     if (tabBtnTourism) tabBtnTourism.addEventListener("click", () => switchTab('tourism'));
     if (tabBtnTrip) tabBtnTrip.addEventListener("click", () => switchTab('trip'));
+    if (tabBtnDiscovery) tabBtnDiscovery.addEventListener("click", () => switchTab('discovery'));
+    if (tabBtnFestivals) tabBtnFestivals.addEventListener("click", () => switchTab('festivals'));
+    if (tabBtnCompare) tabBtnCompare.addEventListener("click", () => switchTab('compare'));
+    if (tabBtnBudget) tabBtnBudget.addEventListener("click", () => switchTab('budget'));
 
     // --- Theme Switcher Event Listener ---
     if (themeToggleBtn) {
@@ -545,9 +557,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => {
@@ -581,6 +593,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize trip planner on visit
     if (tabId === 'trip') {
       initTripPlanner();
+    }
+    // Initialize city discovery on visit
+    if (tabId === 'discovery') {
+      initDiscovery();
+    }
+    // Initialize festivals calendar on visit
+    if (tabId === 'festivals') {
+      initFestivals();
+    }
+    // Initialize city comparison on visit
+    if (tabId === 'compare') {
+      initCompare();
+    }
+    // Initialize budget calculator on visit
+    if (tabId === 'budget') {
+      initBudget();
     }
   }
 
@@ -3029,6 +3057,844 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function savePackingToStorage() {
     try { localStorage.setItem('arvora_packing', JSON.stringify(packingState)); } catch(e) {}
+  }
+
+  // =====================================================================
+  // EXPANSION TABS: DISCOVERY, FESTIVALS, COMPARE, BUDGET
+  // =====================================================================
+
+  const STATE_INFO = {
+    "Maharashtra": { region: "West", climate: "Tropical Wet & Dry (Best: Oct-Mar)", languages: "Marathi, Hindi, English" },
+    "Delhi": { region: "North", climate: "Semi-arid (Best: Oct-Mar)", languages: "Hindi, Punjabi, English" },
+    "Karnataka": { region: "South", climate: "Tropical Wet & Dry (Best: Oct-Mar)", languages: "Kannada, English" },
+    "Tamil Nadu": { region: "South", climate: "Tropical Wet & Dry (Best: Nov-Feb)", languages: "Tamil, English" },
+    "West Bengal": { region: "East", climate: "Sub-tropical Monsoon (Best: Oct-Mar)", languages: "Bengali, English" },
+    "Uttar Pradesh": { region: "North", climate: "Humid Sub-tropical (Best: Oct-Mar)", languages: "Hindi, Urdu" },
+    "Gujarat": { region: "West", climate: "Semi-arid (Best: Oct-Mar)", languages: "Gujarati, Hindi" },
+    "Rajasthan": { region: "West", climate: "Arid Desert (Best: Oct-Mar)", languages: "Hindi, Rajasthani" },
+    "Kerala": { region: "South", climate: "Tropical Wet (Best: Sep-Mar)", languages: "Malayalam, English" },
+    "Telangana": { region: "South", climate: "Semi-arid (Best: Oct-Mar)", languages: "Telugu, Urdu, English" },
+    "Haryana": { region: "North", climate: "Semi-arid (Best: Oct-Mar)", languages: "Haryanvi, Hindi" },
+    "Punjab": { region: "North", climate: "Semi-arid (Best: Oct-Mar)", languages: "Punjabi, Hindi" },
+    "Bihar": { region: "East", climate: "Humid Sub-tropical (Best: Oct-Mar)", languages: "Hindi, Maithili, Bhojpuri" },
+    "Madhya Pradesh": { region: "Central", climate: "Sub-tropical Dry (Best: Oct-Mar)", languages: "Hindi" },
+    "Andhra Pradesh": { region: "South", climate: "Tropical Wet & Dry (Best: Oct-Mar)", languages: "Telugu, English" },
+    "Odisha": { region: "East", climate: "Tropical Wet & Dry (Best: Oct-Mar)", languages: "Odia, English" },
+    "Assam": { region: "Northeast", climate: "Sub-tropical Humid (Best: Nov-Apr)", languages: "Assamese, Bengali" },
+    "Jammu & Kashmir": { region: "North", climate: "Alpine / Temperate (Best: Apr-Oct)", languages: "Kashmiri, Dogri, Urdu" },
+    "Goa": { region: "West", climate: "Tropical Wet & Dry (Best: Nov-Feb)", languages: "Konkani, English" },
+    "Himachal Pradesh": { region: "North", climate: "Alpine / Cold (Best: Mar-Jun, Oct-Dec)", languages: "Hindi, Pahari" }
+  };
+
+  const CURATED_CITIES = {
+    "mumbai": { famous: "Bollywood, Gateway of India, Local Trains, Vada Pav, Marine Drive", popTier: "Metro", climate: "Tropical Monsoon", capital: true },
+    "delhi": { famous: "Red Fort, Street Food, Qutub Minar, political hub, shopping bazaars", popTier: "Metro", climate: "Semi-arid", capital: true },
+    "bengaluru": { famous: "Silicon Valley of India, pleasant weather, gardens, craft breweries", popTier: "Metro", climate: "Tropical Wet & Dry", capital: true },
+    "chennai": { famous: "Marina Beach, filter coffee, classical music, automobile hub, ancient temples", popTier: "Metro", climate: "Tropical Wet & Dry", capital: true },
+    "kolkata": { famous: "Victoria Memorial, sweets (Rasgulla), Durga Puja, literature & art", popTier: "Metro", climate: "Sub-tropical Monsoon", capital: true },
+    "hyderabad": { famous: "Charminar, Hyderabadi Biryani, pearls, IT hub, Golconda Fort", popTier: "Metro", climate: "Semi-arid", capital: true },
+    "ahmedabad": { famous: "Sabarmati Ashram, heritage architecture, Gujarati thali, textile hub", popTier: "Large", climate: "Semi-arid" },
+    "pune": { famous: "Oxford of the East, Shaniwar Wada, IT parks, pleasant climate, cultural hub", popTier: "Large", climate: "Sub-tropical Dry" },
+    "jaipur": { famous: "The Pink City, Hawa Mahal, Amer Fort, block printing, royal palaces", popTier: "Large", climate: "Arid Desert", capital: true },
+    "lucknow": { famous: "City of Nawabs, Chikankari embroidery, Tunday kebabs, historical imambaras", popTier: "Large", climate: "Humid Sub-tropical", capital: true },
+    "agra": { famous: "Taj Mahal, Agra Fort, Petha, Mughal history, marble crafts", popTier: "Large", climate: "Humid Sub-tropical" },
+    "amritsar": { famous: "Golden Temple, Wagah Border, Kulcha, historic Jallianwala Bagh", popTier: "Large", climate: "Semi-arid" },
+    "srinagar": { famous: "Dal Lake Shikaras, houseboats, Mughal gardens, Pashmina shawls", popTier: "Large", climate: "Alpine / Temperate", capital: true },
+    "panaji": { famous: "Portuguese quarters, churches, casinos, Mandovi river cruises", popTier: "Mid", climate: "Tropical Wet & Dry", capital: true },
+    "shimla": { famous: "Mall Road, toy train, colonial architecture, snow-capped peaks", popTier: "Mid", climate: "Alpine / Cold", capital: true },
+    "patna": { famous: "Nalanda ruins nearby, ancient Pataliputra, Ganga riverfront, Litti Chokha", popTier: "Large", climate: "Humid Sub-tropical", capital: true },
+    "bhopal": { famous: "City of Lakes, Upper Lake, Bhimbetka caves nearby, clean green environment", popTier: "Large", climate: "Sub-tropical Dry", capital: true },
+    "kochi": { famous: "Chinese Fishing Nets, Fort Kochi history, spices, backwaters gateway", popTier: "Large", climate: "Tropical Monsoon" },
+    "guwahati": { famous: "Kamakhya Temple, gateway to Northeast, Brahmaputra river cruise", popTier: "Large", climate: "Sub-tropical Humid" },
+    "bhubaneswar": { famous: "Temple City of India, Odissi dance, ancient rock-cut caves, Lingaraj temple", popTier: "Large", climate: "Tropical Wet & Dry", capital: true },
+    "coimbatore": { famous: "Manchester of South India, textile mills, Isha Yoga Center, western ghats", popTier: "Large", climate: "Tropical Wet & Dry" },
+    "varanasi": { famous: "Kashi Vishwanath, Ganga Aarti, ancient ghats, Banarasi silk sarees", popTier: "Large", climate: "Humid Sub-tropical" },
+    "jodhpur": { famous: "The Blue City, Mehrangarh Fort, Umaid Bhawan Palace, spicy street food", popTier: "Large", climate: "Arid Desert" },
+    "udaipur": { famous: "City of Lakes, Lake Palace, romantic vibe, heritage hotels, Pichola lake", popTier: "Large", climate: "Arid Desert" },
+    "surat": { famous: "Diamond polishing, textile markets, street food (Locho), clean city vibe", popTier: "Large", climate: "Semi-arid" },
+    "indore": { famous: "Cleanest city in India, Sarafa night food market, poha-jalebi, Rajwada palace", popTier: "Large", climate: "Sub-tropical Dry" },
+    "gwalior": { famous: "Gwalior Fort, music legend Tansen birthplace, grand palaces, history", popTier: "Large", climate: "Sub-tropical Dry" },
+    "madurai": { famous: "Meenakshi Amman Temple, jasmine flowers, street food, ancient trading history", popTier: "Large", climate: "Tropical Wet & Dry" },
+    "mysuru": { famous: "Mysore Palace, Sandalwood, Mysore Pak, Dussehra festival celebration", popTier: "Large", climate: "Tropical Wet & Dry" },
+    "ooty": { famous: "Nilgiri tea gardens, scenic toy train, Botanical garden, lakes", popTier: "Small town", climate: "Highland" },
+    "mumbai suburban": { famous: "Sanjay Gandhi National Park, suburban beaches, local train network", popTier: "Large", climate: "Tropical Monsoon" },
+    "dehradun": { famous: "Robber's Cave, Forest Research Institute, gateway to Mussoorie and hills", popTier: "Large", climate: "Humid Sub-tropical" },
+    "haridwar": { famous: "Ganga Aarti, Har ki Pauri, Kumbh Mela, spiritual pilgrimage gateway", popTier: "Mid", climate: "Humid Sub-tropical" },
+    "rishikesh": { famous: "Yoga Capital of the World, Laxman Jhula, white water rafting, Beatles ashram", popTier: "Mid", climate: "Highland" },
+    "darjeeling": { famous: "Darjeeling Himalayan Railway, premium tea, views of Kanchenjunga", popTier: "Small town", climate: "Highland" },
+    "dharamshala": { famous: "McLeod Ganj, Dalai Lama residency, Tibetan culture, cricket stadium", popTier: "Small town", climate: "Alpine / Cold" },
+    "manali": { famous: "Snowy valleys, Solang valley sports, Rohtang pass, wooden temples", popTier: "Small town", climate: "Alpine / Cold" },
+    "coorg": { famous: "Coffee estates, Raja's Seat, misty mountains, abbey falls, trekking", popTier: "Small town", climate: "Highland" },
+    "alleppey": { famous: "Houseboat cruise, backwaters, Vembanad lake, coir products, beach", popTier: "Mid", climate: "Tropical Monsoon" },
+    "pondicherry": { famous: "French Quarter, Auroville, Promenade beach, spiritual vibe, cafes", popTier: "Mid", climate: "Tropical Wet & Dry" },
+    "hampi": { famous: "Ruins of Vijayanagara Empire, Virupaksha temple, boulder-strewn landscapes", popTier: "Small town", climate: "Tropical Wet & Dry" },
+    "tirupati": { famous: "Lord Venkateswara temple, Laddu prasad, Tirumala hills pilgrimage", popTier: "Large", climate: "Tropical Wet & Dry" },
+    "visakhapatnam": { famous: "Vizag beaches, submarine museum, Araku valley gateway, major port", popTier: "Large", climate: "Tropical Wet & Dry" },
+    "ranchi": { famous: "City of Waterfalls, Dhoni's hometown, tribal culture, lush hills", popTier: "Large", climate: "Sub-tropical Humid" },
+    "jamshedpur": { famous: "Steel City of India, Jubilee Park, clean planned townships", popTier: "Large", climate: "Sub-tropical Humid" },
+    "raipur": { famous: "Naya Raipur smart city, terracotta arts, steel and mining hub", popTier: "Large", climate: "Sub-tropical Dry" },
+    "shillong": { famous: "Scotland of the East, waterfalls, living root bridges nearby, music culture", popTier: "Mid", climate: "Highland" },
+    "imphal": { famous: "Kangla Fort, Loktak lake floating islands, Manipuri dance style", popTier: "Mid", climate: "Highland" },
+    "itanagar": { famous: "Ganga Lake, Ita Fort, Buddhist monasteries, beautiful mountain valleys", popTier: "Small town", climate: "Highland" },
+    "leh": { famous: "Magnetic hill, Pangong lake, Buddhist monasteries, extreme adventure trekking", popTier: "Small town", climate: "Alpine / Cold" }
+  };
+
+  const FESTIVALS_DATA = [
+    { name: "Makar Sankranti / Pongal", month: 0, date: "Jan 14-15", state: "Tamil Nadu, Maharashtra, Karnataka, Gujarat", type: "Harvest", color: "#f59e0b", desc: "A harvest festival marked by kite flying, bonfires, sweet dishes made of sesame and jaggery, and thanksgiving to nature." },
+    { name: "Republic Day", month: 0, date: "Jan 26", state: "All States", type: "National", color: "#3b82f6", desc: "Commemorates the date on which the Constitution of India came into effect in 1950. Marked by grand military and cultural parades." },
+    { name: "Maha Shivratri", month: 1, date: "Feb/Mar", state: "All States", type: "Religious", color: "#8b5cf6", desc: "A major Hindu festival in honor of Lord Shiva. Celebrated with night-long prayers, fasting, and meditating." },
+    { name: "Taj Mahotsav", month: 1, date: "Feb 18-27", state: "Uttar Pradesh", type: "Cultural", color: "#ec4899", desc: "A 10-day cultural festival held in Agra, showcasing India's rich arts, crafts, classical music, dance, and cuisine." },
+    { name: "Holi", month: 2, date: "March", state: "All States (mainly North)", type: "Religious", color: "#ec4899", desc: "The famous festival of colors, celebrating the arrival of spring, victory of good over evil, and play of colored powder and water." },
+    { name: "Shigmo", month: 2, date: "March", state: "Goa", type: "Cultural", color: "#f59e0b", desc: "A spring festival celebrated in Goa with vibrant street parades, traditional dances, and large floats depicting Hindu mythology." },
+    { name: "Baisakhi", month: 3, date: "Apr 13/14", state: "Punjab, Haryana", type: "Harvest", color: "#f59e0b", desc: "Sikh New Year and harvest festival. Celebrated with energetic Bhangra and Gidda dances and community feasts (Langar)." },
+    { name: "Bohu Bihu", month: 3, date: "Mid-April", state: "Assam", type: "Harvest", color: "#10b981", desc: "The biggest festival of Assam, celebrating the Assamese New Year and spring with traditional songs, dances, and feasting." },
+    { name: "Buddha Purnima", month: 4, date: "May", state: "Bihar, Jammu & Kashmir", type: "Religious", color: "#8b5cf6", desc: "Celebrates the birth, enlightenment, and death of Gautama Buddha. Marked by prayer meets and acts of charity." },
+    { name: "Rath Yatra", month: 5, date: "Jun/Jul", state: "Odisha", type: "Religious", color: "#8b5cf6", desc: "The grand chariot festival of Lord Jagannath in Puri. Millions gather to pull three massive decorated wooden chariots." },
+    { name: "Hemis Festival", month: 5, date: "June/July", state: "Jammu & Kashmir (Ladakh)", type: "Cultural", color: "#ef4444", desc: "Celebrated in Hemis Monastery in Ladakh, featuring sacred masked dances (Cham) and colorful Tibetan Buddhist music." },
+    { name: "Independence Day", month: 7, date: "Aug 15", state: "All States", type: "National", color: "#3b82f6", desc: "Marks the nation's independence from British rule in 1947. Celebrated with flag hoisting, parades, and patriotic events." },
+    { name: "Onam", month: 7, date: "Aug/Sep", state: "Kerala", type: "Harvest", color: "#f59e0b", desc: "A spectacular harvest festival in Kerala. Features boat races (Vallam Kali), floral carpets (Pookalam), and the grand feast (Sadya)." },
+    { name: "Ganesh Chaturthi", month: 8, date: "Aug/Sep", state: "Maharashtra, Karnataka, Telangana", type: "Religious", color: "#8b5cf6", desc: "A 10-day festival honoring Lord Ganesha. Features giant clay idols, community prayers, and dancing processions for immersion (Visarjan)." },
+    { name: "Durga Puja", month: 9, date: "Oct", state: "West Bengal, Assam, Bihar", type: "Religious", color: "#ef4444", desc: "Celebration of Goddess Durga's victory over Mahishasura. Bengal is transformed with artistic pandals, street food, and music." },
+    { name: "Gandhi Jayanti", month: 9, date: "Oct 2", state: "All States", type: "National", color: "#3b82f6", desc: "Birthday of Mahatma Gandhi, celebrated as the International Day of Non-Violence. Marked by prayer services and tributes." },
+    { name: "Dussehra / Vijayadashami", month: 9, date: "Oct/Nov", state: "All States", type: "Religious", color: "#8b5cf6", desc: "Celebrates Lord Rama's victory over Ravana (marked by burning effigies of Ravana) and Durga's victory. Grand celebrations in Mysore and Kullu." },
+    { name: "Diwali", month: 10, date: "Oct/Nov", state: "All States", type: "Religious", color: "#f59e0b", desc: "The festival of lights. Homes are lit with diyas, decorated with rangoli, and celebrated with sweets, family gatherings, and firecrackers." },
+    { name: "Pushkar Camel Fair", month: 10, date: "November", state: "Rajasthan", type: "Cultural", color: "#ec4899", desc: "A massive multi-day livestock fair and cultural festival in Pushkar, featuring camel races, music, folk dance, and a holy dip in the lake." },
+    { name: "Christmas", month: 11, date: "Dec 25", state: "All States (especially Goa, Kerala)", type: "Religious", color: "#ef4444", desc: "Celebrates the birth of Jesus Christ. Homes and churches are decorated with stars, lights, cribs, and cakes." },
+    { name: "Hornbill Festival", month: 11, date: "Dec 1-10", state: "Nagaland", type: "Cultural", color: "#10b981", desc: "The 'Festival of Festivals' showcasing the rich heritage, dances, crafts, games, and music of Nagaland's indigenous tribes." }
+  ];
+
+  let discoveryInitialized = false;
+  let discoveryHistory = [];
+  let festivalsInitialized = false;
+  let activeFestivalMonth = new Date().getMonth();
+  let activeFestivalState = "all";
+  let compareInitialized = false;
+  let cityCompare1 = "";
+  let cityCompare2 = "";
+  let budgetInitialized = false;
+
+  function initDiscovery() {
+    if (discoveryInitialized) return;
+    discoveryInitialized = true;
+
+    const btnDiscover = document.getElementById("discover-btn-random");
+    const discoverSearchInput = document.getElementById("discover-city-search");
+    const discoverDropdown = document.getElementById("discover-suggestions-dropdown");
+    const discoverSuggestionsList = document.getElementById("discover-suggestions-list");
+    const btnAddDiscoveryToTrip = document.getElementById("discover-btn-add-trip");
+    const btnExploreDiscoveryState = document.getElementById("discover-btn-explore-state");
+    
+    let currentDiscoveredCity = "mumbai";
+
+    if (discoverSearchInput) {
+      discoverSearchInput.addEventListener("input", (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 0) {
+          handleAutocompleteInput(discoverSearchInput, discoverDropdown, discoverSuggestionsList, null, query, 6, (selected) => {
+            discoverSearchInput.value = capitalizeWord(selected);
+            discoverDropdown.classList.remove("active");
+            showCityCard(selected);
+          });
+          discoverDropdown.classList.add("active");
+        } else {
+          discoverDropdown.classList.remove("active");
+        }
+      });
+      document.addEventListener("click", (e) => {
+        if (!discoverSearchInput.contains(e.target) && !discoverDropdown.contains(e.target)) {
+          discoverDropdown.classList.remove("active");
+        }
+      });
+    }
+
+    if (btnDiscover) {
+      btnDiscover.addEventListener("click", () => {
+        const randomIndex = Math.floor(Math.random() * CITIES_DATA.length);
+        const randomCity = CITIES_DATA[randomIndex];
+        showCityCard(randomCity);
+        playTone(600, "sine", 0.05, 0.1);
+        const rect = btnDiscover.getBoundingClientRect();
+        spawnParticleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, "var(--color-primary)");
+      });
+    }
+
+    function showCityCard(cityName) {
+      cityName = cityName.trim().toLowerCase();
+      currentDiscoveredCity = cityName;
+      
+      const facts = computeLogisticsFacts(cityName, {lat: 0, lng: 0}, 1);
+      const state = facts.state;
+      const region = STATE_INFO[state]?.region || "India";
+      
+      let popTier = "Mid-sized Town";
+      let climate = STATE_INFO[state]?.climate || "Tropical";
+      let famous = "Known for local culture, local cuisine, and regional heritage.";
+      let languages = STATE_INFO[state]?.languages || "Hindi, English";
+
+      if (CURATED_CITIES[cityName]) {
+        popTier = CURATED_CITIES[cityName].popTier + " City";
+        climate = CURATED_CITIES[cityName].climate;
+        famous = CURATED_CITIES[cityName].famous;
+      } else {
+        let hash = 0;
+        for (let i = 0; i < cityName.length; i++) hash = cityName.charCodeAt(i) + ((hash << 5) - hash);
+        hash = Math.abs(hash);
+        const tiers = ["Small Town", "Mid-sized Town", "Large City", "Metropolitan"];
+        popTier = tiers[hash % tiers.length];
+        
+        const descriptors = [
+          "Famous for regional handicraft bazaars, traditional festivals, and historic landmarks.",
+          "Renowned for its scenic natural beauty, peaceful vibes, and local food specialties.",
+          "Known for its agriculture, warm hospitality, and historic temples/shrines.",
+          "A bustling trade hub with vibrant weekly markets, authentic local culture, and historic architecture."
+        ];
+        famous = descriptors[hash % descriptors.length];
+      }
+
+      if (!discoveryHistory.includes(cityName)) {
+        discoveryHistory.unshift(cityName);
+        if (discoveryHistory.length > 5) discoveryHistory.pop();
+        updateDiscoveryHistory();
+      }
+
+      const cardName = document.getElementById("discover-card-name");
+      const cardState = document.getElementById("discover-card-state");
+      const cardPop = document.getElementById("discover-card-pop");
+      const cardClimate = document.getElementById("discover-card-climate");
+      const cardFamous = document.getElementById("discover-card-famous");
+      const cardLang = document.getElementById("discover-card-lang");
+
+      if (cardName) cardName.textContent = capitalizeWord(cityName);
+      if (cardState) cardState.textContent = `${state} (${region})`;
+      if (cardPop) cardPop.textContent = popTier;
+      if (cardClimate) cardClimate.textContent = climate;
+      if (cardFamous) cardFamous.textContent = famous;
+      if (cardLang) cardLang.textContent = languages;
+      
+      const card = document.getElementById("discover-city-card");
+      if (card) {
+        card.style.display = "block";
+        card.classList.remove("flip-animation");
+        void card.offsetWidth;
+        card.classList.add("flip-animation");
+      }
+    }
+
+    function updateDiscoveryHistory() {
+      const strip = document.getElementById("discover-history-strip");
+      if (!strip) return;
+      if (discoveryHistory.length === 0) {
+        strip.innerHTML = `<span style="color:var(--text-muted); font-size:0.85rem;">No history yet.</span>`;
+        return;
+      }
+      strip.innerHTML = discoveryHistory.map(city => `
+        <span class="state-city-pill" data-city="${city}">${capitalizeWord(city)}</span>
+      `).join('');
+
+      strip.querySelectorAll('.state-city-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          showCityCard(pill.dataset.city);
+        });
+      });
+    }
+
+    if (btnAddDiscoveryToTrip) {
+      btnAddDiscoveryToTrip.addEventListener("click", () => {
+        if (!currentDiscoveredCity) return;
+        addTripStopExternal(currentDiscoveredCity);
+      });
+    }
+
+    if (btnExploreDiscoveryState) {
+      btnExploreDiscoveryState.addEventListener("click", () => {
+        if (!currentDiscoveredCity) return;
+        const facts = computeLogisticsFacts(currentDiscoveredCity, {lat: 0, lng: 0}, 1);
+        switchTab('tourism');
+        loadStateDetails(facts.state);
+        const stateBtn = Array.from(document.querySelectorAll('.state-btn')).find(b => b.textContent === facts.state);
+        if (stateBtn) {
+          document.querySelectorAll(".state-btn").forEach(b => b.classList.remove("active"));
+          stateBtn.classList.add("active");
+        }
+      });
+    }
+
+    showCityCard("mumbai");
+  }
+
+  function addTripStopExternal(cityName) {
+    selectedTripCity = cityName.trim().toLowerCase();
+    switchTab('trip');
+    const tripInput = document.getElementById("trip-city-input");
+    const addBtn = document.getElementById("trip-btn-add-city");
+    if (tripInput && addBtn) {
+      tripInput.value = capitalizeWord(cityName);
+      addBtn.click();
+    }
+  }
+
+  function initFestivals() {
+    if (festivalsInitialized) return;
+    festivalsInitialized = true;
+
+    const monthTabsContainer = document.getElementById("festival-months-tabs");
+    const stateFilter = document.getElementById("festival-state-filter");
+
+    if (monthTabsContainer) {
+      monthTabsContainer.innerHTML = "";
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      monthNames.forEach((monthName, idx) => {
+        const btn = document.createElement("button");
+        btn.className = `pack-cat-btn ${idx === activeFestivalMonth ? 'active' : ''}`;
+        btn.textContent = monthName;
+        btn.addEventListener("click", () => {
+          monthTabsContainer.querySelectorAll('.pack-cat-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFestivalMonth = idx;
+          renderFestivals();
+        });
+        monthTabsContainer.appendChild(btn);
+      });
+    }
+
+    if (stateFilter) {
+      stateFilter.innerHTML = `<option value="all">🌐 All States</option>`;
+      STATES_LIST.sort().forEach(state => {
+        stateFilter.innerHTML += `<option value="${state}">${state}</option>`;
+      });
+      stateFilter.addEventListener("change", (e) => {
+        activeFestivalState = e.target.value;
+        renderFestivals();
+      });
+    }
+
+    renderFestivals();
+    renderUpcomingFestivals();
+  }
+
+  function renderFestivals() {
+    const list = document.getElementById("festivals-grid-list");
+    if (!list) return;
+
+    const filtered = FESTIVALS_DATA.filter(fest => {
+      const matchMonth = fest.month === activeFestivalMonth;
+      const matchState = activeFestivalState === "all" || 
+                         fest.state === "All States" || 
+                         fest.state.toLowerCase().includes(activeFestivalState.toLowerCase());
+      return matchMonth && matchState;
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted);">
+          <div style="font-size:3rem; margin-bottom:0.75rem;">🎭</div>
+          <p>No major festivals found matching your filters for this month.</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = filtered.map(fest => `
+      <div class="panel spotlight-card" style="border-color:${fest.color}77; background:radial-gradient(circle at top right, ${fest.color}15 -20%, var(--card-bg) 80%); display:flex; flex-direction:column; gap:0.75rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem;">
+          <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-primary); margin:0;">${fest.name}</h4>
+          <span style="font-size:0.75rem; font-weight:600; padding:0.2rem 0.5rem; border-radius:9999px; background:${fest.color}22; color:${fest.color}; border:1px solid ${fest.color}44;">
+            ${fest.type}
+          </span>
+        </div>
+        <div style="font-size:0.85rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.25rem;">
+          <div>📅 <strong>Dates:</strong> ${fest.date}</div>
+          <div>📍 <strong>States:</strong> ${fest.state}</div>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.45; margin:0; flex-grow:1;">
+          ${fest.desc}
+        </p>
+        <button class="visualizer-btn btn-plan-fest" data-name="${fest.name}" data-state="${fest.state}" style="margin-top:0.5rem; width:100%; border-color:${fest.color}55; background:rgba(255,255,255,0.02); color:var(--text-primary);">
+          🧭 Plan Around This Festival
+        </button>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.btn-plan-fest').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const festName = btn.dataset.name;
+        const stateNameStr = btn.dataset.state;
+        
+        let targetCity = "mumbai";
+        const firstState = stateNameStr.split(',')[0].trim();
+        if (firstState && firstState !== "All States" && TOURISM_DATABASE[firstState]) {
+          targetCity = TOURISM_DATABASE[firstState].capital;
+        }
+
+        const tripNameInput = document.getElementById("trip-name-input");
+        if (tripNameInput) {
+          tripNameInput.value = `${festName} Trip`;
+        }
+
+        addTripStopExternal(targetCity);
+      });
+    });
+  }
+
+  function renderUpcomingFestivals() {
+    const list = document.getElementById("upcoming-festivals-list");
+    if (!list) return;
+
+    const currentMonth = new Date().getMonth();
+    
+    const sorted = [...FESTIVALS_DATA].sort((a, b) => {
+      let diffA = a.month - currentMonth;
+      if (diffA < 0) diffA += 12;
+      let diffB = b.month - currentMonth;
+      if (diffB < 0) diffB += 12;
+      return diffA - diffB;
+    });
+
+    const nextThree = sorted.slice(0, 3);
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    list.innerHTML = nextThree.map(fest => `
+      <div style="padding:0.75rem; border-radius:8px; background:rgba(255,255,255,0.03); border:1px solid var(--card-border); display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+        <div>
+          <div style="font-weight:600; font-size:0.9rem; color:var(--text-primary);">${fest.name}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">
+            📅 ${fest.date} (${monthNames[fest.month]})
+          </div>
+        </div>
+        <span style="font-size:0.72rem; padding:0.15rem 0.45rem; border-radius:9999px; background:${fest.color}15; color:${fest.color}; border:1px solid ${fest.color}33;">
+          ${fest.type}
+        </span>
+      </div>
+    `).join('');
+  }
+
+  function initCompare() {
+    if (compareInitialized) return;
+    compareInitialized = true;
+
+    const compInput1 = document.getElementById("compare-city-1");
+    const compInput2 = document.getElementById("compare-city-2");
+    const compDropdown1 = document.getElementById("compare-suggestions-dropdown-1");
+    const compDropdown2 = document.getElementById("compare-suggestions-dropdown-2");
+    const compList1 = document.getElementById("compare-suggestions-list-1");
+    const compList2 = document.getElementById("compare-suggestions-list-2");
+
+    const btnAddBoth = document.getElementById("compare-btn-add-both");
+
+    if (compInput1) {
+      compInput1.addEventListener("input", (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 0) {
+          handleAutocompleteInput(compInput1, compDropdown1, compList1, null, query, 5, (selected) => {
+            compInput1.value = capitalizeWord(selected);
+            compDropdown1.classList.remove("active");
+            cityCompare1 = selected;
+            performCityComparison();
+          });
+          compDropdown1.classList.add("active");
+        } else {
+          compDropdown1.classList.remove("active");
+        }
+      });
+    }
+
+    if (compInput2) {
+      compInput2.addEventListener("input", (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 0) {
+          handleAutocompleteInput(compInput2, compDropdown2, compList2, null, query, 5, (selected) => {
+            compInput2.value = capitalizeWord(selected);
+            compDropdown2.classList.remove("active");
+            cityCompare2 = selected;
+            performCityComparison();
+          });
+          compDropdown2.classList.add("active");
+        } else {
+          compDropdown2.classList.remove("active");
+        }
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      if (compInput1 && !compInput1.contains(e.target) && compDropdown1) compDropdown1.classList.remove("active");
+      if (compInput2 && !compInput2.contains(e.target) && compDropdown2) compDropdown2.classList.remove("active");
+    });
+
+    if (btnAddBoth) {
+      btnAddBoth.addEventListener("click", () => {
+        if (!cityCompare1 || !cityCompare2) return;
+        
+        addTripStopExternal(cityCompare1);
+        setTimeout(() => {
+          addTripStopExternal(cityCompare2);
+        }, 500);
+      });
+    }
+
+    cityCompare1 = "mumbai";
+    cityCompare2 = "delhi";
+    if (compInput1) compInput1.value = "Mumbai";
+    if (compInput2) compInput2.value = "Delhi";
+    performCityComparison();
+  }
+
+  function getCityStatsForCompare(cityName) {
+    cityName = cityName.trim().toLowerCase();
+    const facts = computeLogisticsFacts(cityName, {lat: 0, lng: 0}, 1);
+    const state = facts.state;
+    const region = STATE_INFO[state]?.region || "India";
+    const language = STATE_INFO[state]?.languages || "Hindi, English";
+    
+    let popTier = "Mid-sized Town";
+    let climate = STATE_INFO[state]?.climate || "Tropical";
+    let famous = "Known for local culture and regional landmarks.";
+    let costRating = "Mid-Range";
+    let costVal = 4000;
+    let connectivity = "Standard (Road & Rail)";
+    let bestTime = "Oct - Mar";
+
+    if (CURATED_CITIES[cityName]) {
+      popTier = CURATED_CITIES[cityName].popTier + " City";
+      climate = CURATED_CITIES[cityName].climate;
+      famous = CURATED_CITIES[cityName].famous;
+      if (CURATED_CITIES[cityName].popTier === "Metro") {
+        costRating = "Premium";
+        costVal = 7000;
+        connectivity = "Excellent (Airport, Rail & Expressways)";
+      } else if (CURATED_CITIES[cityName].popTier === "Large") {
+        costRating = "Mid-Range";
+        costVal = 3500;
+        connectivity = "High (Airport, Major Rail Junction)";
+      } else {
+        costRating = "Economy";
+        costVal = 1800;
+        connectivity = "Moderate (Rail & Highways)";
+      }
+    } else {
+      let hash = 0;
+      for (let i = 0; i < cityName.length; i++) hash = cityName.charCodeAt(i) + ((hash << 5) - hash);
+      hash = Math.abs(hash);
+      const popTiers = ["Small Town", "Mid-sized Town", "Large City", "Metropolitan"];
+      popTier = popTiers[hash % popTiers.length];
+      
+      const connectivityTiers = ["Moderate (Roads/Buses)", "Standard (Rail & Highways)", "High (Rail & Domestic Flights)"];
+      connectivity = connectivityTiers[hash % connectivityTiers.length];
+      
+      if (popTier === "Metropolitan") {
+        costRating = "Premium";
+        costVal = 6000;
+      } else if (popTier === "Large City") {
+        costRating = "Mid-Range";
+        costVal = 3200;
+      } else {
+        costRating = "Economy";
+        costVal = 1500;
+      }
+    }
+
+    if (climate.toLowerCase().includes("alpine") || climate.toLowerCase().includes("cold")) {
+      bestTime = "Mar - Jun, Sep - Nov";
+    } else if (climate.toLowerCase().includes("monsoon") || climate.toLowerCase().includes("wet")) {
+      bestTime = "Nov - Feb";
+    }
+
+    return {
+      cityName: capitalizeWord(cityName),
+      state,
+      region,
+      language,
+      popTier,
+      climate,
+      famous,
+      costRating,
+      costVal,
+      connectivity,
+      bestTime
+    };
+  }
+
+  function performCityComparison() {
+    if (!cityCompare1 || !cityCompare2) return;
+    
+    const c1 = getCityStatsForCompare(cityCompare1);
+    const c2 = getCityStatsForCompare(cityCompare2);
+
+    const container = document.getElementById("compare-table-rows");
+    if (!container) return;
+
+    const rows = [
+      { label: "📍 State & Region", v1: `${c1.state} (${c1.region})`, v2: `${c2.state} (${c2.region})` },
+      { label: "🌡️ Climate & Weather", v1: c1.climate, v2: c2.climate },
+      { label: "👥 Population Tier", v1: c1.popTier, v2: c2.popTier },
+      { label: "🗣️ Primary Languages", v1: c1.language, v2: c2.language },
+      { label: "✨ Famous For", v1: c1.famous, v2: c2.famous },
+      { label: "💰 Est. Daily Cost", v1: `${c1.costRating} (approx. ₹${c1.costVal.toLocaleString()})`, v2: `${c2.costRating} (approx. ₹${c2.costVal.toLocaleString()})` },
+      { label: "✈️ Travel Connectivity", v1: c1.connectivity, v2: c2.connectivity },
+      { label: "📅 Best Season to Visit", v1: c1.bestTime, v2: c2.bestTime }
+    ];
+
+    container.innerHTML = rows.map(row => `
+      <tr>
+        <td style="font-weight:600; color:var(--color-primary); width:200px; padding:0.85rem; border-bottom:1px solid rgba(255,255,255,0.05);">${row.label}</td>
+        <td style="color:var(--text-primary); padding:0.85rem; border-bottom:1px solid rgba(255,255,255,0.05); text-align:center; width:40%; border-right:1px solid rgba(255,255,255,0.05);">${row.v1}</td>
+        <td style="color:var(--text-primary); padding:0.85rem; border-bottom:1px solid rgba(255,255,255,0.05); text-align:center; width:40%;">${row.v2}</td>
+      </tr>
+    `).join('');
+
+    let budgetWinner = c1.costVal < c2.costVal ? c1.cityName : c2.cityName;
+    if (c1.costVal === c2.costVal) budgetWinner = "Tie! (Both are equivalent)";
+
+    let heritageWinner = c1.famous.toLowerCase().includes("temple") || c1.famous.toLowerCase().includes("fort") || c1.famous.toLowerCase().includes("palace") || c1.famous.toLowerCase().includes("heritage") ? c1.cityName : c2.cityName;
+    if (c1.famous.toLowerCase().includes("historic") && !c2.famous.toLowerCase().includes("historic")) heritageWinner = c1.cityName;
+    if (c2.famous.toLowerCase().includes("historic") && !c1.famous.toLowerCase().includes("historic")) heritageWinner = c2.cityName;
+    if (heritageWinner === c1.cityName && heritageWinner === c2.cityName) heritageWinner = "Tie! (Both are highly historical)";
+
+    let foodieWinner = c1.cityName;
+    if (c2.state === "Maharashtra" || c2.state === "Delhi" || c2.state === "Uttar Pradesh" || c2.famous.toLowerCase().includes("food")) foodieWinner = c2.cityName;
+
+    let adventureWinner = c1.climate.toLowerCase().includes("alpine") || c1.climate.toLowerCase().includes("highland") || c1.climate.toLowerCase().includes("coastal") ? c1.cityName : c2.cityName;
+    if (c2.climate.toLowerCase().includes("alpine") || c2.climate.toLowerCase().includes("highland") || c2.climate.toLowerCase().includes("coastal")) adventureWinner = c2.cityName;
+
+    const verdictBox = document.getElementById("compare-verdict-box");
+    if (verdictBox) {
+      verdictBox.innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
+          <div style="padding:0.75rem; border-radius:6px; background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15);">
+            <div style="font-size:0.8rem; color:var(--color-success); font-weight:700;">🪙 Budget Traveler</div>
+            <div style="font-weight:600; font-size:1rem; color:var(--text-primary); margin-top:0.25rem;">${budgetWinner}</div>
+          </div>
+          <div style="padding:0.75rem; border-radius:6px; background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.15);">
+            <div style="font-size:0.8rem; color:var(--color-accent); font-weight:700;">🏺 Heritage Lover</div>
+            <div style="font-weight:600; font-size:1rem; color:var(--text-primary); margin-top:0.25rem;">${heritageWinner}</div>
+          </div>
+          <div style="padding:0.75rem; border-radius:6px; background:rgba(236,72,153,0.06); border:1px solid rgba(236,72,153,0.15);">
+            <div style="font-size:0.8rem; color:#ec4899; font-weight:700;">😋 Foodie's Pick</div>
+            <div style="font-weight:600; font-size:1rem; color:var(--text-primary); margin-top:0.25rem;">${foodieWinner}</div>
+          </div>
+          <div style="padding:0.75rem; border-radius:6px; background:rgba(139,92,246,0.06); border:1px solid rgba(139,92,246,0.15);">
+            <div style="font-size:0.8rem; color:var(--color-purple); font-weight:700;">🏔️ Adventure Seeker</div>
+            <div style="font-weight:600; font-size:1rem; color:var(--text-primary); margin-top:0.25rem;">${adventureWinner}</div>
+          </div>
+        </div>
+      `;
+    }
+    
+    document.getElementById("compare-btn-add-both").style.display = "inline-block";
+  }
+
+  function initBudget() {
+    if (budgetInitialized) return;
+    budgetInitialized = true;
+
+    const inputs = ["budget-travelers", "budget-days", "budget-style", "budget-transport", "budget-stay", "budget-food"];
+    inputs.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("change", calculateTravelBudget);
+        el.addEventListener("input", calculateTravelBudget);
+      }
+    });
+
+    const btnSync = document.getElementById("budget-btn-sync");
+    if (btnSync) {
+      btnSync.addEventListener("click", () => {
+        syncFromTripPlanner();
+        playTone(700, "sine", 0.05, 0.1);
+        const rect = btnSync.getBoundingClientRect();
+        spawnParticleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 15, "var(--color-success)");
+      });
+    }
+
+    const btnCopyBudget = document.getElementById("budget-btn-copy");
+    if (btnCopyBudget) {
+      btnCopyBudget.addEventListener("click", () => {
+        copyBudgetToClipboard();
+      });
+    }
+
+    calculateTravelBudget();
+  }
+
+  function syncFromTripPlanner() {
+    if (tripStops.length === 0) {
+      alert("No stops found in your Trip Planner. Add some cities to your trip first!");
+      return;
+    }
+
+    let totalDays = 0;
+    tripStops.forEach(stop => {
+      totalDays += parseInt(stop.nights) || 0;
+    });
+    totalDays = totalDays > 0 ? totalDays : 1;
+
+    const tripBudgetSelect = document.getElementById("trip-budget-select");
+    const selectedStyle = tripBudgetSelect ? tripBudgetSelect.value : "mid";
+
+    const daysInput = document.getElementById("budget-days");
+    if (daysInput) daysInput.value = totalDays;
+
+    const styleSelect = document.getElementById("budget-style");
+    if (styleSelect) styleSelect.value = selectedStyle;
+
+    const staySelect = document.getElementById("budget-stay");
+    const foodSelect = document.getElementById("budget-food");
+    const transportSelect = document.getElementById("budget-transport");
+
+    if (selectedStyle === "budget") {
+      if (staySelect) staySelect.value = "hostel";
+      if (foodSelect) foodSelect.value = "street";
+      if (transportSelect) transportSelect.value = "train";
+    } else if (selectedStyle === "mid") {
+      if (staySelect) staySelect.value = "hotel";
+      if (foodSelect) foodSelect.value = "restaurant";
+      if (transportSelect) transportSelect.value = "bus";
+    } else {
+      if (staySelect) staySelect.value = "resort";
+      if (foodSelect) foodSelect.value = "fine";
+      if (transportSelect) transportSelect.value = "flight";
+    }
+
+    calculateTravelBudget();
+    alert(`Synced! Loaded ${tripStops.length} cities and estimated ${totalDays} total days from your Trip Planner.`);
+  }
+
+  function calculateTravelBudget() {
+    const travelersInput = document.getElementById("budget-travelers");
+    const daysInput = document.getElementById("budget-days");
+    const styleSelect = document.getElementById("budget-style");
+    const transportSelect = document.getElementById("budget-transport");
+    const staySelect = document.getElementById("budget-stay");
+    const foodSelect = document.getElementById("budget-food");
+
+    if (!travelersInput || !daysInput) return;
+
+    const travelers = parseInt(travelersInput.value) || 1;
+    const days = parseInt(daysInput.value) || 1;
+    const style = styleSelect ? styleSelect.value : "mid";
+    const transport = transportSelect ? transportSelect.value : "bus";
+    const stay = staySelect ? staySelect.value : "hotel";
+    const food = foodSelect ? foodSelect.value : "restaurant";
+
+    let stayRate = 1200;
+    if (stay === "hostel") stayRate = 450;
+    if (stay === "resort") stayRate = 6000;
+
+    let foodRate = 600;
+    if (food === "street") foodRate = 250;
+    if (food === "fine") foodRate = 2200;
+
+    let transportRate = 500;
+    if (transport === "train") transportRate = 300;
+    if (transport === "flight") transportRate = 2500;
+    if (transport === "drive") transportRate = 1200;
+
+    let multiplier = 1.0;
+    if (style === "budget") multiplier = 0.8;
+    if (style === "luxury") multiplier = 2.5;
+
+    const dailyStay = Math.round(stayRate * multiplier);
+    const dailyFood = Math.round(foodRate * multiplier);
+    
+    const dailyTransport = Math.round(transportRate * (transport === "flight" ? 0.6 : 1.0));
+    
+    const dailyMisc = style === "budget" ? 200 : (style === "mid" ? 500 : 1500);
+
+    const totalStay = dailyStay * days * Math.ceil(travelers / 2);
+    const totalFood = dailyFood * days * travelers;
+    const totalTransport = dailyTransport * days * travelers;
+    const totalMisc = dailyMisc * days * travelers;
+
+    const grandTotal = totalStay + totalFood + totalTransport + totalMisc;
+    const perPersonTotal = Math.round(grandTotal / travelers);
+    const perPersonDaily = Math.round(perPersonTotal / days);
+
+    const calcStay = document.getElementById("calc-total-accommodation");
+    const calcFood = document.getElementById("calc-total-food");
+    const calcTrans = document.getElementById("calc-total-transport");
+    const calcMisc = document.getElementById("calc-total-misc");
+    const calcGrand = document.getElementById("calc-grand-total");
+    const calcPP = document.getElementById("calc-per-person");
+
+    if (calcStay) calcStay.textContent = `₹${totalStay.toLocaleString()}`;
+    if (calcFood) calcFood.textContent = `₹${totalFood.toLocaleString()}`;
+    if (calcTrans) calcTrans.textContent = `₹${totalTransport.toLocaleString()}`;
+    if (calcMisc) calcMisc.textContent = `₹${totalMisc.toLocaleString()}`;
+    if (calcGrand) calcGrand.textContent = `₹${grandTotal.toLocaleString()}`;
+    if (calcPP) calcPP.textContent = `₹${perPersonTotal.toLocaleString()} total (₹${perPersonDaily.toLocaleString()}/day)`;
+
+    const gauge = document.getElementById("budget-health-gauge");
+    const gaugeLabel = document.getElementById("budget-health-label");
+    if (gauge && gaugeLabel) {
+      let pct = 0;
+      let status = "On Track (Economy)";
+      let color = "var(--color-success)";
+
+      if (perPersonDaily < 2000) {
+        pct = Math.round((perPersonDaily / 2000) * 100 * 0.4);
+        status = "🌿 On Track (Economy Budget)";
+        color = "var(--color-success)";
+      } else if (perPersonDaily < 6000) {
+        pct = 40 + Math.round(((perPersonDaily - 2000) / 4000) * 100 * 0.35);
+        status = "🏨 Balanced (Mid-Range Comfort)";
+        color = "var(--color-primary)";
+      } else {
+        pct = 75 + Math.min(Math.round(((perPersonDaily - 6000) / 10000) * 100 * 0.25), 25);
+        status = "✨ Splurge Zone (Luxury Stay)";
+        color = "var(--color-purple)";
+      }
+
+      gauge.style.width = `${pct}%`;
+      gauge.style.background = color;
+      gaugeLabel.textContent = status;
+      gaugeLabel.style.color = color;
+    }
+  }
+
+  function copyBudgetToClipboard() {
+    const calcStay = document.getElementById("calc-total-accommodation");
+    const calcFood = document.getElementById("calc-total-food");
+    const calcTrans = document.getElementById("calc-total-transport");
+    const calcMisc = document.getElementById("calc-total-misc");
+    const calcGrand = document.getElementById("calc-grand-total");
+    const calcPP = document.getElementById("calc-per-person");
+
+    const accommodation = calcStay ? calcStay.textContent : "₹0";
+    const food = calcFood ? calcFood.textContent : "₹0";
+    const transport = calcTrans ? calcTrans.textContent : "₹0";
+    const misc = calcMisc ? calcMisc.textContent : "₹0";
+    const grandTotal = calcGrand ? calcGrand.textContent : "₹0";
+    const perPerson = calcPP ? calcPP.textContent : "₹0";
+
+    const travelersInput = document.getElementById("budget-travelers");
+    const daysInput = document.getElementById("budget-days");
+    const styleSelect = document.getElementById("budget-style");
+
+    const travelers = travelersInput ? travelersInput.value : "1";
+    const days = daysInput ? daysInput.value : "7";
+    const style = styleSelect ? styleSelect.options[styleSelect.selectedIndex].text : "Standard";
+
+    const text = `💰 ARVORA TRAVEL BUDGET ESTIMATE 💰
+-----------------------------------------
+Trip Duration: ${days} days
+Total Travelers: ${travelers}
+Travel Style: ${style}
+
+Estimated Cost Breakdown:
+🏨 Accommodation: ${accommodation}
+🍲 Food & Meals: ${food}
+✈️ Transport: ${transport}
+🛍️ Miscellaneous & Shopping: ${misc}
+
+-----------------------------------------
+GRAND TOTAL: ${grandTotal}
+Per Person: ${perPerson}
+Generated by Arvora (India City Autocomplete & Planner) 🚀`;
+
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Budget breakdown copied to clipboard!");
+    }).catch(err => {
+      console.error("Could not copy text: ", err);
+    });
   }
 
 });

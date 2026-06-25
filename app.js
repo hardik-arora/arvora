@@ -1237,7 +1237,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (format === "json") {
       codeStr = JSON.stringify(records, null, 2);
     } else if (format === "sql_postgres") {
-      let sql = `-- SJA Postgres Seed File\n-- Created at: ${new Date().toISOString()}\n\n`;
+      let sql = `-- Arvora Postgres Seed File\n-- Created at: ${new Date().toISOString()}\n\n`;
       sql += `CREATE TABLE IF NOT EXISTS indian_cities_directory (\n`;
       sql += `  id SERIAL PRIMARY KEY,\n`;
       sql += `  city_name VARCHAR(100) NOT NULL,\n`;
@@ -1250,7 +1250,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const inserts = records.map(r => `\n  ('${escapeSql(r.city)}', '${r.zip}', '${escapeSql(r.state)}', '${escapeSql(r.district)}')`).join(",");
       codeStr = sql + (records.length > 0 ? inserts + ";" : "\n  -- No matching records to seed;");
     } else if (format === "sql_mysql") {
-      let sql = `-- SJA MySQL Seed File\n-- Created at: ${new Date().toISOString()}\n\n`;
+      let sql = `-- Arvora MySQL Seed File\n-- Created at: ${new Date().toISOString()}\n\n`;
       sql += `CREATE TABLE IF NOT EXISTS \`indian_cities_directory\` (\n`;
       sql += `  \`id\` INT AUTO_INCREMENT PRIMARY KEY,\n`;
       sql += `  \`city_name\` VARCHAR(100) NOT NULL,\n`;
@@ -1287,9 +1287,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================================
   
   function setupGameScoreboard() {
-    const savedScore = localStorage.getItem("sja_game_score");
-    const savedStreak = localStorage.getItem("sja_game_streak");
-    const savedBestStreak = localStorage.getItem("sja_game_best_streak");
+    const savedScore = localStorage.getItem("arvora_game_score") || localStorage.getItem("sja_game_score");
+    const savedStreak = localStorage.getItem("arvora_game_streak") || localStorage.getItem("sja_game_streak");
+    const savedBestStreak = localStorage.getItem("arvora_game_best_streak") || localStorage.getItem("sja_game_best_streak");
 
     if (savedScore) gameScore = parseInt(savedScore);
     if (savedStreak) gameStreak = parseInt(savedStreak);
@@ -1436,9 +1436,9 @@ document.addEventListener("DOMContentLoaded", () => {
     domGameStreak.textContent = gameStreak.toLocaleString();
     domGameBestStreak.textContent = gameBestStreak.toLocaleString();
 
-    localStorage.setItem("sja_game_score", gameScore);
-    localStorage.setItem("sja_game_streak", gameStreak);
-    localStorage.setItem("sja_game_best_streak", gameBestStreak);
+    localStorage.setItem("arvora_game_score", gameScore);
+    localStorage.setItem("arvora_game_streak", gameStreak);
+    localStorage.setItem("arvora_game_best_streak", gameBestStreak);
   }
 
   function appendGameLog(message, colorClass = "var(--text-secondary)") {

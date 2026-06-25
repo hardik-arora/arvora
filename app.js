@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnScanner = document.getElementById("tab-btn-scanner");
   const tabBtnTravel = document.getElementById("tab-btn-travel");
   const tabBtnTourism = document.getElementById("tab-btn-tourism");
+  const tabBtnTrip = document.getElementById("tab-btn-trip");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
@@ -85,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentScanner = document.getElementById("tab-content-scanner");
   const tabContentTravel = document.getElementById("tab-content-travel");
   const tabContentTourism = document.getElementById("tab-content-tourism");
+  const tabContentTrip = document.getElementById("tab-content-trip");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -394,6 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabBtnScanner) tabBtnScanner.addEventListener("click", () => switchTab('scanner'));
     if (tabBtnTravel) tabBtnTravel.addEventListener("click", () => switchTab('travel'));
     if (tabBtnTourism) tabBtnTourism.addEventListener("click", () => switchTab('tourism'));
+    if (tabBtnTrip) tabBtnTrip.addEventListener("click", () => switchTab('trip'));
 
     // --- Theme Switcher Event Listener ---
     if (themeToggleBtn) {
@@ -542,9 +545,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => {
@@ -574,6 +577,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize state showcase on visit
     if (tabId === 'tourism') {
       initTourism();
+    }
+    // Initialize trip planner on visit
+    if (tabId === 'trip') {
+      initTripPlanner();
     }
   }
 
@@ -2531,5 +2538,497 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-});
+  // =====================================================================
+  // TRIP PLANNER & ITINERARY BUILDER
+  // =====================================================================
 
+  let tripInitialized = false;
+  let tripStops = [];           // [{id, city, date, nights, notes, vibe}]
+  let packingState = {};        // {category: [{label, checked}]}
+  let activePackCat = 'clothes';
+  let selectedTripCity = '';    // the city chosen from autocomplete
+
+  const PACKING_PRESETS = {
+    clothes:     ['T-Shirts (x5)', 'Jeans / Pants', 'Ethnic Wear', 'Undergarments (x7)', 'Socks (x5)', 'Sweater / Jacket', 'Comfortable Footwear', 'Sandals / Flip-Flops', 'Sleepwear'],
+    docs:        ['Aadhar Card / ID', 'PAN Card', 'Passport (if needed)', 'Hotel Bookings Printout', 'Flight / Train Tickets', 'Travel Insurance', 'Emergency Contacts List', 'Wallet & Cash'],
+    medical:     ['Prescribed Medicines', 'Pain Relievers (Crocin)', 'Band-Aids & Antiseptic', 'ORS Sachets', 'Anti-Nausea Tablets', 'Sunscreen (SPF 50)', 'Mosquito Repellent', 'Hand Sanitizer'],
+    electronics: ['Phone + Charger', 'Power Bank', 'Earphones / AirPods', 'Laptop (if needed)', 'Universal Adapter', 'Camera + Memory Card', 'USB-C Hub'],
+    toiletries:  ['Toothbrush & Paste', 'Shampoo & Conditioner', 'Face Wash', 'Razor / Trimmer', 'Deodorant', 'Hair Brush / Comb', 'Lip Balm', 'Moisturizer', 'Towel'],
+    custom:      []
+  };
+
+  const BUDGET_RATES = { budget: 1500, mid: 4000, luxury: 12000 };
+  const VIBE_OPTIONS = ['🏖️ Beach', '🏔️ Mountains', '🏛️ Heritage', '🌆 City', '🌿 Nature', '🎡 Fun'];
+
+  function initTripPlanner() {
+    if (tripInitialized) return;
+    tripInitialized = true;
+
+    // Load saved state
+    loadTripFromStorage();
+    initPackingList();
+
+    // City autocomplete for trip input
+    const tripCityInput = document.getElementById('trip-city-input');
+    const tripCityDropdown = document.getElementById('trip-city-dropdown');
+    const tripCityList = document.getElementById('trip-city-list');
+
+    if (tripCityInput) {
+      tripCityInput.addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        selectedTripCity = '';
+        if (q.length < 1) { tripCityDropdown.style.display = 'none'; return; }
+        const results = radixTrie.autocomplete(q, 8);
+        if (!results.length) { tripCityDropdown.style.display = 'none'; return; }
+        tripCityList.innerHTML = results.map(r =>
+          `<div class="suggestion-item" data-city="${r}">${r.charAt(0).toUpperCase() + r.slice(1)}</div>`
+        ).join('');
+        tripCityDropdown.style.display = 'block';
+        tripCityList.querySelectorAll('.suggestion-item').forEach(item => {
+          item.addEventListener('click', () => {
+            selectedTripCity = item.dataset.city;
+            tripCityInput.value = selectedTripCity.charAt(0).toUpperCase() + selectedTripCity.slice(1);
+            tripCityDropdown.style.display = 'none';
+          });
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!tripCityInput.contains(e.target) && !tripCityDropdown.contains(e.target)) {
+          tripCityDropdown.style.display = 'none';
+        }
+      });
+    }
+
+    // Add city stop button
+    const btnAddCity = document.getElementById('trip-btn-add-city');
+    if (btnAddCity) {
+      btnAddCity.addEventListener('click', () => {
+        const errEl = document.getElementById('trip-city-error');
+        if (!selectedTripCity) {
+          errEl.style.display = 'block';
+          setTimeout(() => errEl.style.display = 'none', 2500);
+          return;
+        }
+        errEl.style.display = 'none';
+        const stop = {
+          id: Date.now(),
+          city: selectedTripCity.charAt(0).toUpperCase() + selectedTripCity.slice(1),
+          date: '',
+          nights: 2,
+          notes: '',
+          vibe: ''
+        };
+        tripStops.push(stop);
+        selectedTripCity = '';
+        if (tripCityInput) { tripCityInput.value = ''; }
+        renderStops();
+        saveTripToStorage();
+        playSuccessSound();
+      });
+    }
+
+    // Export buttons
+    const btnCopy = document.getElementById('trip-btn-copy');
+    if (btnCopy) btnCopy.addEventListener('click', copyItinerary);
+
+    const btnDownload = document.getElementById('trip-btn-download');
+    if (btnDownload) btnDownload.addEventListener('click', downloadItinerary);
+
+    const btnReset = document.getElementById('trip-btn-reset');
+    if (btnReset) btnReset.addEventListener('click', () => {
+      if (!confirm('Start a new trip? This will clear all stops.')) return;
+      tripStops = [];
+      const nameInput = document.getElementById('trip-name-input');
+      if (nameInput) nameInput.value = '';
+      renderStops();
+      saveTripToStorage();
+    });
+
+    // Trip name + budget auto-save
+    const nameInput = document.getElementById('trip-name-input');
+    if (nameInput) nameInput.addEventListener('input', saveTripToStorage);
+    const budgetSelect = document.getElementById('trip-budget-select');
+    if (budgetSelect) budgetSelect.addEventListener('change', () => { updateSummary(); saveTripToStorage(); });
+
+    renderStops();
+    updateSummary();
+  }
+
+  function renderStops() {
+    const list = document.getElementById('trip-stops-list');
+    const emptyState = document.getElementById('trip-empty-state');
+    const countLabel = document.getElementById('trip-stop-count');
+    if (!list) return;
+
+    if (tripStops.length === 0) {
+      list.innerHTML = '';
+      if (emptyState) { emptyState.style.display = 'block'; list.appendChild(emptyState); }
+      document.getElementById('trip-itinerary-panel').style.display = 'none';
+      if (countLabel) countLabel.textContent = '0 cities';
+      updateSummary();
+      return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+    if (countLabel) countLabel.textContent = `${tripStops.length} ${tripStops.length === 1 ? 'city' : 'cities'}`;
+
+    list.innerHTML = '';
+    tripStops.forEach((stop, idx) => {
+      // Connector
+      if (idx > 0) {
+        const connector = document.createElement('div');
+        connector.className = 'trip-stop-connector';
+        list.appendChild(connector);
+      }
+
+      const card = document.createElement('div');
+      card.className = 'trip-stop-card';
+      card.dataset.id = stop.id;
+
+      card.innerHTML = `
+        <div class="trip-stop-header">
+          <div class="trip-stop-number">${idx + 1}</div>
+          <div class="trip-stop-name">📍 ${stop.city}</div>
+          <div class="trip-stop-controls">
+            <button class="btn-up" title="Move Up" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
+            <button class="btn-down" title="Move Down" ${idx === tripStops.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
+            <button class="btn-remove" title="Remove">✕</button>
+          </div>
+        </div>
+
+        <div class="trip-stop-fields">
+          <div>
+            <label>Arrival Date</label>
+            <input type="date" class="stop-date" value="${stop.date}">
+          </div>
+          <div>
+            <label>Nights to Stay</label>
+            <input type="number" class="stop-nights" min="1" max="30" value="${stop.nights}">
+          </div>
+          <div style="padding-bottom:0.15rem;">
+            <label>&nbsp;</label>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem; color:var(--text-secondary); font-weight:500;">Notes / Places to Visit</label>
+          <textarea class="trip-stop-notes" placeholder="e.g. Taj Mahal, Agra Fort, local street food...">${stop.notes}</textarea>
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem; color:var(--text-secondary); font-weight:500; display:block; margin-bottom:0.35rem;">Vibe</label>
+          <div class="trip-vibe-tags">
+            ${VIBE_OPTIONS.map(v => `<button class="trip-vibe-tag ${stop.vibe === v ? 'active' : ''}" data-vibe="${v}">${v}</button>`).join('')}
+          </div>
+        </div>
+      `;
+
+      // Wire up events
+      card.querySelector('.btn-up').addEventListener('click', () => {
+        if (idx > 0) { [tripStops[idx - 1], tripStops[idx]] = [tripStops[idx], tripStops[idx - 1]]; renderStops(); saveTripToStorage(); }
+      });
+      card.querySelector('.btn-down').addEventListener('click', () => {
+        if (idx < tripStops.length - 1) { [tripStops[idx], tripStops[idx + 1]] = [tripStops[idx + 1], tripStops[idx]]; renderStops(); saveTripToStorage(); }
+      });
+      card.querySelector('.btn-remove').addEventListener('click', () => {
+        tripStops.splice(idx, 1);
+        renderStops();
+        saveTripToStorage();
+      });
+      card.querySelector('.stop-date').addEventListener('change', (e) => {
+        stop.date = e.target.value; saveTripToStorage(); generateItinerary();
+      });
+      card.querySelector('.stop-nights').addEventListener('input', (e) => {
+        stop.nights = parseInt(e.target.value) || 1; updateSummary(); saveTripToStorage(); generateItinerary();
+      });
+      card.querySelector('.trip-stop-notes').addEventListener('input', (e) => {
+        stop.notes = e.target.value; saveTripToStorage();
+      });
+      card.querySelectorAll('.trip-vibe-tag').forEach(btn => {
+        btn.addEventListener('click', () => {
+          stop.vibe = stop.vibe === btn.dataset.vibe ? '' : btn.dataset.vibe;
+          card.querySelectorAll('.trip-vibe-tag').forEach(b => b.classList.toggle('active', b.dataset.vibe === stop.vibe));
+          saveTripToStorage();
+        });
+      });
+
+      list.appendChild(card);
+    });
+
+    updateSummary();
+    generateItinerary();
+  }
+
+  function generateItinerary() {
+    const panel = document.getElementById('trip-itinerary-panel');
+    const view = document.getElementById('trip-itinerary-view');
+    const totalLabel = document.getElementById('trip-total-days-label');
+    if (!panel || !view) return;
+
+    if (tripStops.length === 0) { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+
+    const rows = [];
+    let dayNum = 1;
+    let currentDate = null;
+
+    tripStops.forEach((stop, idx) => {
+      // Travel day between stops
+      if (idx > 0) {
+        rows.push({ type: 'travel', day: dayNum, city: `✈️ Travel → ${stop.city}`, date: currentDate, note: 'Transit day — check trains/flights' });
+        dayNum++;
+        if (currentDate) {
+          const d = new Date(currentDate); d.setDate(d.getDate() + 1);
+          currentDate = d.toISOString().split('T')[0];
+        }
+      }
+
+      // Parse start date for this stop
+      if (stop.date) {
+        currentDate = stop.date;
+      }
+
+      const nights = Math.max(1, stop.nights || 2);
+      for (let n = 0; n < nights; n++) {
+        const dateStr = currentDate ? formatDate(currentDate) : '';
+        const note = n === 0 ? (stop.notes || `Arrive in ${stop.city}`) :
+                     n === nights - 1 ? `Last day in ${stop.city} — pack up` :
+                     stop.notes || `Explore ${stop.city}`;
+        rows.push({ type: 'stay', day: dayNum, city: stop.city, vibe: stop.vibe, date: dateStr, note });
+        dayNum++;
+        if (currentDate) {
+          const d = new Date(currentDate); d.setDate(d.getDate() + 1);
+          currentDate = d.toISOString().split('T')[0];
+        }
+      }
+    });
+
+    const totalDays = rows.length;
+    if (totalLabel) totalLabel.textContent = `${totalDays} total days`;
+
+    view.innerHTML = rows.map(row => `
+      <div class="itinerary-day">
+        <div class="itinerary-day-number">Day ${row.day}${ row.date ? '<br><span style="font-weight:400; color:var(--text-muted);">' + row.date + '</span>' : '' }</div>
+        <div class="itinerary-day-dot ${row.type === 'travel' ? 'travel' : ''}"></div>
+        <div class="itinerary-day-content">
+          <div class="itinerary-day-city">${row.city}${ row.vibe ? ' <span style="font-size:0.75rem; color:var(--text-muted);">' + row.vibe + '</span>' : '' }</div>
+          <div class="itinerary-day-note">${row.note}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function formatDate(iso) {
+    try {
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+    } catch { return iso; }
+  }
+
+  function updateSummary() {
+    const cities = tripStops.length;
+    const totalNights = tripStops.reduce((s, st) => s + (parseInt(st.nights) || 2), 0);
+    const travels = Math.max(0, cities - 1);
+    const totalDays = totalNights + travels;
+
+    const budgetSelect = document.getElementById('trip-budget-select');
+    const tier = budgetSelect ? budgetSelect.value : 'mid';
+    const ratePerDay = BUDGET_RATES[tier] || 4000;
+    const estBudget = totalDays * ratePerDay;
+
+    const fmt = (n) => n >= 100000 ? `₹${(n/100000).toFixed(1)}L` : n >= 1000 ? `₹${(n/1000).toFixed(1)}K` : `₹${n}`;
+
+    document.getElementById('summary-cities').textContent = cities;
+    document.getElementById('summary-days').textContent = totalDays;
+    document.getElementById('summary-travels').textContent = travels;
+    document.getElementById('summary-budget').textContent = cities > 0 ? fmt(estBudget) : '-';
+  }
+
+  function buildItineraryText() {
+    const nameInput = document.getElementById('trip-name-input');
+    const budgetSelect = document.getElementById('trip-budget-select');
+    const name = nameInput ? (nameInput.value || 'My India Trip') : 'My India Trip';
+    const tier = budgetSelect ? budgetSelect.value : 'mid';
+    const tierLabel = { budget: 'Budget', mid: 'Mid-Range', luxury: 'Luxury' }[tier];
+
+    let text = `🌏 ${name.toUpperCase()}\n`;
+    text += `${'═'.repeat(name.length + 4)}\n`;
+    text += `Budget Tier: ${tierLabel}\n\n`;
+    text += `STOPS\n─────\n`;
+    tripStops.forEach((s, i) => {
+      text += `${i + 1}. ${s.city} — ${s.nights} night(s)${s.date ? ' (from ' + s.date + ')' : ''}${s.vibe ? ' ' + s.vibe : ''}\n`;
+      if (s.notes) text += `   📝 ${s.notes}\n`;
+    });
+    text += `\nDAY-BY-DAY ITINERARY\n────────────────────\n`;
+
+    let dayNum = 1;
+    let currentDate = null;
+    tripStops.forEach((stop, idx) => {
+      if (idx > 0) {
+        text += `Day ${dayNum}: ✈️ Travel to ${stop.city}\n`;
+        dayNum++;
+        if (currentDate) { const d = new Date(currentDate); d.setDate(d.getDate() + 1); currentDate = d.toISOString().split('T')[0]; }
+      }
+      if (stop.date) currentDate = stop.date;
+      const nights = Math.max(1, stop.nights || 2);
+      for (let n = 0; n < nights; n++) {
+        const dateStr = currentDate ? ` (${formatDate(currentDate)})` : '';
+        const note = n === 0 ? `Arrive in ${stop.city}` : n === nights - 1 ? `Last day — pack up` : `Explore ${stop.city}`;
+        text += `Day ${dayNum}${dateStr}: ${stop.city} — ${note}\n`;
+        dayNum++;
+        if (currentDate) { const d = new Date(currentDate); d.setDate(d.getDate() + 1); currentDate = d.toISOString().split('T')[0]; }
+      }
+    });
+
+    text += `\n─────────────────────\nGenerated by Arvora ✨ — India's City Universe`;
+    return text;
+  }
+
+  function copyItinerary() {
+    if (tripStops.length === 0) { alert('Add some city stops first!'); return; }
+    navigator.clipboard.writeText(buildItineraryText()).then(() => {
+      const btn = document.getElementById('trip-btn-copy');
+      if (btn) { const orig = btn.textContent; btn.textContent = '✅ Copied!'; setTimeout(() => btn.textContent = orig, 2000); }
+    });
+  }
+
+  function downloadItinerary() {
+    if (tripStops.length === 0) { alert('Add some city stops first!'); return; }
+    const text = buildItineraryText();
+    const nameInput = document.getElementById('trip-name-input');
+    const filename = (nameInput && nameInput.value ? nameInput.value.replace(/\s+/g, '_') : 'arvora_trip') + '.txt';
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function saveTripToStorage() {
+    try {
+      const nameInput = document.getElementById('trip-name-input');
+      const budgetSelect = document.getElementById('trip-budget-select');
+      localStorage.setItem('arvora_trip', JSON.stringify({
+        name: nameInput ? nameInput.value : '',
+        budget: budgetSelect ? budgetSelect.value : 'mid',
+        stops: tripStops
+      }));
+    } catch(e) {}
+  }
+
+  function loadTripFromStorage() {
+    try {
+      const saved = localStorage.getItem('arvora_trip');
+      if (!saved) return;
+      const data = JSON.parse(saved);
+      const nameInput = document.getElementById('trip-name-input');
+      const budgetSelect = document.getElementById('trip-budget-select');
+      if (nameInput && data.name) nameInput.value = data.name;
+      if (budgetSelect && data.budget) budgetSelect.value = data.budget;
+      if (data.stops) tripStops = data.stops;
+    } catch(e) {}
+  }
+
+  // ---- PACKING CHECKLIST ----
+
+  function initPackingList() {
+    // Load from storage or use presets
+    try {
+      const saved = localStorage.getItem('arvora_packing');
+      if (saved) {
+        packingState = JSON.parse(saved);
+        // Merge in any new preset items that aren't saved yet
+        Object.keys(PACKING_PRESETS).forEach(cat => {
+          if (!packingState[cat]) packingState[cat] = PACKING_PRESETS[cat].map(l => ({ label: l, checked: false }));
+        });
+      } else {
+        Object.keys(PACKING_PRESETS).forEach(cat => {
+          packingState[cat] = PACKING_PRESETS[cat].map(l => ({ label: l, checked: false }));
+        });
+      }
+    } catch { Object.keys(PACKING_PRESETS).forEach(cat => { packingState[cat] = PACKING_PRESETS[cat].map(l => ({ label: l, checked: false })); }); }
+
+    // Category tab buttons
+    document.querySelectorAll('.pack-cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pack-cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activePackCat = btn.dataset.cat;
+        const adder = document.getElementById('pack-custom-adder');
+        if (adder) adder.style.display = activePackCat === 'custom' ? 'block' : 'none';
+        renderPackingItems();
+      });
+    });
+
+    // Custom add button
+    const customAddBtn = document.getElementById('pack-custom-add-btn');
+    const customInput = document.getElementById('pack-custom-input');
+    if (customAddBtn && customInput) {
+      customAddBtn.addEventListener('click', () => {
+        const val = customInput.value.trim();
+        if (!val) return;
+        packingState['custom'].push({ label: val, checked: false });
+        customInput.value = '';
+        renderPackingItems();
+        savePackingToStorage();
+      });
+      customInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') customAddBtn.click(); });
+    }
+
+    renderPackingItems();
+  }
+
+  function renderPackingItems() {
+    const list = document.getElementById('pack-items-list');
+    if (!list) return;
+    const items = packingState[activePackCat] || [];
+    if (items.length === 0) {
+      list.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:1rem;">No items yet. Add one below!</p>`;
+    } else {
+      list.innerHTML = items.map((item, idx) => `
+        <label class="pack-item ${item.checked ? 'checked' : ''}" data-idx="${idx}">
+          <input type="checkbox" ${item.checked ? 'checked' : ''}>
+          <span class="pack-item-label">${item.label}</span>
+          <button class="pack-item-delete" data-idx="${idx}" title="Remove">✕</button>
+        </label>
+      `).join('');
+
+      list.querySelectorAll('.pack-item input[type="checkbox"]').forEach((cb, idx) => {
+        cb.addEventListener('change', () => {
+          packingState[activePackCat][idx].checked = cb.checked;
+          cb.closest('.pack-item').classList.toggle('checked', cb.checked);
+          updatePackingProgress();
+          savePackingToStorage();
+        });
+      });
+      list.querySelectorAll('.pack-item-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault(); e.stopPropagation();
+          const idx = parseInt(btn.dataset.idx);
+          packingState[activePackCat].splice(idx, 1);
+          renderPackingItems();
+          savePackingToStorage();
+        });
+      });
+    }
+    updatePackingProgress();
+  }
+
+  function updatePackingProgress() {
+    const allItems = Object.values(packingState).flat();
+    const total = allItems.length;
+    const checked = allItems.filter(i => i.checked).length;
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    const bar = document.getElementById('pack-progress-bar');
+    const label = document.getElementById('pack-progress-label');
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = `${checked}/${total} packed (${pct}%)`;
+  }
+
+  function savePackingToStorage() {
+    try { localStorage.setItem('arvora_packing', JSON.stringify(packingState)); } catch(e) {}
+  }
+
+});

@@ -1695,4 +1695,38 @@ header {
   }
 }
 
+/* Make sure panel headings wrap nicely on small screens and never overflow */
+.panel-title {
+  flex-wrap: wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+@media (max-width: 768px) {
+  #discover-card-name {
+    font-size: 1.45rem !important;
+  }
+  .panel h1, .panel h2, .panel h3, .panel h4 {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #discover-card-name {
+    font-size: 1.25rem !important;
+  }
+  .panel-title {
+    font-size: 1.05rem !important;
+  }
+  .panel-title span {
+    font-size: 1.1rem !important;
+  }
+  .panel h1, .panel h2, .panel h3, .panel h4 {
+    font-size: 1.0rem !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+}
+
 

@@ -421,19 +421,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const stChars = Math.max(0, stNodes - 1);
     const nodeReductionPct = ((stNodes - rtNodes) / stNodes) * 100;
 
-    statCitiesCount.textContent = citiesArray.length.toLocaleString();
-    statBuildTime.textContent = `${buildDurationMs.toFixed(2)} ms`;
-    statNodeReduction.textContent = `${nodeReductionPct.toFixed(1)}%`;
+    if (statCitiesCount) statCitiesCount.textContent = citiesArray.length.toLocaleString();
+    if (statBuildTime) statBuildTime.textContent = `${buildDurationMs.toFixed(2)} ms`;
+    if (statNodeReduction) statNodeReduction.textContent = `${nodeReductionPct.toFixed(1)}%`;
     
-    document.getElementById("table-st-nodes").textContent = stNodes.toLocaleString();
-    document.getElementById("table-rt-nodes").textContent = rtNodes.toLocaleString();
-    document.getElementById("table-node-savings").textContent = `-${nodeReductionPct.toFixed(1)}%`;
+    const elStNodes = document.getElementById("table-st-nodes");
+    if (elStNodes) elStNodes.textContent = stNodes.toLocaleString();
+    const elRtNodes = document.getElementById("table-rt-nodes");
+    if (elRtNodes) elRtNodes.textContent = rtNodes.toLocaleString();
+    const elNodeSavings = document.getElementById("table-node-savings");
+    if (elNodeSavings) elNodeSavings.textContent = `-${nodeReductionPct.toFixed(1)}%`;
     
-    document.getElementById("table-st-chars").textContent = stChars.toLocaleString();
-    document.getElementById("table-rt-chars").textContent = rtChars.toLocaleString();
+    const elStChars = document.getElementById("table-st-chars");
+    if (elStChars) elStChars.textContent = stChars.toLocaleString();
+    const elRtChars = document.getElementById("table-rt-chars");
+    if (elRtChars) elRtChars.textContent = rtChars.toLocaleString();
     
     const charSavingsPct = ((stChars - rtChars) / stChars) * 100;
-    document.getElementById("table-char-savings").textContent = `-${charSavingsPct.toFixed(1)}%`;
+    const elCharSavings = document.getElementById("table-char-savings");
+    if (elCharSavings) elCharSavings.textContent = `-${charSavingsPct.toFixed(1)}%`;
   }
 
   function setupPlaygroundDefault() {
@@ -1104,122 +1110,130 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function setupRoutePlannerListeners() {
     // Autocomplete for Destination City (using unified autocomplete input logic!)
-    routeDestination.addEventListener("input", (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (query.length > 0) {
-        handleAutocompleteInput(
-          routeDestination, 
-          dropdownDestination, 
-          listDestination, 
-          logisticsSuggestionsMetrics, 
-          query, 
-          5, 
-          (selected) => {
-            // Callback: Add selected city manually to selected basket
-            if (!selectedBasket.includes(selected)) {
-              selectedBasket.push(selected);
+    if (routeDestination) {
+      routeDestination.addEventListener("input", (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 0) {
+          handleAutocompleteInput(
+            routeDestination, 
+            dropdownDestination, 
+            listDestination, 
+            logisticsSuggestionsMetrics, 
+            query, 
+            5, 
+            (selected) => {
+              // Callback: Add selected city manually to selected basket
+              if (!selectedBasket.includes(selected)) {
+                selectedBasket.push(selected);
+              }
+              routeDestination.value = ""; // Clear input immediately for quick multiple adds
+              if (dropdownDestination) dropdownDestination.classList.remove("active");
+              
+              generateDatabaseSeed();
+              playSuccessSound();
             }
-            routeDestination.value = ""; // Clear input immediately for quick multiple adds
-            dropdownDestination.classList.remove("active");
-            
+          );
+        } else {
+          if (dropdownDestination) dropdownDestination.classList.remove("active");
+        }
+      });
+
+      // Enter key triggers adding the city if it's a valid prefix
+      routeDestination.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const val = routeDestination.value.trim().toLowerCase();
+          const resolved = resolveCityInput(val);
+          if (resolved) {
+            if (!selectedBasket.includes(resolved)) selectedBasket.push(resolved);
+            routeDestination.value = "";
+            if (dropdownDestination) dropdownDestination.classList.remove("active");
             generateDatabaseSeed();
             playSuccessSound();
+          } else {
+            playErrorSound();
           }
-        );
-      } else {
-        dropdownDestination.classList.remove("active");
-      }
-    });
-
-    // Enter key triggers adding the city if it's a valid prefix
-    routeDestination.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const val = routeDestination.value.trim().toLowerCase();
-        const resolved = resolveCityInput(val);
-        if (resolved) {
-          if (!selectedBasket.includes(resolved)) selectedBasket.push(resolved);
-          routeDestination.value = "";
-          dropdownDestination.classList.remove("active");
-          generateDatabaseSeed();
-          playSuccessSound();
-        } else {
-          playErrorSound();
         }
-      }
-    });
+      });
+    }
 
     // Form inputs change triggers database schema rebuild instantly
-    selectStateFilter.addEventListener("change", generateDatabaseSeed);
-    selectFormat.addEventListener("change", generateDatabaseSeed);
-    inputNamePattern.addEventListener("input", generateDatabaseSeed);
-    inputExportLimit.addEventListener("input", generateDatabaseSeed);
+    if (selectStateFilter) selectStateFilter.addEventListener("change", generateDatabaseSeed);
+    if (selectFormat) selectFormat.addEventListener("change", generateDatabaseSeed);
+    if (inputNamePattern) inputNamePattern.addEventListener("input", generateDatabaseSeed);
+    if (inputExportLimit) inputExportLimit.addEventListener("input", generateDatabaseSeed);
 
     // Schema button action
-    btnCalcRoute.addEventListener("click", () => {
-      generateDatabaseSeed();
-      playSuccessSound();
-    });
+    if (btnCalcRoute) {
+      btnCalcRoute.addEventListener("click", () => {
+        generateDatabaseSeed();
+        playSuccessSound();
+      });
+    }
 
     // Copy to clipboard action
-    btnCopySeed.addEventListener("click", () => {
-      const codeText = exportCodeBlock.textContent;
-      if (!codeText) return;
+    if (btnCopySeed) {
+      btnCopySeed.addEventListener("click", () => {
+        const codeText = exportCodeBlock ? exportCodeBlock.textContent : "";
+        if (!codeText) return;
 
-      navigator.clipboard.writeText(codeText).then(() => {
-        playSelectSound();
-        
-        // Temporarily change button style to show success
-        const prevText = btnCopySeed.textContent;
-        btnCopySeed.textContent = "Copied!";
-        btnCopySeed.style.background = "var(--color-success)";
-        btnCopySeed.style.color = "var(--bg-primary)";
-        btnCopySeed.style.borderColor = "var(--color-success)";
-        
-        setTimeout(() => {
-          btnCopySeed.textContent = prevText;
-          btnCopySeed.style.background = "var(--color-primary)";
-          btnCopySeed.style.color = "";
-          btnCopySeed.style.borderColor = "";
-        }, 1200);
+        navigator.clipboard.writeText(codeText).then(() => {
+          playSelectSound();
+          
+          // Temporarily change button style to show success
+          const prevText = btnCopySeed.textContent;
+          btnCopySeed.textContent = "Copied!";
+          btnCopySeed.style.background = "var(--color-success)";
+          btnCopySeed.style.color = "var(--bg-primary)";
+          btnCopySeed.style.borderColor = "var(--color-success)";
+          
+          setTimeout(() => {
+            btnCopySeed.textContent = prevText;
+            btnCopySeed.style.background = "var(--color-primary)";
+            btnCopySeed.style.color = "";
+            btnCopySeed.style.borderColor = "";
+          }, 1200);
 
-        // Spawn particles
-        const rect = btnCopySeed.getBoundingClientRect();
-        spawnParticleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, "var(--color-success)");
-      }).catch(err => {
-        playErrorSound();
-        console.error("Clipboard write failed", err);
+          // Spawn particles
+          const rect = btnCopySeed.getBoundingClientRect();
+          spawnParticleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, "var(--color-success)");
+        }).catch(err => {
+          playErrorSound();
+          console.error("Clipboard write failed", err);
+        });
       });
-    });
+    }
 
     // Download file action
-    btnDownloadSeed.addEventListener("click", () => {
-      const codeText = exportCodeBlock.textContent;
-      if (!codeText) return;
+    if (btnDownloadSeed) {
+      btnDownloadSeed.addEventListener("click", () => {
+        const codeText = exportCodeBlock ? exportCodeBlock.textContent : "";
+        if (!codeText) return;
 
-      const format = selectFormat.value;
-      let filename = "cities_seed.json";
-      let mime = "application/json";
+        const format = selectFormat ? selectFormat.value : "json";
+        let filename = "cities_seed.json";
+        let mime = "application/json";
 
-      if (format.startsWith("sql")) {
-        filename = "cities_seed.sql";
-        mime = "application/sql";
-      } else if (format === "csv") {
-        filename = "cities_seed.csv";
-        mime = "text/csv";
-      }
+        if (format.startsWith("sql")) {
+          filename = "cities_seed.sql";
+          mime = "application/sql";
+        } else if (format === "csv") {
+          filename = "cities_seed.csv";
+          mime = "text/csv";
+        }
 
-      const blob = new Blob([codeText], { type: mime + ";charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.setAttribute("download", filename);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        const blob = new Blob([codeText], { type: mime + ";charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-      playSuccessSound();
-      const rect = btnDownloadSeed.getBoundingClientRect();
-      spawnParticleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, "var(--color-success)");
-    });
+        playSuccessSound();
+        const rect = btnDownloadSeed.getBoundingClientRect();
+        spawnParticleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, "var(--color-success)");
+      });
+    }
   }
 
   // Helper to resolve city inputs
@@ -1406,39 +1420,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setupGameListeners() {
     // Autocomplete for Game Guesses (using unified autocomplete input logic!)
-    gameGuessInput.addEventListener("input", (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (query.length > 0) {
-        handleAutocompleteInput(
-          gameGuessInput, 
-          dropdownGame, 
-          listGame, 
-          gameSuggestionsMetrics, 
-          query, 
-          5, 
-          (selected) => {
-            checkAnswer();
-          }
-        );
-      } else {
-        dropdownGame.classList.remove("active");
-      }
-    });
+    if (gameGuessInput) {
+      gameGuessInput.addEventListener("input", (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 0) {
+          handleAutocompleteInput(
+            gameGuessInput, 
+            dropdownGame, 
+            listGame, 
+            gameSuggestionsMetrics, 
+            query, 
+            5, 
+            (selected) => {
+              checkAnswer();
+            }
+          );
+        } else {
+          if (dropdownGame) dropdownGame.classList.remove("active");
+        }
+      });
 
-    gameBtnSubmit.addEventListener("click", checkAnswer);
-    gameGuessInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") checkAnswer();
-    });
+      gameGuessInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") checkAnswer();
+      });
+    }
 
-    gameBtnSkip.addEventListener("click", () => {
-      appendGameLog(`Skipped: The answer was <strong>${capitalizeWord(gameCurrentCity)}</strong>.`, "var(--text-muted)");
-      gameStreak = 0;
-      updateGameDashboard();
-      loadNewGameWord();
-      playErrorSound();
-    });
+    if (gameBtnSubmit) gameBtnSubmit.addEventListener("click", checkAnswer);
 
-    gameBtnRevealClue.addEventListener("click", revealClue);
+    if (gameBtnSkip) {
+      gameBtnSkip.addEventListener("click", () => {
+        appendGameLog(`Skipped: The answer was <strong>${capitalizeWord(gameCurrentCity)}</strong>.`, "var(--text-muted)");
+        gameStreak = 0;
+        updateGameDashboard();
+        loadNewGameWord();
+        playErrorSound();
+      });
+    }
+
+    if (gameBtnRevealClue) gameBtnRevealClue.addEventListener("click", revealClue);
   }
 
   function loadNewGameWord() {
@@ -1585,6 +1604,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function runPatternSearch() {
+      if (!ptnInput || !ptnMinLen || !ptnMaxLen) return;
       const query = ptnInput.value.trim().toLowerCase();
       const minLen = parseInt(ptnMinLen.value) || 1;
       const maxLen = parseInt(ptnMaxLen.value) || 100;
@@ -1604,36 +1624,40 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const t1 = performance.now();
 
-      ptnStats.style.display = 'block';
-      ptnMatchCount.textContent = ptnCurrentMatches.length.toLocaleString();
-      ptnSearchTime.textContent = `${(t1 - t0).toFixed(2)} ms`;
-      ptnShowingLabel.textContent = `Showing ${Math.min(ptnCurrentMatches.length, 500)} of ${ptnCurrentMatches.length} results`;
+      if (ptnStats) ptnStats.style.display = 'block';
+      if (ptnMatchCount) ptnMatchCount.textContent = ptnCurrentMatches.length.toLocaleString();
+      if (ptnSearchTime) ptnSearchTime.textContent = `${(t1 - t0).toFixed(2)} ms`;
+      if (ptnShowingLabel) ptnShowingLabel.textContent = `Showing ${Math.min(ptnCurrentMatches.length, 500)} of ${ptnCurrentMatches.length} results`;
 
-      ptnResultsList.innerHTML = '';
-      const toShow = ptnCurrentMatches.slice(0, 500);
-      if (toShow.length === 0) {
-        ptnResultsList.innerHTML = '<span style="color:var(--text-muted); font-size:0.85rem;">No cities matched this pattern.</span>';
-      } else {
-        toShow.forEach(city => {
-          const tag = document.createElement('span');
-          tag.textContent = city;
-          tag.style.cssText = 'background:rgba(6,182,212,0.12); border:1px solid rgba(6,182,212,0.3); border-radius:999px; padding:0.2rem 0.65rem; font-size:0.8rem; color:var(--color-accent); cursor:default; white-space:nowrap;';
-          ptnResultsList.appendChild(tag);
-        });
+      if (ptnResultsList) {
+        ptnResultsList.innerHTML = '';
+        const toShow = ptnCurrentMatches.slice(0, 500);
+        if (toShow.length === 0) {
+          ptnResultsList.innerHTML = '<span style="color:var(--text-muted); font-size:0.85rem;">No cities matched this pattern.</span>';
+        } else {
+          toShow.forEach(city => {
+            const tag = document.createElement('span');
+            tag.textContent = city;
+            tag.style.cssText = 'background:rgba(6,182,212,0.12); border:1px solid rgba(6,182,212,0.3); border-radius:999px; padding:0.2rem 0.65rem; font-size:0.8rem; color:var(--color-accent); cursor:default; white-space:nowrap;';
+            ptnResultsList.appendChild(tag);
+          });
+        }
       }
-      btnPtnExport.style.display = ptnCurrentMatches.length > 0 ? 'block' : 'none';
+      if (btnPtnExport) btnPtnExport.style.display = ptnCurrentMatches.length > 0 ? 'block' : 'none';
     }
 
-    btnPtnSearch.addEventListener('click', runPatternSearch);
-    ptnInput.addEventListener('keydown', e => { if (e.key === 'Enter') runPatternSearch(); });
+    if (btnPtnSearch) btnPtnSearch.addEventListener('click', runPatternSearch);
+    if (ptnInput) ptnInput.addEventListener('keydown', e => { if (e.key === 'Enter') runPatternSearch(); });
 
-    btnPtnExport.addEventListener('click', () => {
-      const blob = new Blob([ptnCurrentMatches.join('\n')], { type: 'text/plain' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `indian_cities_${ptnCurrentMode}_${Date.now()}.txt`;
+    if (btnPtnExport) {
+      btnPtnExport.addEventListener('click', () => {
+        const blob = new Blob([ptnCurrentMatches.join('\n')], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `indian_cities_${ptnCurrentMode}_${Date.now()}.txt`;
       a.click();
-    });
+      });
+    }
   }
   setupPatternSearch();
 
@@ -1925,7 +1949,8 @@ document.addEventListener("DOMContentLoaded", () => {
       question = `Which state is the city <strong>"${capitalizeWord(randomCity)}"</strong> located in?`;
       correct = facts.state;
       options = [correct];
-      while (options.length < 4) {
+      let attempts = 0;
+      while (options.length < 4 && attempts++ < 100) {
         const rState = STATES_LIST[Math.floor(Math.random() * STATES_LIST.length)];
         if (!options.includes(rState)) options.push(rState);
       }
@@ -1933,11 +1958,12 @@ document.addEventListener("DOMContentLoaded", () => {
       question = `Which region/district code belongs to the city <strong>"${capitalizeWord(randomCity)}"</strong>?`;
       correct = facts.district;
       options = [correct];
-      while (options.length < 4) {
+      let attempts = 0;
+      while (options.length < 4 && attempts++ < 100) {
         const dummyCity = CITIES_DATA[Math.floor(Math.random() * CITIES_DATA.length)];
         const dCoords = getCityCoords(dummyCity);
         const dummyDist = computeLogisticsFacts(dummyCity, dCoords, 0.5).district;
-        if (!options.includes(dummyDist)) options.push(dummyDist);
+        if (dummyDist && !options.includes(dummyDist)) options.push(dummyDist);
       }
     } else {
       // Hard: pin code starting digit
@@ -1945,7 +1971,8 @@ document.addEventListener("DOMContentLoaded", () => {
       question = `What is the starting digit of the PIN Code for the city <strong>"${capitalizeWord(randomCity)}"</strong> (located in ${facts.state})?`;
       correct = pinStart;
       options = [correct];
-      while (options.length < 4) {
+      let attempts = 0;
+      while (options.length < 4 && attempts++ < 100) {
         const digit = Math.floor(Math.random() * 8 + 1).toString();
         if (!options.includes(digit)) options.push(digit);
       }
@@ -2756,25 +2783,37 @@ document.addEventListener("DOMContentLoaded", () => {
       tripCityInput.addEventListener('input', (e) => {
         const q = e.target.value.trim().toLowerCase();
         selectedTripCity = '';
-        if (q.length < 1) { tripCityDropdown.style.display = 'none'; return; }
+        if (tripCityDropdown) {
+          if (q.length < 1) { tripCityDropdown.style.display = 'none'; return; }
+        }
         const results = radixTrie.autocomplete(q, 8);
-        if (!results.length) { tripCityDropdown.style.display = 'none'; return; }
-        tripCityList.innerHTML = results.map(r =>
-          `<div class="suggestion-item" data-city="${r}">${r.charAt(0).toUpperCase() + r.slice(1)}</div>`
-        ).join('');
-        tripCityDropdown.style.display = 'block';
-        tripCityList.querySelectorAll('.suggestion-item').forEach(item => {
-          item.addEventListener('click', () => {
-            selectedTripCity = item.dataset.city;
-            tripCityInput.value = selectedTripCity.charAt(0).toUpperCase() + selectedTripCity.slice(1);
-            tripCityDropdown.style.display = 'none';
+        if (tripCityDropdown) {
+          if (!results.length) { tripCityDropdown.style.display = 'none'; return; }
+        }
+        if (tripCityList) {
+          tripCityList.innerHTML = results.map(r =>
+            `<div class="suggestion-item" data-city="${r}">${r.charAt(0).toUpperCase() + r.slice(1)}</div>`
+          ).join('');
+        }
+        if (tripCityDropdown) {
+          tripCityDropdown.style.display = 'block';
+        }
+        if (tripCityList) {
+          tripCityList.querySelectorAll('.suggestion-item').forEach(item => {
+            item.addEventListener('click', () => {
+              selectedTripCity = item.dataset.city;
+              tripCityInput.value = selectedTripCity.charAt(0).toUpperCase() + selectedTripCity.slice(1);
+              if (tripCityDropdown) tripCityDropdown.style.display = 'none';
+            });
           });
-        });
+        }
       });
 
       document.addEventListener('click', (e) => {
-        if (!tripCityInput.contains(e.target) && !tripCityDropdown.contains(e.target)) {
-          tripCityDropdown.style.display = 'none';
+        if (tripCityDropdown) {
+          if (!tripCityInput.contains(e.target) && !tripCityDropdown.contains(e.target)) {
+            tripCityDropdown.style.display = 'none';
+          }
         }
       });
     }
@@ -3362,18 +3401,22 @@ document.addEventListener("DOMContentLoaded", () => {
       discoverSearchInput.addEventListener("input", (e) => {
         const query = e.target.value.trim();
         if (query.length > 0) {
-          simpleAutocomplete(discoverSearchInput, discoverDropdown, discoverSuggestionsList, query, 6, (selected) => {
-            discoverSearchInput.value = capitalizeWord(selected);
-            discoverDropdown.style.display = "none";
-            showCityCard(selected);
-          });
+          if (discoverDropdown) {
+            simpleAutocomplete(discoverSearchInput, discoverDropdown, discoverSuggestionsList, query, 6, (selected) => {
+              discoverSearchInput.value = capitalizeWord(selected);
+              discoverDropdown.style.display = "none";
+              showCityCard(selected);
+            });
+          }
         } else {
-          discoverDropdown.style.display = "none";
+          if (discoverDropdown) discoverDropdown.style.display = "none";
         }
       });
       document.addEventListener("click", (e) => {
-        if (!discoverSearchInput.contains(e.target) && !discoverDropdown.contains(e.target)) {
-          discoverDropdown.style.display = "none";
+        if (discoverDropdown) {
+          if (!discoverSearchInput.contains(e.target) && !discoverDropdown.contains(e.target)) {
+            discoverDropdown.style.display = "none";
+          }
         }
       });
     }
@@ -3656,14 +3699,16 @@ document.addEventListener("DOMContentLoaded", () => {
       compInput1.addEventListener("input", (e) => {
         const query = e.target.value.trim();
         if (query.length > 0) {
-          simpleAutocomplete(compInput1, compDropdown1, compList1, query, 5, (selected) => {
-            compInput1.value = capitalizeWord(selected);
-            compDropdown1.style.display = "none";
-            cityCompare1 = selected;
-            performCityComparison();
-          });
+          if (compDropdown1) {
+            simpleAutocomplete(compInput1, compDropdown1, compList1, query, 5, (selected) => {
+              compInput1.value = capitalizeWord(selected);
+              compDropdown1.style.display = "none";
+              cityCompare1 = selected;
+              performCityComparison();
+            });
+          }
         } else {
-          compDropdown1.style.display = "none";
+          if (compDropdown1) compDropdown1.style.display = "none";
         }
       });
     }
@@ -3672,14 +3717,16 @@ document.addEventListener("DOMContentLoaded", () => {
       compInput2.addEventListener("input", (e) => {
         const query = e.target.value.trim();
         if (query.length > 0) {
-          simpleAutocomplete(compInput2, compDropdown2, compList2, query, 5, (selected) => {
-            compInput2.value = capitalizeWord(selected);
-            compDropdown2.style.display = "none";
-            cityCompare2 = selected;
-            performCityComparison();
-          });
+          if (compDropdown2) {
+            simpleAutocomplete(compInput2, compDropdown2, compList2, query, 5, (selected) => {
+              compInput2.value = capitalizeWord(selected);
+              compDropdown2.style.display = "none";
+              cityCompare2 = selected;
+              performCityComparison();
+            });
+          }
         } else {
-          compDropdown2.style.display = "none";
+          if (compDropdown2) compDropdown2.style.display = "none";
         }
       });
     }
@@ -4274,13 +4321,15 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
       startInput.addEventListener("input", e => {
         const q = e.target.value.trim();
         routeStartCity = "";
-        if (q.length < 1) { startDropdown.style.display = "none"; return; }
-        simpleAutocomplete(startInput, startDropdown, startList, q, 6, selected => {
-          startInput.value = capitalizeWord(selected);
-          startDropdown.style.display = "none";
-          routeStartCity = selected;
-          recalcRoute();
-        });
+        if (startDropdown) {
+          if (q.length < 1) { startDropdown.style.display = "none"; return; }
+          simpleAutocomplete(startInput, startDropdown, startList, q, 6, selected => {
+            startInput.value = capitalizeWord(selected);
+            startDropdown.style.display = "none";
+            routeStartCity = selected;
+            recalcRoute();
+          });
+        }
       });
     }
 
@@ -4288,13 +4337,15 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
       endInput.addEventListener("input", e => {
         const q = e.target.value.trim();
         routeEndCity = "";
-        if (q.length < 1) { endDropdown.style.display = "none"; return; }
-        simpleAutocomplete(endInput, endDropdown, endList, q, 6, selected => {
-          endInput.value = capitalizeWord(selected);
-          endDropdown.style.display = "none";
-          routeEndCity = selected;
-          recalcRoute();
-        });
+        if (endDropdown) {
+          if (q.length < 1) { endDropdown.style.display = "none"; return; }
+          simpleAutocomplete(endInput, endDropdown, endList, q, 6, selected => {
+            endInput.value = capitalizeWord(selected);
+            endDropdown.style.display = "none";
+            routeEndCity = selected;
+            recalcRoute();
+          });
+        }
       });
     }
 
@@ -5017,13 +5068,15 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
     if (hospitalInput) {
       hospitalInput.addEventListener("input", e => {
         const q = e.target.value.trim();
-        if (q.length < 1) { hospitalDropdown.style.display = "none"; return; }
-        simpleAutocomplete(hospitalInput, hospitalDropdown, hospitalSuggestions, q, 6, selected => {
-          hospitalInput.value = capitalizeWord(selected);
-          hospitalDropdown.style.display = "none";
-          renderHospitals(selected);
-          playTone(600, "triangle", 0.05, 0.12);
-        });
+        if (hospitalDropdown) {
+          if (q.length < 1) { hospitalDropdown.style.display = "none"; return; }
+          simpleAutocomplete(hospitalInput, hospitalDropdown, hospitalSuggestions, q, 6, selected => {
+            hospitalInput.value = capitalizeWord(selected);
+            hospitalDropdown.style.display = "none";
+            renderHospitals(selected);
+            playTone(600, "triangle", 0.05, 0.12);
+          });
+        }
       });
     }
 
@@ -5378,13 +5431,15 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
     if (cityInput) {
       cityInput.addEventListener("input", e => {
         const q = e.target.value.trim();
-        if (q.length < 1) { cityDropdown.style.display = "none"; return; }
-        simpleAutocomplete(cityInput, cityDropdown, citySuggestions, q, 6, selected => {
-          cityInput.value = capitalizeWord(selected);
-          cityDropdown.style.display = "none";
-          landmarksActiveCity = selected;
-          renderLandmarks(selected);
-        });
+        if (cityDropdown) {
+          if (q.length < 1) { cityDropdown.style.display = "none"; return; }
+          simpleAutocomplete(cityInput, cityDropdown, citySuggestions, q, 6, selected => {
+            cityInput.value = capitalizeWord(selected);
+            cityDropdown.style.display = "none";
+            landmarksActiveCity = selected;
+            renderLandmarks(selected);
+          });
+        }
       });
     }
 
@@ -5393,7 +5448,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
     });
 
     // Default setup
-    cityInput.value = "Goa";
+    if (cityInput) cityInput.value = "Goa";
     landmarksActiveCity = "goa";
     renderLandmarks("goa");
   }

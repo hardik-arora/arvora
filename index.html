@@ -76,6 +76,8 @@
         <button id="tab-btn-splitter" class="tab-btn"><span>💸</span> Expense Splitter</button>
         <button id="tab-btn-landmarks" class="tab-btn"><span>🏛️</span> Sights Guide</button>
         <button id="tab-btn-tracker" class="tab-btn"><span>🗺️</span> Exploration Tracker</button>
+        <button id="tab-btn-notes" class="tab-btn"><span>📒</span> Notes Journal</button>
+        <button id="tab-btn-baggage" class="tab-btn"><span>⚖️</span> Baggage Estimator</button>
       </div>
     </header>
 
@@ -1820,6 +1822,153 @@
           
           <div id="tracker-state-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:0.75rem; max-height:450px; overflow-y:auto; padding-right:0.25rem;">
             <!-- Rendered by JS -->
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+  <!-- TAB 21: TRAVEL SCRATCHPAD & NOTES -->
+  <div id="tab-content-notes" class="tab-content">
+    <div style="max-width:1050px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.07) 0%, rgba(236, 72, 153, 0.07) 100%); border-color: rgba(245, 158, 11, 0.2);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📒</span> Travel Scratchpad &amp; Notepad</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Save booking numbers, daily travel logs, contact details, or journal entries safely in your browser.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 320px 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Notes list & Search -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin:0;">Saved Notes</h3>
+          
+          <div class="search-input-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="notes-search-input" placeholder="Search notes..." style="width:100%;">
+          </div>
+
+          <button id="notes-btn-new" class="visualizer-btn" style="width:100%; font-weight:700; background:rgba(245,158,11,0.15); border-color:rgba(245,158,11,0.3); color:var(--color-primary); padding:0.5rem;">
+            ➕ New Blank Note
+          </button>
+
+          <div id="notes-sidebar-list" style="display:flex; flex-direction:column; gap:0.5rem; max-height:300px; overflow-y:auto; padding-right:0.25rem;">
+            <!-- Notes pills rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Right: Active Note Editor -->
+        <div class="panel" id="notes-editor-panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:0.75rem;">
+            <div>
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Note Title</label>
+              <input type="text" id="notes-edit-title" placeholder="Untitled Note" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; font-weight:700;">
+            </div>
+            <div>
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Category Tag</label>
+              <select id="notes-edit-tag" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+                <option value="General">📝 General</option>
+                <option value="Flights">✈️ Flights &amp; Trains</option>
+                <option value="Hotels">🏨 Hotel Bookings</option>
+                <option value="Sightseeing">🏛️ Sights &amp; Trails</option>
+                <option value="Diary">📖 Travel Diary</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="flex-grow:1; display:flex; flex-direction:column; gap:0.35rem;">
+            <label style="display:block; font-size:0.8rem; color:var(--text-secondary); font-weight:500;">Note Body</label>
+            <textarea id="notes-edit-body" placeholder="Start typing your note here..." style="width:100%; min-height:220px; flex-grow:1; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.75rem; color:var(--text-primary); font-family:inherit; font-size:0.9rem; line-height:1.5; resize:vertical; outline:none;"></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.75rem;">
+            <div id="notes-word-count" style="font-size:0.75rem; color:var(--text-muted);">0 words • 0 characters</div>
+            <div style="display:flex; gap:0.5rem;">
+              <button id="notes-btn-download" class="visualizer-btn" style="padding:0.4rem 0.8rem; font-size:0.8rem; background:rgba(59,130,246,0.12); border-color:rgba(59,130,246,0.3); color:var(--color-primary);">💾 Save Text File</button>
+              <button id="notes-btn-delete" class="visualizer-btn" style="padding:0.4rem 0.8rem; font-size:0.8rem; background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.3); color:#ef4444; font-weight:600;">🗑️ Delete</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 22: BAGGAGE WEIGHT ESTIMATOR -->
+  <div id="tab-content-baggage" class="tab-content">
+    <div style="max-width:1000px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.07) 0%, rgba(59, 130, 246, 0.07) 100%); border-color: rgba(16, 185, 129, 0.2);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>⚖️</span> Baggage Weight Estimator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Add item weights and verify if your suitcase is within carry-on or check-in airline limits.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Items Ledger & Presets -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.25rem;">🎒 Luggage Item Checklist</h3>
+          
+          <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:0.5rem;">
+            <input type="text" id="baggage-item-name" placeholder="Item (e.g. Laptop, Boots)..." style="background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; font-size:0.85rem;">
+            <div style="display:flex; gap:0.35rem;">
+              <input type="number" id="baggage-item-weight" placeholder="Weight" min="0.1" step="0.1" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; font-size:0.85rem;">
+              <button id="baggage-btn-add" class="visualizer-btn" style="padding:0.4rem 0.8rem; font-size:0.8rem; background:rgba(16,185,129,0.15); border-color:rgba(16,185,129,0.3); color:var(--color-success); font-weight:700;">➕ Add</button>
+            </div>
+          </div>
+
+          <!-- Quick Presets Row -->
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Quick Add Presets</span>
+            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+              <button class="visualizer-btn baggage-preset-btn" data-name="Clothing Bag" data-weight="3.5" style="padding:0.25rem 0.5rem; font-size:0.72rem;">👕 Clothes (3.5 kg)</button>
+              <button class="visualizer-btn baggage-preset-btn" data-name="Laptop &amp; Charger" data-weight="2.2" style="padding:0.25rem 0.5rem; font-size:0.72rem;">💻 Laptop (2.2 kg)</button>
+              <button class="visualizer-btn baggage-preset-btn" data-name="Heavy Shoes" data-weight="1.2" style="padding:0.25rem 0.5rem; font-size:0.72rem;">🥾 Shoes (1.2 kg)</button>
+              <button class="visualizer-btn baggage-preset-btn" data-name="Toiletries Bag" data-weight="0.8" style="padding:0.25rem 0.5rem; font-size:0.72rem;">🪥 Toiletries (0.8 kg)</button>
+              <button class="visualizer-btn baggage-preset-btn" data-name="Winter Jacket" data-weight="1.5" style="padding:0.25rem 0.5rem; font-size:0.72rem;">🧥 Jacket (1.5 kg)</button>
+            </div>
+          </div>
+
+          <div id="baggage-items-list" style="display:flex; flex-direction:column; gap:0.5rem; max-height:220px; overflow-y:auto; padding-right:0.25rem;">
+            <!-- Added items rows injected by JS -->
+          </div>
+        </div>
+
+        <!-- Right: Weight Gauge & Airline limits -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.25rem; align-items:center; text-align:center;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); margin:0;">Luggage Status</h3>
+
+          <div style="width:100%; text-align:left;">
+            <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Select Target Allowance Limit</label>
+            <select id="baggage-limit-select" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+              <option value="7" selected>Carry-On / Cabin Allowance (7.0 kg) — Domestic India</option>
+              <option value="15">Check-In Standard Allowance (15.0 kg) — IndiGo/AirIndia</option>
+              <option value="20">Check-In Moderate Allowance (20.0 kg)</option>
+              <option value="23">International Standard Check-In (23.0 kg)</option>
+              <option value="30">International Heavy Check-In (30.0 kg)</option>
+            </select>
+          </div>
+
+          <!-- Large Weight Display -->
+          <div style="background:rgba(0,0,0,0.25); border:1px solid var(--card-border); border-radius:12px; padding:1.5rem; width:100%; display:flex; flex-direction:column; align-items:center; gap:0.25rem;">
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">Total Estimated Weight</span>
+            <strong id="baggage-total-display" style="font-size:2.5rem; color:var(--color-primary); line-height:1;">0.0 kg</strong>
+            <span id="baggage-total-lbs" style="font-size:0.82rem; color:var(--text-secondary);">0.0 lbs</span>
+          </div>
+
+          <!-- Visual Load Bar -->
+          <div style="width:100%;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:600;">
+              <span>LOAD THRESHOLD</span>
+              <span id="baggage-pct-label">0%</span>
+            </div>
+            <div style="width:100%; height:12px; background:rgba(255,255,255,0.03); border-radius:9999px; overflow:hidden; border:1px solid var(--card-border);">
+              <div id="baggage-progress-bar" style="width:0%; height:100%; background:var(--color-success); transition:width 0.4s ease, background-color 0.4s ease;"></div>
+            </div>
+          </div>
+
+          <!-- Limit Alert Banner -->
+          <div id="baggage-status-banner" class="trip-stop-card" style="width:100%; padding:0.85rem; text-align:center; font-weight:700; font-size:0.85rem; border-color:rgba(16,185,129,0.3); background:rgba(16,185,129,0.05); color:var(--color-success);">
+            ✅ Bag fits carrying limit beautifully!
           </div>
         </div>
 

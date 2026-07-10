@@ -440,20 +440,22 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function setupEventListeners() {
     // Sound FX enable toggler
-    audioToggleBtn.addEventListener("click", () => {
-      soundEnabled = !soundEnabled;
-      if (soundEnabled) {
-        initAudio();
-        audioToggleBtn.innerHTML = "<span>🔊</span> Sounds: On";
-        audioToggleBtn.style.color = "var(--color-primary)";
-        audioToggleBtn.style.background = "rgba(59, 130, 246, 0.15)";
-        playSuccessSound();
-      } else {
-        audioToggleBtn.innerHTML = "<span>🔇</span> Sounds: Off";
-        audioToggleBtn.style.color = "var(--text-muted)";
-        audioToggleBtn.style.background = "rgba(255, 255, 255, 0.03)";
-      }
-    });
+    if (audioToggleBtn) {
+      audioToggleBtn.addEventListener("click", () => {
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+          initAudio();
+          audioToggleBtn.innerHTML = "<span>🔊</span> Sounds: On";
+          audioToggleBtn.style.color = "var(--color-primary)";
+          audioToggleBtn.style.background = "rgba(59, 130, 246, 0.15)";
+          playSuccessSound();
+        } else {
+          audioToggleBtn.innerHTML = "<span>🔇</span> Sounds: Off";
+          audioToggleBtn.style.color = "var(--text-muted)";
+          audioToggleBtn.style.background = "rgba(255, 255, 255, 0.03)";
+        }
+      });
+    }
 
     // --- Tab Navigation Handlers ---
     if (tabBtnEngine) tabBtnEngine.addEventListener("click", () => switchTab('engine'));
@@ -480,34 +482,37 @@ document.addEventListener("DOMContentLoaded", () => {
       themeToggleBtn.addEventListener("click", cycleTheme);
     }
 
-    // --- Tab 1: Engine search input autocomplete handler ---
-    searchInput.addEventListener("input", (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (query.length > 0) {
-        clearSearch.style.display = "inline";
-        handleAutocompleteInput(searchInput, dropdown, suggestionsList, suggestionsMetrics, query, 10, (selected) => {
-          handleAutocomplete(selected);
-        });
-      } else {
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length > 0) {
+          if (clearSearch) clearSearch.style.display = "inline";
+          handleAutocompleteInput(searchInput, dropdown, suggestionsList, suggestionsMetrics, query, 10, (selected) => {
+            handleAutocomplete(selected);
+          });
+        } else {
+          if (clearSearch) clearSearch.style.display = "none";
+          hideSuggestions();
+        }
+      });
+    }
+
+    if (clearSearch) {
+      clearSearch.addEventListener("click", () => {
+        if (searchInput) searchInput.value = "";
         clearSearch.style.display = "none";
         hideSuggestions();
-      }
-    });
-
-    clearSearch.addEventListener("click", () => {
-      searchInput.value = "";
-      clearSearch.style.display = "none";
-      hideSuggestions();
-      if (visualizerMode === 'search') {
-        updateVisualizer();
-      }
-    });
+        if (visualizerMode === 'search') {
+          updateVisualizer();
+        }
+      });
+    }
 
     // Close all suggestions dropdowns when clicking outside
     document.addEventListener("click", (e) => {
-      if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) hideSuggestions();
-      if (!routeDestination.contains(e.target) && !dropdownDestination.contains(e.target)) dropdownDestination.classList.remove("active");
-      if (!gameGuessInput.contains(e.target) && !dropdownGame.contains(e.target)) dropdownGame.classList.remove("active");
+      if (searchInput && dropdown && !searchInput.contains(e.target) && !dropdown.contains(e.target)) hideSuggestions();
+      if (routeDestination && dropdownDestination && !routeDestination.contains(e.target) && !dropdownDestination.contains(e.target)) dropdownDestination.classList.remove("active");
+      if (gameGuessInput && dropdownGame && !gameGuessInput.contains(e.target) && !dropdownGame.contains(e.target)) dropdownGame.classList.remove("active");
     });
 
     // Custom File Uploader logic (only if element exists)

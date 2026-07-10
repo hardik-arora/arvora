@@ -110,6 +110,86 @@ body.theme-cyber {
   --color-theme-glow-2: rgba(244, 63, 94, 0.25);
 }
 
+body.theme-monochrome {
+  --bg-primary: #0b0f19;
+  --bg-secondary: #1e293b;
+  --card-bg: rgba(30, 41, 59, 0.65);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --color-primary: #64748b;
+  --color-primary-glow: rgba(100, 116, 139, 0.35);
+  --color-accent: #475569;
+  --color-accent-glow: rgba(71, 85, 105, 0.35);
+  --color-success: #cbd5e1;
+  --color-success-glow: rgba(203, 213, 225, 0.25);
+  --color-purple: #94a3b8;
+  --color-purple-glow: rgba(148, 163, 184, 0.25);
+  --color-theme-glow-1: rgba(100, 116, 139, 0.3);
+  --color-theme-glow-2: rgba(71, 85, 105, 0.25);
+}
+
+body.theme-cherry {
+  --bg-primary: #12030b;
+  --bg-secondary: #270617;
+  --card-bg: rgba(39, 6, 23, 0.65);
+  --card-border: rgba(244, 63, 94, 0.15);
+  --text-primary: #fff1f2;
+  --text-secondary: #fecdd3;
+  --text-muted: #fda4af;
+  --color-primary: #f43f5e;
+  --color-primary-glow: rgba(244, 63, 94, 0.35);
+  --color-accent: #db2777;
+  --color-accent-glow: rgba(219, 39, 119, 0.35);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.25);
+  --color-purple: #c084fc;
+  --color-purple-glow: rgba(192, 132, 252, 0.25);
+  --color-theme-glow-1: rgba(244, 63, 94, 0.3);
+  --color-theme-glow-2: rgba(219, 39, 119, 0.25);
+}
+
+body.theme-ocean {
+  --bg-primary: #020b18;
+  --bg-secondary: #031e3d;
+  --card-bg: rgba(3, 30, 61, 0.65);
+  --card-border: rgba(14, 165, 233, 0.15);
+  --text-primary: #f0f9ff;
+  --text-secondary: #bae6fd;
+  --text-muted: #7dd3fc;
+  --color-primary: #0284c7;
+  --color-primary-glow: rgba(2, 132, 199, 0.35);
+  --color-accent: #0ea5e9;
+  --color-accent-glow: rgba(14, 165, 233, 0.35);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.25);
+  --color-purple: #818cf8;
+  --color-purple-glow: rgba(129, 140, 248, 0.25);
+  --color-theme-glow-1: rgba(2, 132, 199, 0.3);
+  --color-theme-glow-2: rgba(14, 165, 233, 0.25);
+}
+
+body.theme-solarized {
+  --bg-primary: #15100c;
+  --bg-secondary: #2c1b10;
+  --card-bg: rgba(44, 27, 16, 0.65);
+  --card-border: rgba(245, 158, 11, 0.15);
+  --text-primary: #fef3c7;
+  --text-secondary: #fde68a;
+  --text-muted: #fcd34d;
+  --color-primary: #d97706;
+  --color-primary-glow: rgba(217, 119, 6, 0.35);
+  --color-accent: #b45309;
+  --color-accent-glow: rgba(180, 83, 9, 0.35);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.25);
+  --color-purple: #854d0e;
+  --color-purple-glow: rgba(133, 77, 14, 0.25);
+  --color-theme-glow-1: rgba(217, 119, 6, 0.3);
+  --color-theme-glow-2: rgba(180, 83, 9, 0.25);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

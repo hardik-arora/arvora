@@ -71,6 +71,7 @@
         <button id="tab-btn-budget" class="tab-btn"><span>💰</span> Budget Calculator</button>
         <button id="tab-btn-routesolver" class="tab-btn"><span>🗺️</span> Transit Solver</button>
         <button id="tab-btn-culinary" class="tab-btn"><span>🥘</span> Culinary Showcase</button>
+        <button id="tab-btn-weather" class="tab-btn"><span>☁️</span> Climate &amp; Packing</button>
       </div>
     </header>
 
@@ -1434,6 +1435,108 @@
       <!-- Culinary grid display -->
       <div id="culinary-grid-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
         <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 16: CLIMATE & PACKING ADVISOR -->
+  <div id="tab-content-weather" class="tab-content">
+    <div style="max-width:1000px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.07) 0%, rgba(59, 130, 246, 0.07) 100%); border-color: rgba(6, 182, 212, 0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>☁️</span> Climate &amp; Packing Advisor</h2>
+            <p style="color:var(--text-secondary); font-size:0.95rem;">Get dynamic regional weather simulations and a custom checklist tailored to your destination.</p>
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button id="weather-btn-sync" class="visualizer-btn" style="background:rgba(6,182,212,0.12); border-color:rgba(6,182,212,0.35); color:var(--color-accent); font-weight:600;">🔄 Sync from Active Trip</button>
+            <button id="weather-btn-copy" class="visualizer-btn" style="background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.35); color:var(--color-success); font-weight:600;">📋 Copy Packing List</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 360px 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left Column: Inputs & Simulated Weather Card -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <!-- Inputs Panel -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1.25rem;">
+            <h3 style="font-size:1rem; font-weight:700; color:var(--color-primary); margin-bottom:0.25rem;">⚙️ Packing Parameters</h3>
+            
+            <div style="position:relative;">
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Destination City</label>
+              <div class="search-input-container">
+                <span class="search-icon">📍</span>
+                <input type="text" id="weather-city-input" placeholder="e.g. Shimla, Ooty, Goa..." style="width:100%;">
+              </div>
+              <div id="weather-city-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+                <div id="weather-city-suggestions" class="suggestion-item"></div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+              <div>
+                <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Duration (Days)</label>
+                <input type="number" id="weather-duration-input" value="5" min="1" max="60" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit;">
+              </div>
+              <div>
+                <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Month</label>
+                <select id="weather-month-input" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+                  <option value="0" selected>Jan (Winter)</option>
+                  <option value="2">Mar (Spring)</option>
+                  <option value="5">Jun (Monsoon)</option>
+                  <option value="9">Oct (Autumn)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Travel Activities</label>
+              <div style="display:grid; grid-template-columns:1fr; gap:0.5rem; margin-top:0.25rem;">
+                <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--text-secondary); cursor:pointer;">
+                  <input type="checkbox" id="weather-activity-trekking" checked> 🏔️ Hiking &amp; Trekking
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--text-secondary); cursor:pointer;">
+                  <input type="checkbox" id="weather-activity-swimming"> 🏊 Swimming / Beach
+                </label>
+                <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--text-secondary); cursor:pointer;">
+                  <input type="checkbox" id="weather-activity-formal"> 💼 Business / Dining Out
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weather Simulation Card -->
+          <div class="panel" id="weather-report-card" style="display:flex; flex-direction:column; gap:0.75rem; background:radial-gradient(circle at bottom right, rgba(6,182,212,0.08) -20%, var(--card-bg) 80%); border-color:rgba(6,182,212,0.25); text-align:center; padding:1.5rem;">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--color-accent); text-transform:uppercase; letter-spacing:0.05em;">Simulated Forecast</div>
+            <div id="weather-sim-icon" style="font-size:3rem; margin:0.25rem 0;">☀️</div>
+            <h3 id="weather-sim-temp" style="font-size:2rem; font-weight:800; color:var(--text-primary); margin:0;">24°C</h3>
+            <div id="weather-sim-desc" style="font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Clear Sunny Sky</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.75rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.75rem; font-size:0.78rem; text-align:left;">
+              <div>💧 <span style="color:var(--text-muted);">Humidity:</span> <strong id="weather-sim-humidity" style="color:var(--text-secondary);">45%</strong></div>
+              <div>💨 <span style="color:var(--text-muted);">Wind:</span> <strong id="weather-sim-wind" style="color:var(--text-secondary);">12 km/h</strong></div>
+            </div>
+            <div id="weather-climate-zone" style="font-size:0.72rem; color:var(--text-muted); font-style:italic; margin-top:0.4rem;">Climate: Humid Subtropical</div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Checklist -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.75rem; margin-bottom:0.25rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); margin:0;">📋 Packing Checklist</h3>
+            <span id="weather-checklist-progress" class="badge" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.25); color:var(--color-success); font-weight:700; font-size:0.75rem;">0 / 0 Packed</span>
+          </div>
+
+          <!-- Add custom item inline -->
+          <div style="display:flex; gap:0.5rem; background:rgba(0,0,0,0.25); padding:0.5rem; border-radius:8px; border:1px solid var(--card-border);">
+            <input type="text" id="weather-custom-item-text" placeholder="Add custom item to checklist..." style="flex-grow:1; background:transparent; border:none; color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+            <button id="weather-custom-item-btn" class="visualizer-btn" style="padding:0.35rem 0.75rem; font-size:0.8rem; background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.3); color:var(--color-primary); font-weight:600;">➕ Add</button>
+          </div>
+
+          <!-- Checklist categories container -->
+          <div id="weather-checklist-container" style="display:flex; flex-direction:column; gap:1.5rem;">
+            <!-- Categories injected dynamically: Clothing, Toiletries, Electronics, Documents, Essentials -->
+          </div>
+        </div>
       </div>
     </div>
   </div>

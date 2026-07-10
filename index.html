@@ -72,6 +72,8 @@
         <button id="tab-btn-routesolver" class="tab-btn"><span>🗺️</span> Transit Solver</button>
         <button id="tab-btn-culinary" class="tab-btn"><span>🥘</span> Culinary Showcase</button>
         <button id="tab-btn-weather" class="tab-btn"><span>☁️</span> Climate &amp; Packing</button>
+        <button id="tab-btn-emergency" class="tab-btn"><span>🚨</span> Emergency Hub</button>
+        <button id="tab-btn-splitter" class="tab-btn"><span>💸</span> Expense Splitter</button>
       </div>
     </header>
 
@@ -1537,6 +1539,195 @@
             <!-- Categories injected dynamically: Clothing, Toiletries, Electronics, Documents, Essentials -->
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 17: EMERGENCY & SURVIVAL HUB -->
+  <div id="tab-content-emergency" class="tab-content">
+    <div style="max-width:1000px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.07) 0%, rgba(245, 158, 11, 0.07) 100%); border-color: rgba(239, 68, 68, 0.2);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚨</span> Emergency &amp; Survival Hub</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Instant access to emergency helplines, regional translations, local hospitals, and regional guidelines.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Phrasebook & Language Tools -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.25rem;">
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--color-primary); border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-bottom:0.25rem;">🗣️ Regional Phrasebook</h3>
+          <p style="color:var(--text-secondary); font-size:0.85rem; margin:0;">Select a language to get phonetic travel phrases translated from English.</p>
+          
+          <div>
+            <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Select Language</label>
+            <select id="emergency-language-select" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+              <option value="hindi" selected>Hindi (North/Central India)</option>
+              <option value="tamil">Tamil (Tamil Nadu)</option>
+              <option value="marathi">Marathi (Maharashtra)</option>
+              <option value="bengali">Bengali (West Bengal/East India)</option>
+              <option value="telugu">Telugu (Andhra Pradesh/Telangana)</option>
+              <option value="kannada">Kannada (Karnataka)</option>
+              <option value="malayalam">Malayalam (Kerala)</option>
+              <option value="gujarati">Gujarati (Gujarat)</option>
+            </select>
+          </div>
+
+          <div id="emergency-phrasebook-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.25rem;">
+            <!-- Phrase rows loaded by JS -->
+          </div>
+        </div>
+
+        <!-- Right: Helplines & Safety Advisors -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <!-- Helplines Panel -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--color-success); border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-bottom:0.25rem;">📞 Universal Helplines</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+              <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.2rem; text-align:center;">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">NATIONAL EMERGENCY</span>
+                <strong style="font-size:1.2rem; color:#ef4444;">112</strong>
+              </div>
+              <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.2rem; text-align:center;">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">POLICE</span>
+                <strong style="font-size:1.2rem; color:var(--color-primary);">100</strong>
+              </div>
+              <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.2rem; text-align:center;">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">AMBULANCE</span>
+                <strong style="font-size:1.2rem; color:var(--color-success);">102 / 108</strong>
+              </div>
+              <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.2rem; text-align:center;">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">TOURIST HELPLINE</span>
+                <strong style="font-size:1.2rem; color:var(--color-purple);">1363</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hospital Finder Panel -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--color-accent); border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem;">🏥 Local Hospital Finder</h3>
+            <div style="position:relative;">
+              <div class="search-input-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="emergency-hospital-city" placeholder="Search city for local emergency hospitals..." style="width:100%;">
+              </div>
+              <div id="emergency-hospital-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+                <div id="emergency-hospital-suggestions" class="suggestion-item"></div>
+              </div>
+            </div>
+            <div id="emergency-hospital-results" style="display:flex; flex-direction:column; gap:0.75rem;">
+              <!-- Local hospitals loaded dynamically by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 18: EXPENSE SPLITTER & CURRENCY CONVERTER -->
+  <div id="tab-content-splitter" class="tab-content">
+    <div style="max-width:1000px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.07) 0%, rgba(236, 72, 153, 0.07) 100%); border-color: rgba(168, 85, 247, 0.2);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💸</span> Expense Splitter &amp; Currency Converter</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Track group expenditures, settle debts, and convert global currencies to INR with live rate simulator.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Currency Converter & Splitter Setup -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <!-- Currency Converter Panel -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--color-primary); border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-bottom:0.25rem;">💱 Currency Converter</h3>
+            
+            <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:0.75rem;">
+              <div>
+                <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Foreign Amount</label>
+                <input type="number" id="converter-foreign-amount" value="100" min="0" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit;">
+              </div>
+              <div>
+                <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Currency</label>
+                <select id="converter-currency-select" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+                  <option value="USD">USD ($) - US Dollar</option>
+                  <option value="EUR">EUR (€) - Euro</option>
+                  <option value="GBP">GBP (£) - British Pound</option>
+                  <option value="AED">AED (د.إ) - UAE Dirham</option>
+                  <option value="SGD">SGD ($) - Singapore Dollar</option>
+                  <option value="CAD">CAD ($) - Canadian Dollar</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2); padding:0.75rem 1rem; border-radius:8px; border:1px solid var(--card-border); margin-top:0.25rem;">
+              <div>
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; display:block;">EQUIVALENT VALUE IN INR</span>
+                <strong id="converter-inr-result" style="font-size:1.3rem; color:var(--color-success);">₹8,300.00</strong>
+              </div>
+              <div id="converter-rate-indicator" style="font-size:0.75rem; color:var(--text-muted); text-align:right;">Rate: 1 USD = 83.00 INR</div>
+            </div>
+          </div>
+
+          <!-- Group Splitter Setup Panel -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1.1rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--color-accent); border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-bottom:0.25rem;">👥 Travel Companions</h3>
+            
+            <div style="display:flex; gap:0.5rem;">
+              <input type="text" id="splitter-member-name" placeholder="Add name (e.g. Hardik, Sneha)..." style="flex-grow:1; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; font-size:0.85rem;">
+              <button id="splitter-add-member" class="visualizer-btn" style="padding:0.4rem 0.8rem; font-size:0.8rem; background:rgba(6,182,212,0.15); border-color:rgba(6,182,212,0.3); color:var(--color-accent); font-weight:600;">➕ Add</button>
+            </div>
+
+            <div id="splitter-members-list" style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.25rem;">
+              <!-- Members pills loaded by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Expense Logger & Settlement Ledger -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.25rem;">
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.25rem;">💸 Add Travel Expense</h3>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <div>
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Description</label>
+              <input type="text" id="splitter-desc" placeholder="e.g. Dinner party, Cabs..." style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit;">
+            </div>
+            <div>
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Amount (INR)</label>
+              <input type="number" id="splitter-amount" placeholder="₹ Amount" min="1" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit;">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <div>
+              <label style="display:block; font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.35rem; font-weight:500;">Paid By</label>
+              <select id="splitter-paid-by" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.5rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+                <!-- Loaded by JS -->
+              </select>
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button id="splitter-add-expense" class="visualizer-btn" style="width:100%; padding:0.5rem; font-weight:700; background:rgba(168,85,247,0.15); border-color:rgba(168,85,247,0.3); color:var(--color-purple);">➕ Log Expense</button>
+            </div>
+          </div>
+
+          <div style="margin-top:0.5rem; display:grid; grid-template-columns:1fr 1.2fr; gap:1.25rem;">
+            <!-- Expense Ledger Log -->
+            <div>
+              <h4 style="font-size:0.82rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Expense Log</h4>
+              <div id="splitter-history-list" style="display:flex; flex-direction:column; gap:0.5rem; max-height:180px; overflow-y:auto; padding-right:0.25rem;">
+                <!-- Logs list row -->
+              </div>
+            </div>
+
+            <!-- Settlement Result ledger -->
+            <div>
+              <h4 style="font-size:0.82rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Debt Settlement</h4>
+              <div id="splitter-debts-list" style="display:flex; flex-direction:column; gap:0.5rem; background:rgba(0,0,0,0.18); padding:0.75rem; border-radius:8px; border:1px solid var(--card-border); min-height:80px; justify-content:center;">
+                <!-- Settlement rows: e.g. "Rohit owes Hardik ₹450" -->
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

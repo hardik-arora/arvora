@@ -146,6 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnEvRouter = document.getElementById("tab-btn-evrouter");
   const tabBtnLocalizer = document.getElementById("tab-btn-localizer");
   const tabBtnPhotoHub = document.getElementById("tab-btn-photohub");
+  const tabBtnShopping = document.getElementById("tab-btn-shopping");
+  const tabBtnFoodSafety = document.getElementById("tab-btn-foodsafety");
+  const tabBtnSmartPacker = document.getElementById("tab-btn-smartpacker");
+  const tabBtnSimAdvisor = document.getElementById("tab-btn-simadvisor");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
@@ -173,6 +177,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentEvRouter = document.getElementById("tab-content-evrouter");
   const tabContentLocalizer = document.getElementById("tab-content-localizer");
   const tabContentPhotoHub = document.getElementById("tab-content-photohub");
+  const tabContentShopping = document.getElementById("tab-content-shopping");
+  const tabContentFoodSafety = document.getElementById("tab-content-foodsafety");
+  const tabContentSmartPacker = document.getElementById("tab-content-smartpacker");
+  const tabContentSimAdvisor = document.getElementById("tab-content-simadvisor");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -509,6 +517,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabBtnEvRouter) tabBtnEvRouter.addEventListener("click", () => switchTab('evrouter'));
     if (tabBtnLocalizer) tabBtnLocalizer.addEventListener("click", () => switchTab('localizer'));
     if (tabBtnPhotoHub) tabBtnPhotoHub.addEventListener("click", () => switchTab('photohub'));
+    if (tabBtnShopping) tabBtnShopping.addEventListener("click", () => switchTab('shopping'));
+    if (tabBtnFoodSafety) tabBtnFoodSafety.addEventListener("click", () => switchTab('foodsafety'));
+    if (tabBtnSmartPacker) tabBtnSmartPacker.addEventListener("click", () => switchTab('smartpacker'));
+    if (tabBtnSimAdvisor) tabBtnSimAdvisor.addEventListener("click", () => switchTab('simadvisor'));
 
     // --- Theme Switcher Event Listener ---
     if (themeToggleBtn) {
@@ -660,9 +672,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub, tabBtnShopping, tabBtnFoodSafety, tabBtnSmartPacker, tabBtnSimAdvisor];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => {
@@ -768,6 +780,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize photo sightseeing checklist
     if (tabId === 'photohub') {
       initPhotoHub();
+    }
+    // Initialize shopping guide
+    if (tabId === 'shopping') {
+      initShoppingGuide();
+    }
+    // Initialize food safety advisor
+    if (tabId === 'foodsafety') {
+      initFoodSafety();
+    }
+    // Initialize smart gear packer
+    if (tabId === 'smartpacker') {
+      initSmartPacker();
+    }
+    // Initialize network SIM advisor
+    if (tabId === 'simadvisor') {
+      initSimAdvisor();
     }
   }
 
@@ -6888,6 +6916,419 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         progressRing.style.strokeDashoffset = offset;
       }
     }
+  }
+
+  let shoppingInitialized = false;
+  function initShoppingGuide() {
+    if (shoppingInitialized) return;
+    shoppingInitialized = true;
+
+    const input = document.getElementById("shopping-city-input");
+    const dropdown = document.getElementById("shopping-suggestions-dropdown");
+    const list = document.getElementById("shopping-suggestions-list");
+
+    const resultsSection = document.getElementById("shopping-results-section");
+    const placeholder = document.getElementById("shopping-placeholder");
+    const craftsList = document.getElementById("shopping-crafts-list");
+    const marketsList = document.getElementById("shopping-markets-list");
+
+    if (input) {
+      input.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        if (dropdown) {
+          if (q.length < 1) { dropdown.style.display = "none"; return; }
+          simpleAutocomplete(input, dropdown, list, q, 5, selected => {
+            input.value = capitalizeWord(selected);
+            dropdown.style.display = "none";
+            showShoppingDetails(selected);
+          });
+        }
+      });
+    }
+
+    document.addEventListener("click", e => {
+      if (input && !input.contains(e.target) && dropdown) dropdown.style.display = "none";
+    });
+
+    function showShoppingDetails(cityName) {
+      playSelectSound();
+
+      if (placeholder) placeholder.style.display = "none";
+      if (resultsSection) resultsSection.style.display = "flex";
+
+      const coords = getCityCoords(cityName);
+      const facts = computeLogisticsFacts(cityName, coords, 0);
+      const state = facts.state;
+
+      let crafts = [
+        { name: "Traditional Handcrafted Souvenirs", desc: "Local indigenous art pieces and clay toys." },
+        { name: "Regional Handloom Sarees", desc: "Cotton/Silk fabrics woven by local weavers." }
+      ];
+      let markets = [
+        { name: "Main Street Market", hours: "10:00 AM — 09:00 PM" },
+        { name: "Bazaar Quarter", hours: "11:00 AM — 08:30 PM" }
+      ];
+
+      if (state === "Maharashtra") {
+        crafts = [
+          { name: "Paithani Silk Sarees", desc: "Exquisite handwoven silk sarees with peacock borders." },
+          { name: "Kolhapuri Leather Chappals", desc: "Traditional open-toed hand-crafted leather footwear." }
+        ];
+        markets = [
+          { name: "Colaba Causeway (Mumbai)", hours: "11:00 AM — 10:00 PM" },
+          { name: "Fashion Street (CST)", hours: "11:00 AM — 09:00 PM" }
+        ];
+      } else if (state === "West Bengal") {
+        crafts = [
+          { name: "Terracotta Clay Art", desc: "Traditional baked earth figurines from Bishnupur." },
+          { name: "Kantha Stitch Embroidery", desc: "Exquisite running-stitch embroidery on sarees & stoles." }
+        ];
+        markets = [
+          { name: "New Market (Kolkata)", hours: "10:00 AM — 08:30 PM" },
+          { name: "Gariahat Crossing", hours: "11:00 AM — 09:00 PM" }
+        ];
+      } else if (state === "Karnataka") {
+        crafts = [
+          { name: "Mysore Sandalwood Sculptures", desc: "Fragrant, hand-carved wood panels & oil extracts." },
+          { name: "Channapatna Wooden Toys", desc: "Brightly colored, organic-lacquered safe wooden toys." }
+        ];
+        markets = [
+          { name: "Commercial Street (Bengaluru)", hours: "10:30 AM — 09:30 PM" },
+          { name: "Devaraja Market (Mysuru)", hours: "08:00 AM — 08:30 PM" }
+        ];
+      } else if (state === "Rajasthan" || cityName.toLowerCase() === "jaipur") {
+        crafts = [
+          { name: "Jaipur Blue Pottery", desc: "Glazed low-fire pottery decorated with cobalt blue dyes." },
+          { name: "Sanganeri Block Prints", desc: "Beautiful floral designs hand-stamped on linens & cottons." }
+        ];
+        markets = [
+          { name: "Johari Bazaar (Jaipur)", hours: "10:00 AM — 08:00 PM" },
+          { name: "Bapu Bazaar", hours: "11:00 AM — 08:30 PM" }
+        ];
+      }
+
+      if (craftsList) {
+        craftsList.innerHTML = crafts.map(c => `
+          <div class="trip-stop-card" style="padding:0.75rem 1rem;">
+            <strong style="font-size:0.88rem; color:var(--text-primary);">${c.name}</strong>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin:0.2rem 0 0; line-height:1.4;">${c.desc}</p>
+          </div>
+        `).join("");
+      }
+
+      if (marketsList) {
+        marketsList.innerHTML = markets.map(m => `
+          <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem;">
+            <div>
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${m.name}</strong>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.15rem;">🕒 Hours: ${m.hours}</div>
+            </div>
+            <span style="font-size:1.3rem;">🏪</span>
+          </div>
+        `).join("");
+      }
+    }
+  }
+
+  let foodSafetyInitialized = false;
+  function initFoodSafety() {
+    if (foodSafetyInitialized) return;
+    foodSafetyInitialized = true;
+
+    const input = document.getElementById("foodsafety-city-input");
+    const dropdown = document.getElementById("foodsafety-suggestions-dropdown");
+    const list = document.getElementById("foodsafety-suggestions-list");
+
+    const resultsSection = document.getElementById("foodsafety-results-section");
+    const placeholder = document.getElementById("foodsafety-placeholder");
+    
+    const waterScore = document.getElementById("foodsafety-water-score");
+    const hygieneScore = document.getElementById("foodsafety-hygiene-score");
+    const drinksList = document.getElementById("foodsafety-drinks-list");
+
+    if (input) {
+      input.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        if (dropdown) {
+          if (q.length < 1) { dropdown.style.display = "none"; return; }
+          simpleAutocomplete(input, dropdown, list, q, 5, selected => {
+            input.value = capitalizeWord(selected);
+            dropdown.style.display = "none";
+            showFoodSafety(selected);
+          });
+        }
+      });
+    }
+
+    document.addEventListener("click", e => {
+      if (input && !input.contains(e.target) && dropdown) dropdown.style.display = "none";
+    });
+
+    function showFoodSafety(cityName) {
+      playSelectSound();
+
+      if (placeholder) placeholder.style.display = "none";
+      if (resultsSection) resultsSection.style.display = "flex";
+
+      const coords = getCityCoords(cityName);
+      const facts = computeLogisticsFacts(cityName, coords, 0);
+      const state = facts.state;
+
+      const hash = cityName.charCodeAt(0) + cityName.length;
+      if (hash % 3 === 0) {
+        if (waterScore) { waterScore.textContent = "⚠️ High Risk"; waterScore.style.color = "#ef4444"; }
+        if (hygieneScore) { hygieneScore.textContent = "Moderate"; hygieneScore.style.color = "var(--color-primary)"; }
+      } else if (hash % 3 === 1) {
+        if (waterScore) { waterScore.textContent = "🛑 Critical Risk"; waterScore.style.color = "#ef4444"; }
+        if (hygieneScore) { hygieneScore.textContent = "Fair (Watch)"; hygieneScore.style.color = "var(--color-accent)"; }
+      } else {
+        if (waterScore) { waterScore.textContent = "⚠️ High Risk"; waterScore.style.color = "#ef4444"; }
+        if (hygieneScore) { hygieneScore.textContent = "Good / High"; hygieneScore.style.color = "var(--color-success)"; }
+      }
+
+      let drinks = [
+        { name: "Sweet Lassi", desc: "Thick sweet yogurt beverage topped with saffron clotted malai.", type: "🥛 Dairy" },
+        { name: "Nimbu Pani", desc: "Fresh squeezed lime water sweetened with sugar syrup.", type: "🍋 Citrus" }
+      ];
+
+      if (state === "Maharashtra") {
+        drinks = [
+          { name: "Kokum Sarbat", desc: "Cooling sweet & sour drink infused with Kokum rind extract.", type: "🍹 Vegan" },
+          { name: "Piyush", desc: "Ultra-thick sweet beverage churned from Shrikhand yogurt.", type: "🥛 Dairy" }
+        ];
+      } else if (state === "West Bengal") {
+        drinks = [
+          { name: "Daab er Jol", desc: "Fresh raw tender coconut water direct from fruit shell.", type: "🌴 Vegan" },
+          { name: "Ghorer Ghol", desc: "Traditional spiced buttermilk whipped with mint leaves.", type: "🥛 Dairy" }
+        ];
+      } else if (state === "Karnataka" || state === "Tamil Nadu") {
+        drinks = [
+          { name: "Filter Coffee", desc: "Traditional chicory coffee served in brass tumbler-dabarah.", type: "☕ Hot" },
+          { name: "Neer Mor", desc: "Spiced watery buttermilk seasoned with curry leaves & ginger.", type: "🥛 Dairy" }
+        ];
+      } else if (state === "Goa") {
+        drinks = [
+          { name: "Sol Kadhi", desc: "Soothing digestif made of kokum pulp and rich coconut milk.", type: "🥥 Dairy-Free" },
+          { name: "Cashew Feni (Mocktail)", desc: "Simulated spice beverage mimicking cashew apple juice.", type: "🍋 Fruity" }
+        ];
+      }
+
+      if (drinksList) {
+        drinksList.innerHTML = drinks.map(d => `
+          <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem;">
+            <div>
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${d.name}</strong>
+              <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.15rem;">${d.desc}</div>
+            </div>
+            <span style="font-size:0.68rem; padding:0.2rem 0.4rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); border-radius:4px; font-weight:700; color:var(--text-muted); white-space:nowrap;">${d.type}</span>
+          </div>
+        `).join("");
+      }
+    }
+  }
+
+  let smartPackerInitialized = false;
+  let smartPackerListItems = [];
+
+  function initSmartPacker() {
+    if (smartPackerInitialized) return;
+    smartPackerInitialized = true;
+
+    const selectType = document.getElementById("smartpacker-type");
+    const selectDays = document.getElementById("smartpacker-days");
+    const btnGen = document.getElementById("smartpacker-btn-gen");
+    const btnExport = document.getElementById("smartpacker-btn-export");
+
+    const resultsSection = document.getElementById("smartpacker-results-section");
+    const listContainer = document.getElementById("smartpacker-list");
+    const progressText = document.getElementById("smartpacker-progress-text");
+
+    if (btnGen) {
+      btnGen.addEventListener("click", () => {
+        playSelectSound();
+        generatePackingList();
+      });
+    }
+
+    if (btnExport) {
+      btnExport.addEventListener("click", () => {
+        playSuccessSound();
+        exportPackingList();
+      });
+    }
+
+    function generatePackingList() {
+      if (resultsSection) resultsSection.style.display = "flex";
+
+      const type = selectType ? selectType.value : "city";
+      const days = parseInt(selectDays ? selectDays.value : 3);
+
+      const items = [
+        { name: "Passport & Identity Docs", packed: false },
+        { name: "First-aid medical pouch", packed: false },
+        { name: "Mobile Phone Charger", packed: false }
+      ];
+
+      items.push({ name: `${days}x Clothes sets & undergarments`, packed: false });
+      items.push({ name: `${days}x pairs of socks`, packed: false });
+
+      if (type === "beach") {
+        items.push({ name: "UV Sunscreen lotion SPF 50+", packed: false });
+        items.push({ name: "Flip-flops & swimwear", packed: false });
+        items.push({ name: "Polarized sunglasses", packed: false });
+      } else if (type === "alpine") {
+        items.push({ name: "Thermal fleece innerwear", packed: false });
+        items.push({ name: "Heavy down winter jacket", packed: false });
+        items.push({ name: "Lip balm & cold creams", packed: false });
+      } else if (type === "desert") {
+        items.push({ name: "Hydration water bottle", packed: false });
+        items.push({ name: "Wide brim sun hat", packed: false });
+        items.push({ name: "Linen outfits & cotton scarves", packed: false });
+      } else {
+        items.push({ name: "Comfortable walking shoes", packed: false });
+        items.push({ name: "Pocket umbrella / rain poncho", packed: false });
+      }
+
+      smartPackerListItems = items;
+      renderPackingList();
+    }
+
+    function renderPackingList() {
+      if (!listContainer) return;
+      listContainer.innerHTML = smartPackerListItems.map((item, idx) => {
+        const isChecked = item.packed ? "checked" : "";
+        return `
+          <label style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border:1px solid var(--card-border); border-radius:6px; cursor:pointer;">
+            <span style="font-size:0.85rem; color:${item.packed ? 'var(--text-muted)' : 'var(--text-primary)'}; text-decoration:${item.packed ? 'line-through' : 'none'};">${item.name}</span>
+            <input type="checkbox" class="smartpacker-checkbox" data-idx="${idx}" ${isChecked} style="width:16px; height:16px;">
+          </label>
+        `;
+      }).join("");
+
+      listContainer.querySelectorAll(".smartpacker-checkbox").forEach(box => {
+        box.addEventListener("change", e => {
+          const idx = parseInt(e.target.dataset.idx);
+          smartPackerListItems[idx].packed = e.target.checked;
+          
+          playTone(e.target.checked ? 800 : 450, "sine", 0.05, 0.08);
+          renderPackingList();
+          updatePackingProgress();
+        });
+      });
+
+      updatePackingProgress();
+    }
+
+    function updatePackingProgress() {
+      if (smartPackerListItems.length === 0) return;
+      const total = smartPackerListItems.length;
+      let packed = 0;
+      smartPackerListItems.forEach(item => { if (item.packed) packed++; });
+
+      const pct = Math.round((packed / total) * 100);
+      if (progressText) progressText.textContent = `${pct}% Packed`;
+    }
+
+    function exportPackingList() {
+      if (smartPackerListItems.length === 0) return;
+      
+      const type = selectType ? selectType.value.toUpperCase() : "CITY";
+      let text = `ARVORA TRAVEL PACKING CHECKLIST - ${type} MODE\n`;
+      text += `==============================================\n\n`;
+      
+      smartPackerListItems.forEach(item => {
+        const status = item.packed ? "[x]" : "[ ]";
+        text += `${status} ${item.name}\n`;
+      });
+
+      const element = document.createElement("a");
+      element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+      element.setAttribute("download", `Arvora_Packing_List.txt`);
+      element.style.display = "none";
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+  }
+
+  let networkAdvisorInitialized = false;
+  function initSimAdvisor() {
+    if (networkAdvisorInitialized) return;
+    networkAdvisorInitialized = true;
+
+    const selectReg = document.getElementById("simadvisor-region");
+    const list = document.getElementById("simadvisor-ratings-list");
+
+    if (selectReg) {
+      selectReg.addEventListener("change", () => {
+        playSelectSound();
+        renderSignalRatings();
+      });
+    }
+
+    function renderSignalRatings() {
+      if (!list) return;
+      const reg = selectReg ? selectReg.value : "cities";
+
+      let ratings = [];
+
+      if (reg === "ladakh") {
+        ratings = [
+          { name: "Reliance Jio 4G/5G", rating: 4, desc: "Best overall data coverage in Leh town & Nubra Valley. Low signal near lakes." },
+          { name: "Bharti Airtel 4G", rating: 3, desc: "Decent signal in Leh market. Dropouts common along highway corridors." },
+          { name: "BSNL (Postpaid only)", rating: 2, desc: "Critical backup voice line. Very slow data speeds." },
+          { name: "Vodafone Idea (Vi)", rating: 0, desc: "No roaming network coverage in Ladakh." }
+        ];
+      } else if (reg === "goa") {
+        ratings = [
+          { name: "Reliance Jio 5G", rating: 5, desc: "Excellent high-speed coverage along all beaches." },
+          { name: "Bharti Airtel 5G", rating: 5, desc: "Superb coverage and reliable streaming data." },
+          { name: "Vodafone Idea (Vi)", rating: 4, desc: "Good signal in major towns, patchy near South Goa secluded spots." },
+          { name: "BSNL Network", rating: 2, desc: "Weak signal, slow mobile data." }
+        ];
+      } else if (reg === "ghats") {
+        ratings = [
+          { name: "Bharti Airtel 4G", rating: 3, desc: "Most reliable provider inside forests and mountain gaps." },
+          { name: "Reliance Jio 4G", rating: 2, desc: "Patchy signals, works fine only near village hubs." },
+          { name: "BSNL Network", rating: 2, desc: "Slight voice signal, data is unusable." },
+          { name: "Vodafone Idea (Vi)", rating: 1, desc: "No connectivity across reserve forest roads." }
+        ];
+      } else if (reg === "northeast") {
+        ratings = [
+          { name: "Bharti Airtel 4G/5G", rating: 4, desc: "Best coverage throughout Sikkim & Meghalaya valleys." },
+          { name: "Reliance Jio 5G", rating: 4, desc: "Fast speeds in Gangtok & Shillong. Spotty on border highways." },
+          { name: "BSNL Network", rating: 2, desc: "Very spotty voice line." },
+          { name: "Vodafone Idea (Vi)", rating: 2, desc: "Unreliable outside major urban hubs." }
+        ];
+      } else {
+        ratings = [
+          { name: "Reliance Jio 5G", rating: 5, desc: "Blazing fast 5G data speeds." },
+          { name: "Bharti Airtel 5G", rating: 5, desc: "Highly stable and consistent performance." },
+          { name: "Vodafone Idea (Vi)", rating: 4, desc: "Good speeds, spotty indoors." },
+          { name: "BSNL Network", rating: 3, desc: "Moderate voice signal, limited 3G/4G." }
+        ];
+      }
+
+      list.innerHTML = ratings.map(r => {
+        let segments = "";
+        for (let i = 1; i <= 5; i++) {
+          const act = i <= r.rating ? "active" : "";
+          segments += `<div class="signal-bar-segment ${act}" style="height:${i * 3}px;"></div>`;
+        }
+
+        return `
+          <div class="trip-stop-card" style="padding:0.85rem 1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.35rem; margin-bottom:0.35rem;">
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${r.name}</strong>
+              <div class="signal-bar-container">${segments}</div>
+            </div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin:0; line-height:1.4;">${r.desc}</p>
+          </div>
+        `;
+      }).join("");
+    }
+
+    renderSignalRatings();
   }
 
     // Run defaults

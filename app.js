@@ -142,6 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnNotes = document.getElementById("tab-btn-notes");
   const tabBtnBaggage = document.getElementById("tab-btn-baggage");
   const tabBtnTransitBooking = document.getElementById("tab-btn-transitbooking");
+  const tabBtnHealth = document.getElementById("tab-btn-health");
+  const tabBtnEvRouter = document.getElementById("tab-btn-evrouter");
+  const tabBtnLocalizer = document.getElementById("tab-btn-localizer");
+  const tabBtnPhotoHub = document.getElementById("tab-btn-photohub");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
@@ -165,6 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentNotes = document.getElementById("tab-content-notes");
   const tabContentBaggage = document.getElementById("tab-content-baggage");
   const tabContentTransitBooking = document.getElementById("tab-content-transitbooking");
+  const tabContentHealth = document.getElementById("tab-content-health");
+  const tabContentEvRouter = document.getElementById("tab-content-evrouter");
+  const tabContentLocalizer = document.getElementById("tab-content-localizer");
+  const tabContentPhotoHub = document.getElementById("tab-content-photohub");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -497,6 +505,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabBtnNotes) tabBtnNotes.addEventListener("click", () => switchTab('notes'));
     if (tabBtnBaggage) tabBtnBaggage.addEventListener("click", () => switchTab('baggage'));
     if (tabBtnTransitBooking) tabBtnTransitBooking.addEventListener("click", () => switchTab('transitbooking'));
+    if (tabBtnHealth) tabBtnHealth.addEventListener("click", () => switchTab('health'));
+    if (tabBtnEvRouter) tabBtnEvRouter.addEventListener("click", () => switchTab('evrouter'));
+    if (tabBtnLocalizer) tabBtnLocalizer.addEventListener("click", () => switchTab('localizer'));
+    if (tabBtnPhotoHub) tabBtnPhotoHub.addEventListener("click", () => switchTab('photohub'));
 
     // --- Theme Switcher Event Listener ---
     if (themeToggleBtn) {
@@ -648,9 +660,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => {
@@ -740,6 +752,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize transit & booking hub
     if (tabId === 'transitbooking') {
       initTransitHub();
+    }
+    // Initialize health & safety hub
+    if (tabId === 'health') {
+      initHealthHub();
+    }
+    // Initialize EV charging router
+    if (tabId === 'evrouter') {
+      initEvRouter();
+    }
+    // Initialize dialect localizer
+    if (tabId === 'localizer') {
+      initLocalizer();
+    }
+    // Initialize photo sightseeing checklist
+    if (tabId === 'photohub') {
+      initPhotoHub();
     }
   }
 
@@ -6414,6 +6442,451 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
 
     if (btnPnr) {
       btnPnr.addEventListener("click", checkPNR);
+    }
+  }
+
+  let healthInitialized = false;
+  function initHealthHub() {
+    if (healthInitialized) return;
+    healthInitialized = true;
+
+    const input = document.getElementById("health-search-input");
+    const dropdown = document.getElementById("health-suggestions-dropdown");
+    const list = document.getElementById("health-suggestions-list");
+    const hospitalsList = document.getElementById("health-hospitals-list");
+    const pharmaciesList = document.getElementById("health-pharmacies-list");
+
+    if (input) {
+      input.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        if (dropdown) {
+          if (q.length < 1) { dropdown.style.display = "none"; return; }
+          simpleAutocomplete(input, dropdown, list, q, 5, selected => {
+            input.value = capitalizeWord(selected);
+            dropdown.style.display = "none";
+            showLocalCare(selected);
+          });
+        }
+      });
+    }
+
+    document.addEventListener("click", e => {
+      if (input && !input.contains(e.target) && dropdown) dropdown.style.display = "none";
+    });
+
+    function showLocalCare(cityName) {
+      playSelectSound();
+      
+      const hospList = [
+        { name: `${capitalizeWord(cityName)} Apollo Emergency Hospital`, phone: "+91 98765 12345", dist: "1.2 km" },
+        { name: "Fortis Care Center", phone: "+91 99999 88888", dist: "3.4 km" },
+        { name: "Max Care Multi-specialty Clinic", phone: "+91 91111 22222", dist: "5.1 km" }
+      ];
+      
+      const pharmList = [
+        { name: "MedPlus 24/7 Pharmacy", phone: "+91 98888 77777", open: "Always Open" },
+        { name: "Apollo Chemist Desk", phone: "+91 92222 33333", open: "24 Hours" }
+      ];
+
+      if (hospitalsList) {
+        hospitalsList.innerHTML = hospList.map(h => `
+          <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem;">
+            <div>
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${h.name}</strong>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">📍 Distance: ${h.dist} • 🟢 ICU Beds Available</div>
+            </div>
+            <a href="tel:${h.phone.replace(/\s+/g, '')}" class="visualizer-btn" style="font-size:0.7rem; padding:0.25rem 0.5rem; text-decoration:none; background:rgba(239,68,68,0.12); color:#ef4444; border-color:rgba(239,68,68,0.25);">
+              📞 Call
+            </a>
+          </div>
+        `).join("");
+      }
+
+      if (pharmaciesList) {
+        pharmaciesList.innerHTML = pharmList.map(p => `
+          <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem;">
+            <div>
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${p.name}</strong>
+              <div style="font-size:0.75rem; color:var(--color-success); margin-top:0.15rem;">🟢 Status: ${p.open}</div>
+            </div>
+            <a href="tel:${p.phone.replace(/\s+/g, '')}" class="visualizer-btn" style="font-size:0.7rem; padding:0.25rem 0.5rem; text-decoration:none; background:rgba(59,130,246,0.12); color:var(--color-primary); border-color:rgba(59,130,246,0.25);">
+              📞 Call
+            </a>
+          </div>
+        `).join("");
+      }
+    }
+  }
+
+  let evRouterInitialized = false;
+  function initEvRouter() {
+    if (evRouterInitialized) return;
+    evRouterInitialized = true;
+
+    const startInput = document.getElementById("evroute-start-city");
+    const startDropdown = document.getElementById("evroute-start-dropdown");
+    const startList = document.getElementById("evroute-start-list");
+    
+    const endInput = document.getElementById("evroute-end-city");
+    const endDropdown = document.getElementById("evroute-end-dropdown");
+    const endList = document.getElementById("evroute-end-list");
+
+    const btnCalc = document.getElementById("evroute-btn-calc");
+    const resultsSection = document.getElementById("evroute-results-section");
+    const emptyState = document.getElementById("evroute-empty-state");
+    const chargerList = document.getElementById("evroute-charger-list");
+
+    let routeStartCity = "";
+    let routeEndCity = "";
+
+    if (startInput) {
+      startInput.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        routeStartCity = "";
+        if (startDropdown) {
+          if (q.length < 1) { startDropdown.style.display = "none"; return; }
+          simpleAutocomplete(startInput, startDropdown, startList, q, 5, selected => {
+            startInput.value = capitalizeWord(selected);
+            startDropdown.style.display = "none";
+            routeStartCity = selected;
+          });
+        }
+      });
+    }
+
+    if (endInput) {
+      endInput.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        routeEndCity = "";
+        if (endDropdown) {
+          if (q.length < 1) { endDropdown.style.display = "none"; return; }
+          simpleAutocomplete(endInput, endDropdown, endList, q, 5, selected => {
+            endInput.value = capitalizeWord(selected);
+            endDropdown.style.display = "none";
+            routeEndCity = selected;
+          });
+        }
+      });
+    }
+
+    document.addEventListener("click", e => {
+      if (startInput && !startInput.contains(e.target) && startDropdown) startDropdown.style.display = "none";
+      if (endInput && !endInput.contains(e.target) && endDropdown) endDropdown.style.display = "none";
+    });
+
+    if (btnCalc) {
+      btnCalc.addEventListener("click", () => {
+        if (!routeStartCity && startInput) routeStartCity = resolveCityInput(startInput.value);
+        if (!routeEndCity && endInput) routeEndCity = resolveCityInput(endInput.value);
+
+        if (!routeStartCity || !routeEndCity) {
+          alert("Please enter valid start and destination cities!");
+          return;
+        }
+
+        if (routeStartCity.toLowerCase() === routeEndCity.toLowerCase()) {
+          alert("Start and destination cities must be different!");
+          return;
+        }
+
+        playSelectSound();
+
+        if (emptyState) emptyState.style.display = "none";
+        if (resultsSection) resultsSection.style.display = "flex";
+
+        const c1 = getCityCoords(routeStartCity);
+        const c2 = getCityCoords(routeEndCity);
+        const distance = Math.max(80, Math.round(Math.sqrt(Math.pow(c1.lat - c2.lat, 2) + Math.pow(c1.lng - c2.lng, 2)) * 111.3));
+        const stationsCount = Math.max(2, Math.round(distance / 120));
+
+        const stations = [];
+        for (let i = 1; i <= stationsCount; i++) {
+          const ratio = i / (stationsCount + 1);
+          const lat = c1.lat + (c2.lat - c1.lat) * ratio;
+          const lng = c1.lng + (c2.lng - c1.lng) * ratio;
+          
+          if (i % 2 === 0) {
+            stations.push({
+              name: `Tata Power EZ Charge (Station ${i})`,
+              power: "CCS2 60kW DC Fast",
+              price: "₹18.5/kWh",
+              dist: Math.round(distance * ratio) + " km from start",
+              coords: `${lat.toFixed(4)}, ${lng.toFixed(4)}`
+            });
+          } else {
+            stations.push({
+              name: `Jio-bp Pulse Highway Outlet (Station ${i})`,
+              power: "CCS2 120kW DC Ultra Fast",
+              price: "₹21.0/kWh",
+              dist: Math.round(distance * ratio) + " km from start",
+              coords: `${lat.toFixed(4)}, ${lng.toFixed(4)}`
+            });
+          }
+        }
+
+        if (chargerList) {
+          chargerList.innerHTML = stations.map(s => `
+            <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.85rem 1rem;">
+              <div>
+                <strong style="font-size:0.88rem; color:var(--text-primary);">${s.name}</strong>
+                <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.25rem;">
+                  ⚡ Type: <span style="color:var(--color-success); font-weight:700;">${s.power}</span> • Tariff: <span style="font-weight:700;">${s.price}</span>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.15rem;">🛣️ Distance: ${s.dist} • Coordinates: ${s.coords}</div>
+              </div>
+              <span style="font-size:1.4rem;">🔌</span>
+            </div>
+          `).join("");
+        }
+      });
+    }
+  }
+
+  let localizerInitialized = false;
+  function initLocalizer() {
+    if (localizerInitialized) return;
+    localizerInitialized = true;
+
+    const input = document.getElementById("localizer-city-input");
+    const dropdown = document.getElementById("localizer-suggestions-dropdown");
+    const list = document.getElementById("localizer-suggestions-list");
+
+    const resultsSection = document.getElementById("localizer-results-section");
+    const placeholder = document.getElementById("localizer-placeholder");
+    const langName = document.getElementById("localizer-language-name");
+    const phrasesList = document.getElementById("localizer-phrases-list");
+
+    const cultureSection = document.getElementById("localizer-culture-section");
+    const culturePlaceholder = document.getElementById("localizer-culture-placeholder");
+    const cultureFootwear = document.getElementById("localizer-culture-footwear");
+    const cultureDress = document.getElementById("localizer-culture-dress");
+    const cultureTipping = document.getElementById("localizer-culture-tipping");
+
+    if (input) {
+      input.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        if (dropdown) {
+          if (q.length < 1) { dropdown.style.display = "none"; return; }
+          simpleAutocomplete(input, dropdown, list, q, 5, selected => {
+            input.value = capitalizeWord(selected);
+            dropdown.style.display = "none";
+            showLocalLanguage(selected);
+          });
+        }
+      });
+    }
+
+    document.addEventListener("click", e => {
+      if (input && !input.contains(e.target) && dropdown) dropdown.style.display = "none";
+    });
+
+    function showLocalLanguage(cityName) {
+      playSelectSound();
+
+      if (placeholder) placeholder.style.display = "none";
+      if (resultsSection) resultsSection.style.display = "flex";
+      if (culturePlaceholder) culturePlaceholder.style.display = "none";
+      if (cultureSection) cultureSection.style.display = "flex";
+
+      const coords = getCityCoords(cityName);
+      const facts = computeLogisticsFacts(cityName, coords, 0);
+      const state = facts.state;
+
+      let lang = "Hindi";
+      let greetings = "Namaste";
+      let phoneticGreetings = "Nuh-muh-stay";
+      let thanks = "Dhanyavaad";
+      let water = "Paani";
+      let bill = "Bill kitna hua?";
+      let emergency = "Bachao!";
+
+      if (state === "Maharashtra") {
+        lang = "Marathi";
+        greetings = "Namaskar";
+        phoneticGreetings = "Nuh-muh-skaar";
+        thanks = "Aabhar";
+        water = "Paani";
+        bill = "Bill kiti jhale?";
+        emergency = "Madat kara!";
+      } else if (state === "West Bengal") {
+        lang = "Bengali";
+        greetings = "Noshkar";
+        phoneticGreetings = "Nosh-kaar";
+        thanks = "Dhonnobad";
+        water = "Jol";
+        bill = "Koto bill holo?";
+        emergency = "Bachan!";
+      } else if (state === "Karnataka") {
+        lang = "Kannada";
+        greetings = "Namaskara";
+        phoneticGreetings = "Nuh-muh-skaarah";
+        thanks = "Dhanyavadagalu";
+        water = "Neeru";
+        bill = "Billu eshtu aytu?";
+        emergency = "Kapaadi!";
+      } else if (state === "Tamil Nadu") {
+        lang = "Tamil";
+        greetings = "Vanakkam";
+        phoneticGreetings = "Vuh-nuh-kuhm";
+        thanks = "Nandri";
+        water = "Thanneer";
+        bill = "Bill evvalavu aachu?";
+        emergency = "Kaapaathunga!";
+      } else if (state === "Goa") {
+        lang = "Konkani";
+        greetings = "Dev Boro Dees Diu";
+        phoneticGreetings = "Dev Boh-ro Dees Dew";
+        thanks = "Dev Borem Korum";
+        water = "Udak";
+        bill = "Kitlem bill zalem?";
+        emergency = "Vachai!";
+      }
+
+      if (langName) langName.textContent = lang;
+
+      const phrases = [
+        { english: "Hello / Greetings", local: greetings, phonetic: phoneticGreetings },
+        { english: "Thank You", local: thanks, phonetic: thanks },
+        { english: "Water", local: water, phonetic: water },
+        { english: "How much is the bill?", local: bill, phonetic: bill },
+        { english: "Emergency / Help!", local: emergency, phonetic: emergency }
+      ];
+
+      if (phrasesList) {
+        phrasesList.innerHTML = phrases.map(p => `
+          <div class="trip-stop-card" style="padding:0.75rem 1rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">${p.english}</span>
+              <div style="font-size:1rem; font-weight:850; color:var(--color-primary); margin-top:0.15rem;">${p.local}</div>
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-secondary); font-style:italic;">"${p.phonetic}"</span>
+          </div>
+        `).join("");
+      }
+
+      if (cultureFootwear) {
+        cultureFootwear.textContent = `Always remove footwear before entering temples, shrines, or local residences in ${state}. Stash them at designated shoe stalls.`;
+      }
+      if (cultureDress) {
+        cultureDress.textContent = `Dress modestly when visiting religious sites in ${state}. Cover shoulders and knees; carrying a clean scarf to cover your head is highly recommended in historic zones.`;
+      }
+      if (cultureTipping) {
+        cultureTipping.textContent = `Tipping is not strictly mandatory, but round off auto-fares or tip 5-10% at dining restaurants in ${state}. Avoid direct tips to temple priests.`;
+      }
+    }
+  }
+
+  let photoHubInitialized = false;
+  let photoCheckedLandmarks = {};
+
+  function initPhotoHub() {
+    if (photoHubInitialized) return;
+    photoHubInitialized = true;
+
+    const input = document.getElementById("photo-city-input");
+    const dropdown = document.getElementById("photo-suggestions-dropdown");
+    const list = document.getElementById("photo-suggestions-list");
+
+    const resultsSection = document.getElementById("photo-results-section");
+    const placeholder = document.getElementById("photo-placeholder");
+    const spotsGrid = document.getElementById("photo-spots-grid");
+
+    const progressRing = document.getElementById("photo-progress-ring");
+    const progressPct = document.getElementById("photo-progress-pct");
+    const visitedCount = document.getElementById("photo-visited-count");
+    const totalCount = document.getElementById("photo-total-count");
+
+    let currentPhotoSpots = [];
+
+    if (input) {
+      input.addEventListener("input", e => {
+        const q = e.target.value.trim();
+        if (dropdown) {
+          if (q.length < 1) { dropdown.style.display = "none"; return; }
+          simpleAutocomplete(input, dropdown, list, q, 5, selected => {
+            input.value = capitalizeWord(selected);
+            dropdown.style.display = "none";
+            showPhotoSpots(selected);
+          });
+        }
+      });
+    }
+
+    document.addEventListener("click", e => {
+      if (input && !input.contains(e.target) && dropdown) dropdown.style.display = "none";
+    });
+
+    function showPhotoSpots(cityName) {
+      playSelectSound();
+
+      if (placeholder) placeholder.style.display = "none";
+      if (resultsSection) resultsSection.style.display = "flex";
+
+      currentPhotoSpots = [
+        { name: `${capitalizeWord(cityName)} Heritage Gate / Arch`, time: "Sunrise (06:00 AM)", lighting: "Golden backlight shadow", drone: "Banned (Defense Zone)" },
+        { name: "Local Lake Promenade", time: "Sunset (06:30 PM)", lighting: "Reflective mirror glow", drone: "Restricted (Permit Required)" },
+        { name: "Centenary Palace Ruins", time: "Mid-afternoon (03:00 PM)", lighting: "High contrast shadow angles", drone: "Permitted" }
+      ];
+
+      renderPhotoSpots();
+      calculatePhotoProgress();
+    }
+
+    function renderPhotoSpots() {
+      if (!spotsGrid) return;
+      spotsGrid.innerHTML = currentPhotoSpots.map((spot, idx) => {
+        const isChecked = photoCheckedLandmarks[spot.name] ? "checked" : "";
+        const compClass = isChecked ? "completed" : "";
+        return `
+          <div class="photo-spot-card ${compClass}">
+            <div style="flex:1;">
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${spot.name}</strong>
+              <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.25rem;">
+                ⏱️ Best Time: <span style="color:var(--color-accent); font-weight:700;">${spot.time}</span> • Lighting: <em>${spot.lighting}</em>
+              </div>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.15rem;">🛸 Drone Status: <span style="font-weight:700;">${spot.drone}</span></div>
+            </div>
+            <label style="display:flex; align-items:center; cursor:pointer;">
+              <input type="checkbox" class="photo-spot-checkbox" data-name="${spot.name}" ${isChecked} style="width:18px; height:18px; cursor:pointer;">
+            </label>
+          </div>
+        `;
+      }).join("");
+
+      spotsGrid.querySelectorAll(".photo-spot-checkbox").forEach(box => {
+        box.addEventListener("change", e => {
+          const name = e.target.dataset.name;
+          photoCheckedLandmarks[name] = e.target.checked;
+          
+          playTone(e.target.checked ? 750 : 500, "sine", 0.05, 0.08);
+
+          const card = e.target.closest(".photo-spot-card");
+          if (card) card.classList.toggle("completed", e.target.checked);
+
+          calculatePhotoProgress();
+        });
+      });
+    }
+
+    function calculatePhotoProgress() {
+      if (currentPhotoSpots.length === 0) return;
+
+      const total = currentPhotoSpots.length;
+      let visited = 0;
+      currentPhotoSpots.forEach(s => {
+        if (photoCheckedLandmarks[s.name]) visited++;
+      });
+
+      if (visitedCount) visitedCount.textContent = visited;
+      if (totalCount) totalCount.textContent = total;
+
+      const pct = Math.round((visited / total) * 100);
+      if (progressPct) progressPct.textContent = `${pct}%`;
+
+      if (progressRing) {
+        const offset = 364.4 - (pct / 100) * 364.4;
+        progressRing.style.strokeDashoffset = offset;
+      }
     }
   }
 

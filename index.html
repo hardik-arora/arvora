@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=6.0.0">
+  <link rel="stylesheet" href="index.css?v=7.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -87,6 +87,15 @@
         <button id="tab-btn-foodsafety" class="tab-btn"><span>🛡️</span> Street Food Safety</button>
         <button id="tab-btn-smartpacker" class="tab-btn"><span>📅</span> Smart Packer</button>
         <button id="tab-btn-simadvisor" class="tab-btn"><span>📶</span> SIM &amp; Network</button>
+        <button id="tab-btn-visa" class="tab-btn"><span>🛂</span> Visa &amp; Customs</button>
+        <button id="tab-btn-socket" class="tab-btn"><span>🔌</span> Socket Guide</button>
+        <button id="tab-btn-atm" class="tab-btn"><span>💸</span> ATM Advisor</button>
+        <button id="tab-btn-voice" class="tab-btn"><span>🗣️</span> Speech Translator</button>
+        <button id="tab-btn-sleep" class="tab-btn"><span>🚆</span> Sleep Comfort</button>
+        <button id="tab-btn-pnrpredict" class="tab-btn"><span>🔮</span> Waitlist Predictor</button>
+        <button id="tab-btn-stomach" class="tab-btn"><span>🧘</span> Stomach Safety</button>
+        <button id="tab-btn-solosafety" class="tab-btn"><span>🚶</span> Solo Travel Safety</button>
+        <button id="tab-btn-vault" class="tab-btn"><span>📲</span> Document Vault</button>
       </div>
     </header>
 
@@ -2733,6 +2742,472 @@
     </div>
   </div>
 
+  </div>
+
+  <!-- TAB 32: VISA & CUSTOMS ADVISOR -->
+  <div id="tab-content-visa" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛂</span> Visa &amp; Customs Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Check India e-Visa rules, processing details, and duty-free customs declaration limits.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Nationality select & rules -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🛂 e-Visa Requirements</h3>
+          
+          <div>
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">YOUR NATIONALITY</label>
+            <select id="visa-nationality" style="width:100%;">
+              <option value="usa">United States of America (USA)</option>
+              <option value="uk">United Kingdom (UK)</option>
+              <option value="canada">Canada</option>
+              <option value="australia">Australia</option>
+              <option value="germany">Germany / EU</option>
+            </select>
+          </div>
+
+          <div id="visa-details-card" class="trip-stop-card" style="padding:1rem; display:flex; flex-direction:column; gap:0.45rem;">
+            <!-- JS updates -->
+          </div>
+        </div>
+
+        <!-- Right: Customs limitations -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">👜 Indian Customs Allowances</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem; font-size:0.8rem; color:var(--text-secondary);">
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.4rem;">
+              <span>🍷 Alcohol allowance</span>
+              <strong style="color:var(--text-primary);">Up to 2 Liters</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.4rem;">
+              <span>🚬 Cigarettes allowance</span>
+              <strong style="color:var(--text-primary);">100 sticks</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.4rem;">
+              <span>🪙 Gold limit (Male)</span>
+              <strong style="color:var(--text-primary);">₹50,000 value (~20g)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.4rem;">
+              <span>🪙 Gold limit (Female)</span>
+              <strong style="color:var(--text-primary);">₹1,00,000 value (~40g)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding-bottom:0.25rem;">
+              <span>💵 Cash limit declaration</span>
+              <strong style="color:var(--text-primary);">>$5,000 USD (equivalent)</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 33: POWER SOCKET & ADAPTER GUIDE -->
+  <div id="tab-content-socket" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(14, 165, 233, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🔌</span> Power Socket &amp; Adapters</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Evaluate power outlet pin setups and voltage compatibility across Indian grids.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Sockets display -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🔌 India Outlets: Types C, D &amp; M</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem; text-align:center;">
+            <div style="background:rgba(255,255,255,0.02); padding:1rem; border:1px solid var(--card-border); border-radius:8px;">
+              <div style="font-size:2.2rem; margin-bottom:0.5rem;">🔌</div>
+              <strong style="color:var(--text-primary); font-size:0.9rem;">Type C</strong>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">2 round pins (Standard Europlug)</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02); padding:1rem; border:1px solid var(--card-border); border-radius:8px;">
+              <div style="font-size:2.2rem; margin-bottom:0.5rem;">🔌</div>
+              <strong style="color:var(--text-primary); font-size:0.9rem;">Type D</strong>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">3 round pins (Standard Indian)</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02); padding:1rem; border:1px solid var(--card-border); border-radius:8px;">
+              <div style="font-size:2.2rem; margin-bottom:0.5rem;">🔌</div>
+              <strong style="color:var(--text-primary); font-size:0.9rem;">Type M</strong>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">3 large round pins (Heavy appliances)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Voltage checker -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">⚡ Voltage &amp; Frequency Compatibility</h3>
+          
+          <div>
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">YOUR HOME COUNTRY</label>
+            <select id="socket-home-country" style="width:100%;">
+              <option value="us">United States / Canada (120V)</option>
+              <option value="eu">Europe / UK / Australia (230V)</option>
+              <option value="japan">Japan (100V)</option>
+            </select>
+          </div>
+
+          <div id="socket-compat-readout" class="trip-stop-card" style="padding:1rem; font-size:0.82rem; line-height:1.45; color:var(--text-secondary);">
+            <!-- JS updates -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 34: ATM FEE & WITHDRAWAL ADVISOR -->
+  <div id="tab-content-atm" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💸</span> ATM Fee &amp; Withdrawal Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Evaluate cash withdrawal markups, compare bank ATM fees, and spot DCC conversion traps.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Fee checker -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">💸 ATM Cost Estimator</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">ATM BANK TYPE</label>
+              <select id="atm-bank" style="width:100%;">
+                <option value="sbi">State Bank of India (SBI)</option>
+                <option value="hdfc">HDFC Bank / ICICI Bank</option>
+                <option value="indicash">Indicash / White-Label ATM</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">CARD TYPE</label>
+              <select id="atm-card" style="width:100%;">
+                <option value="domestic">Domestic Debit Card</option>
+                <option value="international">International Foreign Card</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="atm-fees-card" class="trip-stop-card" style="padding:1rem; display:flex; flex-direction:column; gap:0.45rem;">
+            <!-- JS updates -->
+          </div>
+        </div>
+
+        <!-- Right: DCC Warning -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem; border-color:rgba(239, 68, 68, 0.25); background:radial-gradient(circle at top right, rgba(239, 68, 68, 0.05) -20%, var(--card-bg) 80%);">
+          <h3 style="font-size:1.15rem; font-weight:800; color:#ef4444; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">⚠️ Decline DCC (Dynamic Currency Conversion)</h3>
+          <p style="font-size:0.8rem; color:var(--text-secondary); line-height:1.5; margin:0;">
+            When withdrawing cash, the ATM may ask: <strong>"Do you want to be billed in your home currency?"</strong>.
+            <br><br>
+            <strong style="color:var(--text-primary);">Always select DECLINE CONVERSION / BILL IN LOCAL CURRENCY (INR).</strong>
+            <br><br>
+            Allowing the ATM to convert the currency triggers markup exchange rates of <strong>7% to 15%</strong>. Letting your own bank convert it uses the official Visa/Mastercard wholesale rate (typically under 1% to 3.5%).
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 35: SPEAK ALOUD TRANSLATOR -->
+  <div id="tab-content-voice" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🗣️</span> Speak Aloud Phrase Translator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Select daily phrases and play voice vocalizations spoken aloud in local dialects.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Translator phrases -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🗣️ Vocal Voice Phrases</h3>
+          
+          <div>
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">CHOOSE DIALECT</label>
+            <select id="voice-language" style="width:100%;">
+              <option value="hi-IN">Hindi (North / Central India)</option>
+              <option value="kn-IN">Kannada (Karnataka / Bengaluru)</option>
+              <option value="bn-IN">Bengali (West Bengal / Kolkata)</option>
+              <option value="mr-IN">Marathi (Maharashtra / Mumbai)</option>
+            </select>
+          </div>
+
+          <div id="voice-phrases-list" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <!-- JS inserts speak rows -->
+          </div>
+        </div>
+
+        <!-- Right: Speak settings status -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🔊 Voice Engine Status</h3>
+          <div class="trip-stop-card" style="padding:1rem; text-align:center;">
+            <div style="font-size:2rem; margin-bottom:0.35rem;">🎙️</div>
+            <strong id="voice-engine-status" style="color:var(--color-success); font-size:0.9rem;">Speech Synthesis Active</strong>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin:0.25rem 0 0;">Relies on native browser SpeechSynthesis engine matching dialect codes.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 36: COACH SLEEP COMFORT & SOCKET FINDER -->
+  <div id="tab-content-sleep" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚆</span> Coach Sleep Comfort &amp; Sockets</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Evaluate socket setups, berth dimension configurations, and privacy scores across train classes.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Coach class selector & table -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">💺 Berth Configuration Advisor</h3>
+          
+          <div>
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">TRAIN COACH CLASS</label>
+            <select id="sleep-coach-class" style="width:100%;">
+              <option value="3ac">3AC Tier Sleeper (Economy AC)</option>
+              <option value="2ac">2AC Tier Sleeper (Comfort AC)</option>
+              <option value="1ac">1AC First Class AC (Premium Cabin)</option>
+            </select>
+          </div>
+
+          <div id="sleep-class-ratings" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <!-- JS inserts rating cards -->
+          </div>
+        </div>
+
+        <!-- Right: Quick Coach Packing Tips -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">💡 Berth Comfort Tips</h3>
+          <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.55rem;">
+            <li><strong>Side Lower (SL)</strong> is highly popular for daytime views but prone to aisle corridor passenger bumps.</li>
+            <li><strong>Side Upper (SU)</strong> is highly recommended for solo travelers who want constant privacy without folding berths during the day.</li>
+            <li>Always carry a multi-plug adapter or thin extension cord; older coaches have only 1 plug socket shared among 6 to 8 passengers.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 37: WAITLIST PREDICTOR & REFUND CALCULATOR -->
+  <div id="tab-content-pnrpredict" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🔮</span> Waitlist PNR Predictor &amp; Refund Calc</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate waitlist confirmation probabilities and estimate refund cancellation fees.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: WL Predictor -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🔮 Waitlist Confirmation Odds</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">CURRENT WAITLIST NO.</label>
+              <input type="number" id="pnrpredict-wl-no" value="25" style="width:100%;">
+            </div>
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">COACH CLASS</label>
+              <select id="pnrpredict-class" style="width:100%;">
+                <option value="3ac">3AC Tier</option>
+                <option value="2ac">2AC Tier</option>
+                <option value="sleeper">Sleeper Class (SL)</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="pnrpredict-btn-calc" class="visualizer-btn" style="width:100%; font-weight:800; background:var(--color-purple); border-color:rgba(168, 85, 247, 0.4); color:#fff; padding:0.65rem;">
+            🔮 Predict Confirmation Odds
+          </button>
+
+          <div id="pnrpredict-odds-card" class="trip-stop-card" style="display:none; padding:1rem; align-items:center; justify-content:space-between;">
+            <!-- JS updates -->
+          </div>
+        </div>
+
+        <!-- Right: Cancel Refund Calculator -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">💸 Ticket Cancellation Refund</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">CANCELLATION TIMING</label>
+              <select id="pnrpredict-cancel-time" style="width:100%;">
+                <option value="48">More than 48 hours before train</option>
+                <option value="12">12 to 48 hours before train</option>
+                <option value="4">4 to 12 hours before train</option>
+                <option value="0">Less than 4 hours (Chart Prepared)</option>
+              </select>
+            </div>
+
+            <div id="pnrpredict-refund-card" class="trip-stop-card" style="padding:1rem; font-size:0.82rem; line-height:1.45; color:var(--text-secondary);">
+              <!-- JS updates -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 38: SPICE TOLERANCE & STOMACH ADVISOR -->
+  <div id="tab-content-stomach" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧘</span> Spice Tolerance &amp; Stomach Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Get meal recommendations and digestive remedies tailored to your stomach state.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Selectors & meals -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🥣 Diet Advisor</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">STOMACH CONDITION</label>
+              <select id="stomach-condition" style="width:100%;">
+                <option value="healthy">Healthy &amp; Acclimatized</option>
+                <option value="acidic">Acidity / Heartburn</option>
+                <option value="indigestion">Indigestion / Bloated</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">SPICE PREFERENCE</label>
+              <select id="stomach-spice" style="width:100%;">
+                <option value="mild">Mild (Non-spicy)</option>
+                <option value="medium">Medium</option>
+                <option value="spicy">Spicy (Traditional)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="stomach-meals-card" class="trip-stop-card" style="padding:1rem; display:flex; flex-direction:column; gap:0.45rem;">
+            <!-- JS updates -->
+          </div>
+        </div>
+
+        <!-- Right: Herbal Remedies -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🌱 Ayurvedic &amp; Herbal Remedies</h3>
+          
+          <div id="stomach-remedies-list" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <!-- JS updates -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 39: SOLO TRAVELER SAFETY GUIDE -->
+  <div id="tab-content-solosafety" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚶</span> Solo Traveler Transit &amp; Safety</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Review security measures, verified night travel transport, and emergency hotlines.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Transit checklist -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🚇 Transit Security Rules</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-size:0.82rem; font-weight:800; color:var(--color-primary);">🚆 Train compartments</span>
+              <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Women solo travelers can book women-only coaches in metropolitan suburban lines (Mumbai Local, Delhi Metro) or check upper class sleeper berths for long distances.</p>
+            </div>
+            <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.2rem;">
+              <span style="font-size:0.82rem; font-weight:800; color:var(--color-success);">📱 Live Location Sharing</span>
+              <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Before starting late-night taxi rides, always share your live location via Google Maps or WhatsApp with a family contact or write it down in Arvora's notes journal.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Contacts directory -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">📞 National Emergency Hotlines</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.8rem; color:var(--text-secondary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem;">
+              <div>
+                <strong>National Emergency Helpline</strong>
+                <div style="font-size:0.72rem; color:var(--text-muted);">All emergencies unified line</div>
+              </div>
+              <a href="tel:112" class="visualizer-btn" style="padding:0.2rem 0.5rem; font-size:0.75rem; background:rgba(239,68,68,0.12); color:#ef4444; border-color:rgba(239,68,68,0.25); text-decoration:none;">📞 Call 112</a>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem;">
+              <div>
+                <strong>Women Helpline</strong>
+                <div style="font-size:0.72rem; color:var(--text-muted);">Safety support line</div>
+              </div>
+              <a href="tel:1091" class="visualizer-btn" style="padding:0.2rem 0.5rem; font-size:0.75rem; background:rgba(168,85,247,0.12); color:var(--color-purple); border-color:rgba(168,85,247,0.25); text-decoration:none;">📞 Call 1091</a>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>Railway Security Force</strong>
+                <div style="font-size:0.72rem; color:var(--text-muted);">Transit helpline desk</div>
+              </div>
+              <a href="tel:182" class="visualizer-btn" style="padding:0.2rem 0.5rem; font-size:0.75rem; background:rgba(59,130,246,0.12); color:var(--color-primary); border-color:rgba(59,130,246,0.25); text-decoration:none;">📞 Call 182</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 40: OFFLINE DOCUMENT CHECKLIST & VAULT -->
+  <div id="tab-content-vault" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📲</span> Offline Document Vault &amp; Checklist</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Track travel documents required offline in zones with poor cellular signal strength.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Document checklist -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">📲 Digital Document Checklist</h3>
+          
+          <div id="vault-docs-list" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <!-- JS inserts doc entries -->
+          </div>
+        </div>
+
+        <!-- Right: Info cards -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">💡 Digital Vault Safety Tips</h3>
+          <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.55rem;">
+            <li>Always keep a <strong>physical printed copy</strong> of your passport photo page and active Indian e-Visa; border checkpoints do not accept digital screens in military zones (like Spiti, Sikkim, Ladakh).</li>
+            <li>Star or download PDFs directly inside your mobile phone file manager, as network drops will prevent cloud storage access.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
   <!-- Page Footer -->
@@ -2741,8 +3216,8 @@
   </footer>
 
   <!-- Include code modules -->
-  <script src="cities.js?v=6.0.0"></script>
-  <script src="trie.js?v=6.0.0"></script>
-  <script src="app.js?v=6.0.0"></script>
+  <script src="cities.js?v=7.0.0"></script>
+  <script src="trie.js?v=7.0.0"></script>
+  <script src="app.js?v=7.0.0"></script>
 </body>
 </html>

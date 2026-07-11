@@ -624,6 +624,65 @@ header {
   transition: margin-left 0.22s ease;
 }
 
+/* Desktop Split-Pane Layout: Pushes content side-by-side instead of overlaying it */
+@media (min-width: 1024px) {
+  .sidebar-drawer.open ~ .app-container {
+    margin-left: 336px;
+  }
+  .sidebar-backdrop {
+    display: none !important; /* Hide backdrop on desktop so user can click main panels directly */
+  }
+}
+/* Bottom macOS Dock styling */
+.mac-dock-container {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 0.5rem 0.85rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.dock-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dock-item:hover {
+  transform: translateY(-8px) scale(1.22);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dock-item.action {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--color-primary);
+}
+
+.dock-item.action:hover {
+  background: var(--color-primary) !important;
+  color: white !important;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5) !important;
+}
 
 
 .tab-btn {

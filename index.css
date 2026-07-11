@@ -2143,3 +2143,22 @@ body.locked .app-container {
   border-color: var(--color-success);
   background: rgba(16, 185, 129, 0.05);
 }
+
+/* Telecom Signal Bars */
+.signal-bar-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 16px;
+  padding-bottom: 2px;
+}
+
+.signal-bar-segment {
+  width: 4px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.signal-bar-segment.active {
+  background: var(--color-success);
+}

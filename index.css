@@ -2119,3 +2119,27 @@ body.locked .app-container {
   border-top: 1px dashed rgba(255, 255, 255, 0.08);
   border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
 }
+
+/* Photo Spot & Sightseeing Cards */
+.photo-spot-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  gap: 1rem;
+}
+
+.photo-spot-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(236, 72, 153, 0.35);
+  transform: translateY(-2px);
+}
+
+.photo-spot-card.completed {
+  border-color: var(--color-success);
+  background: rgba(16, 185, 129, 0.05);
+}

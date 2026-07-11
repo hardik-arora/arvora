@@ -388,17 +388,40 @@ header {
   gap: 0.35rem;
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid var(--card-border);
-  padding: 0.3rem;
+  padding: 0.4rem;
   border-radius: var(--radius-md);
   backdrop-filter: blur(8px);
-  /* Allow horizontal scrolling instead of overflowing the viewport */
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex-wrap: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  flex-wrap: wrap; /* Wrap buttons naturally */
 }
-.tab-navigation::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+/* Category pills styling */
+.cat-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cat-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cat-pill.active {
+  background: var(--color-primary);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+}
 
 .tab-btn {
   background: transparent;

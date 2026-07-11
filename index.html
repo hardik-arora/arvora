@@ -3216,7 +3216,262 @@
     </div>
   </div>
 
+  <!-- =====================================================================
+       TAB: CURRENCY CONVERTER
+       ===================================================================== -->
+  <div id="tab-content-currency" class="tab-content">
+    <div class="tab-header">
+      <h2 class="tab-title">🏦 Currency Converter</h2>
+      <p class="tab-subtitle">Convert INR to 25 major currencies instantly — offline, no API needed</p>
+    </div>
+    <div class="feature-card" style="max-width:520px; margin:0 auto;">
+      <div style="display:flex; gap:0.75rem; align-items:flex-end; flex-wrap:wrap; margin-bottom:1.25rem;">
+        <div style="flex:1; min-width:120px;">
+          <label class="form-label">Amount</label>
+          <input type="number" id="currency-amount" class="form-input" value="1000" min="0" step="any" placeholder="Enter amount">
+        </div>
+        <div style="flex:1; min-width:120px;">
+          <label class="form-label">From</label>
+          <select id="currency-from" class="form-input"></select>
+        </div>
+        <button id="currency-flip-btn" class="visualizer-btn" title="Flip currencies" style="padding:0.6rem 1rem; font-size:1.2rem;">⇄</button>
+        <div style="flex:1; min-width:120px;">
+          <label class="form-label">To</label>
+          <select id="currency-to" class="form-input"></select>
+        </div>
+      </div>
+      <div id="currency-result" style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:12px; padding:1.25rem; text-align:center; margin-bottom:1rem;">
+        <div id="currency-result-value" style="font-size:2rem; font-weight:800; color:var(--color-primary);">—</div>
+        <div id="currency-result-rate" style="font-size:0.82rem; color:var(--text-muted); margin-top:0.25rem;">Select currencies above</div>
+      </div>
+      <button id="currency-convert-btn" class="visualizer-btn" style="width:100%;">Convert</button>
+      <div style="margin-top:1.25rem;">
+        <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.5rem;">Conversion History</div>
+        <div id="currency-history" style="display:flex; flex-direction:column; gap:0.35rem; font-size:0.8rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TAB: AUTO-RICKSHAW FARE CALCULATOR
+       ===================================================================== -->
+  <div id="tab-content-rickshaw" class="tab-content">
+    <div class="tab-header">
+      <h2 class="tab-title">🛺 Auto-Rickshaw Fare Calculator</h2>
+      <p class="tab-subtitle">City-specific official tariff rates for Indian auto-rickshaws</p>
+    </div>
+    <div class="feature-card" style="max-width:540px; margin:0 auto;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+        <div>
+          <label class="form-label">City</label>
+          <select id="rickshaw-city" class="form-input"></select>
+        </div>
+        <div>
+          <label class="form-label">Distance (km)</label>
+          <input type="number" id="rickshaw-dist" class="form-input" value="3" min="0.5" step="0.5" placeholder="km">
+        </div>
+        <div>
+          <label class="form-label">Ride Time</label>
+          <select id="rickshaw-time" class="form-input">
+            <option value="day">Daytime (6am–11pm)</option>
+            <option value="night">Night (11pm–6am)</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Waiting (minutes)</label>
+          <input type="number" id="rickshaw-wait" class="form-input" value="0" min="0" step="1" placeholder="mins">
+        </div>
+      </div>
+      <button id="rickshaw-calc-btn" class="visualizer-btn" style="width:100%; margin-bottom:1.25rem;">Calculate Fare</button>
+      <div id="rickshaw-result" style="display:none;">
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+          <div class="metric-card">
+            <div class="metric-label">Min Fare</div>
+            <div id="rickshaw-min" class="metric-value" style="font-size:1.3rem;">—</div>
+          </div>
+          <div class="metric-card highlighted">
+            <div class="metric-label">Estimated Fare</div>
+            <div id="rickshaw-est" class="metric-value" style="font-size:1.3rem;">—</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Max Fare</div>
+            <div id="rickshaw-max" class="metric-value" style="font-size:1.3rem;">—</div>
+          </div>
+        </div>
+        <div id="rickshaw-breakdown" style="font-size:0.8rem; color:var(--text-muted); background:rgba(255,255,255,0.03); border-radius:8px; padding:0.85rem; line-height:1.8;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TAB: SIM CARD & DATA PLAN GUIDE
+       ===================================================================== -->
+  <div id="tab-content-simguide" class="tab-content">
+    <div class="tab-header">
+      <h2 class="tab-title">📡 SIM Card & Data Plan Guide</h2>
+      <p class="tab-subtitle">Compare Jio, Airtel, Vi & BSNL — prepaid plans for travelers</p>
+    </div>
+    <div id="simguide-content"></div>
+  </div>
+
+  <!-- =====================================================================
+       TAB: SUNRISE & SUNSET CLOCK
+       ===================================================================== -->
+  <div id="tab-content-sunclock" class="tab-content">
+    <div class="tab-header">
+      <h2 class="tab-title">🌅 City Sunrise & Sunset Clock</h2>
+      <p class="tab-subtitle">Astronomical sun times for any Indian city — calculated offline</p>
+    </div>
+    <div class="feature-card" style="max-width:520px; margin:0 auto;">
+      <div style="display:flex; gap:0.75rem; margin-bottom:1.25rem; flex-wrap:wrap;">
+        <div style="flex:2; min-width:200px;">
+          <label class="form-label">City Name</label>
+          <input type="text" id="sunclock-city-input" class="form-input autocomplete-input" placeholder="Search Indian city..." autocomplete="off">
+          <div id="sunclock-suggestions" class="suggestions-box" style="display:none;"></div>
+        </div>
+        <div style="flex:1; min-width:130px;">
+          <label class="form-label">Date</label>
+          <input type="date" id="sunclock-date" class="form-input">
+        </div>
+      </div>
+      <button id="sunclock-calc-btn" class="visualizer-btn" style="width:100%; margin-bottom:1.25rem;">Get Sun Times</button>
+      <div id="sunclock-result" style="display:none;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:2rem;">🌄</div>
+            <div class="metric-label">Sunrise</div>
+            <div id="sun-rise" class="metric-value" style="font-size:1.4rem; color:var(--color-warning);">—</div>
+          </div>
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:2rem;">🌇</div>
+            <div class="metric-label">Sunset</div>
+            <div id="sun-set" class="metric-value" style="font-size:1.4rem; color:var(--color-purple);">—</div>
+          </div>
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:2rem;">✨</div>
+            <div class="metric-label">Golden Hour (AM)</div>
+            <div id="sun-golden-am" class="metric-value" style="font-size:1.1rem;">—</div>
+          </div>
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:2rem;">🌠</div>
+            <div class="metric-label">Golden Hour (PM)</div>
+            <div id="sun-golden-pm" class="metric-value" style="font-size:1.1rem;">—</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Day Length</div>
+          <div id="sun-daylength" class="metric-value" style="font-size:1.2rem;">—</div>
+          <div style="margin-top:0.75rem; height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;">
+            <div id="sun-progress-bar" style="height:100%; background:linear-gradient(90deg,var(--color-warning),var(--color-purple)); border-radius:4px; width:0%; transition:width 1s ease;"></div>
+          </div>
+          <div id="sun-progress-label" style="font-size:0.72rem; color:var(--text-muted); margin-top:0.35rem;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TAB: AIRLINE BAGGAGE CALCULATOR
+       ===================================================================== -->
+  <div id="tab-content-bagcalc" class="tab-content">
+    <div class="tab-header">
+      <h2 class="tab-title">✈️ Airline Baggage Calculator</h2>
+      <p class="tab-subtitle">Exact baggage allowances and excess fee calculator for Indian airlines</p>
+    </div>
+    <div class="feature-card" style="max-width:560px; margin:0 auto;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+        <div>
+          <label class="form-label">Airline</label>
+          <select id="bagcalc-airline" class="form-input"></select>
+        </div>
+        <div>
+          <label class="form-label">Cabin Class</label>
+          <select id="bagcalc-class" class="form-input">
+            <option value="economy">Economy</option>
+            <option value="business">Business</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Fare Type</label>
+          <select id="bagcalc-fare" class="form-input">
+            <option value="saver">Saver / Lite</option>
+            <option value="value">Value / Standard</option>
+            <option value="flex">Flexi / Full</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Your Bag Weight (kg)</label>
+          <input type="number" id="bagcalc-weight" class="form-input" value="23" min="0" step="0.5" placeholder="kg">
+        </div>
+      </div>
+      <button id="bagcalc-btn" class="visualizer-btn" style="width:100%; margin-bottom:1.25rem;">Calculate</button>
+      <div id="bagcalc-result" style="display:none;">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; margin-bottom:1rem;">
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:1.5rem;">🎒</div>
+            <div class="metric-label">Cabin Bag</div>
+            <div id="bag-cabin" class="metric-value" style="font-size:1.1rem;">—</div>
+          </div>
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:1.5rem;">🧳</div>
+            <div class="metric-label">Check-in</div>
+            <div id="bag-checkin" class="metric-value" style="font-size:1.1rem;">—</div>
+          </div>
+          <div class="metric-card" style="text-align:center;">
+            <div style="font-size:1.5rem;">💸</div>
+            <div class="metric-label">Excess Fee</div>
+            <div id="bag-excess" class="metric-value" style="font-size:1.1rem; color:var(--color-danger);">—</div>
+          </div>
+        </div>
+        <div id="bag-notes" style="font-size:0.78rem; color:var(--text-muted); background:rgba(255,255,255,0.03); border-radius:8px; padding:0.85rem; line-height:1.8;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TAB: QR CODE GENERATOR
+       ===================================================================== -->
+  <div id="tab-content-qrcode" class="tab-content">
+    <div class="tab-header">
+      <h2 class="tab-title">🔲 QR Code Generator</h2>
+      <p class="tab-subtitle">Generate QR codes for URLs, UPI IDs, phone numbers, and text — download as PNG</p>
+    </div>
+    <div class="feature-card" style="max-width:520px; margin:0 auto;">
+      <div style="margin-bottom:1rem;">
+        <label class="form-label">QR Type</label>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="cat-pill active" data-qrtype="url" id="qr-type-url">🔗 URL</button>
+          <button class="cat-pill" data-qrtype="text" id="qr-type-text">📝 Text</button>
+          <button class="cat-pill" data-qrtype="phone" id="qr-type-phone">📞 Phone</button>
+          <button class="cat-pill" data-qrtype="upi" id="qr-type-upi">💳 UPI</button>
+          <button class="cat-pill" data-qrtype="email" id="qr-type-email">📧 Email</button>
+        </div>
+      </div>
+      <div id="qr-input-section" style="margin-bottom:1rem;">
+        <label class="form-label" id="qr-input-label">URL</label>
+        <input type="text" id="qr-input-value" class="form-input" placeholder="https://example.com">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label class="form-label">QR Size</label>
+        <select id="qr-size-select" class="form-input" style="max-width:200px;">
+          <option value="200">Small (200×200)</option>
+          <option value="300" selected>Medium (300×300)</option>
+          <option value="400">Large (400×400)</option>
+        </select>
+      </div>
+      <button id="qr-generate-btn" class="visualizer-btn" style="width:100%; margin-bottom:1.5rem;">Generate QR Code</button>
+      <div id="qr-output" style="display:none; text-align:center;">
+        <canvas id="qr-canvas" style="border:2px solid rgba(255,255,255,0.1); border-radius:12px; max-width:100%;"></canvas>
+        <div style="display:flex; gap:0.75rem; justify-content:center; margin-top:1rem;">
+          <button id="qr-download-btn" class="visualizer-btn">⬇ Download PNG</button>
+          <button id="qr-copy-btn" class="visualizer-btn" style="background:rgba(168,85,247,0.15); border-color:rgba(168,85,247,0.3); color:var(--color-purple);">📋 Copy Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
+
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
@@ -3235,8 +3490,8 @@
   </div>
 
   <!-- Include code modules -->
-  <script src="cities.js?v=9.0.0"></script>
-  <script src="trie.js?v=9.0.0"></script>
-  <script src="app.js?v=9.0.0"></script>
+  <script src="cities.js?v=10.0.0"></script>
+  <script src="trie.js?v=10.0.0"></script>
+  <script src="app.js?v=10.0.0"></script>
 </body>
 </html>

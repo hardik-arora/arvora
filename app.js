@@ -709,14 +709,10 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub, tabBtnShopping, tabBtnFoodSafety, tabBtnSmartPacker, tabBtnSimAdvisor, tabBtnVisa, tabBtnSocket, tabBtnAtm, tabBtnVoice, tabBtnSleep, tabBtnPnrPredict, tabBtnStomach, tabBtnSoloSafety, tabBtnVault];
     const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode];
     const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode'];
     const idx = tabIds.indexOf(tabId);
 
-    allTabBtns.forEach((btn, i) => {
-      if (btn) btn.classList.toggle("active", i === idx);
-    });
     allTabContents.forEach((content, i) => {
       if (content) {
         content.classList.toggle("active", i === idx);
@@ -899,10 +895,44 @@ document.addEventListener("DOMContentLoaded", () => {
       if (item.dataset.tab === tabId) item.classList.add('active');
       else item.classList.remove('active');
     });
+
+    // Update active highlight on floating macOS dock items
+    const dock = document.getElementById("floating-mac-dock");
+    if (dock) {
+      const items = dock.querySelectorAll(".dock-item:not(.action)");
+      items.forEach(item => {
+        const matches = (item.dataset.target === tabId);
+        item.style.background = matches ? "rgba(59, 130, 246, 0.25)" : "";
+        item.style.borderColor = matches ? "rgba(59, 130, 246, 0.4)" : "";
+      });
+    }
+
     // Update breadcrumb
     const bc = document.getElementById('active-feature-breadcrumb');
-    const activeBtn = document.querySelector(`.sidebar-feature-item[data-tab="${tabId}"] .sfi-name`);
-    if (bc && activeBtn) bc.textContent = activeBtn.textContent;
+    if (bc) {
+      const FEATURE_NAMES = {
+        engine: 'Autocomplete Engine', routes: 'Database Seed Exporter', game: 'Geoguess Spelling Game',
+        pattern: 'Pattern Search', analytics: 'City Analytics', scanner: 'Text Scanner',
+        travel: 'Geography & Travel Hub', tourism: 'State Showcase', trip: 'Trip Planner',
+        routesolver: 'Transit Solver', transitbooking: 'Transit Hub', seat: 'Train Seat Maps',
+        metro: 'Metro Planner', airport: 'Airport Navigator', evisa: 'e-Visa Calculator',
+        voltage: 'Voltage Adapter', atm: 'ATM & DCC Advisor', irctc: 'IRCTC Waitlist Engine',
+        train: 'Train Coach Comfort', safety: 'Health & Customs Safety', customs: 'Customs & Duty',
+        legal: 'Legal & Rights', insurance: 'Travel Insurance', medical: 'Medical Locator',
+        emergency: 'Emergency Contacts', solosafety: 'Solo Safety Advisor', vault: 'Document Vault',
+        culture: 'Culture Explorer', festival: 'Festival Calendar', food: 'Regional Cuisine',
+        foodsafety: 'Street Food Safety', photo: 'Photo Hub', shopping: 'Souvenir & Craft',
+        notes: 'Travel Notes Journal', smartpacker: 'Smart Packer', voice: 'Speech Translator',
+        stomach: 'Stomach Safety', weather: 'Weather Advisor', currency: 'Currency Converter',
+        rickshaw: 'Rickshaw Fare Calc', bagcalc: 'Airline Baggage Calc', qrcode: 'QR Code Generator',
+        sunclock: 'Sunrise & Sunset', simguide: 'SIM Card & Data Guide', discovery: 'City Discovery',
+        festivals: 'Festivals Calendar', compare: 'City Comparison', budget: 'Budget Calculator',
+        health: 'Health Hub', evrouter: 'EV Charging Router', localizer: 'Dialect Localizer',
+        photohub: 'Sightseeing Checklist', sleep: 'Coach Sleep Guide', pnrpredict: 'PNR Predictor',
+        simadvisor: 'Network SIM Advisor', visa: 'Visa Advisor', socket: 'Socket Guide'
+      };
+      bc.textContent = FEATURE_NAMES[tabId] || tabId;
+    }
   }
 
   // =====================================================================
@@ -8238,6 +8268,41 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
       searchInput.addEventListener('input', e => {
         const q = e.target.value.trim().toLowerCase();
         buildList('search', q);
+      });
+    }
+
+    // Cmd+K / Ctrl+K keyboard shortcut to toggle Search drawer
+    document.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (isOpen && currentCat === 'search') {
+          closeDrawer();
+        } else {
+          openDrawer('search');
+        }
+      }
+    });
+
+    // Floating bottom dock click handlers
+    const dock = document.getElementById('floating-mac-dock');
+    const dockTrigger = document.getElementById('dock-btn-command');
+    if (dock) {
+      const dockItems = dock.querySelectorAll('.dock-item:not(.action)');
+      dockItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const targetTab = item.dataset.target;
+          playSelectSound();
+          switchTab(targetTab);
+        });
+      });
+    }
+    if (dockTrigger) {
+      dockTrigger.addEventListener('click', () => {
+        if (isOpen && currentCat === 'search') {
+          closeDrawer();
+        } else {
+          openDrawer('search');
+        }
       });
     }
 

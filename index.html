@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=3.0.0">
+  <link rel="stylesheet" href="index.css?v=4.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -78,6 +78,7 @@
         <button id="tab-btn-tracker" class="tab-btn"><span>🗺️</span> Exploration Tracker</button>
         <button id="tab-btn-notes" class="tab-btn"><span>📒</span> Notes Journal</button>
         <button id="tab-btn-baggage" class="tab-btn"><span>⚖️</span> Baggage Estimator</button>
+        <button id="tab-btn-transitbooking" class="tab-btn"><span>🎫</span> Transit &amp; Booking Hub</button>
       </div>
     </header>
 
@@ -1976,6 +1977,194 @@
     </div>
   </div>
 
+  <!-- TAB 23: TRANSIT & BOOKING HUB -->
+  <div id="tab-content-transitbooking" class="tab-content">
+    <div style="max-width:1200px; margin:0 auto; padding: 0 1rem 3rem;">
+      
+      <!-- Hero Header -->
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎫</span> Transit &amp; Booking Hub</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Find flight/train schedules, check PNR seat allocations on visual coach maps, and calculate fuel/tolls for road trips.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Scheduler Search & Results -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🚆 Rail &amp; Flight Connection Finder</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <!-- Start City -->
+            <div style="position:relative;">
+              <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">SOURCE CITY</label>
+              <input type="text" id="transit-start-city" placeholder="e.g. Mumbai" style="width:100%;" autocomplete="off">
+              <div id="transit-start-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+                <div id="transit-start-list" style="padding:0.25rem 0;"></div>
+              </div>
+            </div>
+
+            <!-- Destination City -->
+            <div style="position:relative;">
+              <label style="display:block; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">DESTINATION CITY</label>
+              <input type="text" id="transit-end-city" placeholder="e.g. Delhi" style="width:100%;" autocomplete="off">
+              <div id="transit-end-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+                <div id="transit-end-list" style="padding:0.25rem 0;"></div>
+              </div>
+            </div>
+          </div>
+
+          <button id="transit-btn-search" class="visualizer-btn" style="width:100%; font-weight:800; background:var(--color-purple); border-color:rgba(168, 85, 247, 0.4); color:#fff; padding:0.65rem;">
+            🔍 Search Connections &amp; Estimate Costs
+          </button>
+
+          <!-- Schedules List Results -->
+          <div id="transit-results-section" style="display:none; flex-direction:column; gap:0.85rem; margin-top:0.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.4rem;">
+              <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Available Connections</span>
+              <span id="transit-routes-count" style="font-size:0.75rem; background:rgba(168,85,247,0.15); color:var(--color-purple); padding:0.15rem 0.5rem; border-radius:99px; font-weight:700;">0 Routes</span>
+            </div>
+            <div id="transit-schedules-list" style="display:flex; flex-direction:column; gap:0.75rem; max-height:480px; overflow-y:auto; padding-right:0.25rem;">
+              <!-- Dynamic items inserted here -->
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div id="transit-scheduler-empty" style="text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <div style="font-size:2.8rem; margin-bottom:0.75rem;">✈️</div>
+            <p style="font-size:0.9rem; font-weight:500; margin:0;">Enter source and destination cities to load flight schedules, express trains, and road trip routes.</p>
+          </div>
+        </div>
+
+        <!-- Right Side: PNR Status / Coach Map & Roadtrip Estimator -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          
+          <!-- Card: PNR Status & Coach Visualizer -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1.1rem;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🎫 PNR Seat Map &amp; Coach Visualizer</h3>
+            
+            <div style="display:flex; gap:0.5rem;">
+              <input type="text" id="transit-pnr-input" placeholder="Enter PNR e.g. 432-8765431" style="flex-grow:1;" maxlength="11">
+              <button id="transit-btn-pnr" class="visualizer-btn" style="white-space:nowrap; font-weight:700;">Check PNR</button>
+            </div>
+
+            <!-- PNR Results Area -->
+            <div id="transit-pnr-results" style="display:none; flex-direction:column; gap:0.9rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.15); border:1px solid var(--card-border); border-radius:8px; padding:0.65rem 1rem;">
+                <div>
+                  <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">TICKET STATUS</span>
+                  <div id="transit-pnr-status-badge" style="font-size:0.95rem; font-weight:800; color:var(--color-success); margin-top:0.1rem;">Confirmed (CNF)</div>
+                </div>
+                <div style="text-align:right;">
+                  <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">COACH / SEAT</span>
+                  <div style="font-size:0.95rem; font-weight:800; color:var(--text-primary); margin-top:0.1rem;"><span id="transit-pnr-coach">B3</span> / <span id="transit-pnr-seat">24</span></div>
+                </div>
+              </div>
+
+              <!-- Interactive Seat Map Grid -->
+              <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.03em;">Interactive Coach Layout (Click to toggle seat selection)</span>
+                <div style="background:rgba(2,6,23,0.8); border:1px solid var(--card-border); border-radius:10px; padding:1rem; overflow-x:auto;">
+                  
+                  <!-- Coach Outer Rim Shell -->
+                  <div style="min-width:320px; display:flex; flex-direction:column; border:2px solid #4b5563; border-radius:8px; padding:0.5rem; background:rgba(15,23,42,0.9); position:relative;">
+                    
+                    <!-- Coach Vestibule / Corridor labels -->
+                    <div style="display:flex; justify-content:space-between; font-size:0.62rem; color:#6b7280; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.25rem; margin-bottom:0.5rem;">
+                      <span>⬅️ ENTRANCE / TOILETS</span>
+                      <span>COACH B3 (3AC SLEEPER)</span>
+                      <span>TOILETS ➡️</span>
+                    </div>
+
+                    <!-- Visual Seats Grid Layout -->
+                    <div id="transit-coach-grid" style="display:grid; grid-template-columns: repeat(8, 1fr); gap:0.4rem; justify-items:center;">
+                      <!-- Generated Dynamically by JS -->
+                    </div>
+
+                    <!-- Berth Legend Indicator -->
+                    <div style="display:flex; justify-content:center; gap:0.8rem; font-size:0.68rem; margin-top:0.75rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:0.4rem; color:var(--text-muted); font-weight:600;">
+                      <span style="display:flex; align-items:center; gap:0.25rem;"><span style="display:inline-block; width:8px; height:8px; background:#1e293b; border:1px solid #4b5563; border-radius:2px;"></span> Available</span>
+                      <span style="display:flex; align-items:center; gap:0.25rem;"><span style="display:inline-block; width:8px; height:8px; background:#b91c1c; border-radius:2px;"></span> Occupied</span>
+                      <span style="display:flex; align-items:center; gap:0.25rem;"><span style="display:inline-block; width:8px; height:8px; background:var(--color-purple); border-radius:2px; box-shadow:0 0 4px var(--color-purple);"></span> Your Seat</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PNR Placeholder -->
+            <div id="transit-pnr-placeholder" style="text-align:center; padding:1.5rem; color:var(--text-muted); border:1px dashed var(--card-border); border-radius:8px;">
+              <p style="font-size:0.82rem; margin:0;">Enter PNR code above to inspect confirm details and view visual berth arrangements.</p>
+            </div>
+          </div>
+
+          <!-- Card: Roadtrip Toll & Fuel Estimator -->
+          <div class="panel" style="display:flex; flex-direction:column; gap:1.1rem;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🚗 Roadtrip Toll &amp; Fuel Estimator</h3>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem;">
+              <div>
+                <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.3rem; font-weight:700;">VEHICLE TYPE</label>
+                <select id="transit-vehicle-select" style="width:100%; background:rgba(2,6,23,0.7); border:1px solid var(--card-border); border-radius:6px; padding:0.45rem; color:var(--text-primary); font-family:inherit; cursor:pointer;">
+                  <option value="hatchback" selected>🚗 Hatchback (16 km/l)</option>
+                  <option value="suv">🚙 Premium SUV (11 km/l)</option>
+                  <option value="motorcycle">🏍️ Motorcycle (45 km/l)</option>
+                  <option value="ev">⚡ EV / Electric (6 km/kWh)</option>
+                </select>
+              </div>
+
+              <div>
+                <label id="transit-fuel-price-label" style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.3rem; font-weight:700;">FUEL PRICE (₹/L)</label>
+                <input type="number" id="transit-fuel-price" value="104.5" step="0.5" style="width:100%; padding:0.4rem 0.5rem;">
+              </div>
+            </div>
+
+            <!-- Cost Heuristics Readout -->
+            <div id="transit-roadtrip-readout" style="display:none; flex-direction:column; gap:0.6rem;">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.65rem;">
+                <div class="trip-stop-card" style="padding:0.65rem; display:flex; flex-direction:column;">
+                  <span style="font-size:0.68rem; color:var(--text-muted); font-weight:700;">TOTAL FUEL COST</span>
+                  <strong id="transit-road-fuel-cost" style="font-size:1.15rem; color:var(--color-primary);">₹0</strong>
+                  <span id="transit-road-fuel-qty" style="font-size:0.72rem; color:var(--text-muted);">0 Liters</span>
+                </div>
+                <div class="trip-stop-card" style="padding:0.65rem; display:flex; flex-direction:column;">
+                  <span style="font-size:0.68rem; color:var(--text-muted); font-weight:700;">FASTAG TOLL ESTIMATE</span>
+                  <strong id="transit-road-toll-cost" style="font-size:1.15rem; color:var(--color-purple);">₹0</strong>
+                  <span id="transit-road-toll-qty" style="font-size:0.72rem; color:var(--text-muted);">0 Toll Plazas</span>
+                </div>
+              </div>
+
+              <!-- Grand Total & Carbon Footprint -->
+              <div style="background:rgba(0,0,0,0.2); border:1px solid var(--card-border); border-radius:8px; padding:0.75rem 1rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <span style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">ROAD TRIP GRAND TOTAL</span>
+                  <div style="font-size:1.3rem; font-weight:850; color:var(--color-success);" id="transit-road-grand-total">₹0</div>
+                </div>
+                <div style="text-align:right;">
+                  <span style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">CARBON EMISSION</span>
+                  <div style="font-size:1rem; font-weight:800; color:#ef4444;" id="transit-road-carbon">0 kg CO₂</div>
+                </div>
+              </div>
+
+              <!-- EV Charging Stops Indicator (Only shown in EV Mode) -->
+              <div id="transit-ev-stops-alert" class="trip-stop-card" style="display:none; padding:0.65rem 0.85rem; border-color:rgba(16,185,129,0.3); background:rgba(16,185,129,0.05); color:var(--color-success); font-size:0.78rem;">
+                ⚡ <strong>EV Smart Route:</strong> Estimated <span id="transit-ev-stops-count">0</span> charging sessions required along the highway corridor.
+              </div>
+            </div>
+
+            <!-- Roadtrip Placeholder -->
+            <div id="transit-roadtrip-placeholder" style="text-align:center; padding:1.25rem; color:var(--text-muted); border:1px dashed var(--card-border); border-radius:8px;">
+              <p style="font-size:0.82rem; margin:0;">Calculate driving costs by entering source and destination cities above.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
   <!-- Page Footer -->
@@ -1984,8 +2173,8 @@
   </footer>
 
   <!-- Include code modules -->
-  <script src="cities.js?v=3.0.0"></script>
-  <script src="trie.js?v=3.0.0"></script>
-  <script src="app.js?v=3.0.0"></script>
+  <script src="cities.js?v=4.0.0"></script>
+  <script src="trie.js?v=4.0.0"></script>
+  <script src="app.js?v=4.0.0"></script>
 </body>
 </html>

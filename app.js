@@ -150,6 +150,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabBtnFoodSafety = document.getElementById("tab-btn-foodsafety");
   const tabBtnSmartPacker = document.getElementById("tab-btn-smartpacker");
   const tabBtnSimAdvisor = document.getElementById("tab-btn-simadvisor");
+  const tabBtnVisa = document.getElementById("tab-btn-visa");
+  const tabBtnSocket = document.getElementById("tab-btn-socket");
+  const tabBtnAtm = document.getElementById("tab-btn-atm");
+  const tabBtnVoice = document.getElementById("tab-btn-voice");
+  const tabBtnSleep = document.getElementById("tab-btn-sleep");
+  const tabBtnPnrPredict = document.getElementById("tab-btn-pnrpredict");
+  const tabBtnStomach = document.getElementById("tab-btn-stomach");
+  const tabBtnSoloSafety = document.getElementById("tab-btn-solosafety");
+  const tabBtnVault = document.getElementById("tab-btn-vault");
   const tabContentEngine = document.getElementById("tab-content-engine");
   const tabContentRoutes = document.getElementById("tab-content-routes");
   const tabContentGame = document.getElementById("tab-content-game");
@@ -181,6 +190,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentFoodSafety = document.getElementById("tab-content-foodsafety");
   const tabContentSmartPacker = document.getElementById("tab-content-smartpacker");
   const tabContentSimAdvisor = document.getElementById("tab-content-simadvisor");
+  const tabContentVisa = document.getElementById("tab-content-visa");
+  const tabContentSocket = document.getElementById("tab-content-socket");
+  const tabContentAtm = document.getElementById("tab-content-atm");
+  const tabContentVoice = document.getElementById("tab-content-voice");
+  const tabContentSleep = document.getElementById("tab-content-sleep");
+  const tabContentPnrPredict = document.getElementById("tab-content-pnrpredict");
+  const tabContentStomach = document.getElementById("tab-content-stomach");
+  const tabContentSoloSafety = document.getElementById("tab-content-solosafety");
+  const tabContentVault = document.getElementById("tab-content-vault");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -521,6 +539,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabBtnFoodSafety) tabBtnFoodSafety.addEventListener("click", () => switchTab('foodsafety'));
     if (tabBtnSmartPacker) tabBtnSmartPacker.addEventListener("click", () => switchTab('smartpacker'));
     if (tabBtnSimAdvisor) tabBtnSimAdvisor.addEventListener("click", () => switchTab('simadvisor'));
+    if (tabBtnVisa) tabBtnVisa.addEventListener("click", () => switchTab('visa'));
+    if (tabBtnSocket) tabBtnSocket.addEventListener("click", () => switchTab('socket'));
+    if (tabBtnAtm) tabBtnAtm.addEventListener("click", () => switchTab('atm'));
+    if (tabBtnVoice) tabBtnVoice.addEventListener("click", () => switchTab('voice'));
+    if (tabBtnSleep) tabBtnSleep.addEventListener("click", () => switchTab('sleep'));
+    if (tabBtnPnrPredict) tabBtnPnrPredict.addEventListener("click", () => switchTab('pnrpredict'));
+    if (tabBtnStomach) tabBtnStomach.addEventListener("click", () => switchTab('stomach'));
+    if (tabBtnSoloSafety) tabBtnSoloSafety.addEventListener("click", () => switchTab('solosafety'));
+    if (tabBtnVault) tabBtnVault.addEventListener("click", () => switchTab('vault'));
 
     // --- Theme Switcher Event Listener ---
     if (themeToggleBtn) {
@@ -672,9 +699,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub, tabBtnShopping, tabBtnFoodSafety, tabBtnSmartPacker, tabBtnSimAdvisor];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor'];
+    const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub, tabBtnShopping, tabBtnFoodSafety, tabBtnSmartPacker, tabBtnSimAdvisor, tabBtnVisa, tabBtnSocket, tabBtnAtm, tabBtnVoice, tabBtnSleep, tabBtnPnrPredict, tabBtnStomach, tabBtnSoloSafety, tabBtnVault];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => {
@@ -796,6 +823,42 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize network SIM advisor
     if (tabId === 'simadvisor') {
       initSimAdvisor();
+    }
+    // Initialize visa advisor
+    if (tabId === 'visa') {
+      initVisaAdvisor();
+    }
+    // Initialize socket guide
+    if (tabId === 'socket') {
+      initSocketGuide();
+    }
+    // Initialize ATM advisor
+    if (tabId === 'atm') {
+      initAtmAdvisor();
+    }
+    // Initialize speech translator
+    if (tabId === 'voice') {
+      initVoiceTranslator();
+    }
+    // Initialize coach sleep guide
+    if (tabId === 'sleep') {
+      initSleepGuide();
+    }
+    // Initialize waitlist predictor
+    if (tabId === 'pnrpredict') {
+      initPnrPredictor();
+    }
+    // Initialize stomach safety advisor
+    if (tabId === 'stomach') {
+      initStomachAdvisor();
+    }
+    // Initialize solo safety advisor
+    if (tabId === 'solosafety') {
+      initSoloSafety();
+    }
+    // Initialize document checklist vault
+    if (tabId === 'vault') {
+      initVault();
     }
   }
 
@@ -7329,6 +7392,573 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
     }
 
     renderSignalRatings();
+  }
+
+  let visaInitialized = false;
+  function initVisaAdvisor() {
+    if (visaInitialized) return;
+    visaInitialized = true;
+
+    const selectNat = document.getElementById("visa-nationality");
+    const card = document.getElementById("visa-details-card");
+
+    if (selectNat) {
+      selectNat.addEventListener("change", () => {
+        playSelectSound();
+        renderVisaDetails();
+      });
+    }
+
+    function renderVisaDetails() {
+      if (!card) return;
+      const nat = selectNat ? selectNat.value : "usa";
+
+      let rules = {
+        type: "e-Tourist Visa (30 Days / 1 Year / 5 Years)",
+        time: "3 to 4 business days",
+        docs: "Passport scan (min 6 months validity), digital photo, fee credit card.",
+        fee: "$25 USD (Peak season Jul-Mar) / $10 USD (Off-peak Apr-Jun)",
+        tips: "Apply at least 4 days in advance via the official government portal."
+      };
+
+      if (nat === "uk") {
+        rules = {
+          type: "e-Tourist Visa (30 Days / 1 Year / 5 Years)",
+          time: "3 to 4 business days",
+          docs: "Passport upload page, passport-size color picture, active residency proof.",
+          fee: "$25 USD or equivalent in GBP",
+          tips: "UK passport holders must ensure they apply on official .gov.in site, not copycat agencies."
+        };
+      } else if (nat === "canada") {
+        rules = {
+          type: "e-Tourist Visa (Restored for Canadians)",
+          time: "4 to 5 business days",
+          docs: "Valid Canadian passport copy, portrait picture, standard entry card.",
+          fee: "$25 USD processing fee",
+          tips: "Ensure biometric scan details are clear on your passport page."
+        };
+      } else if (nat === "australia") {
+        rules = {
+          type: "e-Tourist Visa (Multiple Entries)",
+          time: "3 business days",
+          docs: "Passport copy, passport photo scan, email account.",
+          fee: "$25 AUD equivalent fee",
+          tips: "Valid for air and sea ports entry only. Not for land border crossings."
+        };
+      } else if (nat === "germany") {
+        rules = {
+          type: "e-Tourist Visa (Schengen country)",
+          time: "2 to 3 business days",
+          docs: "German passport scan, digital photo, standard visa fee.",
+          fee: "€22 equivalent fee",
+          tips: "No vaccination certificate required except Yellow Fever if coming from Africa."
+        };
+      }
+
+      card.innerHTML = `
+        <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:0.35rem;">📄 RECOMMENDED VISA TYPE</div>
+        <strong style="font-size:0.95rem; color:var(--text-primary);">${rules.type}</strong>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-top:0.75rem; font-size:0.76rem;">
+          <div>
+            <span style="color:var(--text-muted); display:block;">🕒 Processing Time</span>
+            <strong style="color:var(--color-primary);">${rules.time}</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted); display:block;">💳 Entry Fee</span>
+            <strong style="color:var(--color-success);">${rules.fee}</strong>
+          </div>
+        </div>
+
+        <div style="font-size:0.76rem; color:var(--text-secondary); margin-top:0.75rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.5rem; line-height:1.4;">
+          <strong>📂 Required Docs:</strong> ${rules.docs}
+        </div>
+        <div style="font-size:0.74rem; color:var(--color-accent); margin-top:0.35rem; line-height:1.4;">
+          <strong>💡 Tips:</strong> ${rules.tips}
+        </div>
+      `;
+    }
+
+    renderVisaDetails();
+  }
+
+  let socketInitialized = false;
+  function initSocketGuide() {
+    if (socketInitialized) return;
+    socketInitialized = true;
+
+    const selectCountry = document.getElementById("socket-home-country");
+    const compat = document.getElementById("socket-compat-readout");
+
+    if (selectCountry) {
+      selectCountry.addEventListener("change", () => {
+        playSelectSound();
+        renderCompatibility();
+      });
+    }
+
+    function renderCompatibility() {
+      if (!compat) return;
+      const country = selectCountry ? selectCountry.value : "us";
+
+      let text = "";
+
+      if (country === "us" || country === "japan") {
+        text = `
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; color:#ef4444; font-weight:800;">
+            <span>⚠️</span> ADAPTER &amp; CONVERTER REQUIRED
+          </div>
+          Your home voltage is <strong>100V–120V</strong>, while India uses <strong>230V @ 50Hz</strong>. 
+          <br><br>
+          For smartphones, laptops, and cameras, you only need a simple pin adapter (Type D or C). For hair dryers, irons, or shavers, you MUST use a **voltage converter** to prevent damaging your appliances.
+        `;
+      } else {
+        text = `
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; color:var(--color-success); font-weight:800;">
+            <span>✅</span> ONLY PIN ADAPTER REQUIRED
+          </div>
+          Your home voltage matches India's grid (<strong>230V @ 50Hz</strong>). 
+          <br><br>
+          No voltage step-down converter is needed. You only need a standard pin adapter to plug your plugs into Types D or M outlets.
+        `;
+      }
+
+      compat.innerHTML = text;
+    }
+
+    renderCompatibility();
+  }
+
+  let atmInitialized = false;
+  function initAtmAdvisor() {
+    if (atmInitialized) return;
+    atmInitialized = true;
+
+    const selectBank = document.getElementById("atm-bank");
+    const selectCard = document.getElementById("atm-card");
+    const feesCard = document.getElementById("atm-fees-card");
+
+    if (selectBank) selectBank.addEventListener("change", () => { playSelectSound(); calculateFees(); });
+    if (selectCard) selectCard.addEventListener("change", () => { playSelectSound(); calculateFees(); });
+
+    function calculateFees() {
+      if (!feesCard) return;
+      const bank = selectBank ? selectBank.value : "sbi";
+      const card = selectCard ? selectCard.value : "domestic";
+
+      let limit = "₹10,000 per transaction";
+      let fee = "Free (Up to 5 transactions per month)";
+      let extra = "₹21 + GST per extra transaction.";
+
+      if (card === "international") {
+        limit = "₹10,000 per transaction (Daily limit up to ₹40,000)";
+        if (bank === "sbi") {
+          fee = "No transaction fee charged by SBI ATM.";
+          extra = "Your home bank markup fee (approx. 1% to 3.5%) applies. Decline DCC.";
+        } else if (bank === "hdfc") {
+          fee = "₹200 flat access fee charged per transaction.";
+          extra = "Best to withdraw the maximum allowed (₹10,000) to minimize per-transaction charges.";
+        } else {
+          fee = "₹250 flat access fee per withdrawal.";
+          extra = "Avoid white-label ATMs as they charge the highest flat markup margins.";
+        }
+      }
+
+      feesCard.innerHTML = `
+        <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:0.35rem;">💵 TRANSACTIONS ESTIMATE</div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.35rem; margin-bottom:0.35rem; font-size:0.8rem;">
+          <span>Single Limit</span>
+          <strong style="color:var(--text-primary);">${limit}</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.35rem; margin-bottom:0.35rem; font-size:0.8rem;">
+          <span>ATM Access Fee</span>
+          <strong style="color:var(--color-primary);">${fee}</strong>
+        </div>
+        <div style="font-size:0.74rem; color:var(--text-secondary); line-height:1.4; margin-top:0.35rem;">
+          <strong>Note:</strong> ${extra}
+        </div>
+      `;
+    }
+
+    calculateFees();
+  }
+
+  let voiceInitialized = false;
+  function initVoiceTranslator() {
+    if (voiceInitialized) return;
+    voiceInitialized = true;
+
+    const selectLang = document.getElementById("voice-language");
+    const list = document.getElementById("voice-phrases-list");
+    const engineStatus = document.getElementById("voice-engine-status");
+
+    if (selectLang) {
+      selectLang.addEventListener("change", () => {
+        playSelectSound();
+        renderPhrases();
+      });
+    }
+
+    if (!('speechSynthesis' in window)) {
+      if (engineStatus) {
+        engineStatus.textContent = "Offline/Not Supported";
+        engineStatus.style.color = "#ef4444";
+      }
+    }
+
+    const phrases = [
+      {
+        english: "Where is the railway station?",
+        translations: {
+          "hi-IN": "रेलवे स्टेशन कहाँ है?",
+          "kn-IN": "ರೈಲ್ವೆ ಸ್ಟೇಷನ್ ಎಲ್ಲಿದೆ?",
+          "bn-IN": "রেলওয়ে স্টেশন কোথায়?",
+          "mr-IN": "रेल्वे स्टेशन कुठे आहे?"
+        }
+      },
+      {
+        english: "How much does this cost?",
+        translations: {
+          "hi-IN": "इसका दाम कितना है?",
+          "kn-IN": "ಇದರ ಬೆಲೆ ಎಷ್ಟು?",
+          "bn-IN": "এটার দাম কত?",
+          "mr-IN": "ह्याचे किती पैसे झाले?"
+        }
+      },
+      {
+        english: "Please make it less spicy.",
+        translations: {
+          "hi-IN": "कृपया इसे कम तीखा बनाइए।",
+          "kn-IN": "ದಯವಿಟ್ಟು ಖಾರ ಕಡಿಮೆ ಮಾಡಿ.",
+          "bn-IN": "দয়া করে ঝাল কম দেবেন।",
+          "mr-IN": "कृपया तिखट कमी करा."
+        }
+      },
+      {
+        english: "Can you help me?",
+        translations: {
+          "hi-IN": "क्या आप मेरी मदद कर सकते हैं?",
+          "kn-IN": "ದಯವಿಟ್ಟು ನನಗೆ ಸಹಾಯ ಮಾಡುವಿರಾ?",
+          "bn-IN": "আপনি কি আমাকে সাহায্য করতে পারেন?",
+          "mr-IN": "तुम्ही मला मदत करू शकता का?"
+        }
+      }
+    ];
+
+    function renderPhrases() {
+      if (!list) return;
+      const lang = selectLang ? selectLang.value : "hi-IN";
+
+      list.innerHTML = phrases.map((p, idx) => {
+        const transText = p.translations[lang] || "";
+        return `
+          <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem;">
+            <div style="flex:1; padding-right:0.75rem;">
+              <span style="display:block; font-size:0.72rem; color:var(--text-muted); font-weight:700;">${p.english}</span>
+              <strong style="display:block; font-size:0.85rem; color:var(--text-primary); margin-top:0.15rem;">${transText}</strong>
+            </div>
+            <button class="visualizer-btn voice-speak-btn" data-idx="${idx}" style="font-size:0.78rem; padding:0.35rem 0.55rem; background:rgba(168,85,247,0.1); border-color:rgba(168,85,247,0.25); color:var(--color-purple);">
+              🔊 Speak
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      list.querySelectorAll(".voice-speak-btn").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const idx = parseInt(btn.dataset.idx);
+          const lang = selectLang ? selectLang.value : "hi-IN";
+          const text = phrases[idx].translations[lang];
+          speakPhrase(text, lang);
+        });
+      });
+    }
+
+    function speakPhrase(text, lang) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    renderPhrases();
+  }
+
+  let sleepInitialized = false;
+  function initSleepGuide() {
+    if (sleepInitialized) return;
+    sleepInitialized = true;
+
+    const selectClass = document.getElementById("sleep-coach-class");
+    const container = document.getElementById("sleep-class-ratings");
+
+    if (selectClass) {
+      selectClass.addEventListener("change", () => {
+        playSelectSound();
+        renderSleepGuide();
+      });
+    }
+
+    function renderSleepGuide() {
+      if (!container) return;
+      const cClass = selectClass ? selectClass.value : "3ac";
+
+      let berths = [];
+
+      if (cClass === "3ac") {
+        berths = [
+          { name: "Lower Berth (LB)", privacy: "Low", noise: "High", sockets: "1 Shared Outlet", desc: "No daytime sleep. Middle berth passenger sits on LB during the day." },
+          { name: "Middle Berth (MB)", privacy: "Medium", noise: "Moderate", sockets: "No Direct Outlet", desc: "Must fold down during day hours. Snug sleeping room." },
+          { name: "Upper Berth (UB)", privacy: "High", noise: "Low", sockets: "No Direct Outlet", desc: "Allows sleeping any time. Best for privacy and out-of-reach bag storage." },
+          { name: "Side Upper (SU)", privacy: "Highest", noise: "High", sockets: "1 Dedicated Socket", desc: "No interference from others. Highly recommended for solo travelers." }
+        ];
+      } else if (cClass === "2ac") {
+        berths = [
+          { name: "Lower Berth (LB)", privacy: "Medium", noise: "Moderate", sockets: "1 Dedicated Outlet", desc: "Has curtains for divider privacy. Wide berths." },
+          { name: "Upper Berth (UB)", privacy: "High", noise: "Low", sockets: "1 Dedicated Outlet", desc: "Curtain privacy, easy access ladder. Very spacious." },
+          { name: "Side Upper/Lower", privacy: "High", noise: "Moderate", sockets: "1 Outlet Each", desc: "Separate privacy curtains, excellent window space." }
+        ];
+      } else if (cClass === "1ac") {
+        berths = [
+          { name: "2-Berth Coupe", privacy: "Absolute", noise: "Silent", sockets: "2 Dedicated Outlets", desc: "Lockable door panel. Luxury travel with call bells." },
+          { name: "4-Berth Cabin", privacy: "High", noise: "Silent", sockets: "4 Dedicated Outlets", desc: "Shared lockable cabin among 4 travelers. Premium mattresses." }
+        ];
+      }
+
+      container.innerHTML = berths.map(b => `
+        <div class="trip-stop-card" style="padding:0.75rem 1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem; margin-bottom:0.25rem;">
+            <strong style="font-size:0.88rem; color:var(--text-primary);">${b.name}</strong>
+            <span style="font-size:0.72rem; padding:0.15rem 0.35rem; background:rgba(255,255,255,0.05); border-radius:4px; font-weight:700; color:var(--color-primary);">${b.sockets}</span>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:0.25rem;">
+            <span>Privacy: <strong>${b.privacy}</strong></span> • <span>Noise: <strong>${b.noise}</strong></span>
+          </div>
+          <p style="font-size:0.72rem; color:var(--text-muted); margin:0; line-height:1.45;">${b.desc}</p>
+        </div>
+      `).join("");
+    }
+
+    renderSleepGuide();
+  }
+
+  let pnrPredictorInitialized = false;
+  function initPnrPredictor() {
+    if (pnrPredictorInitialized) return;
+    pnrPredictorInitialized = true;
+
+    const inputWl = document.getElementById("pnrpredict-wl-no");
+    const selectClass = document.getElementById("pnrpredict-class");
+    const btnCalc = document.getElementById("pnrpredict-btn-calc");
+    const oddsCard = document.getElementById("pnrpredict-odds-card");
+
+    const selectCancel = document.getElementById("pnrpredict-cancel-time");
+    const refundCard = document.getElementById("pnrpredict-refund-card");
+
+    if (btnCalc) {
+      btnCalc.addEventListener("click", () => {
+        playSelectSound();
+        calculateOdds();
+      });
+    }
+
+    if (selectCancel) {
+      selectCancel.addEventListener("change", () => {
+        playSelectSound();
+        calculateRefund();
+      });
+    }
+
+    function calculateOdds() {
+      if (!oddsCard) return;
+      oddsCard.style.display = "flex";
+
+      const wlVal = parseInt(inputWl ? inputWl.value : 25);
+      const wlClass = selectClass ? selectClass.value : "3ac";
+
+      let prob = 90;
+      let statusColor = "var(--color-success)";
+      let statusText = "High Confirmation Probability";
+
+      if (wlClass === "3ac") {
+        if (wlVal > 50) { prob = 25; statusColor = "#ef4444"; statusText = "Low Confirmation Odds"; }
+        else if (wlVal > 20) { prob = 60; statusColor = "var(--color-accent)"; statusText = "Medium odds"; }
+      } else if (wlClass === "2ac") {
+        if (wlVal > 25) { prob = 15; statusColor = "#ef4444"; statusText = "Very Low Odds (2AC has fewer coaches)"; }
+        else if (wlVal > 10) { prob = 50; statusColor = "var(--color-accent)"; statusText = "Borderline Odds"; }
+      } else {
+        if (wlVal > 80) { prob = 30; statusColor = "#ef4444"; statusText = "Poor Odds"; }
+        else if (wlVal > 30) { prob = 75; statusColor = "var(--color-success)"; statusText = "Good Odds (Sleeper clears fast)"; }
+      }
+
+      oddsCard.innerHTML = `
+        <div style="flex:1;">
+          <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">PREDICTION REPORT</div>
+          <strong style="font-size:0.95rem; color:${statusColor}; display:block; margin-top:0.15rem;">${statusText}</strong>
+          <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:0.15rem;">WL count: ${wlVal} • Class: ${wlClass.toUpperCase()}</span>
+        </div>
+        <div style="font-size:1.8rem; font-weight:900; color:${statusColor};">${prob}%</div>
+      `;
+    }
+
+    function calculateRefund() {
+      if (!refundCard) return;
+      const timing = selectCancel ? selectCancel.value : "48";
+
+      let fee = "₹120 flat cancellation charge";
+      let estimate = "Approx 90% of ticket amount refunded.";
+      let warning = "Generally clears within 5 banking days.";
+
+      if (timing === "12") {
+        fee = "25% of basic fare amount";
+        estimate = "75% ticket value refund";
+        warning = "Must cancel at least 12 hours before schedule departure.";
+      } else if (timing === "4") {
+        fee = "50% of basic fare amount";
+        estimate = "50% ticket value refund";
+        warning = "Last hour emergency cancellation.";
+      } else if (timing === "0") {
+        fee = "No Refund (100% loss)";
+        estimate = "₹0 Refund";
+        warning = "Under IRCTC rules, no refunds are paid post chart preparation.";
+      }
+
+      refundCard.innerHTML = `
+        <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:0.35rem;">🎫 REFUND DETAILS</div>
+        <div style="font-size:0.9rem; font-weight:800; color:var(--text-primary);">${estimate}</div>
+        <div style="font-size:0.76rem; color:var(--text-secondary); margin-top:0.25rem;"><strong>Deduction Fee:</strong> ${fee}</div>
+        <div style="font-size:0.72rem; color:var(--color-accent); margin-top:0.35rem;"><strong>Rule:</strong> ${warning}</div>
+      `;
+    }
+
+    calculateRefund();
+  }
+
+  let stomachInitialized = false;
+  function initStomachAdvisor() {
+    if (stomachInitialized) return;
+    stomachInitialized = true;
+
+    const conditionSelect = document.getElementById("stomach-condition");
+    const spiceSelect = document.getElementById("stomach-spice");
+    const mealsCard = document.getElementById("stomach-meals-card");
+    const remediesList = document.getElementById("stomach-remedies-list");
+
+    if (conditionSelect) conditionSelect.addEventListener("change", () => { playSelectSound(); renderStomachTips(); });
+    if (spiceSelect) spiceSelect.addEventListener("change", () => { playSelectSound(); renderStomachTips(); });
+
+    function renderStomachTips() {
+      if (!mealsCard || !remediesList) return;
+      const cond = conditionSelect ? conditionSelect.value : "healthy";
+      const spice = spiceSelect ? spiceSelect.value : "mild";
+
+      let meals = [];
+      let remedies = [];
+
+      if (cond === "healthy") {
+        meals = [
+          { name: "Paneer Butter Masala & Roti", desc: "Rich gravy curry. Safe for acclimatized stomachs." },
+          { name: "Idli & Sambar", desc: "Steamed fermented rice cakes. Easiest breakfast safety option." }
+        ];
+        remedies = [
+          { name: "Sweet Lassi (Curd Beverage)", desc: "Contains gut probiotics that help digest local species." },
+          { name: "Saunf (Fennel seeds)", desc: "Offered at Indian tables after meals to trigger digestion." }
+        ];
+      } else if (cond === "acidic") {
+        meals = [
+          { name: "Curd Rice (Dahi Chawal)", desc: "Cold, soothing curd rice mixed with minimal mustard seeds. Best acidity defense." },
+          { name: "Plain Moong Dal Khichdi", desc: "No spice lentils and boiled rice mash." }
+        ];
+        remedies = [
+          { name: "Cold Buttermilk (Chaas)", desc: "Infused with cumin seeds to cool stomach lining acid build ups." },
+          { name: "Coconut Water (Daab)", desc: "Direct electrolyte support to settle burning sensations." }
+        ];
+      } else {
+        meals = [
+          { name: "Double boiled Khichdi", desc: "Extremely light watery rice porridge with salt." },
+          { name: "Boiled potatoes (Alloo)", desc: "Starch energy base without oily curry coatings." }
+        ];
+        remedies = [
+          { name: "Ginger & Honey Tea", desc: "Direct digestive tract enzyme release." },
+          { name: "Ajwain (Carom seeds) + Warm Water", desc: "Classic Indian household remedy to relieve bloating immediately." }
+        ];
+      }
+
+      mealsCard.innerHTML = `
+        <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:0.35rem;">🥣 SAFE DIET FOODS</div>
+        ${meals.map(m => `
+          <div style="margin-bottom:0.5rem; font-size:0.8rem;">
+            <strong style="color:var(--text-primary);">${m.name}</strong>
+            <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:0.1rem;">${m.desc}</div>
+          </div>
+        `).join("")}
+      `;
+
+      remediesList.innerHTML = remedies.map(r => `
+        <div class="trip-stop-card" style="padding:0.75rem 1rem;">
+          <strong style="font-size:0.88rem; color:var(--text-primary); display:block;">${r.name}</strong>
+          <span style="font-size:0.74rem; color:var(--text-secondary); display:block; margin-top:0.15rem; line-height:1.45;">${r.desc}</span>
+        </div>
+      `).join("");
+    }
+
+    renderStomachTips();
+  }
+
+  let soloSafetyInitialized = false;
+  function initSoloSafety() {
+    if (soloSafetyInitialized) return;
+    soloSafetyInitialized = true;
+  }
+
+  let vaultInitialized = false;
+  let vaultDocuments = [
+    { name: "e-Visa Document PDF", offline: false },
+    { name: "Passport Photo Page Scan", offline: false },
+    { name: "Travel Insurance Certificate", offline: false },
+    { name: "Hotel Booking Vouchers", offline: false },
+    { name: "Boarding Pass PDF", offline: false }
+  ];
+
+  function initVault() {
+    if (vaultInitialized) return;
+    vaultInitialized = true;
+
+    const list = document.getElementById("vault-docs-list");
+
+    function renderVault() {
+      if (!list) return;
+      list.innerHTML = vaultDocuments.map((doc, idx) => {
+        const activeClass = doc.offline ? "checked" : "";
+        return `
+          <div class="trip-stop-card" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem;">
+            <div>
+              <strong style="font-size:0.88rem; color:var(--text-primary);">${doc.name}</strong>
+              <div style="font-size:0.72rem; color:${doc.offline ? 'var(--color-success)' : 'var(--text-muted)'}; margin-top:0.15rem;">
+                ${doc.offline ? "✅ Saved Offline on Device" : "⚠️ Cloud storage only (Requires Internet)"}
+              </div>
+            </div>
+            <label style="cursor:pointer; display:flex; align-items:center;">
+              <span style="font-size:0.7rem; color:var(--text-muted); margin-right:0.35rem; font-weight:700;">OFFLINE LINK</span>
+              <input type="checkbox" class="vault-offline-toggle" data-idx="${idx}" ${activeClass} style="width:16px; height:16px;">
+            </label>
+          </div>
+        `;
+      }).join("");
+
+      list.querySelectorAll(".vault-offline-toggle").forEach(box => {
+        box.addEventListener("change", e => {
+          const idx = parseInt(e.target.dataset.idx);
+          vaultDocuments[idx].offline = e.target.checked;
+          playTone(e.target.checked ? 850 : 450, "sine", 0.05, 0.08);
+          renderVault();
+        });
+      });
+    }
+
+    renderVault();
   }
 
     // Run defaults

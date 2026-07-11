@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=8.0.0">
+  <link rel="stylesheet" href="index.css?v=9.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -54,48 +54,65 @@
         </div>
       </div>
 
+      <!-- Navigation Group controls -->
+      <div class="nav-control-header" style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:0.75rem; width:100%;">
+        <!-- Left: Category pills -->
+        <div class="category-pills" style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+          <button class="cat-pill active" data-cat="all">🌈 All Features</button>
+          <button class="cat-pill" data-cat="engine">🔍 Core Engine &amp; Data</button>
+          <button class="cat-pill" data-cat="routing">🗺️ Transit &amp; Planning</button>
+          <button class="cat-pill" data-cat="safety">🛡️ Security &amp; Customs</button>
+          <button class="cat-pill" data-cat="culture">🎨 Culture &amp; Experience</button>
+        </div>
+        
+        <!-- Right: Instant feature finder search input -->
+        <div class="feature-search-container" style="position:relative; min-width:240px; flex:1; max-width:320px;">
+          <input type="text" id="feature-search-input" placeholder="🔍 Search all 40 features..." style="width:100%; padding:0.45rem 0.85rem; font-size:0.85rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:6px; color:var(--text-primary); outline:none;">
+        </div>
+      </div>
+
       <!-- Navigation Tabs -->
       <div class="tab-navigation">
-        <button id="tab-btn-engine" class="tab-btn active"><span>🔍</span> Autocomplete Engine</button>
-        <button id="tab-btn-routes" class="tab-btn"><span>💻</span> Database Seed Exporter</button>
-        <button id="tab-btn-game" class="tab-btn"><span>🎮</span> Geoguess Spelling Game</button>
-        <button id="tab-btn-pattern" class="tab-btn"><span>🔠</span> Pattern Search</button>
-        <button id="tab-btn-analytics" class="tab-btn"><span>📊</span> City Analytics</button>
-        <button id="tab-btn-scanner" class="tab-btn"><span>📋</span> Text Scanner</button>
-        <button id="tab-btn-travel" class="tab-btn"><span>🗺️</span> Geography &amp; Travel Hub</button>
-        <button id="tab-btn-tourism" class="tab-btn"><span>🏛️</span> State Showcase</button>
-        <button id="tab-btn-trip" class="tab-btn"><span>🗃️</span> Trip Planner</button>
-        <button id="tab-btn-discovery" class="tab-btn"><span>🎲</span> City Discovery</button>
-        <button id="tab-btn-festivals" class="tab-btn"><span>📅</span> Festival Calendar</button>
-        <button id="tab-btn-compare" class="tab-btn"><span>🏙️</span> City Comparison</button>
-        <button id="tab-btn-budget" class="tab-btn"><span>💰</span> Budget Calculator</button>
-        <button id="tab-btn-routesolver" class="tab-btn"><span>🗺️</span> Transit Solver</button>
-        <button id="tab-btn-culinary" class="tab-btn"><span>🥘</span> Culinary Showcase</button>
-        <button id="tab-btn-weather" class="tab-btn"><span>☁️</span> Climate &amp; Packing</button>
-        <button id="tab-btn-emergency" class="tab-btn"><span>🚨</span> Emergency Hub</button>
-        <button id="tab-btn-splitter" class="tab-btn"><span>💸</span> Expense Splitter</button>
-        <button id="tab-btn-landmarks" class="tab-btn"><span>🏛️</span> Sights Guide</button>
-        <button id="tab-btn-tracker" class="tab-btn"><span>🗺️</span> Exploration Tracker</button>
-        <button id="tab-btn-notes" class="tab-btn"><span>📒</span> Notes Journal</button>
-        <button id="tab-btn-baggage" class="tab-btn"><span>⚖️</span> Baggage Estimator</button>
-        <button id="tab-btn-transitbooking" class="tab-btn"><span>🎫</span> Transit &amp; Booking Hub</button>
-        <button id="tab-btn-health" class="tab-btn"><span>🏥</span> Health &amp; Safety</button>
-        <button id="tab-btn-evrouter" class="tab-btn"><span>🔌</span> EV &amp; Fuel Router</button>
-        <button id="tab-btn-localizer" class="tab-btn"><span>🗣️</span> Localizer</button>
-        <button id="tab-btn-photohub" class="tab-btn"><span>📸</span> Photo Hub</button>
-        <button id="tab-btn-shopping" class="tab-btn"><span>🛍️</span> Souvenir &amp; Craft</button>
-        <button id="tab-btn-foodsafety" class="tab-btn"><span>🛡️</span> Street Food Safety</button>
-        <button id="tab-btn-smartpacker" class="tab-btn"><span>📅</span> Smart Packer</button>
-        <button id="tab-btn-simadvisor" class="tab-btn"><span>📶</span> SIM &amp; Network</button>
-        <button id="tab-btn-visa" class="tab-btn"><span>🛂</span> Visa &amp; Customs</button>
-        <button id="tab-btn-socket" class="tab-btn"><span>🔌</span> Socket Guide</button>
-        <button id="tab-btn-atm" class="tab-btn"><span>💸</span> ATM Advisor</button>
-        <button id="tab-btn-voice" class="tab-btn"><span>🗣️</span> Speech Translator</button>
-        <button id="tab-btn-sleep" class="tab-btn"><span>🚆</span> Sleep Comfort</button>
-        <button id="tab-btn-pnrpredict" class="tab-btn"><span>🔮</span> Waitlist Predictor</button>
-        <button id="tab-btn-stomach" class="tab-btn"><span>🧘</span> Stomach Safety</button>
-        <button id="tab-btn-solosafety" class="tab-btn"><span>🚶</span> Solo Travel Safety</button>
-        <button id="tab-btn-vault" class="tab-btn"><span>📲</span> Document Vault</button>
+        <button id="tab-btn-engine" class="tab-btn active" data-cat="engine"><span>🔍</span> Autocomplete Engine</button>
+        <button id="tab-btn-routes" class="tab-btn" data-cat="engine"><span>💻</span> Database Seed Exporter</button>
+        <button id="tab-btn-game" class="tab-btn" data-cat="engine"><span>🎮</span> Geoguess Spelling Game</button>
+        <button id="tab-btn-pattern" class="tab-btn" data-cat="engine"><span>🔠</span> Pattern Search</button>
+        <button id="tab-btn-analytics" class="tab-btn" data-cat="engine"><span>📊</span> City Analytics</button>
+        <button id="tab-btn-scanner" class="tab-btn" data-cat="engine"><span>📋</span> Text Scanner</button>
+        <button id="tab-btn-travel" class="tab-btn" data-cat="routing"><span>🗺️</span> Geography &amp; Travel Hub</button>
+        <button id="tab-btn-tourism" class="tab-btn" data-cat="routing"><span>🏛️</span> State Showcase</button>
+        <button id="tab-btn-trip" class="tab-btn" data-cat="routing"><span>🗃️</span> Trip Planner</button>
+        <button id="tab-btn-discovery" class="tab-btn" data-cat="culture"><span>🎲</span> City Discovery</button>
+        <button id="tab-btn-festivals" class="tab-btn" data-cat="culture"><span>📅</span> Festival Calendar</button>
+        <button id="tab-btn-compare" class="tab-btn" data-cat="culture"><span>🏙️</span> City Comparison</button>
+        <button id="tab-btn-budget" class="tab-btn" data-cat="culture"><span>💰</span> Budget Calculator</button>
+        <button id="tab-btn-routesolver" class="tab-btn" data-cat="routing"><span>🗺️</span> Transit Solver</button>
+        <button id="tab-btn-culinary" class="tab-btn" data-cat="culture"><span>🥘</span> Culinary Showcase</button>
+        <button id="tab-btn-weather" class="tab-btn" data-cat="routing"><span>☁️</span> Climate &amp; Packing</button>
+        <button id="tab-btn-emergency" class="tab-btn" data-cat="safety"><span>🚨</span> Emergency Hub</button>
+        <button id="tab-btn-splitter" class="tab-btn" data-cat="culture"><span>💸</span> Expense Splitter</button>
+        <button id="tab-btn-landmarks" class="tab-btn" data-cat="routing"><span>🏛️</span> Sights Guide</button>
+        <button id="tab-btn-tracker" class="tab-btn" data-cat="routing"><span>🗺️</span> Exploration Tracker</button>
+        <button id="tab-btn-notes" class="tab-btn" data-cat="routing"><span>📒</span> Notes Journal</button>
+        <button id="tab-btn-baggage" class="tab-btn" data-cat="routing"><span>⚖️</span> Baggage Estimator</button>
+        <button id="tab-btn-transitbooking" class="tab-btn" data-cat="routing"><span>🎫</span> Transit &amp; Booking Hub</button>
+        <button id="tab-btn-health" class="tab-btn" data-cat="safety"><span>🏥</span> Health &amp; Safety</button>
+        <button id="tab-btn-evrouter" class="tab-btn" data-cat="routing"><span>🔌</span> EV &amp; Fuel Router</button>
+        <button id="tab-btn-localizer" class="tab-btn" data-cat="culture"><span>🗣️</span> Localizer</button>
+        <button id="tab-btn-photohub" class="tab-btn" data-cat="culture"><span>📸</span> Photo Hub</button>
+        <button id="tab-btn-shopping" class="tab-btn" data-cat="culture"><span>🛍️</span> Souvenir &amp; Craft</button>
+        <button id="tab-btn-foodsafety" class="tab-btn" data-cat="culture"><span>🛡️</span> Street Food Safety</button>
+        <button id="tab-btn-smartpacker" class="tab-btn" data-cat="culture"><span>📅</span> Smart Packer</button>
+        <button id="tab-btn-simadvisor" class="tab-btn" data-cat="safety"><span>📶</span> SIM &amp; Network</button>
+        <button id="tab-btn-visa" class="tab-btn" data-cat="safety"><span>🛂</span> Visa &amp; Customs</button>
+        <button id="tab-btn-socket" class="tab-btn" data-cat="safety"><span>🔌</span> Socket Guide</button>
+        <button id="tab-btn-atm" class="tab-btn" data-cat="safety"><span>💸</span> ATM Advisor</button>
+        <button id="tab-btn-voice" class="tab-btn" data-cat="culture"><span>🗣️</span> Speech Translator</button>
+        <button id="tab-btn-sleep" class="tab-btn" data-cat="routing"><span>🚆</span> Sleep Comfort</button>
+        <button id="tab-btn-pnrpredict" class="tab-btn" data-cat="routing"><span>🔮</span> Waitlist Predictor</button>
+        <button id="tab-btn-stomach" class="tab-btn" data-cat="culture"><span>🧘</span> Stomach Safety</button>
+        <button id="tab-btn-solosafety" class="tab-btn" data-cat="safety"><span>🚶</span> Solo Travel Safety</button>
+        <button id="tab-btn-vault" class="tab-btn" data-cat="safety"><span>📲</span> Document Vault</button>
       </div>
     </header>
 
@@ -3216,8 +3233,8 @@
   </footer>
 
   <!-- Include code modules -->
-  <script src="cities.js?v=8.0.0"></script>
-  <script src="trie.js?v=8.0.0"></script>
-  <script src="app.js?v=8.0.0"></script>
+  <script src="cities.js?v=9.0.0"></script>
+  <script src="trie.js?v=9.0.0"></script>
+  <script src="app.js?v=9.0.0"></script>
 </body>
 </html>

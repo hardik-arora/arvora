@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=4.0.0">
+  <link rel="stylesheet" href="index.css?v=5.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -79,6 +79,10 @@
         <button id="tab-btn-notes" class="tab-btn"><span>📒</span> Notes Journal</button>
         <button id="tab-btn-baggage" class="tab-btn"><span>⚖️</span> Baggage Estimator</button>
         <button id="tab-btn-transitbooking" class="tab-btn"><span>🎫</span> Transit &amp; Booking Hub</button>
+        <button id="tab-btn-health" class="tab-btn"><span>🏥</span> Health &amp; Safety</button>
+        <button id="tab-btn-evrouter" class="tab-btn"><span>🔌</span> EV &amp; Fuel Router</button>
+        <button id="tab-btn-localizer" class="tab-btn"><span>🗣️</span> Localizer</button>
+        <button id="tab-btn-photohub" class="tab-btn"><span>📸</span> Photo Hub</button>
       </div>
     </header>
 
@@ -2165,6 +2169,324 @@
     </div>
   </div>
 
+  <!-- TAB 24: HEALTH & SAFETY HUB -->
+  <div id="tab-content-health" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏥</span> Health &amp; Safety Hub</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Find local 24/7 emergency hospitals, check pharmacy contact lines, and browse first-aid guidelines for common travel ailments.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Search & Emergency Listings -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🚨 Local Care Finder</h3>
+          
+          <div style="position:relative; width:100%;">
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">SEARCH CITY</label>
+            <input type="text" id="health-search-input" placeholder="e.g. Mumbai" style="width:100%;" autocomplete="off">
+            <div id="health-suggestions-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+              <div id="health-suggestions-list" style="padding:0.25rem 0;"></div>
+            </div>
+          </div>
+
+          <div id="health-results-section" style="display:flex; flex-direction:column; gap:1.2rem;">
+            <!-- Hospitals list -->
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">🏥 24/7 Emergency Medical Centers</div>
+              <div id="health-hospitals-list" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+            </div>
+
+            <!-- Pharmacies list -->
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">💊 24/7 Local Pharmacies &amp; Chemists</div>
+              <div id="health-pharmacies-list" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: First Aid Guides & Insurance Checklist -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🩺 First Aid &amp; Travel Ailments</h3>
+            
+            <div style="display:flex; flex-direction:column; gap:0.85rem;">
+              <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+                <span style="font-size:0.82rem; font-weight:800; color:var(--color-primary);">🏔️ Altitude / Motion Sickness</span>
+                <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Acclimatize slowly above 2500m. Keep well hydrated, avoid heavy exercise, and consult medicine like Diamox in emergency.</p>
+              </div>
+
+              <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+                <span style="font-size:0.82rem; font-weight:800; color:#ef4444;">☀️ Heat Stroke &amp; Dehydration</span>
+                <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Drink water with ORS electro-powder. Avoid direct midday sun. Wear light breathable cotton clothing.</p>
+              </div>
+
+              <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+                <span style="font-size:0.82rem; font-weight:800; color:var(--color-success);">🦟 Insect &amp; Vector Diseases</span>
+                <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Apply DEET/Picardin insect repellents regularly. Sleep under mosquito nets in rural corridors or marsh areas.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="display:flex; flex-direction:column; gap:0.8rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">📄 Travel Insurance Claims Checklist</h3>
+            <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.45rem;">
+              <li>Always obtain a written <strong>hospital bill / prescription docket</strong>.</li>
+              <li>Get emergency admission report stamped by the chief medical officer.</li>
+              <li>Keep all transportation taxi vouchers to emergency center.</li>
+              <li>Notify travel insurance helpline desk within 24 hours of incident.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 25: EV CHARGING & HIGHWAY ROUTER -->
+  <div id="tab-content-evrouter" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(14, 165, 233, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🔌</span> EV Charging &amp; Fuel Router</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Map petrol pumps and high-power EV charging terminals along your roadtrip route corridors.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Search & Charger Listing -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🛣️ Highway Route Stations</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div style="position:relative;">
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">START CITY</label>
+              <input type="text" id="evroute-start-city" placeholder="e.g. Delhi" style="width:100%;" autocomplete="off">
+              <div id="evroute-start-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+                <div id="evroute-start-list" style="padding:0.25rem 0;"></div>
+              </div>
+            </div>
+
+            <div style="position:relative;">
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">END CITY</label>
+              <input type="text" id="evroute-end-city" placeholder="e.g. Agra" style="width:100%;" autocomplete="off">
+              <div id="evroute-end-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+                <div id="evroute-end-list" style="padding:0.25rem 0;"></div>
+              </div>
+            </div>
+          </div>
+
+          <button id="evroute-btn-calc" class="visualizer-btn" style="width:100%; font-weight:800; background:var(--color-success); border-color:rgba(16, 185, 129, 0.4); color:#fff; padding:0.65rem;">
+            ⚡ Map Highway Energy Stations
+          </button>
+
+          <!-- Charger list display -->
+          <div id="evroute-results-section" style="display:none; flex-direction:column; gap:0.85rem; margin-top:0.5rem;">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">📍 Station Locations Along Route</div>
+            <div id="evroute-charger-list" style="display:flex; flex-direction:column; gap:0.75rem; max-height:360px; overflow-y:auto; padding-right:0.2rem;"></div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="evroute-empty-state" style="text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <div style="font-size:2.8rem; margin-bottom:0.75rem;">🔌</div>
+            <p style="font-size:0.9rem; font-weight:500; margin:0;">Calculate your roadtrip cities to map charging stations and high-power fuel plugs along the highway corridors.</p>
+          </div>
+        </div>
+
+        <!-- Right: Power specifications & pricing curves -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">⚡ Charger Specifications</h3>
+            
+            <div style="display:flex; flex-direction:column; gap:0.85rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem;">
+                <div>
+                  <div style="font-size:0.88rem; font-weight:800; color:var(--text-primary);">CCS Type 2 DC Fast Charger</div>
+                  <span style="font-size:0.72rem; color:var(--text-muted);">High power battery pack boost</span>
+                </div>
+                <strong style="font-size:0.9rem; color:var(--color-success);">50kW - 150kW</strong>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem;">
+                <div>
+                  <div style="font-size:0.88rem; font-weight:800; color:var(--text-primary);">AC Type 2 Normal Charger</div>
+                  <span style="font-size:0.72rem; color:var(--text-muted);">Standard hotel overnight plug</span>
+                </div>
+                <strong style="font-size:0.9rem; color:var(--color-primary);">7.2kW - 22kW</strong>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-size:0.88rem; font-weight:800; color:var(--text-primary);">BPCL Fuel Outlet Pump</div>
+                  <span style="font-size:0.72rem; color:var(--text-muted);">Regular unleaded octanes / diesel</span>
+                </div>
+                <strong style="font-size:0.9rem; color:var(--color-purple);">Petrol / Diesel</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">💡 EV Charging Tips</h3>
+            <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.45rem;">
+              <li>Try to charge up to <strong>80%</strong> at DC Fast Chargers; charging speed slows down drastically after 80% to protect battery health.</li>
+              <li>Check local charge network applications (Tata Power, Zeon, Statiq) for live occupancy status of connector plugs.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 26: STATE DIALECT & CULTURE LOCALIZER -->
+  <div id="tab-content-localizer" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🗣️</span> Localizer &amp; Culture Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Translate daily phrases into local state dialects and learn cultural etiquette norms matching your destination.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Dialect translations -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🗣️ Language &amp; Dialect Translator</h3>
+          
+          <div style="position:relative; width:100%;">
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">DESTINATION CITY</label>
+            <input type="text" id="localizer-city-input" placeholder="e.g. Bengaluru" style="width:100%;" autocomplete="off">
+            <div id="localizer-suggestions-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+              <div id="localizer-suggestions-list" style="padding:0.25rem 0;"></div>
+            </div>
+          </div>
+
+          <div id="localizer-results-section" style="display:none; flex-direction:column; gap:0.95rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.35rem;">
+              <span style="font-size:0.78rem; color:var(--text-muted); font-weight:700;">LOCAL DIALECT</span>
+              <strong id="localizer-language-name" style="font-size:0.9rem; color:var(--color-purple);">Kannada</strong>
+            </div>
+
+            <!-- Phrases list container -->
+            <div id="localizer-phrases-list" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+          </div>
+
+          <!-- Placeholder -->
+          <div id="localizer-placeholder" style="text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <div style="font-size:2.8rem; margin-bottom:0.75rem;">🗣️</div>
+            <p style="font-size:0.9rem; font-weight:500; margin:0;">Enter destination city to translate travel phrases and check custom local spellings.</p>
+          </div>
+        </div>
+
+        <!-- Right: Custom culture & scam alerts -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🕌 Cultural Etiquette &amp; Norms</h3>
+            
+            <div id="localizer-culture-section" style="display:none; flex-direction:column; gap:0.85rem;">
+              <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.2rem;">
+                <span style="font-size:0.82rem; font-weight:800; color:var(--text-primary);">🥿 Footwear Rules</span>
+                <p id="localizer-culture-footwear" style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;"></p>
+              </div>
+
+              <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.2rem;">
+                <span style="font-size:0.82rem; font-weight:800; color:var(--color-purple);">👗 Dress Advice</span>
+                <p id="localizer-culture-dress" style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;"></p>
+              </div>
+
+              <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.2rem;">
+                <span style="font-size:0.82rem; font-weight:800; color:var(--color-success);">🪙 Tipping Norms</span>
+                <p id="localizer-culture-tipping" style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;"></p>
+              </div>
+            </div>
+
+            <!-- Empty status -->
+            <div id="localizer-culture-placeholder" style="font-size:0.8rem; color:var(--text-muted); text-align:center; padding:1.5rem;">
+              Etiquette guidelines will render matching the cultural settings of the selected destination's state.
+            </div>
+          </div>
+
+          <div class="panel" style="display:flex; flex-direction:column; gap:0.8rem; border-color:rgba(239, 68, 68, 0.25); background:radial-gradient(circle at top right, rgba(239, 68, 68, 0.05) -20%, var(--card-bg) 80%);">
+            <h3 style="font-size:1.1rem; font-weight:800; color:#ef4444; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">⚠️ Essential Safety &amp; Scam Alerts</h3>
+            <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.45rem;">
+              <li><strong>Pre-paid Auto/Taxi:</strong> Always book autos/taxis through pre-paid booths at airports/railway stations to avoid heavily inflated fares.</li>
+              <li><strong>Unofficial Guides:</strong> Refuse sightseeing advice from unauthorized guides hanging around monument entry ticket queues.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 27: SIGHTSEEING PHOTOGRAPHY & LANDMARK CHECKLIST -->
+  <div id="tab-content-photohub" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📸</span> Sightseeing &amp; Photography Hub</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Discover photogenic tourist attractions, check lighting conditions, and trace checklist progress.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Monument Spot finder -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🏛️ Tourist Sights Photo Grid</h3>
+          
+          <div style="position:relative; width:100%;">
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">EXPLORE CITY</label>
+            <input type="text" id="photo-city-input" placeholder="e.g. Jaipur" style="width:100%;" autocomplete="off">
+            <div id="photo-suggestions-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+              <div id="photo-suggestions-list" style="padding:0.25rem 0;"></div>
+            </div>
+          </div>
+
+          <!-- Spot Cards Container -->
+          <div id="photo-results-section" style="display:none; flex-direction:column; gap:0.95rem;">
+            <div id="photo-spots-grid" style="display:grid; grid-template-columns: 1fr; gap:0.85rem; max-height:540px; overflow-y:auto; padding-right:0.2rem;">
+              <!-- Inserted by JS -->
+            </div>
+          </div>
+
+          <!-- Placeholder -->
+          <div id="photo-placeholder" style="text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <div style="font-size:2.8rem; margin-bottom:0.75rem;">📸</div>
+            <p style="font-size:0.9rem; font-weight:500; margin:0;">Enter city to explore photogenic points and visual tips.</p>
+          </div>
+        </div>
+
+        <!-- Right: Checklist Progress visualizer -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <div class="panel" style="display:flex; flex-direction:column; gap:1.1rem; align-items:center;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem; width:100%;">📊 Landmark Progress Tracker</h3>
+            
+            <!-- Radial Progress Indicator -->
+            <div style="position:relative; width:140px; height:140px; display:flex; justify-content:center; align-items:center; margin:0.5rem 0;">
+              <svg width="140" height="140" viewBox="0 0 140 140" style="transform:rotate(-90deg);">
+                <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="8"></circle>
+                <circle id="photo-progress-ring" cx="70" cy="70" r="58" fill="none" stroke="var(--color-accent)" stroke-width="8" stroke-dasharray="364.4" stroke-dashoffset="364.4" style="transition:stroke-dashoffset 0.4s ease;"></circle>
+              </svg>
+              <div style="position:absolute; display:flex; flex-direction:column; align-items:center; gap:0.15rem;">
+                <span id="photo-progress-pct" style="font-size:1.6rem; font-weight:850; color:var(--text-primary);">0%</span>
+                <span style="font-size:0.62rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">Visited</span>
+              </div>
+            </div>
+
+            <!-- Stats display text -->
+            <div id="photo-stats-readout" style="text-align:center; font-size:0.9rem; color:var(--text-secondary); font-weight:600;">
+              Checked off <span id="photo-visited-count" style="color:var(--color-accent); font-weight:800;">0</span> of <span id="photo-total-count" style="color:var(--text-primary); font-weight:800;">0</span> sightseeing sites.
+            </div>
+          </div>
+
+          <div class="panel" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">📷 Travel Photography Ethics</h3>
+            <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.45rem;">
+              <li>Avoid photographing pilgrims or worshippers inside religious sanctums without permission.</li>
+              <li>Always check local signboards regarding <strong>tripod or drone permits</strong>; major historical monuments are restricted defense zones.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
   <!-- Page Footer -->
@@ -2173,8 +2495,8 @@
   </footer>
 
   <!-- Include code modules -->
-  <script src="cities.js?v=4.0.0"></script>
-  <script src="trie.js?v=4.0.0"></script>
-  <script src="app.js?v=4.0.0"></script>
+  <script src="cities.js?v=5.0.0"></script>
+  <script src="trie.js?v=5.0.0"></script>
+  <script src="app.js?v=5.0.0"></script>
 </body>
 </html>

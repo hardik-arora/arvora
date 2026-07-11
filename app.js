@@ -199,6 +199,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentStomach = document.getElementById("tab-content-stomach");
   const tabContentSoloSafety = document.getElementById("tab-content-solosafety");
   const tabContentVault = document.getElementById("tab-content-vault");
+  // Phase 15 — 6 new features
+  const tabContentCurrency = document.getElementById("tab-content-currency");
+  const tabContentRickshaw = document.getElementById("tab-content-rickshaw");
+  const tabContentSimGuide = document.getElementById("tab-content-simguide");
+  const tabContentSunclock = document.getElementById("tab-content-sunclock");
+  const tabContentBagCalc  = document.getElementById("tab-content-bagcalc");
+  const tabContentQrCode   = document.getElementById("tab-content-qrcode");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -703,8 +710,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initAudio();
 
     const allTabBtns = [tabBtnEngine, tabBtnRoutes, tabBtnGame, tabBtnPattern, tabBtnAnalytics, tabBtnScanner, tabBtnTravel, tabBtnTourism, tabBtnTrip, tabBtnDiscovery, tabBtnFestivals, tabBtnCompare, tabBtnBudget, tabBtnRouteSolver, tabBtnCulinary, tabBtnWeather, tabBtnEmergency, tabBtnSplitter, tabBtnLandmarks, tabBtnTracker, tabBtnNotes, tabBtnBaggage, tabBtnTransitBooking, tabBtnHealth, tabBtnEvRouter, tabBtnLocalizer, tabBtnPhotoHub, tabBtnShopping, tabBtnFoodSafety, tabBtnSmartPacker, tabBtnSimAdvisor, tabBtnVisa, tabBtnSocket, tabBtnAtm, tabBtnVoice, tabBtnSleep, tabBtnPnrPredict, tabBtnStomach, tabBtnSoloSafety, tabBtnVault];
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode'];
     const idx = tabIds.indexOf(tabId);
 
     allTabBtns.forEach((btn, i) => {
@@ -869,10 +876,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (railIcons.length) {
       // Map tabs to categories
       const catMap = {
-        engine: ['engine','routes','game','pattern','analytics','scanner'],
-        routing: ['travel','tourism','trip','routesolver','transit','seat','metro','airport','evisa','voltage','atm','irctc','train'],
-        safety: ['safety','customs','legal','insurance','medical','emergency','solo','solosafety','vault'],
-        culture: ['culture','festival','food','foodsafety','photo','shopping','notes','smartpacker','voice','stomach','weather']
+        engine:  ['engine','routes','game','pattern','analytics','scanner'],
+        routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc'],
+        safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical'],
+        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food']
       };
       let matchedCat = null;
       for (const [cat, tabs] of Object.entries(catMap)) {

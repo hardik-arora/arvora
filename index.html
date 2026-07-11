@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=5.0.0">
+  <link rel="stylesheet" href="index.css?v=6.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -83,6 +83,10 @@
         <button id="tab-btn-evrouter" class="tab-btn"><span>🔌</span> EV &amp; Fuel Router</button>
         <button id="tab-btn-localizer" class="tab-btn"><span>🗣️</span> Localizer</button>
         <button id="tab-btn-photohub" class="tab-btn"><span>📸</span> Photo Hub</button>
+        <button id="tab-btn-shopping" class="tab-btn"><span>🛍️</span> Souvenir &amp; Craft</button>
+        <button id="tab-btn-foodsafety" class="tab-btn"><span>🛡️</span> Street Food Safety</button>
+        <button id="tab-btn-smartpacker" class="tab-btn"><span>📅</span> Smart Packer</button>
+        <button id="tab-btn-simadvisor" class="tab-btn"><span>📶</span> SIM &amp; Network</button>
       </div>
     </header>
 
@@ -2487,6 +2491,248 @@
     </div>
   </div>
 
+  <!-- TAB 28: SOUVENIR & CRAFTS EXPLORER -->
+  <div id="tab-content-shopping" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛍️</span> Souvenir &amp; Craft Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Discover traditional handlooms, native crafts, and authentic shopping markets across Indian cities.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Search & Specialty Listings -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🛍️ City Specialties &amp; Markets</h3>
+          
+          <div style="position:relative; width:100%;">
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">EXPLORE CITY</label>
+            <input type="text" id="shopping-city-input" placeholder="e.g. Srinagar" style="width:100%;" autocomplete="off">
+            <div id="shopping-suggestions-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+              <div id="shopping-suggestions-list" style="padding:0.25rem 0;"></div>
+            </div>
+          </div>
+
+          <div id="shopping-results-section" style="display:none; flex-direction:column; gap:1.2rem;">
+            <!-- Crafts list -->
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">🎨 Traditional Crafts &amp; Textiles</div>
+              <div id="shopping-crafts-list" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+            </div>
+
+            <!-- Markets list -->
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">📍 Famous Shopping Bazaars</div>
+              <div id="shopping-markets-list" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="shopping-placeholder" style="text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <div style="font-size:2.8rem; margin-bottom:0.75rem;">🛍️</div>
+            <p style="font-size:0.9rem; font-weight:500; margin:0;">Enter city to explore local souvenir crafts and busy bazaar details.</p>
+          </div>
+        </div>
+
+        <!-- Right: Authenticity tips -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🔍 Authenticity Verification Guide</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+              <span style="font-size:0.82rem; font-weight:800; color:var(--color-primary);">🧣 Pashmina Shawls</span>
+              <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">A real Pashmina thread is extremely fine. Test: pass it through a finger ring, or check for irregular weaves which indicate handloom work rather than machines.</p>
+            </div>
+
+            <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+              <span style="font-size:0.82rem; font-weight:800; color:var(--color-success);">🌱 Saffron (Kesar)</span>
+              <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Real saffron threads do not dissolve instantly in warm water/milk, but slowly discharge yellow color while remaining red. Fake saffron dissolves and fades immediately.</p>
+            </div>
+
+            <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+              <span style="font-size:0.82rem; font-weight:800; color:var(--color-purple);">💎 Silk Textiles</span>
+              <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">Burn test: burn a single thread. Pure silk smells like burnt hair and leaves crumbly black ash. Synthetic silk smells like plastic and melts into hard beads.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 29: STREET FOOD SAFETY & DRINKS ADVISOR -->
+  <div id="tab-content-foodsafety" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛡️</span> Street Food Safety &amp; Drinks</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Monitor hygiene indexes, evaluate tap water safety, and discover legendary local beverages.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Search & Safety indices -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🛡️ Safety Ratings &amp; Drinks</h3>
+          
+          <div style="position:relative; width:100%;">
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">EXPLORE CITY</label>
+            <input type="text" id="foodsafety-city-input" placeholder="e.g. Amritsar" style="width:100%;" autocomplete="off">
+            <div id="foodsafety-suggestions-dropdown" class="suggestion-dropdown" style="display:none; position:absolute; left:0; right:0; z-index:100; max-height:220px; overflow-y:auto; background:var(--bg-secondary); border:1px solid var(--card-border); border-radius:6px;">
+              <div id="foodsafety-suggestions-list" style="padding:0.25rem 0;"></div>
+            </div>
+          </div>
+
+          <div id="foodsafety-results-section" style="display:none; flex-direction:column; gap:1.2rem;">
+            <!-- Hygiene Indicators -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+              <div style="background:rgba(0,0,0,0.2); padding:0.75rem; border:1px solid var(--card-border); border-radius:8px; text-align:center;">
+                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">TAP WATER SAFETY</div>
+                <div style="font-size:1.1rem; font-weight:850; color:#ef4444; margin-top:0.2rem;" id="foodsafety-water-score">⚠️ High Risk</div>
+              </div>
+              <div style="background:rgba(0,0,0,0.2); padding:0.75rem; border:1px solid var(--card-border); border-radius:8px; text-align:center;">
+                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">HYGIENE ALERT</div>
+                <div style="font-size:1.1rem; font-weight:850; color:var(--color-primary); margin-top:0.2rem;" id="foodsafety-hygiene-score">Moderate</div>
+              </div>
+            </div>
+
+            <!-- Drinks list -->
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">🍹 Regional Beverages &amp; Street Drinks</div>
+              <div id="foodsafety-drinks-list" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="foodsafety-placeholder" style="text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <div style="font-size:2.8rem; margin-bottom:0.75rem;">🛡️</div>
+            <p style="font-size:0.9rem; font-weight:500; margin:0;">Enter city to show safety ratings and local drinks.</p>
+          </div>
+        </div>
+
+        <!-- Right: Food safety rules -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">📝 Street Food Hygiene Rules</h3>
+          
+          <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.55rem;">
+            <li><strong>Avoid Raw Items:</strong> Restrict consuming raw salads or chutneys at roadside stalls as they may be washed in untreated local tap water.</li>
+            <li><strong>Hot &amp; Fresh:</strong> Eat food that is cooked, fried, or boiled right in front of you. Piping hot food is generally safe from pathogens.</li>
+            <li><strong>Ice cubes warning:</strong> Ice blocks used in local juice stalls are often made from unpurified commercial water. Order beverages without ice.</li>
+            <li><strong>Crowd Indicator:</strong> Select vendors with high crowds and family queues; fast turnover of ingredients indicates fresh preparation.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 30: DYNAMIC PACKING LIST GENERATOR -->
+  <div id="tab-content-smartpacker" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📅</span> Smart Packer &amp; Checklist</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Generate customized packing checklists based on trip duration and region weather profiles.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Configuration & Checklist -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">⚙️ Generator Settings</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">REGION WEATHER TYPE</label>
+              <select id="smartpacker-type" style="width:100%;">
+                <option value="city">Temperate / City Explore</option>
+                <option value="beach">Warm / Tropical Beach</option>
+                <option value="alpine">Cold / Alpine Mountains</option>
+                <option value="desert">Dry / Desert Corridor</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">TRIP DURATION</label>
+              <select id="smartpacker-days" style="width:100%;">
+                <option value="3">3 Days Weekend</option>
+                <option value="5">5 Days Standard</option>
+                <option value="10">10 Days Extended</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="smartpacker-btn-gen" class="visualizer-btn" style="width:100%; font-weight:800; background:var(--color-primary); border-color:rgba(59, 130, 246, 0.4); color:#fff; padding:0.65rem;">
+            📅 Generate Gear Checklist
+          </button>
+
+          <!-- Packing Checklist Display -->
+          <div id="smartpacker-results-section" style="display:none; flex-direction:column; gap:0.95rem; margin-top:0.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.25rem;">
+              <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">📅 Custom Packing Manifest</span>
+              <button id="smartpacker-btn-export" class="visualizer-btn" style="font-size:0.7rem; padding:0.2rem 0.5rem; background:rgba(255,255,255,0.05);">
+                📥 Export list (.txt)
+              </button>
+            </div>
+            <div id="smartpacker-list" style="display:flex; flex-direction:column; gap:0.6rem; max-height:360px; overflow-y:auto; padding-right:0.2rem;"></div>
+          </div>
+        </div>
+
+        <!-- Right: Progress tracker -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.1rem; align-items:center; justify-content:center;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem; width:100%;">📊 Packing Progress</h3>
+          
+          <div style="font-size:2.8rem; margin-bottom:0.25rem;">🎒</div>
+          <div id="smartpacker-progress-text" style="font-size:1.1rem; font-weight:800; color:var(--text-primary);">0% Packed</div>
+          <p style="font-size:0.78rem; color:var(--text-muted); text-align:center; max-width:220px; margin:0.2rem 0 0;">Check off luggage items to sync your travel backpack status.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 31: SIM & TELECOM NETWORK ADVISOR -->
+  <div id="tab-content-simadvisor" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(14, 165, 233, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📶</span> SIM &amp; Network Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Review telecom signal coverage (eSIM/Physical SIM) for remote zones and guide tourist connectivity setups.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        
+        <!-- Left: Signal comparison -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">📶 Signal Strength Reviews</h3>
+          
+          <div>
+            <label style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem; font-weight:700;">SELECT TRAVEL REGION</label>
+            <select id="simadvisor-region" style="width:100%;">
+              <option value="cities">Metro &amp; Major Cities</option>
+              <option value="ladakh">Ladakh &amp; High Altitude Spiti</option>
+              <option value="goa">Coastal Goa &amp; Beaches</option>
+              <option value="ghats">Western Ghats Forests</option>
+              <option value="northeast">Northeast Hills (Sikkim, Meghalaya)</option>
+            </select>
+          </div>
+
+          <!-- Signal grid bars -->
+          <div id="simadvisor-ratings-list" style="display:flex; flex-direction:column; gap:0.85rem; margin-top:0.25rem;">
+            <!-- JS inserts -->
+          </div>
+        </div>
+
+        <!-- Right: Tourist SIM guide -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; margin-bottom:0.1rem;">🛂 Foreign Tourist SIM Walkthrough</h3>
+          
+          <ol style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:0.65rem;">
+            <li><strong>Airport Counters:</strong> Purchase SIMs at official telecom counters (Jio/Airtel) inside international arrivals areas (Delhi, Mumbai, Bengaluru airports).</li>
+            <li><strong>Required Documents:</strong> Keep your passport copy, valid Indian Visa, and 1 passport-size color photograph ready.</li>
+            <li><strong>Activation Time:</strong> Physical SIMs usually take <strong>4 to 8 hours</strong> to activate post verification.</li>
+            <li><strong>eSIMs:</strong> Ensure your phone is carrier-unlocked. eSIMs can be pre-purchased online but require email verification.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
   <!-- Page Footer -->
@@ -2495,8 +2741,8 @@
   </footer>
 
   <!-- Include code modules -->
-  <script src="cities.js?v=5.0.0"></script>
-  <script src="trie.js?v=5.0.0"></script>
-  <script src="app.js?v=5.0.0"></script>
+  <script src="cities.js?v=6.0.0"></script>
+  <script src="trie.js?v=6.0.0"></script>
+  <script src="app.js?v=6.0.0"></script>
 </body>
 </html>

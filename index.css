@@ -676,55 +676,168 @@ header {
     display: none !important; /* Hide backdrop on desktop so user can click main panels directly */
   }
 }
-/* Bottom macOS Dock styling */
-.mac-dock-container {
+/* DYNAMIC ISLAND HEURISTIC HUD */
+.dynamic-island {
   position: fixed;
-  bottom: 1.25rem;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 950;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
+  z-index: 1000;
+  height: 38px;
+  width: 250px;
+  background: rgba(10, 10, 15, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  padding: 0.5rem 0.85rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-}
-
-.dock-item {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  width: 40px;
-  height: 40px;
+  padding: 0 0.85rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.1);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  overflow: hidden;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dock-item:hover {
-  transform: translateY(-8px) scale(1.22);
+.dynamic-island:hover {
+  height: 60px;
+  width: 580px;
+  border-radius: 16px;
+  background: rgba(10, 10, 15, 0.97);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.25);
+}
+
+.island-compact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  width: 100%;
+  justify-content: center;
+}
+
+.dynamic-island:hover .island-compact {
+  display: none;
+  opacity: 0;
+}
+
+.island-expanded {
+  display: none;
+  opacity: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  transition: opacity 0.25s ease;
+}
+
+.dynamic-island:hover .island-expanded {
+  display: flex;
+  opacity: 1;
+}
+
+.island-status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.island-compact-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.island-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 90px;
+}
+
+.island-stat-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.island-shortcuts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.island-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.island-btn:hover {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+  color: var(--text-primary);
 }
 
-.dock-item.action {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.3);
+.island-btn.active {
+  background: rgba(59, 130, 246, 0.16);
+  border-color: rgba(59, 130, 246, 0.35);
   color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
 }
 
-.dock-item.action:hover {
-  background: var(--color-primary) !important;
-  color: white !important;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5) !important;
+.island-toggles {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 90px;
+  justify-content: flex-end;
+}
+
+.island-toggle-icon {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.island-toggle-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.08);
+  color: var(--text-primary);
 }
 
 

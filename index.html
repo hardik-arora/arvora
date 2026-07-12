@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=14.0.0">
+  <link rel="stylesheet" href="index.css?v=15.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -30,6 +30,36 @@
   <div class="ambient-glow-1"></div>
   <div class="ambient-glow-2"></div>
 
+  <!-- DYNAMIC ISLAND HEURISTIC HUD -->
+  <div id="dynamic-island" class="dynamic-island">
+    <!-- Compact/Idle State -->
+    <div class="island-compact">
+      <span class="island-status-dot"></span>
+      <span id="island-compact-label" class="island-compact-text">Arvora · Autocomplete 🔍</span>
+    </div>
+    
+    <!-- Expanded State -->
+    <div class="island-expanded">
+      <div class="island-stats">
+        <span class="island-stat-pill">⚡ 15K Cities</span>
+        <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
+      </div>
+      
+      <div class="island-shortcuts">
+        <button class="island-btn active" data-target="engine" title="Autocomplete Engine">🔍</button>
+        <button class="island-btn" data-target="transitbooking" title="Transit Hub">🎫</button>
+        <button class="island-btn" data-target="notes" title="Notes Journal">📒</button>
+        <button class="island-btn" data-target="foodsafety" title="Street Food Safety">🛡️</button>
+        <button class="island-btn" data-target="vault" title="Document Vault">📲</button>
+      </div>
+      
+      <div class="island-toggles">
+        <button id="island-audio-btn" class="island-toggle-icon" title="Toggle Sounds">🔊</button>
+        <button id="island-theme-btn" class="island-toggle-icon" title="Change Vibe">🎨</button>
+      </div>
+    </div>
+  </div>
+
   <div class="app-container">
     
     <!-- Header Section -->
@@ -37,21 +67,7 @@
       <div class="brand-section">
         <h1>Arvora</h1>
         <p>India's City Universe — Explore, Play, Export &amp; Discover 15K Cities ✨</p>
-        <div class="brand-badges">
-          <span class="badge success">
-            <span style="display:inline-block; width:8px; height:8px; background:var(--color-success); border-radius:50%"></span>
-            15,000 Cities Loaded
-          </span>
-          <span class="badge accent">
-            <span>⚡</span> Sub-millisecond Lookups
-          </span>
-          <button id="audio-toggle-btn" class="badge" style="cursor: pointer; background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3); color: var(--color-primary); font-family: inherit;">
-            <span>🔊</span> Sounds: On
-          </button>
-          <button id="theme-toggle-btn" class="badge" style="cursor: pointer; background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.3); color: var(--color-purple); font-family: inherit;">
-            <span>🎨</span> Vibe: Midnight Indigo
-          </button>
-        </div>
+        <!-- Dynamic Island replaces header badges -->
       </div>
 
       <!-- Active Feature Breadcrumb -->
@@ -3479,20 +3495,11 @@
     <p>Arvora ✨ • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
-  <!-- FLOATING MAC-STYLE BOTTOM DOCK -->
-  <div id="floating-mac-dock" class="mac-dock-container">
-    <button class="dock-item" data-target="engine" title="Autocomplete Engine">🔍</button>
-    <button class="dock-item" data-target="transitbooking" title="Transit &amp; Booking Hub">🎫</button>
-    <button class="dock-item" data-target="notes" title="Notes Journal">📒</button>
-    <button class="dock-item" data-target="foodsafety" title="Street Food Safety">🛡️</button>
-    <button class="dock-item" data-target="vault" title="Document Vault">📲</button>
-    <div style="width:1px; height:20px; background:rgba(255,255,255,0.1); margin:0 0.15rem;"></div>
-    <button id="dock-btn-command" class="dock-item action" title="Open Command Center (⌘K)">⌨️</button>
-  </div>
+
 
   <!-- Include code modules -->
-  <script src="cities.js?v=14.0.0"></script>
-  <script src="trie.js?v=14.0.0"></script>
-  <script src="app.js?v=14.0.0"></script>
+  <script src="cities.js?v=15.0.0"></script>
+  <script src="trie.js?v=15.0.0"></script>
+  <script src="app.js?v=15.0.0"></script>
 </body>
 </html>

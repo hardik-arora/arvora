@@ -810,6 +810,28 @@ header {
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
 }
 
+.island-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+
+#island-more-btn {
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: var(--color-purple);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+#island-more-btn:hover {
+  background: var(--color-purple) !important;
+  color: white !important;
+  border-color: var(--color-purple) !important;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.45) !important;
+}
+
 .island-toggles {
   display: flex;
   align-items: center;

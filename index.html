@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=18.0.0">
+  <link rel="stylesheet" href="index.css?v=19.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -3235,6 +3235,298 @@
     </div>
   </div>
 
+  <!-- TAB 41: HEALTH & VACCINE ADVISOR -->
+  <div id="tab-content-safety" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛡️</span> Health &amp; Vaccine Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Pre-travel vaccine checklist, location health ratings, and dynamic medical advisory.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left Column: Health Profiler -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📋 Dynamic Health Profiler</h3>
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.35rem;">Travel Style</label>
+              <select id="health-style-select" class="form-input" style="width:100%;">
+                <option value="backpacker">🎒 Backpacker (Street food, hostels, budget transit)</option>
+                <option value="resort">🏨 Resort/Business (Hotel dining, private cabs)</option>
+                <option value="volunteer">Volunteer/Rural (Remote villages, forest zones)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.35rem;">Primary Travel Areas</label>
+              <select id="health-area-select" class="form-input" style="width:100%;">
+                <option value="urban">🏙️ Urban Centers (Metro cities, Delhi, Mumbai)</option>
+                <option value="rural">🌳 Rural Forests &amp; Hills (Northeast, Western Ghats)</option>
+                <option value="water">🌊 Coastal/Backwaters (Goa, Kerala Monsoon)</option>
+              </select>
+            </div>
+            <button id="health-btn-generate" class="visualizer-btn" style="width:100%; margin-top:0.5rem;">Generate Health Advisory</button>
+          </div>
+
+          <div id="health-report-card" class="trip-stop-card" style="display:none; padding:1rem; flex-direction:column; gap:0.5rem; background:rgba(59, 130, 246, 0.05); border-color:rgba(59, 130, 246, 0.15);">
+            <!-- JS inserts advisory -->
+          </div>
+        </div>
+
+        <!-- Right Column: Official Vaccine Advisories -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">💉 Recommended Vaccines</h3>
+          <div style="display:flex; flex-direction:column; gap:0.65rem; font-size:0.8rem; color:var(--text-secondary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.04); padding-bottom:0.4rem;">
+              <span><strong>Hepatitis A &amp; Typhoid</strong></span>
+              <span class="badge success" style="font-size:0.65rem;">Critical (Food/Water safety)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.04); padding-bottom:0.4rem;">
+              <span><strong>Tetanus / Diphtheria</strong></span>
+              <span class="badge success" style="font-size:0.65rem;">Recommended Booster</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.04); padding-bottom:0.4rem;">
+              <span><strong>Rabies</strong></span>
+              <span class="badge accent" style="font-size:0.65rem;">Highly Advised (Stray Animals)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.04); padding-bottom:0.4rem;">
+              <span><strong>Japanese Encephalitis</strong></span>
+              <span class="badge" style="font-size:0.65rem; color:var(--text-muted); background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">Rural specific</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span><strong>Yellow Fever</strong></span>
+              <span class="badge error" style="background:rgba(239, 68, 68, 0.12); color:#ef4444; border-color:rgba(239, 68, 68, 0.2); font-size:0.65rem;">Mandatory if arriving from YF zone</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 42: INDIAN CUSTOMS & DUTY CALCULATOR -->
+  <div id="tab-content-customs" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛃</span> Indian Customs &amp; Duty Calculator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Determine airport duty-free exemptions and calculate taxes on gold, laptops, and alcohol.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Input Form -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">💼 Items Checklist</h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div>
+              <label class="form-label">Passenger Residency</label>
+              <select id="customs-resident-select" class="form-input" style="width:100%;">
+                <option value="tourist">Tourist (Foreign Passport)</option>
+                <option value="resident">Indian Resident / NRI</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Passenger Gender (For Gold)</label>
+              <select id="customs-gender-select" class="form-input" style="width:100%;">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.2rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.8rem; color:var(--text-secondary);">Gold Jewelry (Grams)</span>
+              <input type="number" id="customs-gold-qty" class="form-input" value="0" min="0" style="width:100px; text-align:right;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.8rem; color:var(--text-secondary);">Alcohol/Spirits (Liters)</span>
+              <input type="number" id="customs-alcohol-qty" class="form-input" value="0" min="0" max="10" step="0.5" style="width:100px; text-align:right;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.8rem; color:var(--text-secondary);">Flat Panel TV (Count)</span>
+              <input type="number" id="customs-tv-qty" class="form-input" value="0" min="0" style="width:100px; text-align:right;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.8rem; color:var(--text-secondary);">Laptops (Count)</span>
+              <input type="number" id="customs-laptops-qty" class="form-input" value="1" min="0" style="width:100px; text-align:right;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.8rem; color:var(--text-secondary);">General Gifts/Purchases (INR Value)</span>
+              <input type="number" id="customs-general-val" class="form-input" value="0" min="0" style="width:120px; text-align:right;">
+            </div>
+          </div>
+
+          <button id="customs-btn-calc" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Calculate Customs Declaration</button>
+        </div>
+
+        <!-- Right: Results -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📊 Duty Report</h3>
+          
+          <div id="customs-result-card" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Fill in the items and click calculate to view the airport customs report.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 43: TOURIST LEGAL RIGHTS & SCAM SHIELD -->
+  <div id="tab-content-legal" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>⚖️</span> Tourist Legal Rights &amp; Scam Shield</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Empower yourself with Indian consumer laws and learn exactly what to do when facing local scams.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Scenario Selector -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🛑 Select a Travel Incident</h3>
+          <div style="display:flex; flex-direction:column; gap:0.5rem;" id="legal-scenario-buttons">
+            <button class="visualizer-btn active" data-scenario="mrp" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
+              <span>🥤</span> Overcharging above Printed MRP (Water, Soda)
+            </button>
+            <button class="visualizer-btn" data-scenario="meter" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
+              <span>🛺</span> Cab / Auto refusing meter or demanding high fixed rate
+            </button>
+            <button class="visualizer-btn" data-scenario="closed" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
+              <span>commission</span> Agent claims: "Your Hotel is closed / burned down"
+            </button>
+            <button class="visualizer-btn" data-scenario="fine" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
+              <span>👮</span> Police demands "Spot Cash Fine" without official receipt
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Legal Guidance -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📜 Legal Advisor &amp; Action Plan</h3>
+          <div id="legal-guidance-card" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <!-- JS inserts scenario guidance -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 44: TRAVEL INSURANCE CLAIM ASSISTANT -->
+  <div id="tab-content-insurance" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📑</span> Travel Insurance Claim Assistant</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Dynamic document generator to prepare travel insurance claims for hospitalization or theft.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Interactive Profiler -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📋 Build Claims Dossier</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.35rem;">Claim Category</label>
+              <div style="display:flex; gap:0.75rem;">
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.8rem; cursor:pointer;">
+                  <input type="radio" name="claim-type" value="medical" checked id="claim-type-medical"> Medical Hospitalization
+                </label>
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.8rem; cursor:pointer;">
+                  <input type="radio" name="claim-type" value="theft" id="claim-type-theft"> Luggage Theft / Loss
+                </label>
+              </div>
+            </div>
+
+            <!-- Medical sub-options -->
+            <div id="claim-med-options" style="display:flex; flex-direction:column; gap:0.55rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.75rem;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.78rem; cursor:pointer;">
+                <input type="checkbox" id="claim-opt-overnight" checked> Hospitalized overnight (Admitted as inpatient)
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.78rem; cursor:pointer;">
+                <input type="checkbox" id="claim-opt-pharmacy"> Purchased medicines from external chemist
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.78rem; cursor:pointer;">
+                <input type="checkbox" id="claim-opt-reimburse"> Requesting Cashless hospital clearance
+              </label>
+            </div>
+
+            <!-- Theft sub-options -->
+            <div id="claim-theft-options" style="display:none; flex-direction:column; gap:0.55rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.75rem;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.78rem; cursor:pointer;">
+                <input type="checkbox" id="claim-opt-fir"> Reported incident to Local Police (FIR registered)
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.78rem; cursor:pointer;">
+                <input type="checkbox" id="claim-opt-airline"> Delay happened on flight (Property Irregularity Report)
+              </label>
+            </div>
+            
+            <button id="claim-btn-generate" class="visualizer-btn" style="width:100%; margin-top:0.25rem;">Generate Document Checklist</button>
+          </div>
+        </div>
+
+        <!-- Right: Generated Checklist -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📜 Claims Verification Checklist</h3>
+          <div id="claim-result-card" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select claim details and click generate to build the dossier audit profile.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 45: TOURIST MEDICAL LOCATOR -->
+  <div id="tab-content-medical" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏥</span> Tourist Medical Locator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Find accredited medical clinics, hospitals, and pharmacies welcoming international travelers in major Indian hubs.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Filters -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🔍 Search Medical Centers</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.35rem;">Destination Hub</label>
+              <select id="medical-city-select" class="form-input" style="width:100%;">
+                <option value="delhi">Delhi (NCR)</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="goa">Goa</option>
+                <option value="jaipur">Jaipur (Rajasthan)</option>
+                <option value="kochi">Kochi (Kerala)</option>
+                <option value="varanasi">Varanasi</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.35rem;">Facility Classification</label>
+              <select id="medical-class-select" class="form-input" style="width:100%;">
+                <option value="all">Show All Facilities</option>
+                <option value="hospital">🏥 Full Specialty Hospital (24/7 ER)</option>
+                <option value="clinic">🩺 Medical Clinic / Consultations</option>
+                <option value="pharmacy">💊 24/7 Pharmacy</option>
+              </select>
+            </div>
+            <button id="medical-btn-search" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Find Emergency Care</button>
+          </div>
+        </div>
+
+        <!-- Right: Facility Cards List -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🏥 Verified Medical Providers</h3>
+          
+          <div id="medical-results-container" style="display:flex; flex-direction:column; gap:0.85rem; max-height:450px; overflow-y:auto; padding-right:0.25rem;">
+            <!-- JS inserts verified listings -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- =====================================================================
        TAB: CURRENCY CONVERTER
        ===================================================================== -->
@@ -3500,8 +3792,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=18.0.0"></script>
-  <script src="trie.js?v=18.0.0"></script>
-  <script src="app.js?v=18.0.0"></script>
+  <script src="cities.js?v=19.0.0"></script>
+  <script src="trie.js?v=19.0.0"></script>
+  <script src="app.js?v=19.0.0"></script>
 </body>
 </html>

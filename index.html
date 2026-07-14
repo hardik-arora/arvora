@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=20.0.1">
+  <link rel="stylesheet" href="index.css?v=21.0.0">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v20.0.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -73,51 +73,30 @@
         <!-- Dynamic Island replaces header badges -->
       </div>
 
-      <!-- Active Feature Breadcrumb -->
-      <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.65rem; font-size:0.82rem; color:var(--text-muted);">
-        <span style="letter-spacing:0.04em; font-weight:600; text-transform:uppercase; font-size:0.7rem;">Arvora</span>
-        <span style="opacity:0.4;">/</span>
-        <span id="active-feature-breadcrumb" style="color:var(--text-primary); font-weight:700;">Autocomplete Engine</span>
+      <!-- Active Feature Breadcrumb & Search Trigger -->
+      <div style="display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:0.65rem; flex-wrap:wrap; gap:0.5rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.82rem; color:var(--text-muted);">
+          <span style="letter-spacing:0.04em; font-weight:600; text-transform:uppercase; font-size:0.7rem;">Arvora</span>
+          <span style="opacity:0.4;">/</span>
+          <span id="active-feature-breadcrumb" style="color:var(--text-primary); font-weight:700;">Autocomplete Engine</span>
+        </div>
+        <button id="header-search-trigger" class="visualizer-btn" style="display:flex; align-items:center; gap:8px; font-size:0.75rem; padding:0.45rem 0.85rem; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+          <span>🔍</span> Search 40+ Features... <kbd style="background:rgba(255,255,255,0.1); padding:1px 4px; border-radius:3px; font-size:0.65rem; font-family:inherit; margin-left:4px;">Cmd K</kbd>
+        </button>
       </div>
     </header>
 
-  <!-- VS CODE ACTIVITY BAR SIDEBAR -->
-  <nav id="sidebar-rail" class="sidebar-rail">
-    <!-- Search icon at top -->
-    <button class="rail-icon" id="rail-search" data-cat="search" data-tooltip="Search features (Cmd+K)">
-      <span>🔍</span>
-      <span class="rail-label">Search</span>
-    </button>
-    <div class="rail-divider"></div>
-    <!-- Category icons -->
-    <button class="rail-icon active" id="rail-engine" data-cat="engine" data-tooltip="Core Engine & Data">
-      <span>⚡</span>
-      <span class="rail-label">Engine</span>
-    </button>
-    <button class="rail-icon" id="rail-routing" data-cat="routing" data-tooltip="Transit & Planning">
-      <span>🗺️</span>
-      <span class="rail-label">Transit</span>
-    </button>
-    <button class="rail-icon" id="rail-safety" data-cat="safety" data-tooltip="Security & Customs">
-      <span>🛡️</span>
-      <span class="rail-label">Safety</span>
-    </button>
-    <button class="rail-icon" id="rail-culture" data-cat="culture" data-tooltip="Culture & Experience">
-      <span>🎨</span>
-      <span class="rail-label">Culture</span>
-    </button>
-  </nav>
 
   <!-- SIDEBAR FEATURE DRAWER -->
-  <div id="sidebar-drawer" class="sidebar-drawer open">
+  <div id="sidebar-drawer" class="sidebar-drawer">
     <!-- Drawer header -->
     <div class="drawer-header">
-      <span id="drawer-category-title" class="drawer-title">⚡ Core Engine</span>
+      <span id="drawer-category-title" class="drawer-title">🔍 Search Features</span>
       <button id="drawer-close-btn" class="drawer-close-btn" title="Close (ESC)">✕</button>
     </div>
-    <!-- Search input (shows when rail-search clicked) -->
-    <div id="drawer-search-section" style="display:none; padding:0.5rem 0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
-      <input type="text" id="sidebar-search-input" placeholder="Search all 40 features..." style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.5rem 0.75rem; color:var(--text-primary); font-family:inherit; font-size:0.82rem; outline:none;">
+    <!-- Search input (always visible in Spotlight modal) -->
+    <div id="drawer-search-section" style="padding:0.5rem 0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+      <input type="text" id="sidebar-search-input" placeholder="Search all 40+ features..." style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:0.5rem 0.75rem; color:var(--text-primary); font-family:inherit; font-size:0.82rem; outline:none;">
     </div>
     <!-- Feature list -->
     <div id="sidebar-feature-list" class="sidebar-feature-list">
@@ -3787,14 +3766,14 @@
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 20.0.0 (Latest Redesigned Sidebar &amp; Safety Upgrade) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.0 (Search Spotlight Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=20.0.1"></script>
-  <script src="trie.js?v=20.0.1"></script>
-  <script src="app.js?v=20.0.1"></script>
+  <script src="cities.js?v=21.0.0"></script>
+  <script src="trie.js?v=21.0.0"></script>
+  <script src="app.js?v=21.0.0"></script>
 </body>
 </html>

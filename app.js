@@ -225,6 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentSpiceMenu = document.getElementById("tab-content-spicemenu");
   const tabContentScamCheck = document.getElementById("tab-content-scamcheck");
   const tabContentAltitude  = document.getElementById("tab-content-altitude");
+  // Phase 21.2 - 2 new features
+  const tabContentBargain   = document.getElementById("tab-content-bargain");
+  const tabContentMonumentPhoto = document.getElementById("tab-content-monumentphoto");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -749,8 +752,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -952,6 +955,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabId === 'altitude') {
       initAltitude();
     }
+    if (tabId === 'bargain') {
+      initBargain();
+    }
+    if (tabId === 'monumentphoto') {
+      initMonumentPhoto();
+    }
 
     // Update active highlight on sidebar rail icon
     const railIcons = document.querySelectorAll(".rail-icon[data-cat]");
@@ -961,7 +970,7 @@ document.addEventListener("DOMContentLoaded", () => {
         engine:  ['engine','routes','game','pattern','analytics','scanner'],
         routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc'],
         safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical','scamcheck','altitude'],
-        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu']
+        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu','bargain','monumentphoto']
       };
       let matchedCat = null;
       for (const [cat, tabs] of Object.entries(catMap)) {
@@ -8255,7 +8264,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'qrcode',       icon: '🔲', name: 'QR Code Generator',   desc: 'Generate QR for URL, UPI, phone — download PNG.' },
         { id: 'playlist',     icon: '🎵', name: 'Travel Vibe Playlist', desc: 'Curate trending Indian songs by your journey style.' },
         { id: 'diet',         icon: '🍽️', name: 'Dietary Translator',   desc: 'Generate waiter allergy translation cards (Hindi, Tamil, etc.).' },
-        { id: 'spicemenu',    icon: '🍛', name: 'Curry & Spice Translator', desc: 'Decode Indian menu terms, spice levels, and allergens.' }
+        { id: 'spicemenu',    icon: '🍛', name: 'Curry & Spice Translator', desc: 'Decode Indian menu terms, spice levels, and allergens.' },
+        { id: 'bargain',      icon: '🛍️', name: 'Street Bargaining Simulator', desc: 'Interactive negotiation guide and street market price checker.' },
+        { id: 'monumentphoto', icon: '📸', name: 'Monument Golden Hour Advisor', desc: 'Optimize photography timings and camera rules for sights.' }
       ]
     };
 
@@ -10505,6 +10516,148 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
               <div>⏱️ <strong>Mandatory Rest Period:</strong> ${restHours} hours complete rest required before high-pass trekking.</div>
               <div>💊 <strong>Medication Tip:</strong> Consult a doctor regarding Acetazolamide (Diamox) before ascent. Carry portable oxygen canisters.</div>
               <div>💧 <strong>Hydration Protocol:</strong> Consume 3-4 liters of water / ORS solution daily. Avoid alcohol entirely.</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: BARGAINING & STREET PRICE SIMULATOR
+  // =====================================================================
+  function initBargain() {
+    const priceInput = document.getElementById("bargain-price-input");
+    const catSelect = document.getElementById("bargain-cat-select");
+    const simBtn = document.getElementById("bargain-btn-simulate");
+    const resultBox = document.getElementById("bargain-result-container");
+
+    const CAT_PARAMS = {
+      chappals: { name: "Footwear / Chappals", pct: 0.4, walkaway: 0.5, dialogue: "Oh Sahib, genuine camel leather! Soft like butter! Cost price is more." },
+      shawl: { name: "Pashmina / Silk Shawls", pct: 0.5, walkaway: 0.6, dialogue: "Sir, this took 3 months to hand-weave in Kashmir. Touch the fabric!" },
+      spices: { name: "Spices / Local Tea Packs", pct: 0.6, walkaway: 0.7, dialogue: "Fresh harvest from Darjeeling gardens, organic quality, very rare." },
+      clothes: { name: "Street Clothes (T-shirts/Skirts)", pct: 0.3, walkaway: 0.45, dialogue: "Cheapest in the market! High quality export cotton, color won't fade." },
+      souvenirs: { name: "Antiques / Brassware", pct: 0.45, walkaway: 0.55, dialogue: "Genuine heavy brass, hand-carved in Jaipur. Antique piece!" }
+    };
+
+    if (simBtn && resultBox) {
+      simBtn.addEventListener("click", () => {
+        playSelectSound();
+        const price = parseInt(priceInput.value) || 1000;
+        const catKey = catSelect.value;
+        const params = CAT_PARAMS[catKey] || {};
+
+        const targetOffer = Math.round(price * params.pct);
+        const finalExpected = Math.round(price * params.walkaway);
+        const step1 = Math.round(price * 0.8);
+        const step2 = Math.round(price * 0.6);
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.75rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">
+              <strong style="font-size:0.95rem; color:var(--text-primary);">🛍️ Negotiation Price Metrics</strong>
+              <span class="badge accent" style="font-size:0.65rem;">${params.name}</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.78rem;">
+              <div style="background:rgba(239, 68, 68, 0.05); border:1px solid rgba(239, 68, 68, 0.15); padding:0.5rem; border-radius:6px; text-align:center;">
+                <span style="color:var(--text-muted); display:block; font-size:0.65rem; margin-bottom:0.25rem;">Initial Offer</span>
+                <strong style="font-size:0.95rem; color:#ef4444;">₹${targetOffer}</strong>
+              </div>
+              <div style="background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.15); padding:0.5rem; border-radius:6px; text-align:center;">
+                <span style="color:var(--text-muted); display:block; font-size:0.65rem; margin-bottom:0.25rem;">Target Walkaway</span>
+                <strong style="font-size:0.95rem; color:var(--color-success);">₹${finalExpected}</strong>
+              </div>
+            </div>
+
+            <div style="font-size:0.72rem; color:var(--text-secondary); line-height:1.45; display:flex; flex-direction:column; gap:0.45rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:0.75rem; border-radius:8px;">
+              <strong style="color:var(--text-primary); font-size:0.75rem;">🎭 Simulated bargaining script</strong>
+              <div style="display:flex; flex-direction:column; gap:0.35rem; margin-top:0.25rem;">
+                <div>👲 <strong>Vendor:</strong> "Only ₹${price} for you, very high quality!"</div>
+                <div>👤 <strong>You (Start offer):</strong> "₹${targetOffer}? <em>(Bhaiya, theek rate lagao)</em>"</div>
+                <div>👲 <strong>Vendor:</strong> "${params.dialogue} Okay, last price ₹${step1}."</div>
+                <div>👤 <strong>You (Push back):</strong> "No, ₹${targetOffer} is fair. <em>(Rehne do, aage dekhte hain)</em>"</div>
+                <div>👲 <strong>Vendor:</strong> "Okay wait! Take it for ₹${step2}."</div>
+                <div>👤 <strong>You (Final stance):</strong> "₹${finalExpected} final, cash in hand!"</div>
+                <div>👲 <strong>Vendor:</strong> "Okay, take it! Loss for me, but first customer luck!"</div>
+              </div>
+            </div>
+
+            <div style="font-size:0.68rem; color:var(--text-muted); padding-top:0.25rem; border-top:1px solid rgba(255,255,255,0.06);">
+              💡 <strong>Bargaining Rules:</strong> 1. Always walk away if they refuse—80% of vendors will call you back to accept your target walkaway price. 2. Never show too much excitement for an item. 3. Carry small change.
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: MONUMENT GOLDEN HOUR & PHOTOGRAPHY ADVISOR
+  // =====================================================================
+  function initMonumentPhoto() {
+    const DATA = {
+      taj: {
+        name: "Taj Mahal (Agra)",
+        time: "🌅 Sunrise (5:30 AM - 7:00 AM)",
+        viewpoints: "Mehtab Bagh (rear sunset view), boat rides on Yamuna River, Taj Nature Walk gardens.",
+        rules: "❌ Tripods, drones, chargers, and books are strictly prohibited. Only mobile phones and camera bodies/lenses are allowed.",
+        tip: "Arrive at the West or East Gate ticket counter by 5:00 AM. Sunrise offers the softest pink-orange mist over the domes, with minimal crowds."
+      },
+      hawa: {
+        name: "Hawa Mahal (Jaipur)",
+        time: "☀️ Morning (8:00 AM - 10:00 AM)",
+        viewpoints: "Cafe rooftops across the road (Tattoo Cafe, Wind View Cafe), directly across the street sidewalk.",
+        rules: "🟢 Camera bodies/lenses allowed on street. Inside the palace, heavy commercial photography setups require a ticket permit fee.",
+        tip: "The facade faces east, so morning sunlight lights up the pink sandstone latticework beautifully. Sunset leaves the front in shadow."
+      },
+      qutub: {
+        name: "Qutub Minar (Delhi)",
+        time: "🌇 Sunset / Late Afternoon (4:00 PM - 6:00 PM)",
+        viewpoints: "Surrounding lawns near Alai Minar, iron pillar courtyard, archways of Quwwat-ul-Islam mosque.",
+        rules: "⚠️ Tripods are banned unless pre-authorized by the Archaeological Survey of India (ASI). No heavy professional video gear.",
+        tip: "As the sun goes down, the red sandstone minaret glows with deep crimson tones. Perfect for silhouette frames under the ancient archways."
+      },
+      varanasi: {
+        name: "Varanasi Ghats (Ganges)",
+        time: "🌅 Dawn (5:30 AM) & 🌇 Dusk (6:30 PM)",
+        viewpoints: "Ganga Aarti from a shared wooden rowing boat on the river, Manikarnika burning ghat (from a distance).",
+        rules: "⚠️ Do not take photos or videos at the cremation ghats (Harishchandra and Manikarnika). It is highly disrespectful and forbidden.",
+        tip: "Hire a hand-rowed boat at dawn to capture sadhus bathing, sunrise reflections on the Ganges, and the ancient stone steps of the ghats."
+      }
+    };
+
+    const sightSel = document.getElementById("monumentphoto-sight-select");
+    const checkBtn = document.getElementById("monumentphoto-btn-check");
+    const resultBox = document.getElementById("monumentphoto-result-container");
+
+    if (checkBtn && resultBox) {
+      checkBtn.addEventListener("click", () => {
+        playSelectSound();
+        const sight = sightSel.value;
+        const info = DATA[sight] || {};
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${info.name}</strong>
+              <span class="badge success" style="font-size:0.65rem;">Golden Hour</span>
+            </div>
+
+            <div style="font-size:0.82rem; color:var(--text-secondary); margin:0.15rem 0;">
+              ⏰ <strong>Optimal Photo Window:</strong> <span style="font-weight:700; color:var(--color-primary);">${info.time}</span>
+            </div>
+
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">
+              📍 <strong>Top Viewpoints & Angles:</strong> ${info.viewpoints}
+            </p>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem; color:var(--text-secondary); margin-top:0.25rem;">
+              <div style="color:#ef4444; font-weight:700;">⚠️ Camera &amp; Gear Rules:</div>
+              <div>${info.rules}</div>
+              <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.35rem; margin-top:0.15rem; color:var(--text-muted);">
+                💡 <strong>Photo Tip:</strong> ${info.tip}
+              </div>
             </div>
           </div>
         `;

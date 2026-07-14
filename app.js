@@ -201,13 +201,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentStomach = document.getElementById("tab-content-stomach");
   const tabContentSoloSafety = document.getElementById("tab-content-solosafety");
   const tabContentVault = document.getElementById("tab-content-vault");
-  // Phase 15 — 6 new features
+  // Phase 15 & 18 features
   const tabContentCurrency = document.getElementById("tab-content-currency");
   const tabContentRickshaw = document.getElementById("tab-content-rickshaw");
   const tabContentSimGuide = document.getElementById("tab-content-simguide");
   const tabContentSunclock = document.getElementById("tab-content-sunclock");
   const tabContentBagCalc  = document.getElementById("tab-content-bagcalc");
   const tabContentQrCode   = document.getElementById("tab-content-qrcode");
+  const tabContentSafety   = document.getElementById("tab-content-safety");
+  const tabContentCustoms  = document.getElementById("tab-content-customs");
+  const tabContentLegal    = document.getElementById("tab-content-legal");
+  const tabContentInsurance = document.getElementById("tab-content-insurance");
+  const tabContentMedical  = document.getElementById("tab-content-medical");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -732,8 +737,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -888,6 +893,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize document checklist vault
     if (tabId === 'vault') {
       initVault();
+    }
+    // Phase 18 - 5 new Safety Initializers
+    if (tabId === 'safety') {
+      initSafety();
+    }
+    if (tabId === 'customs') {
+      initCustoms();
+    }
+    if (tabId === 'legal') {
+      initLegal();
+    }
+    if (tabId === 'insurance') {
+      initInsurance();
+    }
+    if (tabId === 'medical') {
+      initMedical();
     }
 
     // Update active highlight on sidebar rail icon
@@ -9021,6 +9042,406 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         });
       });
     })();
+
+  // =====================================================================
+  // FEATURE: HEALTH & VACCINE ADVISOR
+  // =====================================================================
+  let safetyInitialized = false;
+  function initSafety() {
+    if (safetyInitialized) return;
+    safetyInitialized = true;
+
+    const styleSelect = document.getElementById("health-style-select");
+    const areaSelect = document.getElementById("health-area-select");
+    const generateBtn = document.getElementById("health-btn-generate");
+    const reportCard = document.getElementById("health-report-card");
+
+    if (generateBtn) {
+      generateBtn.addEventListener("click", () => {
+        playSelectSound();
+        const style = styleSelect.value;
+        const area = areaSelect.value;
+        let risks = [];
+
+        if (style === "backpacker") {
+          risks.push("⚠️ High risk of food & waterborne infections (Hepatitis A, Typhoid). Avoid tap water, unpeeled fruits, and raw salads.");
+          risks.push("⚠️ High exposure to stray dogs (Rabies hazard). Seek immediate post-exposure treatment if bitten.");
+        } else if (style === "volunteer") {
+          risks.push("⚠️ Remote/Forest exposure (Malaria, Dengue, Scrub Typhus). Use DEET insect repellent.");
+          risks.push("⚠️ Limited medical infrastructure nearby. Carry a comprehensive first-aid kit with antibiotics.");
+        } else {
+          risks.push("⚠️ Low risk in hotels, but caution is still needed for ice, raw fish, and outside street snacks.");
+        }
+
+        if (area === "rural") {
+          risks.push("⚠️ Japanese Encephalitis is present in agricultural/rural farming zones. Protect against mosquito bites.");
+        } else if (area === "water") {
+          risks.push("⚠️ Dengue & Chikungunya are highly active near coastlines and standing monsoon waters. Use nets.");
+        }
+
+        reportCard.style.display = "flex";
+        reportCard.innerHTML = `
+          <strong style="color:var(--color-primary); font-size:0.85rem; display:block; margin-bottom:0.25rem;">🩺 Personalized Medical Advisory:</strong>
+          <ul style="margin:0; padding-left:1.15rem; font-size:0.75rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.35rem;">
+            ${risks.map(r => `<li>${r}</li>`).join("")}
+          </ul>
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.4rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.35rem;">
+            <strong>Immediate Action:</strong> Keep oral rehydration salts (ORS) handy. Drink only sealed bottled water (Kinley, Aquafina, Bisleri).
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: INDIAN CUSTOMS & DUTY CALCULATOR
+  // =====================================================================
+  let customsInitialized = false;
+  function initCustoms() {
+    if (customsInitialized) return;
+    customsInitialized = true;
+
+    const residentSelect = document.getElementById("customs-resident-select");
+    const genderSelect = document.getElementById("customs-gender-select");
+    const goldQty = document.getElementById("customs-gold-qty");
+    const alcoholQty = document.getElementById("customs-alcohol-qty");
+    const tvQty = document.getElementById("customs-tv-qty");
+    const laptopQty = document.getElementById("customs-laptops-qty");
+    const generalVal = document.getElementById("customs-general-val");
+    const btnCalc = document.getElementById("customs-btn-calc");
+    const resultCard = document.getElementById("customs-result-card");
+
+    if (btnCalc) {
+      btnCalc.addEventListener("click", () => {
+        playSelectSound();
+        const resident = residentSelect.value;
+        const gender = genderSelect.value;
+        const gold = parseFloat(goldQty.value) || 0;
+        const alcohol = parseFloat(alcoholQty.value) || 0;
+        const tvs = parseInt(tvQty.value) || 0;
+        const laptops = parseInt(laptopQty.value) || 0;
+        const general = parseFloat(generalVal.value) || 0;
+
+        let dutyAmount = 0;
+        let reasons = [];
+        let isRedChannel = false;
+
+        // Gold Jewelry
+        let goldLimit = 0;
+        if (resident === "resident") {
+          if (gender === "female") {
+            goldLimit = 40; // 40 grams
+          } else {
+            goldLimit = 20; // 20 grams
+          }
+        }
+        if (gold > goldLimit) {
+          const excessGold = gold - goldLimit;
+          const goldDuty = excessGold * 5000 * 0.125; // Approx duty of 12.5% on value
+          dutyAmount += goldDuty;
+          reasons.push(`❌ Gold jewelry exceeds allowance (${goldLimit}g). Duty charged on excess ${excessGold.toFixed(1)}g.`);
+          isRedChannel = true;
+        }
+
+        // Alcohol
+        if (alcohol > 2) {
+          const excessAlc = alcohol - 2;
+          const alcDuty = excessAlc * 2500 * 1.5; // 150% duty
+          dutyAmount += alcDuty;
+          reasons.push(`❌ Alcohol exceeds 2 Liter limit. Tax charged on excess ${excessAlc.toFixed(1)}L at 150%.`);
+          isRedChannel = true;
+        }
+
+        // TV
+        if (tvs > 0) {
+          const tvDuty = tvs * 30000 * 0.385; // flat 38.5%
+          dutyAmount += tvDuty;
+          reasons.push(`❌ Flat panel TVs are always taxable. 38.5% duty charged on ${tvs} TV(s).`);
+          isRedChannel = true;
+        }
+
+        // Laptops
+        if (laptops > 1 && resident === "tourist") {
+          const excessLaptops = laptops - 1;
+          const laptopDuty = excessLaptops * 40000 * 0.385;
+          dutyAmount += laptopDuty;
+          reasons.push(`❌ Only 1 laptop is allowed duty-free for tourists. Duty charged on excess laptop(s).`);
+          isRedChannel = true;
+        }
+
+        // General purchases
+        const genLimit = (resident === "resident") ? 50000 : 15000;
+        if (general > genLimit) {
+          const excessGen = general - genLimit;
+          const genDuty = excessGen * 0.385;
+          dutyAmount += genDuty;
+          reasons.push(`❌ General purchases exceed ₹${genLimit} allowance. Taxed at 38.5% on excess.`);
+          isRedChannel = true;
+        }
+
+        const channelText = isRedChannel ? "🚨 DECLARATION REQUIRED (RED CHANNEL)" : "🟢 CLEAR TO EXIT (GREEN CHANNEL)";
+        const channelColor = isRedChannel ? "#ef4444" : "var(--color-success)";
+
+        resultCard.innerHTML = `
+          <div style="text-align:center; padding:0.5rem; background:${isRedChannel ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)'}; border-radius:8px; border:1px solid ${channelColor};">
+            <strong style="color:${channelColor}; font-size:0.85rem;">${channelText}</strong>
+          </div>
+          
+          <div style="margin-top:0.5rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.5rem;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:800; color:var(--text-primary);">
+              <span>Estimated Customs Duty:</span>
+              <span style="color:${dutyAmount > 0 ? '#ef4444' : 'var(--text-primary)'}">₹${Math.round(dutyAmount).toLocaleString('en-IN')}</span>
+            </div>
+            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.15rem; display:block;">Calculated at official CBIC rates. Exemption limits applied.</div>
+          </div>
+
+          <div style="margin-top:0.4rem; display:flex; flex-direction:column; gap:0.35rem; font-size:0.75rem; color:var(--text-secondary);">
+            ${reasons.length > 0 ? reasons.map(r => `<div>${r}</div>`).join("") : '<div>🟢 All items are within Indian Customs duty-free exemption boundaries.</div>'}
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: TOURIST LEGAL RIGHTS & SCAM SHIELD
+  // =====================================================================
+  let legalInitialized = false;
+  function initLegal() {
+    if (legalInitialized) return;
+    legalInitialized = true;
+
+    const btnContainer = document.getElementById("legal-scenario-buttons");
+    const guidanceCard = document.getElementById("legal-guidance-card");
+
+    const SCENARIOS = {
+      mrp: {
+        title: "🥤 Overcharging above printed MRP (Maximum Retail Price)",
+        desc: "Many local shops, vendors, or railway kiosks will claim 'cooling charges' to sell soda, water, or snacks above the printed price.",
+        right: "⚖️ <strong>Legal Metrology Act, 2009 (Section 36)</strong> states that selling any pre-packed commodity above the Maximum Retail Price (MRP) is illegal and carries a fine up to ₹25,000 for first offenders.",
+        script: "🗣️ <em>'Bhaya, Selling above MRP is a violation under the Legal Metrology Act. I will pay the exact price printed here. Please check the label.'</em>",
+        action: "🚨 If they insist, point to the label and take a photo of the shop license. You can report it immediately to the National Consumer Helpline at <strong>1915</strong>."
+      },
+      meter: {
+        title: "🛺 Cab / Rickshaw driver refusing meter or demanding fixed rate",
+        desc: "Drivers near train stations, airport gates, or tourist zones will refuse meters and demand fixed rates up to 5x higher.",
+        right: "⚖️ <strong>Motor Vehicles Act, 1988 (Section 178)</strong> makes it mandatory for public transport permit holders to charge as per the approved municipal fare card/meter. Refusal to ply by meter is a ground for permit suspension.",
+        script: "🗣️ <em>'Please turn on the meter, or let's find the prepaid taxi booth. I do not want to negotiate. If you refuse, I will ask the traffic police over there.'</em>",
+        action: "🚨 Always look for a state government-run <strong>Prepaid Taxi Booth</strong> inside the airport/railway station before walking out to the street. In major cities, use Uber/Ola/Namma Yatri to avoid negotiations."
+      },
+      closed: {
+        title: " commission Agent claims: 'Your Hotel is closed / burned down'",
+        desc: "A common scam in Delhi/Mumbai where auto drivers or tour agents tell you your pre-booked hotel is closed due to a festival/fire, and push you to go to their 'commission tourist office'.",
+        right: "⚖️ <strong>IPC Section 420 (Cheating and Dishonesty)</strong>. Creating false representations to divert you to a private agency for commercial commission is criminal fraud.",
+        script: "🗣️ <em>'No, I have already spoken to the hotel manager directly. Take me to the exact address of my hotel or drop me here. I will call a police patrol.'</em>",
+        action: "🚨 Never trust third-party stories about hotel fires or closures. Call your hotel directly using the telephone number from your original booking voucher (not the number the driver gives you)."
+      },
+      fine: {
+        title: "👮 Officer demands 'Spot Cash Fine' without official receipt",
+        desc: "Police or traffic personnel stopping tourists and demanding cash payments on the spot for minor violations without issuing a challan.",
+        right: "⚖️ <strong>Official police protocols</strong> state that any fine collected must be backed by a printed spot receipt, or paid via an online portal. Police cannot seize documents without a temporary receipt.",
+        script: "🗣️ <em>'Officer, please issue me a written Spot Challan / Receipt or let me pay via the online traffic police portal. I do not have cash.'</em>",
+        action: "🚨 Do not offer cash bribes. If they insist, ask for their name badge, station division, and request to write the challan officially. They will almost always back down."
+      }
+    };
+
+    if (btnContainer && guidanceCard) {
+      const buttons = btnContainer.querySelectorAll("button");
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          playSelectSound();
+          buttons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const scenario = btn.dataset.scenario;
+          renderScenario(scenario);
+        });
+      });
+
+      function renderScenario(key) {
+        const item = SCENARIOS[key];
+        if (!item) return;
+        guidanceCard.innerHTML = `
+          <strong style="color:var(--color-primary); font-size:0.95rem; display:block;">${item.title}</strong>
+          <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0.35rem 0 0.65rem;">${item.desc}</p>
+          
+          <div style="background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.15); padding:0.75rem; border-radius:8px; font-size:0.72rem; color:var(--text-secondary); line-height:1.45; margin-bottom:0.65rem;">
+            ${item.right}
+          </div>
+
+          <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); padding:0.75rem; border-radius:8px; font-size:0.75rem; color:var(--text-primary); line-height:1.45; margin-bottom:0.65rem;">
+            ${item.script}
+          </div>
+
+          <div style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45;">
+            ${item.action}
+          </div>
+        `;
+      }
+
+      // Render default scenario
+      renderScenario("mrp");
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: TRAVEL INSURANCE CLAIM ASSISTANT
+  // =====================================================================
+  let insuranceInitialized = false;
+  function initInsurance() {
+    if (insuranceInitialized) return;
+    insuranceInitialized = true;
+
+    const typeMedical = document.getElementById("claim-type-medical");
+    const typeTheft = document.getElementById("claim-type-theft");
+    const medOptions = document.getElementById("claim-med-options");
+    const theftOptions = document.getElementById("claim-theft-options");
+    const btnGenerate = document.getElementById("claim-btn-generate");
+    const resultCard = document.getElementById("claim-result-card");
+
+    if (typeMedical && typeTheft) {
+      typeMedical.addEventListener("change", () => {
+        playSelectSound();
+        medOptions.style.display = "flex";
+        theftOptions.style.display = "none";
+      });
+      typeTheft.addEventListener("change", () => {
+        playSelectSound();
+        medOptions.style.display = "none";
+        theftOptions.style.display = "flex";
+      });
+    }
+
+    if (btnGenerate) {
+      btnGenerate.addEventListener("click", () => {
+        playSelectSound();
+        const isMed = typeMedical.checked;
+        let checklist = [];
+
+        if (isMed) {
+          const overnight = document.getElementById("claim-opt-overnight").checked;
+          const pharmacy = document.getElementById("claim-opt-pharmacy").checked;
+          const reimburse = document.getElementById("claim-opt-reimburse").checked;
+
+          checklist.push("📋 Original Discharge Summary detailing admission time, history, and treatment (must have Hospital Stamp & Doctor Signature).");
+          checklist.push("📋 Final Hospital Bill with itemized breakdown of room charges, nursing fees, and doctor visits.");
+          checklist.push("📋 Official payment receipt verifying invoice clearance.");
+
+          if (overnight) {
+            checklist.push("📋 Inpatient Admission Chart sheet copy (case sheet records).");
+          }
+          if (pharmacy) {
+            checklist.push("📋 External Doctor Prescriptions matching the external medicine chemist tax invoices.");
+          }
+          if (reimburse) {
+            checklist.push("📋 Pre-Authorization Approval form copy approved by the TPA (Third Party Administrator) before hospital release.");
+          } else {
+            checklist.push("📋 Fit-to-Travel Medical Certificate signed by the treating physician.");
+          }
+        } else {
+          const fir = document.getElementById("claim-opt-fir").checked;
+          const airline = document.getElementById("claim-opt-airline").checked;
+
+          checklist.push("📋 Original Travel Booking tickets (Flights / Trains) confirming travel dates.");
+          checklist.push("📋 Itemized invoice of the lost property / baggage item verifying its valuation.");
+
+          if (fir) {
+            checklist.push("📋 Copy of the First Information Report (FIR) certified by the local Police Station where the incident occurred.");
+            checklist.push("📋 'Non-Traceable Certificate' issued by police after 30-90 days (for valuable electronics/passport claims).");
+          } else {
+            checklist.push("⚠️ WARNING: Insurance providers require a Police Complaint / FIR copy filed within 24 hours of loss. File this immediately!");
+          }
+          if (airline) {
+            checklist.push("📋 Property Irregularity Report (PIR) issued by the airline baggage handling office on airport arrival.");
+            checklist.push("📋 Airline compensation clearance slip details.");
+          }
+        }
+
+        resultCard.innerHTML = `
+          <strong style="color:var(--color-primary); font-size:0.82rem; display:block; margin-bottom:0.25rem;">📝 Mandatory Document Pack:</strong>
+          <div style="display:flex; flex-direction:column; gap:0.45rem; font-size:0.75rem; color:var(--text-secondary); line-height:1.45;">
+            ${checklist.map(c => `<div>${c}</div>`).join("")}
+          </div>
+          <button id="insurance-download-btn" class="visualizer-btn" style="margin-top:0.75rem; width:100%; font-size:0.72rem; padding:0.35rem 0.5rem;">📥 Save Claims Note</button>
+        `;
+
+        document.getElementById("insurance-download-btn").addEventListener("click", () => {
+          playSelectSound();
+          const content = `ARVORA TRAVEL INSURANCE CLAIM CHECKLIST\nCategory: ${isMed ? 'Medical Hospitalization' : 'Luggage Loss'}\nGenerated: ${new Date().toLocaleDateString()}\n\nRequired Documents:\n` + checklist.map(c => `- [ ] ${c.substring(2)}`).join("\n");
+          const link = document.createElement("a");
+          link.download = "travel-insurance-checklist.txt";
+          link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+          link.click();
+        });
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: TOURIST MEDICAL LOCATOR
+  // =====================================================================
+  let medicalInitialized = false;
+  function initMedical() {
+    if (medicalInitialized) return;
+    medicalInitialized = true;
+
+    const citySelect = document.getElementById("medical-city-select");
+    const classSelect = document.getElementById("medical-class-select");
+    const btnSearch = document.getElementById("medical-btn-search");
+    const resultsContainer = document.getElementById("medical-results-container");
+
+    const CLINICS_DB = {
+      delhi: [
+        { name: "Max Super Speciality Hospital, Saket", class: "hospital", tel: "+911126515050", addr: "Press Enclave Road, Saket, New Delhi", features: "Accredited JCI • Cashless Foreign Insurance • English Speaking" },
+        { name: "Fortis Flt. Lt. Rajan Dhall Hospital", class: "hospital", tel: "+911142776222", addr: "Sector B, Pocket 1, Vasant Kunj, New Delhi", features: "24/7 Trauma Care • JCI Accredited • Tourist liaison desk" },
+        { name: "Medanta Mediclinic Defense Colony", class: "clinic", tel: "+911144123456", addr: "E-18, Defense Colony, New Delhi", features: "Specialist consultation • Offline appointment booking" }
+      ],
+      mumbai: [
+        { name: "Kokilaben Dhirubhai Ambani Hospital", class: "hospital", tel: "+912230999999", addr: "Rao Saheb Achutrao Patwardhan Marg, Four Bungalows, Andheri West", features: "Accredited JCI • Cashless Coverage • English Speaking" },
+        { name: "Jaslok Hospital & Research Center", class: "hospital", tel: "+912240101010", addr: "Pedder Road, Mumbai", features: "24/7 Emergency Care • Specialist Clinic" }
+      ],
+      goa: [
+        { name: "Manipal Hospital Goa", class: "hospital", tel: "+918323048800", addr: "Dr. E. Borges Road, Dona Paula, Panaji", features: "Nearest tourist hub hospital • Cashless insurance desks" },
+        { name: "Goa Medical College & Hospital (GMC)", class: "hospital", tel: "+918322238000", addr: "Bambolim, Goa", features: "Primary government tertiary care center" }
+      ],
+      jaipur: [
+        { name: "Fortis Escorts Hospital Jaipur", class: "hospital", tel: "+911412547000", addr: "Jawahar Lal Nehru Marg, Jaipur", features: "JCI Accredited • 24/7 Ambulance • English Speaking" }
+      ],
+      kochi: [
+        { name: "Aster Medcity Kochi", class: "hospital", tel: "+914846623000", addr: "Kuttisahib Road, Cheranalloor, Kochi", features: "Accredited JCI • Multi-specialty • Cashless Desk" }
+      ]
+    };
+
+    if (btnSearch) {
+      btnSearch.addEventListener("click", () => {
+        playSelectSound();
+        const city = citySelect.value;
+        const cls = classSelect.value;
+        const providers = CLINICS_DB[city] || [];
+        
+        let filtered = providers;
+        if (cls !== "all") {
+          filtered = providers.filter(p => p.class === cls);
+        }
+
+        if (filtered.length === 0) {
+          resultsContainer.innerHTML = `<div style="text-align:center; padding:2rem; font-size:0.8rem; color:var(--text-muted);">No verified providers matching criteria found in this city.</div>`;
+          return;
+        }
+
+        resultsContainer.innerHTML = filtered.map(p => `
+          <div class="trip-stop-card" style="padding:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <strong style="font-size:0.82rem; color:var(--text-primary);">${p.name}</strong>
+              <a href="tel:${p.tel}" class="badge success" style="text-decoration:none; font-size:0.65rem; padding:0.15rem 0.4rem;">📞 Call ${p.tel.substring(3, 8)}...</a>
+            </div>
+            <div style="font-size:0.72rem; color:var(--text-secondary);">📍 ${p.addr}</div>
+            <div style="font-size:0.68rem; color:var(--color-primary); font-weight:700; margin-top:0.15rem;">★ ${p.features}</div>
+          </div>
+        `).join("");
+      });
+    }
+  }
 
 });
 

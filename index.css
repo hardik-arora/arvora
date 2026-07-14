@@ -485,26 +485,33 @@ header {
   margin: 0.3rem 0;
 }
 
-/* Sidebar Feature Drawer */
+/* Sidebar Feature Drawer - Centered Spotlight Modal */
 .sidebar-drawer {
   position: fixed;
-  left: 52px;
-  top: 0;
-  height: 100vh;
-  width: 240px;
-  background: rgba(12, 18, 34, 0.97);
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) scale(0.9) !important;
+  height: 480px;
+  max-height: 80vh;
+  width: 540px;
+  max-width: 90vw;
+  background: rgba(10, 12, 22, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
   backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
-  z-index: 850;
-  transform: translateX(-100%);
-  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 4px 0 30px rgba(0,0,0,0.5);
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 30px rgba(59, 130, 246, 0.2);
 }
 
 .sidebar-drawer.open {
-  transform: translateX(0);
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translate(-50%, -50%) scale(1) !important;
 }
 
 .drawer-header {
@@ -632,27 +639,25 @@ header {
   text-overflow: ellipsis;
 }
 
-/* Backdrop for drawer on narrow screens */
+/* Backdrop for Spotlight modal */
 .sidebar-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 840;
-  background: transparent;
+  z-index: 1100;
+  background: rgba(2, 6, 23, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+  display: none;
 }
 
-/* App container offset for rail */
+/* App container takes full screen width */
 .app-container {
-  margin-left: 52px;
-  transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 0 !important;
+  padding: 0 1rem;
 }
 
-/* Desktop Split-Pane Layout: Pushes content side-by-side instead of overlaying it */
 @media (min-width: 1024px) {
-  .sidebar-drawer.open ~ .app-container {
-    margin-left: 292px; /* 52px rail + 240px drawer */
-  }
-  .sidebar-backdrop {
-    display: none !important; /* Hide backdrop on desktop so user can click main panels directly */
+  .app-container {
+    padding: 0 2rem;
   }
 }
 /* DYNAMIC ISLAND HEURISTIC HUD */

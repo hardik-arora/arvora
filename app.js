@@ -228,6 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Phase 21.2 - 2 new features
   const tabContentBargain   = document.getElementById("tab-content-bargain");
   const tabContentMonumentPhoto = document.getElementById("tab-content-monumentphoto");
+  // Phase 21.3 - 2 new features
+  const tabContentMonsoonRisk = document.getElementById("tab-content-monsoonrisk");
+  const tabContentWaterRisk   = document.getElementById("tab-content-waterrisk");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -752,8 +755,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto, tabContentMonsoonRisk, tabContentWaterRisk];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto', 'monsoonrisk', 'waterrisk'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -958,8 +961,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabId === 'bargain') {
       initBargain();
     }
-    if (tabId === 'monumentphoto') {
+     if (tabId === 'monumentphoto') {
       initMonumentPhoto();
+    }
+    if (tabId === 'monsoonrisk') {
+      initMonsoonRisk();
+    }
+    if (tabId === 'waterrisk') {
+      initWaterRisk();
     }
 
     // Update active highlight on sidebar rail icon
@@ -969,7 +978,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const catMap = {
         engine:  ['engine','routes','game','pattern','analytics','scanner'],
         routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc'],
-        safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical','scamcheck','altitude'],
+        safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical','scamcheck','altitude','monsoonrisk','waterrisk'],
         culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu','bargain','monumentphoto']
       };
       let matchedCat = null;
@@ -8246,7 +8255,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'medkit',    icon: '💊', name: 'Travel Medical Kit',      desc: 'Checklist builder for essential OTC travel medicines.' },
         { id: 'permits',   icon: '🛂', name: 'State Travel Permits',    desc: 'Check permits (ILP & PAP) required for border zones.' },
         { id: 'scamcheck', icon: '🛡️', name: 'Tourist Scam Checker',    desc: 'Verify common tourist scams and get safety advice.' },
-        { id: 'altitude',  icon: '🏔️', name: 'Altitude Sickness Advisor', desc: 'Acclimatization calculator and safety guidelines.' }
+        { id: 'altitude',  icon: '🏔️', name: 'Altitude Sickness Advisor', desc: 'Acclimatization calculator and safety guidelines.' },
+        { id: 'monsoonrisk', icon: '🌧️', name: 'Monsoon Risk Planner',   desc: 'Assess travel safety, landslide, and flood risks by region and month.' },
+        { id: 'waterrisk', icon: '💧', name: 'Drinking Water Safety Advisor', desc: 'Contamination indices for tap water, raw ice, and recovery steps.' }
       ],
       culture: [
         { id: 'culture',      icon: '🎭', name: 'Culture Explorer',    desc: 'Regional festivals, traditions, and dress codes.' },
@@ -10657,6 +10668,186 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
               <div>${info.rules}</div>
               <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.35rem; margin-top:0.15rem; color:var(--text-muted);">
                 💡 <strong>Photo Tip:</strong> ${info.tip}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: MONSOON & WEATHER RISK PLANNER
+  // =====================================================================
+  function initMonsoonRisk() {
+    const REGIONS = {
+      himalayas: {
+        name: "Himalayas (Ladakh / Leh)",
+        hazards: "Mountain pass blocks, dry dusty roads.",
+        status: {
+          june: { level: "🟢 Low Risk", desc: "Monsoon shadow zone. Very dry and sunny, perfect time to visit Ladakh." },
+          july: { level: "🟢 Low Risk", desc: "No active monsoon rains here. Warm days, pleasant nights. Highly recommended." },
+          august: { level: "🟡 Mild Risk", desc: "Occasional light rainfall, but dry overall. Road passes from Manali may experience blocks due to rains lower down." },
+          september: { level: "🟢 Safe & Clear", desc: "Cooling autumn winds. Pristine blue skies, dry road passes. Excellent travel window." }
+        }
+      },
+      spiti: {
+        name: "Spiti & Himachal Valleys",
+        hazards: "Severe landslides, highway road-washouts, cloudbursts.",
+        status: {
+          june: { level: "🟡 Medium Risk", desc: "Rains start in lower parts (Shimla/Manali). Kunzum Pass opens; transit is feasible but watch weather forecasts." },
+          july: { level: "🔴 Severe Danger", desc: "Heavy mountain rain trigger frequent landslides on NH-5 and Manali highways. Flash floods possible. Avoid travel if possible." },
+          august: { level: "🔴 Severe Danger", desc: "Peak landslide season. Roads can block for days. Active mudslides. High risk of cloudbursts." },
+          september: { level: "🟡 Medium Risk", desc: "Rains subside gradually, but roads remain damaged. Best to wait till mid-September." }
+        }
+      },
+      goa: {
+        name: "Goa & Western Ghats",
+        hazards: "Extreme ocean currents, closed beach shacks, high humidity.",
+        status: {
+          june: { level: "🔴 High Risk", desc: "Heavy onset rains. Sea swimming is strictly banned. Most beach shacks are closed. Lush green forests but high rain." },
+          july: { level: "🔴 Extreme Risk", desc: "Non-stop heavy tropical downpours. High risk of localized waterlogging. Waterfall trekking is highly slippery." },
+          august: { level: "🔴 High Risk", desc: "Continuous rain showers. No water sports. Best only for quiet nature retreats in inland spice plantations." },
+          september: { level: "🟡 Medium Risk", desc: "Rains weaken. Shacks begin setup activities by late September. Pleasant weather, waterfalls are beautiful." }
+        }
+      },
+      mumbai: {
+        name: "Mumbai & Konkan Coast",
+        hazards: "Severe city waterlogging, train delays, high tide sea surges.",
+        status: {
+          june: { level: "🔴 High Risk", desc: "Monsoon onset brings massive torrential rain spells. Low-lying areas experience traffic stops." },
+          july: { level: "🔴 Extreme Risk", desc: "Heavy peak monsoon. Avoid traveling during high-tide dates as sea water overflows onto coastal roads." },
+          august: { level: "🔴 High Risk", desc: "Frequent heavy downpours. Local trains might be delayed due to tracks waterlogging. Carry good umbrellas." },
+          september: { level: "🟡 Medium Risk", desc: "Intermittent showers with sunny gaps. Humidity peaks as monsoon retreats." }
+        }
+      },
+      rajasthan: {
+        name: "Rajasthan Desert Cities",
+        hazards: "Intense afternoon heat, localized mud washes.",
+        status: {
+          june: { level: "🟡 Mild Risk", desc: "Pre-monsoon heat waves (up to 44°C). Rains are sparse but humidity starts rising." },
+          july: { level: "🟢 Good (Low Risk)", desc: "Moderate light rain cools down the sand deserts. Lakes fill up. Very scenic travel window." },
+          august: { level: "🟢 Good (Low Risk)", desc: "Desert turns green. Pleasant weather compared to summer heat. Very comfortable sightseeing." },
+          september: { level: "🟢 Safe & Clear", desc: "Clear sunny skies. Perfect cooling weather. Peak tourism season kicks off." }
+        }
+      }
+    };
+
+    const regSel = document.getElementById("monsoonrisk-region-select");
+    const monthSel = document.getElementById("monsoonrisk-month-select");
+    const checkBtn = document.getElementById("monsoonrisk-btn-check");
+    const resultBox = document.getElementById("monsoonrisk-result-container");
+
+    if (checkBtn && resultBox) {
+      checkBtn.addEventListener("click", () => {
+        playSelectSound();
+        const reg = regSel.value;
+        const month = monthSel.value;
+        const regData = REGIONS[reg] || {};
+        const monthData = (regData.status && regData.status[month]) || {};
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${regData.name}</strong>
+              <span class="badge" style="background:rgba(59, 130, 246, 0.1); color:var(--color-primary); border:1px solid rgba(59, 130, 246, 0.25); font-size:0.75rem; padding:0.15rem 0.4rem; font-weight:700;">
+                ${month.toUpperCase()}
+              </span>
+            </div>
+
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin:0.15rem 0;">
+              🌧️ <strong>Monsoon Severity:</strong> <span style="font-weight:700; color:#ef4444;">${monthData.level}</span>
+            </div>
+
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">
+              📢 <strong>Climate Summary:</strong> ${monthData.desc}
+            </p>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem; color:var(--text-secondary); margin-top:0.25rem;">
+              <div>⚠️ <strong>Primary Hazards:</strong> ${regData.hazards}</div>
+              <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.35rem; margin-top:0.15rem; color:var(--text-muted);">
+                💡 <strong>Pre-trip Advice:</strong> Check real-time road status via local police Twitter handles or IMD (Indian Meteorological Department) red/orange warnings before starting journeys.
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: DRINKING WATER & DELHI BELLY ADVISOR
+  // =====================================================================
+  function initWaterRisk() {
+    const SOURCES = {
+      sealed: {
+        name: "Sealed Brand Bottle",
+        risk: "🟢 Safe (Zero Bacterial Load)",
+        contamination: "Very Low (<0.1%)",
+        desc: "Trusted mineral water brands (e.g. Bisleri, Kinley, Aquafina, Bailey).",
+        rules: "Always check the cap ring. If the plastic seal is broken, loose, or glued, return it immediately. Crushing bottles after use prevents vendors refilling them with tap water."
+      },
+      ro: {
+        name: "Filtered RO/UV Tap (Prestige Venues)",
+        risk: "🟢 Safe (Reverse Osmosis processed)",
+        contamination: "Low (<2%)",
+        desc: "Reverse Osmosis (RO) filtered water provided at high-end hotels, airport lounges, and fine dining restaurants.",
+        rules: "Generally safe for consumption. If you have a highly sensitive stomach, ask specifically: 'Is this RO filtered water?' or stick to bottled water for absolute peace of mind."
+      },
+      street_ice: {
+        name: "Street Food Drinks & Raw Ice",
+        risk: "🔴 High Danger (Bacterial Contamination)",
+        riskLevel: "High",
+        contamination: "High (65%-80%)",
+        desc: "Iced sugarcane juices, street lemon sodas (Nimbu Paani), and local milkshakes.",
+        rules: "Commercial ice blocks used by street vendors are often transported under unhygienic conditions and made from unfiltered groundwater. Ask for drinks 'Bina baraf' (without ice)."
+      },
+      tap: {
+        name: "Direct Municipal Tap Water",
+        risk: "🔴 Extreme Danger (E. Coli & Parasite risk)",
+        riskLevel: "Critical",
+        contamination: "Very High (90%+)",
+        desc: "Unfiltered public tap water from local city supply lines.",
+        rules: "NEVER drink unfiltered tap water in India. Use bottled water even for brushing teeth and avoid letting tap water enter your mouth during showers."
+      }
+    };
+
+    const sourceSel = document.getElementById("waterrisk-source-select");
+    const checkBtn = document.getElementById("waterrisk-btn-check");
+    const resultBox = document.getElementById("waterrisk-result-container");
+
+    if (checkBtn && resultBox) {
+      checkBtn.addEventListener("click", () => {
+        playSelectSound();
+        const src = sourceSel.value;
+        const data = SOURCES[src] || {};
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary); background:rgba(16, 185, 129, 0.01);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${data.name}</strong>
+              <span class="badge" style="background:rgba(16, 185, 129, 0.1); color:var(--color-success); border:1px solid rgba(16, 185, 129, 0.25); font-size:0.75rem; padding:0.15rem 0.4rem; font-weight:700;">
+                Purity Checked
+              </span>
+            </div>
+
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin:0.15rem 0;">
+              🩺 <strong>Bacterial Safety Index:</strong> <span style="font-weight:700;">${data.risk}</span>
+            </div>
+
+            <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45; margin:0;">
+              🧬 <strong>Contamination probability:</strong> ${data.contamination}
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem; color:var(--text-secondary); margin-top:0.25rem;">
+              <div style="color:var(--color-primary); font-weight:700;">🛡️ Safe Handling Protocol:</div>
+              <div>${data.rules}</div>
+              
+              <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.45rem; margin-top:0.25rem; font-size:0.68rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.2rem;">
+                <strong>💊 Emergency "Delhi Belly" Recovery:</strong>
+                <div>1. Hydrate immediately with Oral Rehydration Salts (ORS) or Electoral powder dissolved in bottled water.</div>
+                <div>2. Avoid heavy curries; stick to curd rice, bananas, or plain khichdi (lentil/rice porridge).</div>
+                <div>3. Keep probiotics (e.g. Enterogermina) or Loperamide in your travel kit. If fever persists, consult a local clinic.</div>
               </div>
             </div>
           </div>

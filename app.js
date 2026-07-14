@@ -231,6 +231,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Phase 21.3 - 2 new features
   const tabContentMonsoonRisk = document.getElementById("tab-content-monsoonrisk");
   const tabContentWaterRisk   = document.getElementById("tab-content-waterrisk");
+  // Phase 21.4 - 2 new features
+  const tabContentTempleEtiquette = document.getElementById("tab-content-templeetiquette");
+  const tabContentLocalSpeak      = document.getElementById("tab-content-localspeak");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -755,8 +758,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto, tabContentMonsoonRisk, tabContentWaterRisk];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto', 'monsoonrisk', 'waterrisk'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto, tabContentMonsoonRisk, tabContentWaterRisk, tabContentTempleEtiquette, tabContentLocalSpeak];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto', 'monsoonrisk', 'waterrisk', 'templeetiquette', 'localspeak'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -970,6 +973,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabId === 'waterrisk') {
       initWaterRisk();
     }
+    if (tabId === 'templeetiquette') {
+      initTempleEtiquette();
+    }
+    if (tabId === 'localspeak') {
+      initLocalSpeak();
+    }
 
     // Update active highlight on sidebar rail icon
     const railIcons = document.querySelectorAll(".rail-icon[data-cat]");
@@ -979,7 +988,7 @@ document.addEventListener("DOMContentLoaded", () => {
         engine:  ['engine','routes','game','pattern','analytics','scanner'],
         routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc'],
         safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical','scamcheck','altitude','monsoonrisk','waterrisk'],
-        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu','bargain','monumentphoto']
+        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu','bargain','monumentphoto','templeetiquette','localspeak']
       };
       let matchedCat = null;
       for (const [cat, tabs] of Object.entries(catMap)) {
@@ -8277,7 +8286,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'diet',         icon: '🍽️', name: 'Dietary Translator',   desc: 'Generate waiter allergy translation cards (Hindi, Tamil, etc.).' },
         { id: 'spicemenu',    icon: '🍛', name: 'Curry & Spice Translator', desc: 'Decode Indian menu terms, spice levels, and allergens.' },
         { id: 'bargain',      icon: '🛍️', name: 'Street Bargaining Simulator', desc: 'Interactive negotiation guide and street market price checker.' },
-        { id: 'monumentphoto', icon: '📸', name: 'Monument Golden Hour Advisor', desc: 'Optimize photography timings and camera rules for sights.' }
+        { id: 'monumentphoto', icon: '📸', name: 'Monument Golden Hour Advisor', desc: 'Optimize photography timings and camera rules for sights.' },
+        { id: 'templeetiquette', icon: '🕌', name: 'Religious Sights Etiquette Guide', desc: 'Customs, dress codes, shoe drop protocols, and offerings rules.' },
+        { id: 'localspeak',   icon: '🗣️', name: 'Local Speak Phrasebook (TTS)', desc: 'Pronounce day-to-day survival phrases with built-in voice synthesis.' }
       ]
     };
 
@@ -10852,6 +10863,145 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
             </div>
           </div>
         `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: SACRED SIGHTS CULTURAL ETIQUETTE
+  // =====================================================================
+  function initTempleEtiquette() {
+    const DATA = {
+      hindu: {
+        name: "Hindu Temple (Mandir)",
+        dress: "👚 Shoulders and knees must be fully covered. Avoid sleeveless tops, shorts, or short skirts. Loose traditional clothes are perfect.",
+        shoes: "🥿 Shoes must be removed before entering the temple complex. Usually there is a designated shoe counter ('Joota Ghar') where you can safely deposit them for a tiny coin tip or free.",
+        leather: "👜 Certain traditional temples strictly ban leather products (belts, wallets, bags) inside the main hall because leather is made from animal skin. Check signage at the entry.",
+        customs: "🌸 You can buy flower garlands or coconut offerings ('Prasad') from vendors outside. Always accept any sacred offering or mark on the forehead ('Tilak') with your right hand. Do not photograph the main idol inside the inner sanctum."
+      },
+      sikh: {
+        name: "Sikh Gurdwara (e.g. Golden Temple)",
+        dress: "👳 Head covering is mandatory for both men and women. You can cover your head with a clean scarf, bandana, or handkerchief. If you don't have one, headscarves are provided in large baskets near the entrance free of cost.",
+        shoes: "🥿 Completely remove shoes and socks at the free shoe deposit counter. Before stepping onto the marble floors, you must walk through a shallow foot-washing pool ('Charan Ganga') to purify your feet.",
+        leather: "🟢 Leather products are generally allowed, but no tobacco, alcohol, or cigarettes should be carried on your person—they are strictly forbidden.",
+        customs: "🍛 Sit respectfully on the floor during prayers. Do not point your feet towards the holy book. All visitors are invited to partake in the free community kitchen ('Langar')—always accept the food served with both hands and try to finish everything on your plate."
+      },
+      islamic: {
+        name: "Islamic Mosque (Masjid)",
+        dress: "🧕 Women must cover their heads with a scarf and wear full-length clothing covering shoulders and ankles. Men should wear trousers and avoid sleeveless t-shirts.",
+        shoes: "🥿 Shoes must be removed at the steps or entry threshold. You can carry them in a bag if you prefer, or leave them at the shoe racks.",
+        leather: "🟢 Leather goods are allowed.",
+        customs: "🕰️ Avoid visiting during active prayer times (especially Friday afternoon prayers). Non-Muslims are typically not permitted inside the main prayer hall during congregation. Always speak softly and avoid walking in front of someone actively praying."
+      },
+      buddhist: {
+        name: "Buddhist Monastery (Gompa)",
+        dress: "👚 Modest attire covering shoulders and knees. Remove hats/caps before entering the main shrine hall.",
+        shoes: "🥿 Remove shoes before crossing the threshold of the main shrine hall.",
+        leather: "🟢 Leather goods are allowed.",
+        customs: "☸️ Always walk around the monastery, stupas, and prayer wheels in a clockwise direction. Do not touch sacred statues or thangka paintings. If sitting in front of an altar, sit cross-legged rather than pointing your feet towards the Buddha statue."
+      }
+    };
+
+    const typeSel = document.getElementById("templeetiquette-type-select");
+    const checkBtn = document.getElementById("templeetiquette-btn-check");
+    const resultBox = document.getElementById("templeetiquette-result-container");
+
+    if (checkBtn && resultBox) {
+      checkBtn.addEventListener("click", () => {
+        playSelectSound();
+        const type = typeSel.value;
+        const info = DATA[type] || {};
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.75rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${info.name} Protocols</strong>
+              <span class="badge success" style="font-size:0.65rem;">Sacred Etiquette</span>
+            </div>
+
+            <div style="font-size:0.78rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.5rem;">
+              <div><strong>👔 Dress Code:</strong><br>${info.dress}</div>
+              <div><strong>🥿 Shoes Protocol:</strong><br>${info.shoes}</div>
+              <div><strong>👜 Leather &amp; Gear Rules:</strong><br>${info.leather}</div>
+              <div><strong>🌸 Sacred Offerings &amp; Customs:</strong><br>${info.customs}</div>
+            </div>
+
+            <div style="font-size:0.68rem; color:var(--text-muted); border-top:1px solid rgba(255,255,255,0.06); padding-top:0.4rem; margin-top:0.2rem;">
+              💡 <strong>Visitor Tip:</strong> When in doubt, mirror the local devotees. Keep talking to a minimum, avoid physical displays of affection, and maintain a quiet, respectful presence.
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: LOCAL SPEAK PHRASEBOOK WITH TTS
+  // =====================================================================
+  function initLocalSpeak() {
+    const PHRASES = [
+      { eng: "How much is this?", hindi: "Bhaiya, kitna hua?", trans: "bhai-ya, kit-na hu-aa", usage: "Asking street vendors or auto drivers for prices." },
+      { eng: "Please give me a water bottle.", hindi: "Paani ki botal do.", trans: "paa-nee kee bo-tal do", usage: "Buying clean packaged drinking water." },
+      { eng: "Make it less spicy, please.", hindi: "Teekha kam rakhna, please.", trans: "tee-khaa kam rakh-naa", usage: "Ordering food to avoid heavy chili spice." },
+      { eng: "Where is the toilet?", hindi: "Washroom kidhar hai?", trans: "wash-room kidh-ar hai", usage: "Locating sanitary facilities." },
+      { eng: "No problem / It's okay.", hindi: "Koi baat nahi.", trans: "koy baat na-hee", usage: "Polite response to apologies or small gestures." },
+      { eng: "Thank you!", hindi: "Dhanyawaad!", trans: "dhun-yuh-vaad", usage: "Expressing gratitude." },
+      { eng: "I need help!", hindi: "Madad chahiye!", trans: "muh-dud chaa-hi-ye", usage: "Emergency expression to call for assistance." },
+      { eng: "Do not want this.", hindi: "Nahi chahiye.", trans: "na-hee chaa-hi-ye", usage: "Firm, polite way to refuse persistent street hawkers." }
+    ];
+
+    const container = document.getElementById("localspeak-phrases-container");
+    if (container) {
+      container.innerHTML = ""; // Clear loader
+      PHRASES.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "trip-stop-card";
+        card.style = "padding:1rem; display:flex; flex-direction:column; gap:0.45rem; justify-content:space-between; position:relative;";
+
+        card.innerHTML = `
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">${item.eng}</div>
+            <div style="font-size:1.1rem; font-weight:800; color:var(--text-primary); margin:0.15rem 0;">${item.hindi}</div>
+            <div style="font-size:0.7rem; color:var(--color-primary); font-style:italic;">Pronunciation: "${item.trans}"</div>
+            <div style="font-size:0.68rem; color:var(--text-secondary); margin-top:0.35rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.35rem;">
+              💡 <em>Usage:</em> ${item.usage}
+            </div>
+          </div>
+          <button class="visualizer-btn localspeak-speak-btn" data-index="${index}" style="width:100%; font-size:0.75rem; padding:0.35rem 0.6rem; margin-top:0.5rem; display:flex; justify-content:center; align-items:center; gap:0.3rem;">
+            🔊 Play Pronunciation
+          </button>
+        `;
+        container.appendChild(card);
+      });
+
+      // Bind speech synthesis
+      container.querySelectorAll(".localspeak-speak-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const idx = parseInt(btn.dataset.index);
+          const phrase = PHRASES[idx];
+          if (phrase) {
+            playSelectSound();
+            
+            // Check speech synthesis support
+            if ('speechSynthesis' in window) {
+              // Cancel any current speech
+              window.speechSynthesis.cancel();
+              
+              const utterance = new SpeechSynthesisUtterance(phrase.hindi);
+              utterance.lang = 'hi-IN'; // Set language to Indian Hindi
+              utterance.rate = 0.85;     // Slightly slower for better clarity
+              
+              // Try to find a Hindi voice
+              const voices = window.speechSynthesis.getVoices();
+              const hiVoice = voices.find(v => v.lang.includes('hi') || v.lang.includes('hi-IN'));
+              if (hiVoice) utterance.voice = hiVoice;
+              
+              window.speechSynthesis.speak(utterance);
+            } else {
+              alert("Your browser does not support Speech Synthesis.");
+            }
+          }
+        });
       });
     }
   }

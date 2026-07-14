@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.4">
+  <link rel="stylesheet" href="index.css?v=21.0.5">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.4</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.5</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4258,19 +4258,106 @@
     </div>
   </div>
 
+  <!-- TAB 56: BARGAINING & STREET PRICE SIMULATOR -->
+  <div id="tab-content-bargain" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛍️</span> Bargaining &amp; Street Price Simulator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Estimate fair prices for local market goods and simulate negotiation dialogs with market vendors.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Inputs -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🛍️ Item Details</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Initial Asking Price (INR)</label>
+              <input type="number" id="bargain-price-input" class="form-input" value="1000" style="width:100%;">
+            </div>
+            <div>
+              <label class="form-label">Product Category</label>
+              <select id="bargain-cat-select" class="form-input" style="width:100%;">
+                <option value="chappals">Chappals / Leather Footwear</option>
+                <option value="shawl">Pashmina / Silk Shawls</option>
+                <option value="spices">Spices / Local Tea Packs</option>
+                <option value="clothes">Street Clothes (T-shirts / Skirts)</option>
+                <option value="souvenirs">Brassware / Wooden Antiques</option>
+              </select>
+            </div>
+            <button id="bargain-btn-simulate" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Run Bargaining Simulator</button>
+          </div>
+        </div>
+
+        <!-- Right: Simulator Box -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">💬 Chat Simulator</h3>
+          
+          <div id="bargain-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Set the price details and click simulate to practice negotiation dialogs.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 57: MONUMENT GOLDEN HOUR & PHOTOGRAPHY ADVISOR -->
+  <div id="tab-content-monumentphoto" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(244, 63, 94, 0.08) 100%); border-color: rgba(251, 191, 36, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📸</span> Monument Golden Hour &amp; Photo Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Plan optimal photography times, review camera regulations, and locate secret angles for major sights.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Selector -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🏛️ Select Sights</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Monument Location</label>
+              <select id="monumentphoto-sight-select" class="form-input" style="width:100%;">
+                <option value="taj">Taj Mahal (Agra)</option>
+                <option value="hawa">Hawa Mahal (Jaipur)</option>
+                <option value="qutub">Qutub Minar (Delhi)</option>
+                <option value="varanasi">Varanasi Ghats &amp; Ganges</option>
+              </select>
+            </div>
+            <button id="monumentphoto-btn-check" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Get Photography Insights</button>
+          </div>
+        </div>
+
+        <!-- Right: Report -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📷 Sight Photography Plan</h3>
+          
+          <div id="monumentphoto-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a monument and click check to display Golden Hour tips and travel guidelines.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.4 (3 New Utility Tools Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.5 (Street Bargaining &amp; Photo Advisor Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.4"></script>
-  <script src="trie.js?v=21.0.4"></script>
-  <script src="app.js?v=21.0.4"></script>
+  <script src="cities.js?v=21.0.5"></script>
+  <script src="trie.js?v=21.0.5"></script>
+  <script src="app.js?v=21.0.5"></script>
 </body>
 </html>

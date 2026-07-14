@@ -213,6 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentLegal    = document.getElementById("tab-content-legal");
   const tabContentInsurance = document.getElementById("tab-content-insurance");
   const tabContentMedical  = document.getElementById("tab-content-medical");
+  // Phase 21 - 7 new features
+  const tabContentPlaylist = document.getElementById("tab-content-playlist");
+  const tabContentMedkit   = document.getElementById("tab-content-medkit");
+  const tabContentDiet     = document.getElementById("tab-content-diet");
+  const tabContentUpi      = document.getElementById("tab-content-upi");
+  const tabContentCoach    = document.getElementById("tab-content-coach");
+  const tabContentForex    = document.getElementById("tab-content-forex");
+  const tabContentPermits  = document.getElementById("tab-content-permits");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -737,8 +745,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -909,6 +917,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (tabId === 'medical') {
       initMedical();
+    }
+    if (tabId === 'playlist') {
+      initPlaylist();
+    }
+    if (tabId === 'medkit') {
+      initMedkit();
+    }
+    if (tabId === 'diet') {
+      initDiet();
+    }
+    if (tabId === 'upi') {
+      initUpi();
+    }
+    if (tabId === 'coach') {
+      initCoach();
+    }
+    if (tabId === 'forex') {
+      initForex();
+    }
+    if (tabId === 'permits') {
+      initPermits();
     }
 
     // Update active highlight on sidebar rail icon
@@ -8152,7 +8181,6 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   }
 
   function initSidebarNav() {
-    // All 40 features grouped by category
     const FEATURES = {
       engine: [
         { id: 'engine',    icon: '🔍', name: 'Autocomplete Engine',  desc: 'Blazing-fast Radix Tree matching across 15K cities.' },
@@ -8179,6 +8207,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'currency',    icon: '🏦', name: 'Currency Converter',     desc: 'INR ↔ 25 currencies offline — flip & history.' },
         { id: 'rickshaw',    icon: '🛺', name: 'Rickshaw Fare Calc',     desc: 'City-specific auto tariff rates and night surcharge.' },
         { id: 'bagcalc',     icon: '✈️', name: 'Airline Baggage Calc',   desc: 'IndiGo, Air India, SpiceJet allowances + excess fees.' },
+        { id: 'upi',         icon: '📱', name: 'Foreigner UPI Guide',    desc: 'Setup guide & simulated QR scanner for digital wallets.' },
+        { id: 'coach',       icon: '🚃', name: 'Railway Coach Layout',   desc: 'Identify berth positions (Upper, Side Lower) & seat maps.' },
+        { id: 'forex',       icon: '🏦', name: 'Forex DCC ATM Simulator', desc: 'DCC trap simulator to avoid markup conversion fees.' }
       ],
       safety: [
         { id: 'safety',    icon: '🛡️', name: 'Health & Customs Safety', desc: 'Vaccine advisories and border customs rules.' },
@@ -8190,6 +8221,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'solosafety',icon: '🚺', name: 'Solo Safety Advisor',     desc: 'Safety tips and resources for solo travelers.' },
         { id: 'vault',     icon: '📲', name: 'Document Vault',          desc: 'Secure checklist and document backup tracker.' },
         { id: 'simguide',  icon: '📡', name: 'SIM Card & Data Guide',   desc: 'Compare Jio, Airtel, Vi, BSNL — tourist SIM info.' },
+        { id: 'medkit',    icon: '💊', name: 'Travel Medical Kit',      desc: 'Checklist builder for essential OTC travel medicines.' },
+        { id: 'permits',   icon: '🛂', name: 'State Travel Permits',    desc: 'Check permits (ILP & PAP) required for border zones.' }
       ],
       culture: [
         { id: 'culture',      icon: '🎭', name: 'Culture Explorer',    desc: 'Regional festivals, traditions, and dress codes.' },
@@ -8205,6 +8238,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'weather',      icon: '🌤️', name: 'Weather Advisor',     desc: 'Pack planning by season and regional climate.' },
         { id: 'sunclock',     icon: '🌅', name: 'Sunrise & Sunset',     desc: 'Astronomical sun times for any Indian city.' },
         { id: 'qrcode',       icon: '🔲', name: 'QR Code Generator',   desc: 'Generate QR for URL, UPI, phone — download PNG.' },
+        { id: 'playlist',     icon: '🎵', name: 'Travel Vibe Playlist', desc: 'Curate trending Indian songs by your journey style.' },
+        { id: 'diet',         icon: '🍽️', name: 'Dietary Translator',   desc: 'Generate waiter allergy translation cards (Hindi, Tamil, etc.).' }
       ]
     };
 
@@ -9443,6 +9478,679 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
             <div style="font-size:0.68rem; color:var(--color-primary); font-weight:700; margin-top:0.15rem;">★ ${p.features}</div>
           </div>
         `).join("");
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: TRAVEL VIBE PLAYLIST GENERATOR
+  // =====================================================================
+  function initPlaylist() {
+    const TRACKS = {
+      rickshaw: [
+        { title: "Munde Pagal", artist: "AP Dhillon", yt: "https://www.youtube.com/results?search_query=AP+Dhillon+Munde+Pagal" },
+        { title: "Softly", artist: "Karan Aujla", yt: "https://www.youtube.com/results?search_query=Karan+Aujla+Softly" },
+        { title: "Mi Amor", artist: "Sharn", yt: "https://www.youtube.com/results?search_query=Sharn+Mi+Amor" },
+        { title: "Elevated", artist: "Shubh", yt: "https://www.youtube.com/results?search_query=Shubh+Elevated" },
+        { title: "White Brown Black", artist: "Karan Aujla", yt: "https://www.youtube.com/results?search_query=Karan+Aujla+White+Brown+Black" }
+      ],
+      sleeper: [
+        { title: "Husn", artist: "Anuv Jain", yt: "https://www.youtube.com/results?search_query=Anuv+Jain+Husn" },
+        { title: "Choo Lo", artist: "The Local Train", yt: "https://www.youtube.com/results?search_query=The+Local+Train+Choo+Lo" },
+        { title: "Kasoor", artist: "Prateek Kuhad", yt: "https://www.youtube.com/results?search_query=Prateek+Kuhad+Kasoor" },
+        { title: "Bikhra", artist: "Abdul Hannan", yt: "https://www.youtube.com/results?search_query=Abdul+Hannan+Bikhra" },
+        { title: "Jo Tum Mere Ho", artist: "Anuv Jain", yt: "https://www.youtube.com/results?search_query=Anuv+Jain+Jo+Tum+Mere+Ho" }
+      ],
+      goa: [
+        { title: "Gul", artist: "Anuv Jain", yt: "https://www.youtube.com/results?search_query=Anuv+Jain+Gul" },
+        { title: "Baarishein", artist: "Anuv Jain", yt: "https://www.youtube.com/results?search_query=Anuv+Jain+Baarishein" },
+        { title: "Cold/Mess", artist: "Prateek Kuhad", yt: "https://www.youtube.com/results?search_query=Prateek+Kuhad+Cold+Mess" },
+        { title: "Wishes", artist: "Hasan Raheem", yt: "https://www.youtube.com/results?search_query=Hasan+Raheem+Wishes" },
+        { title: "Jaan Ban Gaye", artist: "Mithoon", yt: "https://www.youtube.com/results?search_query=Jaan+Ban+Gaye+Mithoon" }
+      ],
+      mountain: [
+        { title: "Ilahi", artist: "Arijit Singh", yt: "https://www.youtube.com/results?search_query=Ilahi+Arijit+Singh" },
+        { title: "Kabira", artist: "Tochi Raina", yt: "https://www.youtube.com/results?search_query=Kabira+Tochi+Raina" },
+        { title: "Dil Dhadakne Do", artist: "Suraj Jagan", yt: "https://www.youtube.com/results?search_query=Dil+Dhadakne+Do+Zindagi+Na+Milegi+Dobara" },
+        { title: "Khaabon Ke Parindey", artist: "Mohit Chauhan", yt: "https://www.youtube.com/results?search_query=Khaabon+Ke+Parindey" },
+        { title: "Safarnama", artist: "Lucky Ali", yt: "https://www.youtube.com/results?search_query=Safarnama+Lucky+Ali" }
+      ]
+    };
+
+    const container = document.getElementById("playlist-tracks-container");
+    const countEl = document.getElementById("playlist-track-count");
+    const exportBtn = document.getElementById("playlist-btn-export");
+    const shareBtn = document.getElementById("playlist-btn-share");
+    const playBtn = document.getElementById("playlist-btn-play");
+    const vibeButtons = document.querySelectorAll(".playlist-vibe-btn");
+
+    let currentVibe = "rickshaw";
+    let selectedTracks = [];
+    let audioCtx = null;
+    let audioInterval = null;
+
+    function renderTracks() {
+      if (!container) return;
+      const tracks = TRACKS[currentVibe] || [];
+      container.innerHTML = tracks.map((t, idx) => `
+        <label class="trip-stop-card" style="padding:0.65rem 0.85rem; display:flex; justify-content:space-between; align-items:center; cursor:pointer; gap:0.5rem; transition:border-color 0.2s;">
+          <div style="display:flex; align-items:center; gap:0.5rem; flex:1; min-width:0;">
+            <input type="checkbox" class="track-checkbox" data-idx="${idx}" checked style="width:16px; height:16px; cursor:pointer; flex-shrink:0;">
+            <div style="display:flex; flex-direction:column; min-width:0;">
+              <span style="font-weight:700; font-size:0.75rem; color:var(--text-primary); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${t.title}</span>
+              <span style="font-size:0.62rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${t.artist}</span>
+            </div>
+          </div>
+          <a href="${t.yt}" target="_blank" class="badge success" style="text-decoration:none; font-size:0.6rem; padding:0.15rem 0.4rem; flex-shrink:0;">▶ Search YT</a>
+        </label>
+      `).join("");
+
+      selectedTracks = [...tracks];
+      updateCount();
+
+      container.querySelectorAll(".track-checkbox").forEach(box => {
+        box.addEventListener("change", e => {
+          const idx = parseInt(e.target.dataset.idx);
+          const tracks = TRACKS[currentVibe] || [];
+          if (e.target.checked) {
+            if (!selectedTracks.some(t => t.title === tracks[idx].title)) {
+              selectedTracks.push(tracks[idx]);
+            }
+          } else {
+            selectedTracks = selectedTracks.filter(t => t.title !== tracks[idx].title);
+          }
+          updateCount();
+        });
+      });
+    }
+
+    function updateCount() {
+      if (countEl) countEl.textContent = `${selectedTracks.length} tracks selected`;
+    }
+
+    vibeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        playSelectSound();
+        vibeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentVibe = btn.dataset.vibe;
+        stopSynthLoop();
+        renderTracks();
+      });
+    });
+
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => {
+        playSelectSound();
+        if (selectedTracks.length === 0) {
+          alert("Please select at least one track to export.");
+          return;
+        }
+        const text = `ARVORA ✨ TRAVEL PLAYLIST\nVibe: ${currentVibe.toUpperCase()}\n\n` + 
+          selectedTracks.map((t, i) => `${i + 1}. ${t.title} - ${t.artist}`).join("\n");
+        const blob = new Blob([text], { type: "text/plain" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `arvora_playlist_${currentVibe}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+    if (shareBtn) {
+      shareBtn.addEventListener("click", () => {
+        playSelectSound();
+        const dummyUrl = `https://hardik-arora.github.io/arvora/?vibe=${currentVibe}`;
+        navigator.clipboard.writeText(dummyUrl).then(() => {
+          alert("Vibe sharing link copied to clipboard!");
+        });
+      });
+    }
+
+    // Play Synthesized Audio Loops based on travel vibe!
+    function startSynthLoop() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      if (audioInterval) return;
+
+      playBtn.textContent = "⏹ Stop Vibe Preview";
+      playBtn.style.background = "rgba(239, 68, 68, 0.15)";
+      playBtn.style.borderColor = "rgba(239, 68, 68, 0.3)";
+
+      let beatCount = 0;
+      const bpm = currentVibe === "rickshaw" ? 130 : currentVibe === "goa" ? 115 : currentVibe === "mountain" ? 120 : 80;
+      const intervalMs = (60 / bpm) * 1000 * 0.5; // eighth notes
+
+      audioInterval = setInterval(() => {
+        if (!audioCtx || audioCtx.state === 'suspended') return;
+        const time = audioCtx.currentTime;
+
+        // Rickshaw bhangra beat loop
+        if (currentVibe === "rickshaw") {
+          // Downbeat kick
+          if (beatCount % 4 === 0) {
+            playSynthTone(60, "sine", 0.18, 0.15, time);
+          }
+          // Fast square bass sweep
+          if (beatCount % 2 === 0) {
+            const freq = beatCount % 8 === 0 ? 82.4 : beatCount % 8 === 4 ? 98 : 110;
+            playSynthTone(freq, "triangle", 0.08, 0.12, time);
+          }
+          // High hat ticks
+          if (beatCount % 2 === 1) {
+            playSynthTone(2000, "sawtooth", 0.02, 0.04, time);
+          }
+        }
+        // Sleeper soothing flute loop
+        else if (currentVibe === "sleeper") {
+          if (beatCount % 16 === 0) {
+            const notes = [293.66, 329.63, 349.23, 392.00, 440.00, 523.25];
+            const randomNote = notes[Math.floor(Math.random() * notes.length)];
+            // Soft sine wave sweeping with vibrato
+            playSynthTone(randomNote, "sine", 0.15, 1.2, time);
+          }
+        }
+        // Goa chill deep lounge pad loop
+        else if (currentVibe === "goa") {
+          if (beatCount % 8 === 0) {
+            playSynthTone(65.41, "triangle", 0.1, 0.6, time); // Deep bass
+          }
+          if (beatCount % 16 === 0) {
+            // Warm chill chords
+            playSynthTone(130.81, "sine", 0.1, 0.8, time);
+            playSynthTone(164.81, "sine", 0.08, 0.8, time);
+            playSynthTone(196.00, "sine", 0.08, 0.8, time);
+          }
+        }
+        // Mountain roadtrip happy plucks
+        else if (currentVibe === "mountain") {
+          if (beatCount % 4 === 0) {
+            playSynthTone(110, "triangle", 0.08, 0.2, time);
+          }
+          if (beatCount % 2 === 0) {
+            const notes = [220, 261.63, 329.63, 392];
+            const pluck = notes[(beatCount / 2) % notes.length];
+            playSynthTone(pluck, "triangle", 0.06, 0.18, time);
+          }
+        }
+
+        beatCount++;
+      }, intervalMs);
+    }
+
+    function playSynthTone(freq, type, vol, dur, startTime) {
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, startTime);
+        
+        gain.gain.setValueAtTime(vol, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + dur);
+      } catch(e) {}
+    }
+
+    function stopSynthLoop() {
+      if (audioInterval) {
+        clearInterval(audioInterval);
+        audioInterval = null;
+      }
+      if (playBtn) {
+        playBtn.textContent = "▶ Play Vibe Preview";
+        playBtn.style.background = "rgba(59, 130, 246, 0.12)";
+        playBtn.style.borderColor = "rgba(59, 130, 246, 0.25)";
+      }
+    }
+
+    if (playBtn) {
+      playBtn.addEventListener("click", () => {
+        playSelectSound();
+        if (audioInterval) {
+          stopSynthLoop();
+        } else {
+          startSynthLoop();
+        }
+      });
+    }
+
+    renderTracks();
+  }
+
+  // =====================================================================
+  // FEATURE: EMERGENCY MEDICAL KIT BUILDER
+  // =====================================================================
+  function initMedkit() {
+    const KIT_ITEMS = {
+      standard: [
+        { name: "Electral / ORS Powder (Dehydration)", brand: "Electral", use: "Dissolve in water for hydration after stomach issues or intense sun." },
+        { name: "Loperamide / Imodium (Diarrhea)", brand: "Imodium / Lopamide", use: "Stops severe runner stomach bugs instantly. Use sparingly." },
+        { name: "Crocin / Paracetamol (Fever & Pain)", brand: "Crocin / Dolo 650", use: "Standard painkiller and fever reducer in India." },
+        { name: "Pantocid / Pantoprazole (Acidity)", brand: "Pantocid", use: "For acid reflux or heavy spices stomach upset. Take before breakfast." },
+        { name: "Odomos Cream (Mosquito Repellent)", brand: "Odomos", use: "Crucial skin protection against Dengue & Malaria vectors." }
+      ],
+      elderly: [
+        { name: "Dolo 650 (Joint Pain/Fever)", brand: "Dolo 650", use: "Gentle pain relief for sore knees/joints after walking tours." },
+        { name: "Digene Tablets (Antacid)", brand: "Digene", use: "Chewable tablets for instant relief from indigestion or acidity." },
+        { name: "Moov / Volini Gel (Muscle Pain)", brand: "Moov / Volini", use: "Apply topically for backaches/muscular sprains." },
+        { name: "ORS Hydration Pouches", brand: "Electral", use: "Essential electrolyte replacement. Prevents heat fatigue." }
+      ],
+      family: [
+        { name: "Calpol Syrup (Children's Fever)", brand: "Calpol 120 / 250", use: "Fever and pain relief for kids." },
+        { name: "Betadine Ointment (Antiseptic)", brand: "Betadine", use: "Prevent infections in scratches or playground cuts." },
+        { name: "Lacto Calamine Lotion (Rashes/Sun)", brand: "Lacto Calamine", use: "Soothes skin inflammation, mosquito bites, or sunburn." },
+        { name: "Enterogermina Oral Suspension", brand: "Enterogermina", use: "Probiotic for restoring children's gut flora after stomach flu." }
+      ],
+      adventure: [
+        { name: "Diamox / Acetazolamide (Altitude)", brand: "Diamox", use: "Prevents Acute Mountain Sickness in Ladakh/Himalayas. Check doctor first." },
+        { name: "Avomine / Promethazine (Motion Sickness)", brand: "Avomine", use: "Prevents nausea during winding mountain hairpin drives." },
+        { name: "Bandages & Sterile Gauze Pads", brand: "Hansaplast / Johnson & Johnson", use: "For wrapping sprained ankles or scraping injuries." },
+        { name: "Water Purification Tablets", brand: "Aquatabs", use: "Purify raw stream/tap water when trekking in remote areas." }
+      ]
+    };
+
+    const profileSel = document.getElementById("medkit-profile-select");
+    const durationSel = document.getElementById("medkit-duration-select");
+    const buildBtn = document.getElementById("medkit-btn-build");
+    const container = document.getElementById("medkit-checklist-container");
+
+    if (buildBtn && container) {
+      buildBtn.addEventListener("click", () => {
+        playSelectSound();
+        const profile = profileSel.value;
+        const duration = durationSel.value;
+        const items = KIT_ITEMS[profile] || [];
+        
+        let qtyMultiplier = 1;
+        if (duration === "medium") qtyMultiplier = 2;
+        if (duration === "long") qtyMultiplier = 3;
+
+        container.innerHTML = `
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.04em;">
+            Suggested quantities calculated for a ${duration === "short" ? "1-2 week" : duration === "medium" ? "2-4 week" : "1 month+"} trip:
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.6rem;">
+            ${items.map((item, idx) => `
+              <div class="trip-stop-card" style="padding:0.75rem 0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <label style="cursor:pointer; display:flex; align-items:center; gap:0.45rem; font-weight:700; color:var(--text-primary);">
+                    <input type="checkbox" style="width:14px; height:14px; cursor:pointer;">
+                    <span>${item.name}</span>
+                  </label>
+                  <span class="badge success" style="font-size:0.65rem;">Qty: ${qtyMultiplier * 5} tabs / ${qtyMultiplier === 1 ? '1 tube' : qtyMultiplier + ' tubes'}</span>
+                </div>
+                <div style="font-size:0.7rem; color:var(--text-secondary); margin-left:1.3rem;">ℹ️ <strong>Indian Brand:</strong> ${item.brand}</div>
+                <div style="font-size:0.65rem; color:var(--text-muted); margin-left:1.3rem; line-height:1.3;">📍 ${item.use}</div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: DIETARY PREFERENCE TRANSLATOR
+  // =====================================================================
+  function initDiet() {
+    const DIET_CARDS = {
+      veg: {
+        title: "Pure Vegetarian Card",
+        english: "I am a strict vegetarian. I do not eat meat, fish, chicken, seafood, or eggs. Please ensure my food contains no animal fat or egg products. Milk, paneer, and butter are fine.",
+        languages: {
+          hindi: "मैं शुद्ध शाकाहारी हूँ। मैं मांस, मछली, चिकन, समुद्री भोजन या अंडे नहीं खाता। कृपया सुनिश्चित करें कि मेरे भोजन में कोई पशु वसा या अंडा न हो। दूध, पनीर और मक्खन ठीक हैं।",
+          tamil: "நான் முட்டாள் அல்ல, சுத்த சைவ உணவு உண்பவர். நான் இறைச்சி, மீன், கோழி, கடல் உணவு அல்லது முட்டை சாப்பிடுவதில்லை. என் உணவில் முட்டை அல்லது விலங்கு கொழுப்பு இல்லை என்பதை தயவுசெய்து உறுதிப்படுத்தவும். பால், பன்னீர் மற்றும் வெண்ணெய் பயன்படுத்தலாம்.",
+          bengali: "আমি বিশুদ্ধ নিরামিষাশী। আমি মাংস, মাছ, মুরগি, সামুদ্রিক খাবার বা ডিম খাই না। দয়া করে নিশ্চিত করুন আমার খাবারে কোনো পশুর চর্বি বা ডিমের অংশ নেই। দুধ, পনির এবং মাখন চলবে।",
+          marathi: "मी शुद्ध शाकाहारी आहे. मी मांस, मासे, चिकन, सी-फूड किंवा अंडी खात नाही. कृपया माझ्या जेवणात कोणतीही प्राण्यांची चरबी किंवा अंड्याचा अंश नसेल याची खात्री करा. दूध, पनीर आणि लोणी चालेल।"
+        }
+      },
+      vegan: {
+        title: "Vegan Card",
+        english: "I do not eat any animal products, including meat, poultry, fish, eggs, dairy milk, butter, ghee, cheese, or honey. Please cook my food in vegetable oil/coconut oil instead of ghee/butter.",
+        languages: {
+          hindi: "मैं कोई भी पशु उत्पाद नहीं खाता, जिसमें मांस, चिकन, मछली, अंडे, दूध, मक्खन, घी, पनीर या शहद शामिल हैं। कृपया मेरे भोजन को घी या मक्खन के बजाय वनस्पति तेल/नारियल तेल में पकाएं।",
+          tamil: "நான் இறைச்சி, முட்டை, பால், நெய், வெண்ணெய், பாலாடைக்கட்டி அல்லது தேன் உள்ளிட்ட எந்த விலங்கு பொருட்களையும் சாப்பிடுவதில்லை. தயவுசெய்து என் உணவை நெய்/வெண்ணெய்க்கு பதிலாக சமையல் எண்ணெய் அல்லது தேங்காய் எண்ணெயில் சமைக்கவும்.",
+          bengali: "আমি কোনো পশুর তৈরি পণ্য খাই না, যার মধ্যে মাংস, মুরগি, মাছ, ডিম, দুধ, মাখন, ghee, পনির বা মধু রয়েছে। দয়া করে আমার খাবার ঘি বা মাখনের বদলে উদ্ভিজ্জ তেল/নারকেল তেলে রান্না করুন।",
+          marathi: "मी कोणतेही प्राणीजन्य पदार्थ खात नाही, ज्यात तूप, लोणी, चीज किंवा मध समाविष्ट आहे. कृपया माझे जेवण तूप/लोणी ऐवजी वनस्पती तेल/नारळाच्या तेलात शिजवा।"
+        }
+      },
+      jain: {
+        title: "Jain Vegetarian Card",
+        english: "I follow the Jain diet. I am vegetarian and do not eat meat, eggs, fish, garlic, onions, ginger, potatoes, carrots, radishes, or any other root vegetables. Tomatoes, capsicum, dairy, and grains are fine.",
+        languages: {
+          hindi: "मैं जैन भोजन करता हूँ। मैं शाकाहारी हूँ और मांस, अंडा, मछली, लहसुन, प्याज, अदरक, आलू, गाजर, मूली या कोई अन्य कंदमूल नहीं खाता। टमाटर, शिमला मिर्च, डेयरी उत्पाद और अनाज ठीक हैं।",
+          tamil: "நான் சமண சைவ உணவுமுறையை பின்பற்றுகிறேன். நான் இறைச்சி, முட்டை, மீன், பூண்டு, வெங்காயம், இஞ்சி, உருளைக்கிழங்கு, கேரட், முள்ளங்கி அல்லது வேறு எந்த வேர் காய்கறிகளையும் சாப்பிடுவதில்லை. தக்காளி, குடைமிளகாய், பால் மற்றும் தானியங்கள் உண்ணலாம்.",
+          bengali: "আমি জৈন নিরামিষ আহার করি। আমি নিরামিষাশী এবং মাংস, ডিম, মাছ, রসুন, পেঁয়াজ, আদা, আলু, গাজর, মূলা বা অন্য কোনো মূল জাতীয় সবজি খাই না। টমেটো, ক্যাপসিকাম, দুগ্ধজাত খাবার এবং শস্য চলবে।",
+          marathi: "मी जैन आहाराचे पालन करतो. मी शाकाहारी आहे आणि मांस, अंडी, मासे, लसूण, कांदा, आले, बटाटे, गाजर, मुळा किंवा इतर कोणतीही कंदमुळे खात नाही. टोमॅटो, ढोबळी मिरची, दुग्धजन्य पदार्थ आणि धान्ये चालतील।"
+        }
+      },
+      nuts: {
+        title: "Severe Nut Allergy Card",
+        english: "I have a life-threatening allergy to peanuts, cashews, almonds, and other nuts. Please ensure no nuts, nut powders, or nut oils (including peanut oil) are used in my food. Even tiny traces can cause a medical emergency.",
+        languages: {
+          hindi: "मुझे मूंगफली, काजू, बादाम और अन्य सूखे मेवों से जानलेवा एलर्जी है। कृपया सुनिश्चित करें कि मेरे भोजन में किसी भी प्रकार के मेवे, मेवों का पाउडर या तेल (मूंगफली के तेल सहित) का उपयोग न किया जाए। थोड़ा सा भी अंश एक मेडिकल इमरजेंसी का कारण बन सकता है।",
+          tamil: "எனக்கு நிலக்கடலை, முந்திரி, பாதாம் மற்றும் பிற கொட்டைகள் ஒவ்வாமை உள்ளது. என் உணவில் கொட்டைகள், கொட்டை பொடிகள் அல்லது கொட்டை எண்ணெய்கள் (கடலை எண்ணெய் உட்பட) பயன்படுத்தப்படவில்லை என்பதை தயவுசெய்து உறுதிப்படுத்தவும். மிகச்சிறிய துகள்கள் கூட ஆபத்தை விளைவிக்கும்.",
+          bengali: "আমার চিনাবাদাম, কাজুবাদাম, কাঠবাদাম এবং অন্যান্য বাদাম জাতীয় খাবারে মারাত্মক অ্যালার্জি রয়েছে। দয়া করে নিশ্চিত করুন আমার খাবারে বাদাম, বাদামের গুঁড়ো বা বাদামের তেল ব্যবহার করা হয়নি। সামান্য অংশও আমার জন্য মারাত্মক বিপদ ডেকে আনতে পারে।",
+          marathi: "मला शेंगदाणे, काजू, बदाम आणि इतर सुक्या मेव्यांची जीवघेणी ॲलर्जी आहे. कृपया माझ्या जेवणात कोणतेही सुके मेवे, मेव्यांची पावडर किंवा तेल (शेंगदाणा तेलासह) वापरले जाणार नाही याची खात्री करा. अगदी लहान अंश देखील गंभीर ठरू शकतो।"
+        }
+      },
+      gluten: {
+        title: "Gluten-Free Card",
+        english: "I cannot eat gluten. Please do not serve me wheat (atta), refined flour (maida), semolina (suji), or hing (which often contains wheat). Rice, lentils, corn, and potatoes are fine.",
+        languages: {
+          hindi: "मैं ग्लूटेन नहीं खा सकता। कृपया मुझे गेहूं (आटा), मैदा, सूजी, या हींग (जिसमें अक्सर गेहूं होता है) न परोसें। चावल, दाल, मक्का और आलू ठीक हैं।",
+          tamil: "என்னால் குளூட்டன் சாப்பிட முடியாது. தயவுசெய்து எனக்கு கோதுமை (ஆட்டா), மைதா, ரவை (சூஜி) அல்லது பெருங்காயம் (இதில் கோதுமை கலந்திருக்கும்) கொடுக்க வேண்டாம். அரிசி, பருப்பு, சோளம் மற்றும் உருளைக்கிழங்கு உண்ணலாம்.",
+          bengali: "আমি গ্লুটেন খেতে পারি না। দয়া করে আমাকে গম (আটা), ময়দা, সুজি বা হিং (যার মধ্যে গম মেশানো থাকে) দেবেন না। চাল, ডাল, ভুট্টা এবং আলু চলবে।",
+          marathi: "मला ग्लूटेन चालत नाही. कृपया मला गहू (आटा), मैदा, सुजी (रवा), किंवा हिंग (ज्यात अनेकदा गव्हाचा अंश असतो) देऊ नका. भात, डाळी, मका आणि बटाटे चालतील।"
+        }
+      }
+    };
+
+    const prefSel = document.getElementById("diet-pref-select");
+    const langSel = document.getElementById("diet-lang-select");
+    const genBtn = document.getElementById("diet-btn-generate");
+    const resultCard = document.getElementById("diet-result-card");
+
+    if (genBtn && resultCard) {
+      genBtn.addEventListener("click", () => {
+        playSelectSound();
+        const pref = prefSel.value;
+        const lang = langSel.value;
+        const card = DIET_CARDS[pref] || {};
+        const nativeText = card.languages[lang] || "";
+
+        resultCard.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.85rem; background:rgba(245,158,11,0.04); border-color:var(--color-primary);">
+            <div style="font-weight:800; font-size:0.85rem; color:var(--color-primary); letter-spacing:0.04em; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center;">
+              <span>🎴 ${card.title}</span>
+              <span class="badge accent" style="font-size:0.6rem;">${lang.toUpperCase()}</span>
+            </div>
+            
+            <div style="font-size:1.1rem; line-height:1.6; font-weight:700; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.75rem; text-align:center;">
+              "${nativeText}"
+            </div>
+
+            <div style="font-size:0.75rem; line-height:1.45; color:var(--text-secondary);">
+              <strong>English Translation (For your reference):</strong>
+              <p style="margin:0.25rem 0 0; font-style:italic; color:var(--text-muted);">${card.english}</p>
+            </div>
+
+            <button id="diet-btn-copy" class="visualizer-btn" style="width:100%; margin-top:0.4rem; font-size:0.7rem; padding:0.4rem 0.75rem;">📋 Copy Translation Text</button>
+          </div>
+        `;
+
+        document.getElementById("diet-btn-copy").addEventListener("click", () => {
+          playSelectSound();
+          navigator.clipboard.writeText(nativeText).then(() => {
+            alert("Translation text copied to clipboard!");
+          });
+        });
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: FOREIGNER UPI GUIDE & MOCK SCANNER
+  // =====================================================================
+  function initUpi() {
+    const simulateBtn = document.getElementById("upi-btn-simulate");
+    const resultBox = document.getElementById("upi-simulator-result");
+    const merchantInput = document.getElementById("upi-mock-merchant");
+    const amountInput = document.getElementById("upi-mock-amount");
+
+    if (simulateBtn && resultBox) {
+      simulateBtn.addEventListener("click", () => {
+        playSelectSound();
+        const merchant = merchantInput.value.trim() || "Local Vendor";
+        const amt = amountInput.value.trim() || "10";
+
+        resultBox.style.display = "flex";
+        resultBox.innerHTML = `
+          <div style="text-align:center; padding:1.5rem; display:flex; flex-direction:column; gap:0.5rem; align-items:center;">
+            <div class="lock-icon" style="background:var(--color-success); width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:#fff; box-shadow:0 0 15px rgba(16,185,129,0.4); margin-bottom:0.25rem;">✓</div>
+            <strong style="font-size:1rem; color:var(--text-primary);">UPI Transaction Successful</strong>
+            <span style="font-size:1.5rem; font-weight:800; color:var(--color-success);">₹${amt}.00</span>
+            <span style="font-size:0.7rem; color:var(--text-muted);">Paid to: <strong>${merchant}</strong></span>
+            
+            <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.65rem; margin-top:0.5rem; text-align:left; font-size:0.68rem; color:var(--text-secondary); width:100%; display:flex; flex-direction:column; gap:0.25rem;">
+              <div>💡 <strong>Foreigner Security Tip:</strong> Always verify the merchant name displayed on your mobile screen matches the name printed above the QR card at the vendor's stall before typing your UPI PIN.</div>
+            </div>
+          </div>
+        `;
+        playTone(650, "sine", 0.08, 0.12);
+        setTimeout(() => playTone(880, "sine", 0.1, 0.25), 130);
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: RAILWAY COUCH & BERTH LAYOUT FINDER
+  // =====================================================================
+  function initCoach() {
+    const seatInput = document.getElementById("coach-seat-no");
+    const classSelect = document.getElementById("coach-type-select");
+    const findBtn = document.getElementById("coach-btn-find");
+    const resultBox = document.getElementById("coach-result-container");
+
+    if (findBtn && resultBox) {
+      findBtn.addEventListener("click", () => {
+        playSelectSound();
+        const seatNo = parseInt(seatInput.value);
+        const cls = classSelect.value;
+
+        if (isNaN(seatNo) || seatNo < 1 || seatNo > 72) {
+          resultBox.innerHTML = `<div style="color:var(--color-danger); font-size:0.8rem; text-align:center; padding:1.5rem;">Please enter a valid seat number between 1 and 72.</div>`;
+          return;
+        }
+
+        let type = "";
+        let desc = "";
+        let compartmentNo = Math.ceil(seatNo / 8);
+
+        if (cls === "sleeper") {
+          const mod = seatNo % 8;
+          if (mod === 1 || mod === 2) {
+            type = "Lower Berth (LB)";
+            desc = "Positioned at floor level inside the cabin. Great for elderly; shared during daylight hours (6 AM to 10 PM) for passengers to sit.";
+          } else if (mod === 3 || mod === 4) {
+            type = "Middle Berth (MB)";
+            desc = "Folded down during the day. Must be hooked up at night (10 PM to 6 AM) for sleeping.";
+          } else if (mod === 5 || mod === 6) {
+            type = "Upper Berth (UB)";
+            desc = "Located at the top level. Ideal for luggage storage and uninterrupted day naps; requires minor climbing.";
+          } else if (mod === 7) {
+            type = "Side Lower Berth (SL)";
+            desc = "Positioned in the corridor aisle. Offers privacy curtains but is slightly narrow and shorter than main berths.";
+          } else if (mod === 0) {
+            type = "Side Upper Berth (SU)";
+            desc = "Top berth along the corridor aisle. Good for solo travelers who want privacy; no passenger sharing needed during the day.";
+          }
+        } else {
+          // AC 2-Tier (6 berths per compartment)
+          compartmentNo = Math.ceil(seatNo / 6);
+          if (seatNo > 46) {
+            resultBox.innerHTML = `<div style="color:var(--color-danger); font-size:0.8rem; text-align:center; padding:1.5rem;">AC 2-Tier coaches usually only have up to 46 berths. Please try a number between 1 and 46.</div>`;
+            return;
+          }
+          const mod = seatNo % 6;
+          if (mod === 1 || mod === 2) {
+            type = "AC 2-Tier Lower Berth (LB)";
+            desc = "Comfortable floor-level bed inside curtains. Highly sought after.";
+          } else if (mod === 3 || mod === 4) {
+            type = "AC 2-Tier Upper Berth (UB)";
+            desc = "Top-level wide bed inside curtains. Clean bedding provided.";
+          } else if (mod === 5) {
+            type = "AC 2-Tier Side Lower Berth (SL)";
+            desc = "Aisle-adjacent bottom berth. Converts into two seats during the day.";
+          } else if (mod === 0) {
+            type = "AC 2-Tier Side Upper Berth (SU)";
+            desc = "Aisle-adjacent top berth. Includes separate reading lamp.";
+          }
+        }
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:0.95rem; color:var(--text-primary);">Seat #${seatNo} Layout Details</strong>
+              <span class="badge success" style="font-size:0.65rem;">Compartment #${compartmentNo}</span>
+            </div>
+            
+            <div style="font-size:1.15rem; font-weight:800; color:var(--color-primary); margin:0.25rem 0;">
+              ✨ ${type}
+            </div>
+
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">
+              ${desc}
+            </p>
+
+            <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.65rem; margin-top:0.25rem; font-size:0.68rem; color:var(--text-muted);">
+              💡 <strong>Travel Etiquette:</strong> Middle berths must remain folded down during the day (6:00 AM to 10:00 PM) to allow lower berth passengers to sit comfortably.
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: FOREX ATM DCC TRAP SIMULATOR
+  // =====================================================================
+  function initForex() {
+    const simBtn = document.getElementById("forex-btn-simulate");
+    const screen = document.getElementById("forex-atm-screen");
+    const amtInput = document.getElementById("forex-atm-amount");
+
+    if (simBtn && screen) {
+      simBtn.addEventListener("click", () => {
+        playSelectSound();
+        const amt = parseInt(amtInput.value) || 10000;
+        const exchangeRate = 83.5; // 1 USD = 83.5 INR
+        const markupRate = 1.085; // 8.5% DCC markup conversion markup
+        
+        const standardUSD = (amt / exchangeRate).toFixed(2);
+        const dccUSD = ((amt / exchangeRate) * markupRate).toFixed(2);
+        const markupLoss = (dccUSD - standardUSD).toFixed(2);
+
+        screen.style.display = "flex";
+        screen.innerHTML = `
+          <div style="color:#00ff66; font-size:0.8rem; text-align:center; border-bottom:1px solid rgba(0,255,102,0.2); padding-bottom:0.5rem; font-weight:700;">
+            *** IN-STATE STATE BANK CASH DISPENSER ***
+          </div>
+          <div style="font-size:0.75rem; color:#fff; display:flex; flex-direction:column; gap:0.45rem;">
+            <span>Requested Withdrawal: <strong>INR ${amt.toLocaleString()}</strong></span>
+            <span>We offer currency conversion to your home billing currency:</span>
+            
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:0.65rem; border-radius:6px; display:flex; flex-direction:column; gap:0.25rem;">
+              <span>Home Billing Amount: <strong>USD $${dccUSD}</strong></span>
+              <span>Conversion Rate: 1 INR = ${(1 / (exchangeRate / markupRate)).toFixed(5)} USD</span>
+              <span style="font-size:0.62rem; color:var(--text-muted);">*Exchange rate includes a conversion markup fee of 8.5%</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; gap:0.5rem; margin-top:0.5rem;">
+              <button id="forex-btn-trap" class="visualizer-btn" style="flex:1; background:rgba(239, 68, 68, 0.15); border-color:var(--color-danger); color:var(--color-danger); font-size:0.65rem; font-family:monospace; padding:0.5rem 0.25rem;">
+                Charge in USD<br>($${dccUSD})
+              </button>
+              <button id="forex-btn-safe" class="visualizer-btn" style="flex:1; background:rgba(16, 185, 129, 0.15); border-color:var(--color-success); color:var(--color-success); font-size:0.65rem; font-family:monospace; padding:0.5rem 0.25rem;">
+                Charge in INR<br>(Decline DCC)
+              </button>
+            </div>
+          </div>
+        `;
+
+        document.getElementById("forex-btn-trap").addEventListener("click", () => {
+          playSelectSound();
+          alert(`❌ TRAP HIT!\nYou chose to charge in USD.\nThe ATM charged you $${dccUSD} instead of the standard bank rate of $${standardUSD}.\nYou lost $${markupLoss} (approx. ₹${Math.round(markupLoss * exchangeRate)}) in hidden markups!`);
+        });
+
+        document.getElementById("forex-btn-safe").addEventListener("click", () => {
+          playTone(880, "sine", 0.1, 0.35);
+          alert(`🟢 SAFE DECISION!\nYou declined the conversion and chose to charge in INR.\nYour home bank will process this at the standard interbank exchange rate, saving you $${markupLoss} (approx. ₹${Math.round(markupLoss * exchangeRate)})!`);
+        });
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: STATE TRAVEL PERMIT ADVISOR (ILP & PAP)
+  // =====================================================================
+  function initPermits() {
+    const ZONE_DATA = {
+      ladakh: {
+        title: "Ladakh Inner Line Permit (ILP)",
+        checkpoints: "Karu, Khalsar, Minamarg, Hunder check-posts.",
+        docs: "Passport (for Foreigners), Aadhaar/Voter Card (for Indians), Passport-size photos.",
+        fee: "Environment Fee: ₹400, Red Cross fee: ₹100, Wildlife Fee: ₹20/day.",
+        link: "https://lahdclehpermit.in/",
+        guideline: "Foreigners must apply for a Protected Area Permit (PAP) in a group of minimum 2 travelers through a registered travel agent in Leh. PAP is required for Pangong, Nubra, and Turtuk zones. Indian nationals can apply for ILP online or at the TIC Leh office."
+      },
+      sikkim: {
+        title: "Sikkim Restricted & Protected Area Permit (RAP/PAP)",
+        checkpoints: "Rangpo, Melli, Bagdogra airport clearances.",
+        docs: "Valid Indian Visa (for Foreigners), Inner Line Permit (for specific countries), Passport copies, Passport Photos.",
+        fee: "No government fee for RAP, travel agent handling fees apply for PAP zones.",
+        link: "http://www.sikkimtourism.gov.in/",
+        guideline: "Inner Line Permit (RAP) is required for all foreign tourists visiting Sikkim (issued free at checkpoints). Protected Area Permit (PAP) is required for high-security border regions like Nathula Pass, Tsomgo Lake, and Yumthang Valley, and must be arranged via Sikkim-registered tour operators."
+      },
+      arunachal: {
+        title: "Arunachal Pradesh ILP & PAP Portal",
+        checkpoints: "Bhalukpong, Pasighat, Kimin entry gates.",
+        docs: "Aadhaar Card / Voter Card (Indians), Passport & Valid Visa (Foreigners), Local sponsor detail or tour operator itinerary.",
+        fee: "Indian ILP: ₹100 (online), PAP for Foreigners: $50 USD per traveler.",
+        link: "https://www.arunachalilp.com/",
+        guideline: "All Indian citizens require an Inner Line Permit (ILP) to cross Arunachal borders. Foreign nationals require a Protected Area Permit (PAP) which can be requested online or at local Indian embassies/consulates abroad."
+      },
+      nagaland: {
+        title: "Nagaland Inner Line Permit (ILP)",
+        checkpoints: "Dimapur, Kohima gate checkpoints.",
+        docs: "Passport photos, identity cards, address verification details.",
+        fee: "Indian ILP: ₹50, Foreign PAP: Checked locally based on duration.",
+        link: "https://ilp.nagaland.gov.in/",
+        guideline: "Indian citizens require an ILP to visit Nagaland (excluding Dimapur city). Foreign nationals do not require a PAP anymore since 2018 (except citizens of specific countries like China, Pakistan, and Bangladesh who need Ministry of Home Affairs clearance)."
+      }
+    };
+
+    const zoneSel = document.getElementById("permits-zone-select");
+    const citizenSel = document.getElementById("permits-citizen-select");
+    const checkBtn = document.getElementById("permits-btn-check");
+    const resultBox = document.getElementById("permits-result-container");
+
+    if (checkBtn && resultBox) {
+      checkBtn.addEventListener("click", () => {
+        playSelectSound();
+        const zone = zoneSel.value;
+        const citizen = citizenSel.value;
+        const data = ZONE_DATA[zone] || {};
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:0.95rem; color:var(--text-primary);">${data.title}</strong>
+              <span class="badge accent" style="font-size:0.65rem;">${citizen.toUpperCase()}</span>
+            </div>
+            
+            <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">
+              ${data.guideline}
+            </p>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.7rem; color:var(--text-secondary);">
+              <div>📍 <strong>Entry Checkpoints:</strong> ${data.checkpoints}</div>
+              <div>💵 <strong>Estimated Fees:</strong> ${data.fee}</div>
+              <div>📂 <strong>Required Documents:</strong> ${data.docs}</div>
+            </div>
+
+            <a href="${data.link}" target="_blank" class="visualizer-btn" style="text-align:center; text-decoration:none; display:block; margin-top:0.4rem; font-size:0.7rem; padding:0.5rem 0.75rem;">🌐 Visit Official Portal ↗</a>
+          </div>
+        `;
       });
     }
   }

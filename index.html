@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.6">
+  <link rel="stylesheet" href="index.css?v=21.0.7">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.6</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.7</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4437,19 +4437,78 @@
     </div>
   </div>
 
+  <!-- TAB 60: RELIGIOUS SIGHTS CULTURAL ETIQUETTE GUIDE -->
+  <div id="tab-content-templeetiquette" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(139, 92, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🕌</span> Religious Sights Etiquette Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Review dress codes, leather item restrictions, shoe drop protocols, and local custom guides for sacred monuments.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Options -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🕌 Place of Worship Type</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Sacred Sight Category</label>
+              <select id="templeetiquette-type-select" class="form-input" style="width:100%;">
+                <option value="hindu">Hindu Temple (Mandir)</option>
+                <option value="sikh">Sikh Gurdwara</option>
+                <option value="islamic">Islamic Mosque (Masjid)</option>
+                <option value="buddhist">Buddhist Monastery (Gompa)</option>
+              </select>
+            </div>
+            <button id="templeetiquette-btn-check" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Get Etiquette Rules</button>
+          </div>
+        </div>
+
+        <!-- Right: Report -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📜 Cultural Protocols</h3>
+          
+          <div id="templeetiquette-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a sacred sight type and click check to display etiquette rules.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 61: LOCAL SPEAK PHRASEBOOK WITH TTS SYNTHESIS -->
+  <div id="tab-content-localspeak" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🗣️</span> Local Speak Phrasebook (TTS)</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Translate day-to-day survival phrases to Hindi/Regional dialects and play text-to-speech pronunciation.</p>
+      </div>
+
+      <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem; margin-top:1.5rem;">
+        <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🗣️ Survival Soundboard</h3>
+        
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:1rem;" id="localspeak-phrases-container">
+          <!-- Dynamically populated soundboard cards -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.6 (Monsoon Risk &amp; Water Safety Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.7 (Sacred Etiquette &amp; Speech Board Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.6"></script>
-  <script src="trie.js?v=21.0.6"></script>
-  <script src="app.js?v=21.0.6"></script>
+  <script src="cities.js?v=21.0.7"></script>
+  <script src="trie.js?v=21.0.7"></script>
+  <script src="app.js?v=21.0.7"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.5">
+  <link rel="stylesheet" href="index.css?v=21.0.6">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.5</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.6</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4345,19 +4345,111 @@
     </div>
   </div>
 
+  <!-- TAB 58: MONSOON & WEATHER TRAVEL RISK PLANNER -->
+  <div id="tab-content-monsoonrisk" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🌧️</span> Monsoon &amp; Weather Travel Risk Planner</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Assess seasonal weather risks, landslide warnings, and flash flood indicators across India's microclimates.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Options -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🌧️ Choose Travel Windows</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Destination Region</label>
+              <select id="monsoonrisk-region-select" class="form-input" style="width:100%;">
+                <option value="himalayas">Himalayas (Ladakh / Leh rain-shadow)</option>
+                <option value="spiti">Spiti / Himachal Valley passes</option>
+                <option value="goa">Goa &amp; Western Ghats beaches</option>
+                <option value="mumbai">Mumbai / Maharashtra Coast</option>
+                <option value="rajasthan">Rajasthan Desert cities</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Travel Month</label>
+              <select id="monsoonrisk-month-select" class="form-input" style="width:100%;">
+                <option value="june">June (Monsoon onset)</option>
+                <option value="july">July (Peak rainfall)</option>
+                <option value="august">August (Heavy downpours)</option>
+                <option value="september">September (Monsoon retreat)</option>
+              </select>
+            </div>
+            <button id="monsoonrisk-btn-check" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Evaluate Seasonal Risk</button>
+          </div>
+        </div>
+
+        <!-- Right: Detail Card -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📋 Meteorological Report</h3>
+          
+          <div id="monsoonrisk-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a region and travel month to show safety evaluations.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 59: DRINKING WATER & DELHI BELLY ADVISOR -->
+  <div id="tab-content-waterrisk" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💧</span> Drinking Water &amp; "Delhi Belly" Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Evaluate water source purities, assess gastric contamination indexes, and practice emergency rehydration protocols.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Water source choice -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">💧 Choose Water Source</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Water Source Type</label>
+              <select id="waterrisk-source-select" class="form-input" style="width:100%;">
+                <option value="sealed">Sealed Brand Bottle (e.g. Bisleri, Kinley)</option>
+                <option value="ro">Filtered RO/UV Tap (Five-star Hotels/Lounges)</option>
+                <option value="street_ice">Street Food Drink / Raw Ice Cubes</option>
+                <option value="tap">Direct Unfiltered Municipal Tap Water</option>
+              </select>
+            </div>
+            <button id="waterrisk-btn-check" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Analyze Bacterial Safety</button>
+          </div>
+        </div>
+
+        <!-- Right: Report -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🩺 Medical Water Assessment</h3>
+          
+          <div id="waterrisk-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a water source and click check to display contamination risks.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.5 (Street Bargaining &amp; Photo Advisor Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.6 (Monsoon Risk &amp; Water Safety Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.5"></script>
-  <script src="trie.js?v=21.0.5"></script>
-  <script src="app.js?v=21.0.5"></script>
+  <script src="cities.js?v=21.0.6"></script>
+  <script src="trie.js?v=21.0.6"></script>
+  <script src="app.js?v=21.0.6"></script>
 </body>
 </html>

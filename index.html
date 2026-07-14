@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.3">
+  <link rel="stylesheet" href="index.css?v=21.0.4">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.3</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.4</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4124,19 +4124,153 @@
     </div>
   </div>
 
+  <!-- TAB 53: SPICE LEVEL & MENU TRANSLATOR -->
+  <div id="tab-content-spicemenu" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🍛</span> Spicy Indian Menu &amp; Curry Translator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Translate common Indian menu cooking styles, assess spice levels, and identify hidden allergens.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Selector -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🍽️ Select Menu Term</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Menu Item/Keyword</label>
+              <select id="spicemenu-term-select" class="form-input" style="width:100%;">
+                <option value="korma">Korma (Mild &amp; Nutty)</option>
+                <option value="tikka">Tikka Masala (Medium &amp; Tangy)</option>
+                <option value="jalfrezi">Jalfrezi (Hot &amp; Stir-fried)</option>
+                <option value="vindaloo">Vindaloo (Extremely Spicy &amp; Sour)</option>
+                <option value="makhani">Makhani / Butter Masala (Rich &amp; Mild)</option>
+                <option value="kadai">Kadai (Spiced &amp; Peppery)</option>
+              </select>
+            </div>
+            <button id="spicemenu-btn-translate" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Translate &amp; Check Spice Index</button>
+          </div>
+        </div>
+
+        <!-- Right: Detail Card -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📋 Curry Breakdown</h3>
+          
+          <div id="spicemenu-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select an Indian menu term and click translate to view details.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 54: TOURIST SCAM CHECKER -->
+  <div id="tab-content-scamcheck" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛡️</span> Tourist Scam Checker &amp; Verification</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Select travel situations to verify scam risks, understand local tricks, and get actionable counter-advice.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Input Selection -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🚨 Check Situation</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Select Travel Scenario</label>
+              <select id="scamcheck-scenario-select" class="form-input" style="width:100%;">
+                <option value="hotel">"Your hotel is burned down/closed/booked out"</option>
+                <option value="cooling">"Shopkeeper charging extra fees on MRP for cold water/soda"</option>
+                <option value="sim">"Roadside reseller offering activated SIM without passport"</option>
+                <option value="shoes">"Shoe polisher points to sudden grease/poop on your boots"</option>
+                <option value="monument">"Official-looking guide says monument is closed for festival"</option>
+              </select>
+            </div>
+            <button id="scamcheck-btn-verify" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Verify Scam Probability</button>
+          </div>
+        </div>
+
+        <!-- Right: Verification Details -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🛡️ Scam Analysis Report</h3>
+          
+          <div id="scamcheck-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a travel situation and click verify to generate the scam alert analysis.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 55: HIMALAYAN ALTITUDE SICKNESS ADVISOR -->
+  <div id="tab-content-altitude" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏔️</span> Himalayan Altitude Sickness (AMS) Profiler</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Assess altitude sickness hazards, calculate rest durations, and plan high-pass itineraries safely.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: User configuration -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🏔️ Trek / Journey Profile</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Destination Elevation</label>
+              <select id="altitude-zone-select" class="form-input" style="width:100%;">
+                <option value="leh">Leh City (11,500 ft / 3,500m)</option>
+                <option value="khardung">Khardung La Pass (17,580 ft / 5,359m)</option>
+                <option value="pangong">Pangong Lake (13,940 ft / 4,250m)</option>
+                <option value="kaza">Kaza Spiti Valley (12,500 ft / 3,800m)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Ascent Speed / Mode</label>
+              <select id="altitude-ascent-select" class="form-input" style="width:100%;">
+                <option value="flight">Fly Directly (e.g. Delhi to Leh airport)</option>
+                <option value="road_slow">Drive Slowly (e.g. Srinagar to Leh - 2 days)</option>
+                <option value="road_fast">Drive Fast (e.g. Manali to Leh - 1 day sprint)</option>
+              </select>
+            </div>
+            <button id="altitude-btn-calculate" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Calculate AMS Risk Profile</button>
+          </div>
+        </div>
+
+        <!-- Right: Report -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🛡️ Medical Acclimatization Plan</h3>
+          
+          <div id="altitude-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select your high-altitude profile and click calculate to view safety steps.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.3 (Live Top Charts &amp; Playlists Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.4 (3 New Utility Tools Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.3"></script>
-  <script src="trie.js?v=21.0.3"></script>
-  <script src="app.js?v=21.0.3"></script>
+  <script src="cities.js?v=21.0.4"></script>
+  <script src="trie.js?v=21.0.4"></script>
+  <script src="app.js?v=21.0.4"></script>
 </body>
 </html>

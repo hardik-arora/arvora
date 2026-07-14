@@ -392,7 +392,7 @@ header {
   left: 0;
   top: 0;
   height: 100vh;
-  width: 56px;
+  width: 52px;
   background: rgba(10, 15, 30, 0.96);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
@@ -403,69 +403,65 @@ header {
   gap: 0.35rem;
   z-index: 900;
   box-shadow: 2px 0 20px rgba(0,0,0,0.4);
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Hover expansion */
-.sidebar-rail:hover {
-  width: 170px;
-  align-items: flex-start;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 /* Rail icon buttons */
 .rail-icon {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   background: transparent;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0px;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
   color: var(--text-muted);
   position: relative;
   font-size: 1.25rem;
-  overflow: hidden;
-  width: 100%;
 }
 
-.sidebar-rail:hover .rail-icon {
-  justify-content: flex-start;
-  padding-left: 12px;
-  gap: 12px;
-  width: 150px;
-}
-
-/* Label text styles */
-.rail-icon .rail-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: capitalize;
-  letter-spacing: 0.02em;
-  opacity: 0;
-  max-width: 0;
-  white-space: nowrap;
-  transition: opacity 0.2s ease, max-width 0.25s ease, transform 0.25s ease;
-  transform: translateX(-10px);
-  color: var(--text-secondary);
-}
-
-/* Reveal labels on hover */
-.sidebar-rail:hover .rail-label {
-  opacity: 1;
-  max-width: 100px;
-  transform: translateX(0);
+.rail-icon:hover {
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text-primary);
 }
 
-.rail-icon.active .rail-label {
+.rail-icon.active {
+  background: rgba(59, 130, 246, 0.12);
   color: var(--color-primary);
+}
+
+/* Custom CSS Tooltip on Hover */
+.rail-icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.85);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 1200;
+}
+
+.rail-icon:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Hide labels in rail */
+.rail-icon .rail-label {
+  display: none;
 }
 
 /* Active indicator accent */
@@ -480,32 +476,22 @@ header {
   background: var(--color-primary);
   border-radius: 3px;
   box-shadow: 0 0 8px var(--color-primary);
-  transition: all 0.25s ease;
-}
-
-.sidebar-rail:hover .rail-icon.active::before {
-  left: 4px;
 }
 
 .rail-divider {
-  width: 28px;
+  width: 24px;
   height: 1px;
   background: rgba(255, 255, 255, 0.07);
   margin: 0.3rem 0;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sidebar-rail:hover .rail-divider {
-  width: 140px;
 }
 
 /* Sidebar Feature Drawer */
 .sidebar-drawer {
   position: fixed;
-  left: 56px;
+  left: 52px;
   top: 0;
   height: 100vh;
-  width: 280px;
+  width: 240px;
   background: rgba(12, 18, 34, 0.97);
   border-right: 1px solid rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(24px);
@@ -513,12 +499,8 @@ header {
   flex-direction: column;
   z-index: 850;
   transform: translateX(-100%);
-  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 4px 0 30px rgba(0,0,0,0.5);
-}
-
-.sidebar-rail:hover ~ .sidebar-drawer {
-  left: 170px;
 }
 
 .sidebar-drawer.open {
@@ -660,17 +642,14 @@ header {
 
 /* App container offset for rail */
 .app-container {
-  margin-left: 56px;
+  margin-left: 52px;
   transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Desktop Split-Pane Layout: Pushes content side-by-side instead of overlaying it */
 @media (min-width: 1024px) {
   .sidebar-drawer.open ~ .app-container {
-    margin-left: 336px;
-  }
-  .sidebar-rail:hover ~ .sidebar-drawer.open ~ .app-container {
-    margin-left: 450px; /* 170px rail + 280px drawer */
+    margin-left: 292px; /* 52px rail + 240px drawer */
   }
   .sidebar-backdrop {
     display: none !important; /* Hide backdrop on desktop so user can click main panels directly */

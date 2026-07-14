@@ -221,6 +221,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabContentCoach    = document.getElementById("tab-content-coach");
   const tabContentForex    = document.getElementById("tab-content-forex");
   const tabContentPermits  = document.getElementById("tab-content-permits");
+  // Phase 21.1 - 3 new features
+  const tabContentSpiceMenu = document.getElementById("tab-content-spicemenu");
+  const tabContentScamCheck = document.getElementById("tab-content-scamcheck");
+  const tabContentAltitude  = document.getElementById("tab-content-altitude");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -745,8 +749,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -939,6 +943,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabId === 'permits') {
       initPermits();
     }
+    if (tabId === 'spicemenu') {
+      initSpiceMenu();
+    }
+    if (tabId === 'scamcheck') {
+      initScamCheck();
+    }
+    if (tabId === 'altitude') {
+      initAltitude();
+    }
 
     // Update active highlight on sidebar rail icon
     const railIcons = document.querySelectorAll(".rail-icon[data-cat]");
@@ -947,8 +960,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const catMap = {
         engine:  ['engine','routes','game','pattern','analytics','scanner'],
         routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc'],
-        safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical'],
-        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food']
+        safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical','scamcheck','altitude'],
+        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu']
       };
       let matchedCat = null;
       for (const [cat, tabs] of Object.entries(catMap)) {
@@ -8222,7 +8235,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'vault',     icon: '📲', name: 'Document Vault',          desc: 'Secure checklist and document backup tracker.' },
         { id: 'simguide',  icon: '📡', name: 'SIM Card & Data Guide',   desc: 'Compare Jio, Airtel, Vi, BSNL — tourist SIM info.' },
         { id: 'medkit',    icon: '💊', name: 'Travel Medical Kit',      desc: 'Checklist builder for essential OTC travel medicines.' },
-        { id: 'permits',   icon: '🛂', name: 'State Travel Permits',    desc: 'Check permits (ILP & PAP) required for border zones.' }
+        { id: 'permits',   icon: '🛂', name: 'State Travel Permits',    desc: 'Check permits (ILP & PAP) required for border zones.' },
+        { id: 'scamcheck', icon: '🛡️', name: 'Tourist Scam Checker',    desc: 'Verify common tourist scams and get safety advice.' },
+        { id: 'altitude',  icon: '🏔️', name: 'Altitude Sickness Advisor', desc: 'Acclimatization calculator and safety guidelines.' }
       ],
       culture: [
         { id: 'culture',      icon: '🎭', name: 'Culture Explorer',    desc: 'Regional festivals, traditions, and dress codes.' },
@@ -8239,7 +8254,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'sunclock',     icon: '🌅', name: 'Sunrise & Sunset',     desc: 'Astronomical sun times for any Indian city.' },
         { id: 'qrcode',       icon: '🔲', name: 'QR Code Generator',   desc: 'Generate QR for URL, UPI, phone — download PNG.' },
         { id: 'playlist',     icon: '🎵', name: 'Travel Vibe Playlist', desc: 'Curate trending Indian songs by your journey style.' },
-        { id: 'diet',         icon: '🍽️', name: 'Dietary Translator',   desc: 'Generate waiter allergy translation cards (Hindi, Tamil, etc.).' }
+        { id: 'diet',         icon: '🍽️', name: 'Dietary Translator',   desc: 'Generate waiter allergy translation cards (Hindi, Tamil, etc.).' },
+        { id: 'spicemenu',    icon: '🍛', name: 'Curry & Spice Translator', desc: 'Decode Indian menu terms, spice levels, and allergens.' }
       ]
     };
 
@@ -10257,9 +10273,243 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
     }
   }
 
+  // =====================================================================
+  // FEATURE: SPICE LEVEL & MENU TRANSLATOR
+  // =====================================================================
+  function initSpiceMenu() {
+    const MENU_DB = {
+      korma: {
+        name: "Korma (Mild & Nutty)",
+        spice: 1,
+        desc: "A rich Mughlai style curry made with yogurt, cream, paste of nuts (cashews/almonds), and mild aromatic spices.",
+        ingredients: "Cashews, Almonds, Coconut, Cardamom, Cloves, Cream, Yogurt.",
+        allergens: "⚠️ Tree Nuts (Cashew, Almond), Dairy, Seeds.",
+        safetyAdvice: "Usually very safe for western palates with zero chili heat. Avoid if you have tree nut allergies."
+      },
+      tikka: {
+        name: "Tikka Masala (Medium & Tangy)",
+        spice: 2,
+        desc: "Grilled chunks of meat/paneer served in a creamy tomato, onion, and yogurt-based sauce with mixed ground spices.",
+        ingredients: "Tomatoes, Ginger, Garlic, Garam Masala, Cream, Turmeric, Cumin.",
+        allergens: "⚠️ Dairy, Alliums (Garlic, Onion).",
+        safetyAdvice: "Medium heat. Most restaurants tailor this to mild or medium on request. Very popular."
+      },
+      jalfrezi: {
+        name: "Jalfrezi (Hot & Stir-fried)",
+        spice: 3,
+        desc: "A thick, spicy sauce cooked with stir-fried bell peppers, onions, and sliced fresh green chilies.",
+        ingredients: "Green Bell Peppers, Red Onion, Fresh Green Chilies, Coriander, Chili Powder.",
+        allergens: "⚠️ Nightshades (Peppers, Tomatoes), Onion/Garlic.",
+        safetyAdvice: "Hot. Contains raw green chilies. Ask the waiter for 'low heat' or keep sweet lassi close by!"
+      },
+      vindaloo: {
+        name: "Vindaloo (Extremely Spicy & Sour)",
+        spice: 4,
+        desc: "Originating in Goa (adapted from Portuguese 'vinha d'alhos'), a super-hot, vinegary curry made with dry red chilies, garlic, and vinegar.",
+        ingredients: "Kashmiri Red Chilies, Vinegar, Garlic, Cumin, Mustard Seeds, Cinnamon.",
+        allergens: "⚠️ Mustard, High Acid/Nightshades.",
+        safetyAdvice: "Extremely Hot! Not recommended for anyone sensitive to heavy chili spice or gastric acidity."
+      },
+      makhani: {
+        name: "Makhani / Butter Masala (Rich & Mild)",
+        spice: 1,
+        desc: "A classic North Indian curry cooked in a smooth sauce of fresh tomatoes, rich butter, and cream, flavored with fenugreek.",
+        ingredients: "Butter, Heavy Cream, Tomato Paste, Cashew Paste, Dried Kasuri Methi.",
+        allergens: "⚠️ Dairy (Heavy Butter/Cream), Cashews.",
+        safetyAdvice: "Very mild, sweet, and rich. A traveler favorite (e.g. Butter Chicken / Paneer Makhani)."
+      },
+      kadai: {
+        name: "Kadai (Spiced & Peppery)",
+        spice: 2,
+        desc: "Cooked in a traditional wok (Kadai) with thick bell peppers, onions, and freshly ground coriander seeds and black pepper.",
+        ingredients: "Coriander Seeds, Black Peppercorns, Capsicum, Ginger, Garlic, Tomatoes.",
+        allergens: "⚠️ Nightshades, Onion/Garlic.",
+        safetyAdvice: "Medium spicy. The heat comes from freshly cracked black pepper rather than pure red chilies."
+      }
+    };
+
+    const termSel = document.getElementById("spicemenu-term-select");
+    const transBtn = document.getElementById("spicemenu-btn-translate");
+    const resultBox = document.getElementById("spicemenu-result-container");
+
+    if (transBtn && resultBox) {
+      transBtn.addEventListener("click", () => {
+        playSelectSound();
+        const term = termSel.value;
+        const data = MENU_DB[term] || {};
+        
+        let spiceIcons = "";
+        for (let i = 0; i < 4; i++) {
+          spiceIcons += i < data.spice ? "🌶️" : "🌱";
+        }
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${data.name}</strong>
+              <span class="badge" style="background:rgba(239, 68, 68, 0.1); color:var(--color-danger); border:1px solid rgba(239, 68, 68, 0.25); font-size:0.75rem; padding:0.15rem 0.4rem;">
+                Spice: ${spiceIcons}
+              </span>
+            </div>
+            
+            <p style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45; margin:0.25rem 0;">
+              ${data.desc}
+            </p>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem; color:var(--text-secondary);">
+              <div>🌿 <strong>Key Ingredients:</strong> ${data.ingredients}</div>
+              <div style="color:#ef4444; font-weight:700;">⚠️ <strong>Allergen Warnings:</strong> ${data.allergens}</div>
+              <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.35rem; color:var(--text-muted);">💡 <strong>Traveler Tip:</strong> ${data.safetyAdvice}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: TOURIST SCAM CHECKER & VERIFICATION
+  // =====================================================================
+  function initScamCheck() {
+    const SCAMS_DB = {
+      hotel: {
+        title: "Hotel Closed/Burned Down Scam",
+        risk: "🔴 CRITICAL (99%)",
+        desc: "Your driver claims the hotel you booked is closed, burned down, unsafe, or inaccessible due to a rally/festival, offering to take you to an 'official tourist office' instead.",
+        trick: "The driver gets a massive commission (often 50%+) by taking you to a fake agency or hotel that will overcharge you for sub-par bookings.",
+        advice: "Never trust the driver. Call the hotel directly using the number on your booking confirmation. Insist on being dropped at the door anyway, or use a reliable pre-paid/app cab (Uber/Ola)."
+      },
+      cooling: {
+        title: "Cold Water 'Cooling Charge' Overpricing",
+        risk: "🟡 MEDIUM (75%)",
+        desc: "A local kiosk charges you ₹5 to ₹10 extra above the printed Maximum Retail Price (MRP) for bottled water or soda, calling it a 'cooling charge' for electricity usage.",
+        trick: "Charging above MRP is illegal in India under the Legal Metrology Act. Sellers take advantage of tourists who don't notice the MRP print.",
+        advice: "Politely point out the printed MRP. If they refuse, buy from an organized grocery store or supermarket where billing is computerized. Do not argue over small amounts, but be aware."
+      },
+      sim: {
+        title: "Street SIM Card Identity Fraud",
+        risk: "🔴 HIGH (90%)",
+        desc: "Resellers on streets or near monuments offer pre-activated SIM cards with 'immediate data activation' without requiring passport scans or official e-FRRO registration.",
+        trick: "These SIMs are registered under local Indian identities. Once telecom authorities run checks, they deactivate the SIM immediately. Your personal data could also be exposed.",
+        advice: "Only buy SIM cards from official brand outlets (Airtel, Jio) at the airport or main offices in cities. You will need your passport, visa copy, and a passport photo."
+      },
+      shoes: {
+        title: "Shoe Polish Poop-Drop Trick",
+        risk: "🔴 HIGH (95%)",
+        desc: "While walking near tourist gates, a shoeshine boy points out that bird droppings or animal poop has 'suddenly' appeared on your shoe and offers to clean it for a high price.",
+        trick: "An accomplice surreptitiously squirts liquid poop/mud onto your shoe from a syringe as you walk by. The shoeshine boy then 'spots' it and charges ₹500+ for standard polish.",
+        advice: "Ignore them entirely and keep walking. Clean it yourself with wet wipes or at your hotel. If you hire a shoeshine boy, pre-agree on the total price explicitly (typically ₹50-₹100 max)."
+      },
+      monument: {
+        title: "Fake Official Guide / Monument Closed Scam",
+        risk: "🔴 HIGH (90%)",
+        desc: "A well-dressed person outside a temple or monument states that it is currently closed for prayers, VIP visits, or holidays, offering to guide you to an alternative 'bazaar' or viewpoint.",
+        trick: "They are commission agents trying to steer you away to high-markup jewelry, silk, or souvenir shops. The monument is almost always open.",
+        advice: "Walk straight to the official ticket counter yourself to check. Official guides have Government of India / State Tourism ID cards around their necks. Don't follow friendly strangers offering shopping tours."
+      }
+    };
+
+    const scenarioSel = document.getElementById("scamcheck-scenario-select");
+    const verifyBtn = document.getElementById("scamcheck-btn-verify");
+    const resultBox = document.getElementById("scamcheck-result-container");
+
+    if (verifyBtn && resultBox) {
+      verifyBtn.addEventListener("click", () => {
+        playSelectSound();
+        const scenario = scenarioSel.value;
+        const data = SCAMS_DB[scenario] || {};
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary); background:rgba(239, 68, 68, 0.02);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${data.title}</strong>
+              <span class="badge" style="background:rgba(239, 68, 68, 0.1); color:#ef4444; border:1px solid rgba(239, 68, 68, 0.25); font-weight:700; font-size:0.72rem; padding:0.15rem 0.4rem;">
+                Risk: ${data.risk}
+              </span>
+            </div>
+
+            <p style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45; margin:0.25rem 0;">
+              <strong>Situation:</strong> "${data.desc}"
+            </p>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem; color:var(--text-secondary);">
+              <div>🔍 <strong>The Catch/Trick:</strong> ${data.trick}</div>
+              <div style="color:var(--color-success); font-weight:700; border-top:1px solid rgba(255,255,255,0.06); padding-top:0.35rem; margin-top:0.15rem;">🛡️ How to Handle (Counter-Advice):</div>
+              <div style="color:var(--text-primary); line-height:1.4;">${data.advice}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  // =====================================================================
+  // FEATURE: HIMALAYAN ALTITUDE SICKNESS (AMS) PROFILER
+  // =====================================================================
+  function initAltitude() {
+    const ZONES = {
+      leh: { name: "Leh City (Himalayas)", elev: 3500, risk: "High (AMS prone)" },
+      khardung: { name: "Khardung La Pass", elev: 5359, risk: "Severe (Short visits only)" },
+      pangong: { name: "Pangong Tso Lake", elev: 4250, risk: "Very High (Freezing overnight)" },
+      kaza: { name: "Kaza Spiti Valley", elev: 3800, risk: "High (Dry desert air)" }
+    };
+
+    const calculateBtn = document.getElementById("altitude-btn-calculate");
+    const zoneSel = document.getElementById("altitude-zone-select");
+    const ascentSel = document.getElementById("altitude-ascent-select");
+    const resultBox = document.getElementById("altitude-result-container");
+
+    if (calculateBtn && resultBox) {
+      calculateBtn.addEventListener("click", () => {
+        playSelectSound();
+        const zoneKey = zoneSel.value;
+        const ascent = ascentSel.value;
+        const zone = ZONES[zoneKey] || {};
+
+        let restHours = 48;
+        let warningText = "";
+        let amsRisk = "High";
+
+        if (ascent === "flight") {
+          restHours = 48;
+          amsRisk = "🔴 Extreme (Sudden altitude change)";
+          warningText = "Flying directly from sea level (Delhi) to Leh (3500m) triggers sudden pressure drops. You MUST rest completely inside your hotel for the first 24-48 hours. No walking tours, sightseeing, or staircases.";
+        } else if (ascent === "road_slow") {
+          restHours = 12;
+          amsRisk = "🟢 Low-Medium (Gradual adaptation)";
+          warningText = "Driving up gradually over 2 days (via Srinagar-Kargil highway) gives your body ample time to produce red blood cells. Still, drink 4L of water daily and avoid strenuous physical effort on day 1.";
+        } else if (ascent === "road_fast") {
+          restHours = 36;
+          amsRisk = "🟡 High (Rapid ascent)";
+          warningText = "The Manali-Leh road passes through extremely high passes (Taglang La at 5328m) within a single day. You might feel headaches or nausea at high passes. Sleep at Leh immediately and rest for 36 hours.";
+        }
+
+        resultBox.innerHTML = `
+          <div class="trip-stop-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.65rem; border-color:var(--color-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:1rem; color:var(--text-primary);">${zone.name}</strong>
+              <span class="badge" style="background:rgba(59, 130, 246, 0.1); color:var(--color-primary); border:1px solid rgba(59, 130, 246, 0.25); font-size:0.72rem; padding:0.15rem 0.4rem; font-weight:700;">
+                Elev: ${zone.elev}m
+              </span>
+            </div>
+
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin:0.15rem 0;">
+              🏥 <strong>Acute Mountain Sickness (AMS) Risk:</strong> <span style="font-weight:700;">${amsRisk}</span>
+            </div>
+
+            <p style="font-size:0.75rem; color:#ef4444; line-height:1.45; margin:0; font-weight:600;">
+              ⚠️ ${warningText}
+            </p>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:0.65rem; border-radius:8px; display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem; color:var(--text-secondary); margin-top:0.25rem;">
+              <div>⏱️ <strong>Mandatory Rest Period:</strong> ${restHours} hours complete rest required before high-pass trekking.</div>
+              <div>💊 <strong>Medication Tip:</strong> Consult a doctor regarding Acetazolamide (Diamox) before ascent. Carry portable oxygen canisters.</div>
+              <div>💧 <strong>Hydration Protocol:</strong> Consume 3-4 liters of water / ORS solution daily. Avoid alcohol entirely.</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+  }
+
 });
-
-
-
-
-

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.0">
+  <link rel="stylesheet" href="index.css?v=21.0.1">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.1</span>
       </div>
       
       <div class="island-shortcuts">
@@ -3761,19 +3761,375 @@
     </div>
   </div>
 
+  <!-- TAB 46: TRAVEL VIBE PLAYLIST GENERATOR -->
+  <div id="tab-content-playlist" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎵</span> Travel Vibe Playlist Generator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Curate and export trending Indian playlists matching your journey's acoustic vibe.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Vibe Selector -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🎧 Choose Travel Vibe</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.65rem;">
+            <button class="visualizer-btn active playlist-vibe-btn" data-vibe="rickshaw" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.25rem;">🚕</span>
+              <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:700; font-size:0.8rem; color:var(--text-primary);">Auto-Rickshaw Drift</span>
+                <span style="font-size:0.65rem; color:var(--text-muted);">High-energy Punjabi pop, street rap &amp; beats</span>
+              </div>
+            </button>
+            <button class="visualizer-btn playlist-vibe-btn" data-vibe="sleeper" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.25rem;">🚂</span>
+              <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:700; font-size:0.8rem; color:var(--text-primary);">Sleeper Coach Solitude</span>
+                <span style="font-size:0.65rem; color:var(--text-muted);">Soft acoustic indie, ghazals, Sufi &amp; flute loops</span>
+              </div>
+            </button>
+            <button class="visualizer-btn playlist-vibe-btn" data-vibe="goa" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.25rem;">🌊</span>
+              <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:700; font-size:0.8rem; color:var(--text-primary);">Goa Cafe Chill</span>
+                <span style="font-size:0.65rem; color:var(--text-muted);">Sunset techno-folk, seaside lofi, indie pop</span>
+              </div>
+            </button>
+            <button class="visualizer-btn playlist-vibe-btn" data-vibe="mountain" style="text-align:left; padding:0.75rem 1rem; width:100%; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.25rem;">⛰️</span>
+              <div style="display:flex; flex-direction:column;">
+                <span style="font-weight:700; font-size:0.8rem; color:var(--text-primary);">Himalayan Roadtrip</span>
+                <span style="font-size:0.65rem; color:var(--text-muted);">Uplifting Bollywood classics, folk &amp; rock</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="trip-stop-card" style="padding:0.75rem; font-size:0.72rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.35rem;">
+            <strong>🔊 Interactive Synthesized Audio</strong>
+            <p style="margin:0; font-size:0.65rem; color:var(--text-muted);">Click preview below to play a Web Audio sound loop generated dynamically matching your vibe!</p>
+            <button id="playlist-btn-play" class="visualizer-btn" style="margin-top:0.25rem; font-size:0.7rem; padding:0.35rem 0.5rem; background:rgba(59, 130, 246, 0.12); border-color:rgba(59, 130, 246, 0.25);">▶ Play Vibe Preview</button>
+          </div>
+        </div>
+
+        <!-- Right: Tracks list & builder -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem; display:flex; justify-content:space-between; align-items:center;">
+            <span>📋 Vibe Tracklist</span>
+            <span style="font-size:0.72rem; font-weight:400; color:var(--text-muted);" id="playlist-track-count">5 tracks selected</span>
+          </h3>
+
+          <div id="playlist-tracks-container" style="display:flex; flex-direction:column; gap:0.55rem; max-height:280px; overflow-y:auto; padding-right:0.25rem;">
+            <!-- JS dynamic track checkboxes -->
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:0.85rem; display:flex; gap:0.75rem;">
+            <button id="playlist-btn-export" class="visualizer-btn" style="flex:1; font-size:0.75rem; padding:0.5rem;">📥 Export Playlist (.txt)</button>
+            <button id="playlist-btn-share" class="visualizer-btn" style="flex:1; font-size:0.75rem; padding:0.5rem; background:rgba(16, 185, 129, 0.12); border-color:rgba(16, 185, 129, 0.25); color:var(--color-success);">🔗 Share Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 47: EMERGENCY SOS & MEDICAL KIT BUILDER -->
+  <div id="tab-content-medkit" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💊</span> Medical Travel Kit Builder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Generate customized checklists of essential OTC medicines for common India-specific travel ailments.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Configuration Form -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📋 Traveler Profile</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Primary Health Concerns</label>
+              <select id="medkit-profile-select" class="form-input" style="width:100%;">
+                <option value="standard">🎒 Standard Backpacker (Stomach bugs, cuts, fatigue)</option>
+                <option value="elderly">👵 Elderly Travelers (Joint support, chronic checks)</option>
+                <option value="family">👶 Family / Kids (Fever syrups, skin rashes, rehydration)</option>
+                <option value="adventure">🏔️ Mountain Adventure / Altitudes (Altitude pills, hydration)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Duration of Stay</label>
+              <select id="medkit-duration-select" class="form-input" style="width:100%;">
+                <option value="short">Short Trip (1 - 2 weeks)</option>
+                <option value="medium">Extended Trip (2 - 4 weeks)</option>
+                <option value="long">Long Term / Nomad (1 month +)</option>
+              </select>
+            </div>
+            <button id="medkit-btn-build" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Build Medical Kit Checklist</button>
+          </div>
+        </div>
+
+        <!-- Right: Medkit Checklist -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">💊 Pharmacy Checklist</h3>
+          
+          <div id="medkit-checklist-container" style="display:flex; flex-direction:column; gap:0.6rem; font-size:0.75rem; color:var(--text-secondary);">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted);">
+              Configure your traveler profile and click build to generate your custom pharmacy pack.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 48: DIETARY PREFERENCE TRANSLATOR -->
+  <div id="tab-content-diet" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🍽️</span> Dietary Preference Translator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Generate and present local language cards to communicate food allergies and vegetarian rules.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Form -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🍽️ Dietary Config</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Dietary Preference</label>
+              <select id="diet-pref-select" class="form-input" style="width:100%;">
+                <option value="veg">Pure Vegetarian (No meat, fish, eggs)</option>
+                <option value="vegan">Vegan (No meat, eggs, dairy/ghee)</option>
+                <option value="jain">Jain Diet (No meat, eggs, root vegetables, onions, garlic)</option>
+                <option value="nuts">Nut Allergy (No peanuts, cashews, tree nuts)</option>
+                <option value="gluten">Gluten-Free (No wheat, refined flour, maida)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Regional Language</label>
+              <select id="diet-lang-select" class="form-input" style="width:100%;">
+                <option value="hindi">Hindi (North / Central India)</option>
+                <option value="tamil">Tamil (Tamil Nadu / South India)</option>
+                <option value="bengali">Bengali (West Bengal / Kolkata)</option>
+                <option value="marathi">Marathi (Maharashtra / Mumbai)</option>
+              </select>
+            </div>
+            <button id="diet-btn-generate" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Generate Restaurant Card</button>
+          </div>
+        </div>
+
+        <!-- Right: Generated Card -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🎴 Restaurant Card</h3>
+          
+          <div id="diet-result-card" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a diet configuration and click generate to build the waiter card.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 49: UPI PAYMENT GUIDE & MOCK SCANNER -->
+  <div id="tab-content-upi" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📱</span> Foreigner UPI Guide &amp; Mock Scanner</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Learn how international tourists set up UPI One World and practice transactions safely.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Quick Setup Guide -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📖 Foreigner Setup Guide</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.78rem; color:var(--text-secondary); line-height:1.45;">
+            <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.15rem;">
+              <span style="font-weight:700; color:var(--color-primary);">1. Obtain UPI One World Wallet</span>
+              <p style="margin:0; font-size:0.72rem; color:var(--text-muted);">Set up an digital wallet on arrival at selected international airports (Delhi, Mumbai, Bengaluru) by verifying passport &amp; tourist visa.</p>
+            </div>
+            <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.15rem;">
+              <span style="font-weight:700; color:var(--color-success);">2. Top up using Cash / Cards</span>
+              <p style="margin:0; font-size:0.72rem; color:var(--text-muted);">Exchange foreign currencies or credit card balance for loading INR directly into your Indian wallet.</p>
+            </div>
+            <div class="trip-stop-card" style="padding:0.75rem; display:flex; flex-direction:column; gap:0.15rem;">
+              <span style="font-weight:700; color:var(--color-purple);">3. Scan and Pay Merchants</span>
+              <p style="margin:0; font-size:0.72rem; color:var(--text-muted);">Use the app camera to scan any standard merchant QR code (BharatPe, GPay, PhonePe) at roadside stalls or shops.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Mock Scanner Simulator -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📲 Mock Transaction Simulator</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.25rem;">Merchant Name (Simulated)</label>
+              <input type="text" id="upi-mock-merchant" class="form-input" value="Sharma Tea Stall &amp; Snacks" style="width:100%;">
+            </div>
+            <div>
+              <label class="form-label" style="display:block; margin-bottom:0.25rem;">Enter Amount (INR)</label>
+              <input type="number" id="upi-mock-amount" class="form-input" value="45" min="1" max="10000" style="width:100%;">
+            </div>
+            <button id="upi-btn-simulate" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Simulate Scan &amp; Pay</button>
+          </div>
+
+          <div id="upi-simulator-result" class="trip-stop-card" style="display:none; padding:1rem; flex-direction:column; gap:0.35rem; background:rgba(16, 185, 129, 0.05); border-color:rgba(16, 185, 129, 0.15);">
+            <!-- JS inserts simulator screen -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 50: RAILWAY COACH & BERTH LAYOUT FINDER -->
+  <div id="tab-content-coach" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚃</span> Railway Berth Layout Finder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Enter your Indian Railways berth/seat number to instantly discover its location and position.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Query Form -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🚃 Seat Checker</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Coach Type (Class)</label>
+              <select id="coach-type-select" class="form-input" style="width:100%;">
+                <option value="sleeper">Sleeper Class (SL) / 3AC Class - 72 Berth Cabin</option>
+                <option value="2ac">AC 2-Tier Class (2A) - 46 Berth Cabin</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Berth/Seat Number</label>
+              <input type="number" id="coach-seat-no" class="form-input" value="23" min="1" max="72" style="width:100%;">
+            </div>
+            <button id="coach-btn-find" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Check Berth Configuration</button>
+          </div>
+        </div>
+
+        <!-- Right: Visualization -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🗺️ Cabin Position Map</h3>
+          
+          <div id="coach-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Enter your seat details and click check to display the berth layout configuration.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 51: FOREX DCC ATM TRAP SIMULATOR -->
+  <div id="tab-content-forex" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏦</span> Forex ATM &amp; DCC Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Avoid the hidden 5-10% dynamic markup fees at ATMs and payment terminals in India.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.15fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Theory panel -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">💡 What is the DCC Trap?</h3>
+          <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.45; margin:0;">When using foreign cards at ATMs or shops in India, the machine offers to charge you in your home currency (USD/EUR) instead of Indian Rupees (INR). This is called <strong>Dynamic Currency Conversion (DCC)</strong>.</p>
+          <div style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.15); padding:0.75rem; border-radius:8px; font-size:0.72rem; color:var(--text-secondary); line-height:1.4;">
+            🔴 <strong>THE TRAP:</strong> The merchant sets their own exchange rate containing a massive <strong>5% to 10% markup</strong> hidden in the conversion rate!
+          </div>
+          <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.15); padding:0.75rem; border-radius:8px; font-size:0.72rem; color:var(--text-secondary); line-height:1.4;">
+            🟢 <strong>THE RULE:</strong> Always choose <strong>Local Currency (INR)</strong> and decline DCC conversions. Let your home bank handle the foreign exchange rate.
+          </div>
+        </div>
+
+        <!-- Right: Simulator -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🏦 Interactive ATM Simulator</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.6rem; font-size:0.75rem;">
+            <span style="color:var(--text-muted);">Enter withdrawal amount:</span>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="number" id="forex-atm-amount" class="form-input" value="10000" step="1000" min="1000" style="flex:1;">
+              <button id="forex-btn-simulate" class="visualizer-btn">Load ATM Screen</button>
+            </div>
+          </div>
+
+          <div id="forex-atm-screen" style="display:none; padding:1.25rem; border-radius:12px; background:#0b0f19; border:2px dashed rgba(255,255,255,0.12); flex-direction:column; gap:0.85rem; font-family:monospace;">
+            <!-- JS inserts mock ATM screen -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 52: STATE PERMIT ADVISOR (ILP & PAP) -->
+  <div id="tab-content-permits" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛂</span> State Travel Permit Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Determine check-posts, processing fees, and document guidelines for restricted border regions (ILP / PAP).</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.25fr; gap:1.5rem; margin-top:1.5rem;" class="trip-main-grid">
+        <!-- Left: Form -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">🔍 Select Permit Zone</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label class="form-label">Destination Area</label>
+              <select id="permits-zone-select" class="form-input" style="width:100%;">
+                <option value="ladakh">Ladakh (Pangong Lake, Nubra Valley, Turtuk)</option>
+                <option value="sikkim">North/East Sikkim (Nathula Pass, Yumthang Valley)</option>
+                <option value="arunachal">Arunachal Pradesh (Tawang, Ziro Valley)</option>
+                <option value="nagaland">Nagaland (Hornbill Festival, Kohima)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Traveler Citizenship</label>
+              <select id="permits-citizen-select" class="form-input" style="width:100%;">
+                <option value="indian">Indian National (Needs ILP/LAC)</option>
+                <option value="foreigner">Foreign National (Needs Protected Area Permit - PAP)</option>
+              </select>
+            </div>
+            <button id="permits-btn-check" class="visualizer-btn" style="width:100%; margin-top:0.4rem;">Check Permitting Rules</button>
+          </div>
+        </div>
+
+        <!-- Right: Report -->
+        <div class="panel" style="display:flex; flex-direction:column; gap:1.2rem;">
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">📄 Permit Guideline Report</h3>
+          
+          <div id="permits-result-container" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.85rem;">
+              Select a restricted zone and click check to show local permitting rules.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.0 (Search Spotlight Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.1 (Playlist &amp; 6 Travel Features Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.0"></script>
-  <script src="trie.js?v=21.0.0"></script>
-  <script src="app.js?v=21.0.0"></script>
+  <script src="cities.js?v=21.0.1"></script>
+  <script src="trie.js?v=21.0.1"></script>
+  <script src="app.js?v=21.0.1"></script>
 </body>
 </html>

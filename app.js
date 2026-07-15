@@ -234,6 +234,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Phase 21.4 - 2 new features
   const tabContentTempleEtiquette = document.getElementById("tab-content-templeetiquette");
   const tabContentLocalSpeak      = document.getElementById("tab-content-localspeak");
+  // Phase 21.5 - 2 new features
+  const tabContentTipGuide = document.getElementById("tab-content-tipguide");
+  const tabContentAppGuide = document.getElementById("tab-content-appguide");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   // Exporter DOM elements
@@ -758,8 +761,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto, tabContentMonsoonRisk, tabContentWaterRisk, tabContentTempleEtiquette, tabContentLocalSpeak];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto', 'monsoonrisk', 'waterrisk', 'templeetiquette', 'localspeak'];
+    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto, tabContentMonsoonRisk, tabContentWaterRisk, tabContentTempleEtiquette, tabContentLocalSpeak, tabContentTipGuide, tabContentAppGuide];
+    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto', 'monsoonrisk', 'waterrisk', 'templeetiquette', 'localspeak', 'tipguide', 'appguide'];
     const idx = tabIds.indexOf(tabId);
 
     allTabContents.forEach((content, i) => {
@@ -979,6 +982,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabId === 'localspeak') {
       initLocalSpeak();
     }
+    if (tabId === 'tipguide') {
+      initTipGuide();
+    }
+    if (tabId === 'appguide') {
+      initAppGuide();
+    }
 
     // Update active highlight on sidebar rail icon
     const railIcons = document.querySelectorAll(".rail-icon[data-cat]");
@@ -986,9 +995,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Map tabs to categories
       const catMap = {
         engine:  ['engine','routes','game','pattern','analytics','scanner'],
-        routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc'],
+        routing: ['travel','tourism','trip','routesolver','culinary','transitbooking','evrouter','localizer','simadvisor','visa','socket','atm','sleep','pnrpredict','currency','rickshaw','bagcalc','appguide'],
         safety:  ['safety','health','emergency','splitter','solosafety','vault','simguide','customs','legal','insurance','medical','scamcheck','altitude','monsoonrisk','waterrisk'],
-        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu','bargain','monumentphoto','templeetiquette','localspeak']
+        culture: ['discovery','festivals','compare','budget','landmarks','tracker','notes','baggage','photohub','shopping','foodsafety','smartpacker','voice','stomach','weather','sunclock','qrcode','culture','festival','food','spicemenu','bargain','monumentphoto','templeetiquette','localspeak','tipguide']
       };
       let matchedCat = null;
       for (const [cat, tabs] of Object.entries(catMap)) {
@@ -8249,7 +8258,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'bagcalc',     icon: '✈️', name: 'Airline Baggage Calc',   desc: 'IndiGo, Air India, SpiceJet allowances + excess fees.' },
         { id: 'upi',         icon: '📱', name: 'Foreigner UPI Guide',    desc: 'Setup guide & simulated QR scanner for digital wallets.' },
         { id: 'coach',       icon: '🚃', name: 'Railway Coach Layout',   desc: 'Identify berth positions (Upper, Side Lower) & seat maps.' },
-        { id: 'forex',       icon: '🏦', name: 'Forex DCC ATM Simulator', desc: 'DCC trap simulator to avoid markup conversion fees.' }
+        { id: 'forex',       icon: '🏦', name: 'Forex DCC ATM Simulator', desc: 'DCC trap simulator to avoid markup conversion fees.' },
+        { id: 'appguide',    icon: '📱', name: 'India Travel Apps Guide',  desc: 'Essential apps for transit, food, payments, and safety.' }
       ],
       safety: [
         { id: 'safety',    icon: '🛡️', name: 'Health & Customs Safety', desc: 'Vaccine advisories and border customs rules.' },
@@ -8288,7 +8298,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'bargain',      icon: '🛍️', name: 'Street Bargaining Simulator', desc: 'Interactive negotiation guide and street market price checker.' },
         { id: 'monumentphoto', icon: '📸', name: 'Monument Golden Hour Advisor', desc: 'Optimize photography timings and camera rules for sights.' },
         { id: 'templeetiquette', icon: '🕌', name: 'Religious Sights Etiquette Guide', desc: 'Customs, dress codes, shoe drop protocols, and offerings rules.' },
-        { id: 'localspeak',   icon: '🗣️', name: 'Local Speak Phrasebook (TTS)', desc: 'Pronounce day-to-day survival phrases with built-in voice synthesis.' }
+        { id: 'localspeak',   icon: '🗣️', name: 'Local Speak Phrasebook (TTS)', desc: 'Pronounce day-to-day survival phrases with built-in voice synthesis.' },
+        { id: 'tipguide',     icon: '💰', name: 'Tipping Culture Guide',       desc: 'When, how much, and whether to tip across every India scenario.' }
       ]
     };
 
@@ -11004,6 +11015,182 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         });
       });
     }
+  }
+
+  // =====================================================================
+  // FEATURE: TIPPING CULTURE & ETIQUETTE GUIDE
+  // =====================================================================
+  function initTipGuide() {
+    const container = document.getElementById("tipguide-cards-container");
+    if (!container || container.dataset.loaded) return;
+    container.dataset.loaded = "1";
+
+    const TIPS = [
+      {
+        icon: '🍽️', scenario: 'Restaurants & Dhabas',
+        amount: '₹20–₹100 (10% of bill)',
+        when: 'Expected at mid-range and fine-dining restaurants. Not expected at street dhabas or fast-food counters.',
+        tip: 'Check if a "service charge" is already included on the bill (usually 5–10%). You are legally not obligated to pay it — but tipping the waiter directly is always appreciated.',
+        status: 'common'
+      },
+      {
+        icon: '🛺', scenario: 'Auto-Rickshaws & Taxis',
+        amount: '₹10–₹30 extra',
+        when: 'Not expected but genuinely appreciated, especially if the driver helped with luggage or took a scenic alternative route.',
+        tip: 'Round up the meter fare instead of asking for change — e.g. ₹87 fare → pay ₹100. For app-based Ola/Uber, 5-star ratings matter more than cash tips.',
+        status: 'optional'
+      },
+      {
+        icon: '🏨', scenario: 'Hotel Bellboys & Housekeeping',
+        amount: '₹50–₹150 per bag / per stay',
+        when: 'Standard practice at 3-star and above hotels. Tip the porter when bags are delivered. Leave housekeeping tip in a labeled envelope.',
+        tip: 'For luxury 5-star hotels, ₹100–₹200 per service interaction is appropriate. Never tip at budget guesthouses — it can cause awkwardness.',
+        status: 'expected'
+      },
+      {
+        icon: '🎒', scenario: 'Tour Guides & Drivers',
+        amount: '₹200–₹500 per full day',
+        when: 'Strongly expected for private tour guides or dedicated drivers on day-trips. For group tours, ₹100 is acceptable.',
+        tip: 'Give at the END of the tour/day. If the guide spoke excellent English and gave extra insights, tip generously — this is often their primary income.',
+        status: 'expected'
+      },
+      {
+        icon: '🙏', scenario: 'Temple Priests (Pandits)',
+        amount: '₹10–₹51 (odd numbers are auspicious)',
+        when: 'Only when a priest personally performs a ritual, puja, or aarti blessing for you. Do not tip for generic entry services.',
+        tip: 'Offer cash directly as "dakshina" (offering) with both hands. Odd amounts like ₹11, ₹21, ₹51, ₹101 carry spiritual significance in Hindu tradition.',
+        status: 'cultural'
+      },
+      {
+        icon: '💆', scenario: 'Spa, Salon & Massage',
+        amount: '₹100–₹200 per session',
+        when: 'Expected at hotel spas and standalone wellness centers. Tipping is becoming more common at branded salons.',
+        tip: 'For Ayurvedic treatments at reputed spas, ₹200+ is appropriate given the skilled therapeutic work involved. Always tip therapists in cash directly.',
+        status: 'common'
+      },
+      {
+        icon: '🧳', scenario: 'Airport / Railway Porters',
+        amount: '₹50–₹100 per bag',
+        when: 'Porters at major railway stations (coolies) have a fixed government-rated fee displayed on boards. Pay that rate, plus ₹20–₹30 tip for heavy bags.',
+        tip: 'Negotiate before handing over bags. At airports, trolleys are free — only tip helpers who actively carry bags to your car.',
+        status: 'expected'
+      },
+      {
+        icon: '🛵', scenario: 'Food Delivery Riders',
+        amount: '₹20–₹50',
+        when: 'Entirely optional via Swiggy/Zomato. The apps have an in-app tip feature at checkout — using it is highly encouraged.',
+        tip: 'Delivery riders typically earn ₹8–₹15 per delivery and cover fuel costs themselves. A ₹30 tip on a ₹400 order makes a meaningful difference.',
+        status: 'optional'
+      }
+    ];
+
+    const statusStyles = {
+      expected: { bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.25)', color: 'var(--color-success)', label: 'Expected' },
+      common:   { bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.25)', color: 'var(--color-primary)', label: 'Common' },
+      optional: { bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.25)', color: '#f59e0b', label: 'Optional' },
+      cultural: { bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.25)', color: '#8b5cf6', label: 'Cultural Custom' }
+    };
+
+    TIPS.forEach(item => {
+      const s = statusStyles[item.status] || statusStyles.optional;
+      const card = document.createElement('div');
+      card.className = 'trip-stop-card';
+      card.style = `padding:1.1rem; display:flex; flex-direction:column; gap:0.6rem; background:${s.bg}; border-color:${s.border};`;
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="font-size:1.5rem;">${item.icon}</span>
+            <strong style="font-size:0.9rem; color:var(--text-primary); line-height:1.2;">${item.scenario}</strong>
+          </div>
+          <span style="font-size:0.65rem; font-weight:700; background:${s.bg}; color:${s.color}; border:1px solid ${s.border}; padding:0.15rem 0.45rem; border-radius:999px; white-space:nowrap;">${s.label}</span>
+        </div>
+        <div style="font-size:1rem; font-weight:800; color:${s.color};">${item.amount}</div>
+        <div style="font-size:0.73rem; color:var(--text-secondary); line-height:1.5;">${item.when}</div>
+        <div style="font-size:0.68rem; color:var(--text-muted); background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:0.5rem; line-height:1.45;">
+          💡 ${item.tip}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // =====================================================================
+  // FEATURE: MUST-HAVE INDIA TRAVEL APPS GUIDE
+  // =====================================================================
+  function initAppGuide() {
+    const container = document.getElementById("appguide-apps-container");
+    if (!container || container.dataset.loaded) return;
+    container.dataset.loaded = "1";
+
+    const CATEGORIES = [
+      {
+        title: '🚆 Transit & Booking',
+        color: 'rgba(59,130,246,0.2)',
+        apps: [
+          { name: 'IRCTC Rail Connect', icon: '🚂', desc: 'Official Indian Railways app. Book train tickets, check PNR status, and access e-tickets on your phone. Mandatory for train travel.', android: 'https://play.google.com/store/apps/details?id=cris.org.in.prs.ima', ios: 'https://apps.apple.com/in/app/irctc-rail-connect/id1104613073' },
+          { name: 'Ola', icon: '🛺', desc: 'India\'s largest cab aggregator. Book autos, cabs, bike taxis across 250+ cities. Works without UPI — international cards accepted.', android: 'https://play.google.com/store/apps/details?id=com.olacabs.customer', ios: 'https://apps.apple.com/in/app/ola-cabs-book-taxi-auto/id539179365' },
+          { name: 'Rapido', icon: '🛵', desc: 'Cheapest bike taxi and auto app for short city hops. Particularly excellent in Bengaluru, Hyderabad, and Delhi NCR.', android: 'https://play.google.com/store/apps/details?id=com.rapido.passenger', ios: 'https://apps.apple.com/in/app/rapido-bike-taxi-auto/id1177004942' },
+          { name: 'MakeMyTrip', icon: '✈️', desc: 'Book flights, hotels, and holiday packages. Best for deals on domestic air travel and last-minute accommodation.', android: 'https://play.google.com/store/apps/details?id=com.makemytrip', ios: 'https://apps.apple.com/in/app/makemytrip-flight-hotel-bus/id530488359' }
+        ]
+      },
+      {
+        title: '🍛 Food & Delivery',
+        color: 'rgba(239,68,68,0.18)',
+        apps: [
+          { name: 'Zomato', icon: '🟥', desc: 'Restaurant discovery and food delivery. Best for finding local restaurants, reading reviews, and ordering from 500,000+ restaurants nationwide.', android: 'https://play.google.com/store/apps/details?id=com.application.zomato', ios: 'https://apps.apple.com/in/app/zomato-food-delivery-dining/id434613896' },
+          { name: 'Swiggy', icon: '🧡', desc: 'Food delivery rival to Zomato. Often faster delivery times with Swiggy Instamart for groceries in 10–15 minutes in major cities.', android: 'https://play.google.com/store/apps/details?id=bundl.swiggy', ios: 'https://apps.apple.com/in/app/swiggy-food-grocery-delivery/id989540920' }
+        ]
+      },
+      {
+        title: '💳 Payments & Money',
+        color: 'rgba(16,185,129,0.15)',
+        apps: [
+          { name: 'Google Pay (GPay)', icon: '🔵', desc: 'Most widely accepted UPI payment app in India. Works at street stalls, autos, and restaurants. Link to an Indian bank account or use international card features.', android: 'https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user', ios: 'https://apps.apple.com/in/app/google-pay-save-pay/id1193357041' },
+          { name: 'PhonePe', icon: '💜', desc: 'Hugely popular UPI app used at offline stores and malls. Also provides train/bus/flight ticket booking directly in-app.', android: 'https://play.google.com/store/apps/details?id=com.phonepe.app', ios: 'https://apps.apple.com/in/app/phonepe-upi-payment-recharge/id1170055821' },
+          { name: 'Wise (formerly TransferWise)', icon: '💚', desc: 'Best app for converting foreign currency to INR at real exchange rates. Far cheaper than airport currency booths or bank wire transfers.', android: 'https://play.google.com/store/apps/details?id=com.transferwise.android', ios: 'https://apps.apple.com/in/app/wise-money-transfer-app/id612261027' }
+        ]
+      },
+      {
+        title: '🛡️ Safety & Documents',
+        color: 'rgba(139,92,246,0.15)',
+        apps: [
+          { name: 'DigiLocker', icon: '📄', desc: 'Government app to store digital copies of passport, visa, Aadhaar, and driving licence. Legally valid at police checkpoints and airline check-ins.', android: 'https://play.google.com/store/apps/details?id=com.digilocker.android', ios: 'https://apps.apple.com/in/app/digilocker/id1580828083' },
+          { name: 'Truecaller', icon: '📞', desc: 'Identifies unknown callers and blocks spam/scam numbers. Essential for filtering out tourist scam calls and verifying if a number belongs to a real business.', android: 'https://play.google.com/store/apps/details?id=com.truecaller', ios: 'https://apps.apple.com/in/app/truecaller-id-call-blocker/id688142800' },
+          { name: 'Maps.me (offline maps)', icon: '🗺️', desc: 'Download entire Indian state maps for fully offline use — works without data. Better than Google Maps in remote areas like Ladakh and Northeast India.', android: 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro', ios: 'https://apps.apple.com/in/app/maps-me-offline-maps-nav/id510623322' }
+        ]
+      }
+    ];
+
+    CATEGORIES.forEach(cat => {
+      const section = document.createElement('div');
+      section.innerHTML = `
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem; padding-bottom:0.4rem; border-bottom:1px solid rgba(255,255,255,0.07);">
+          <span style="font-size:1.05rem; font-weight:800; color:var(--text-primary);">${cat.title}</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(270px, 1fr)); gap:0.85rem;" class="appguide-cat-grid"></div>
+      `;
+      const grid = section.querySelector('.appguide-cat-grid');
+
+      cat.apps.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'trip-stop-card';
+        card.style = `padding:0.85rem; display:flex; flex-direction:column; gap:0.5rem; background:${cat.color};`;
+        card.innerHTML = `
+          <div style="display:flex; align-items:center; gap:0.55rem;">
+            <span style="font-size:1.4rem; line-height:1;">${app.icon}</span>
+            <strong style="font-size:0.88rem; color:var(--text-primary);">${app.name}</strong>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-secondary); line-height:1.5;">${app.desc}</div>
+          <div style="display:flex; gap:0.5rem; margin-top:0.15rem;">
+            <a href="${app.android}" target="_blank" rel="noopener" style="font-size:0.65rem; font-weight:700; padding:0.25rem 0.55rem; background:rgba(16,185,129,0.1); color:var(--color-success); border:1px solid rgba(16,185,129,0.25); border-radius:6px; text-decoration:none;">▶ Android</a>
+            <a href="${app.ios}" target="_blank" rel="noopener" style="font-size:0.65rem; font-weight:700; padding:0.25rem 0.55rem; background:rgba(59,130,246,0.1); color:var(--color-primary); border:1px solid rgba(59,130,246,0.25); border-radius:6px; text-decoration:none;"> iOS</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      container.appendChild(section);
+    });
   }
 
 });

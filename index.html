@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.7">
+  <link rel="stylesheet" href="index.css?v=21.0.8">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.7</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.8</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4496,19 +4496,45 @@
     </div>
   </div>
 
+  <!-- TAB 62: TIPPING CULTURE & ETIQUETTE GUIDE -->
+  <div id="tab-content-tipguide" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(234, 179, 8, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💰</span> Tipping Culture & Etiquette Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Know exactly when, how much, and whether to tip across every India travel scenario.</p>
+      </div>
+      <div id="tipguide-cards-container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:1.2rem; margin-top:1.5rem;">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 63: MUST-HAVE INDIA TRAVEL APPS -->
+  <div id="tab-content-appguide" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(99, 102, 241, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📱</span> Must-Have India Travel Apps</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Essential apps every tourist needs — from train booking to emergency contacts and digital payments.</p>
+      </div>
+      <div id="appguide-apps-container" style="display:flex; flex-direction:column; gap:1.5rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by category -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.7 (Sacred Etiquette &amp; Speech Board Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.8 (Tipping Guide &amp; Travel Apps Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.7"></script>
-  <script src="trie.js?v=21.0.7"></script>
-  <script src="app.js?v=21.0.7"></script>
+  <script src="cities.js?v=21.0.8"></script>
+  <script src="trie.js?v=21.0.8"></script>
+  <script src="app.js?v=21.0.8"></script>
 </body>
 </html>

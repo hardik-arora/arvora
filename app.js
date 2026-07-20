@@ -543,9 +543,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Dynamic Island Theme Cycler
+    // Dynamic Island Theme Trigger
     if (islandThemeBtn) {
-      islandThemeBtn.addEventListener("click", cycleTheme);
+      islandThemeBtn.addEventListener("click", openThemeModal);
     }
 
     // Sound FX enable toggler
@@ -2544,6 +2544,25 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
   let currentTheme = localStorage.getItem("bharatpulse-theme") || "theme-indigo";
 
+  const THEME_SWATCH_DATA = [
+    { id: "theme-indigo", name: "Arvora Aurora 🌌", bg: "#030712", primary: "#8b5cf6", accent: "#06b6d4" },
+    { id: "theme-saffron", name: "Saffron Sunset 🌅", bg: "#0c0602", primary: "#f97316", accent: "#fbbf24" },
+    { id: "theme-forest", name: "Himalayan Jade 🏔️", bg: "#011711", primary: "#2dd4bf", accent: "#10b981" },
+    { id: "theme-cyber", name: "Neon Horizon ⚡", bg: "#090212", primary: "#d946ef", accent: "#38bdf8" },
+    { id: "theme-monochrome", name: "Titanium Dark ⚙️", bg: "#090d16", primary: "#94a3b8", accent: "#64748b" },
+    { id: "theme-cherry", name: "Velvet Crimson 🍷", bg: "#14020b", primary: "#f43f5e", accent: "#fb7185" },
+    { id: "theme-ocean", name: "Sapphire Abyss 🌊", bg: "#020d1c", primary: "#38bdf8", accent: "#3b82f6" },
+    { id: "theme-solarized", name: "Solar Amber ☀️", bg: "#140c06", primary: "#f59e0b", accent: "#ea580c" },
+    { id: "theme-peacock", name: "Royal Peacock 🦚", bg: "#02091d", primary: "#0d9488", accent: "#2563eb" },
+    { id: "theme-marigold", name: "Marigold Fest 🌼", bg: "#120902", primary: "#f59e0b", accent: "#dc2626" },
+    { id: "theme-monsoon", name: "Monsoon Storm ⛈️", bg: "#060a14", primary: "#38bdf8", accent: "#6366f1" },
+    { id: "theme-thar", name: "Thar Desert Night 🏜️", bg: "#140803", primary: "#d97706", accent: "#c084fc" },
+    { id: "theme-amethyst", name: "Amethyst Crystal 🔮", bg: "#0c0316", primary: "#9333ea", accent: "#e879f9" },
+    { id: "theme-emerald", name: "Emerald Palace 🏛️", bg: "#011910", primary: "#10b981", accent: "#f59e0b" },
+    { id: "theme-synthwave", name: "Retro Synthwave 🌇", bg: "#120216", primary: "#ff007f", accent: "#00f0ff" },
+    { id: "theme-arctic", name: "Glacier Frost ❄️", bg: "#03101c", primary: "#67e8f9", accent: "#38bdf8" }
+  ];
+
   function applyTheme(themeId) {
     THEMES.forEach(t => document.body.classList.remove(t));
     document.body.classList.add(themeId);
@@ -2555,6 +2574,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (themeToggleBtn) {
       themeToggleBtn.innerHTML = `<span>🎨</span> Theme: ${themeName}`;
+    }
+    const headerThemeLabel = document.getElementById("header-theme-label");
+    if (headerThemeLabel) {
+      headerThemeLabel.textContent = themeName;
     }
     const islandThemeBtn = document.getElementById("island-theme-btn");
     if (islandThemeBtn) {
@@ -2569,13 +2592,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function cycleTheme() {
+  function openThemeModal() {
     initAudio();
-    const currentIdx = THEMES.indexOf(currentTheme);
-    const nextIdx = (currentIdx + 1) % THEMES.length;
-    applyTheme(THEMES[nextIdx]);
-    playTone(680, "sine", 0.08, 0.1);
+    const modal = document.getElementById("theme-modal");
+    const backdrop = document.getElementById("theme-backdrop");
+    const grid = document.getElementById("theme-swatch-grid");
+    if (!modal || !grid) return;
+
+    grid.innerHTML = "";
+    THEME_SWATCH_DATA.forEach(t => {
+      const card = document.createElement("div");
+      card.className = `theme-swatch-card ${t.id === currentTheme ? 'active' : ''}`;
+      card.innerHTML = `
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <div class="theme-dots-row">
+            <span class="theme-dot" style="background:${t.bg};"></span>
+            <span class="theme-dot" style="background:${t.primary};"></span>
+            <span class="theme-dot" style="background:${t.accent};"></span>
+          </div>
+          <strong style="font-size:0.82rem; color:var(--text-primary);">${t.name}</strong>
+        </div>
+        ${t.id === currentTheme ? '<span style="font-size:0.75rem; color:var(--color-primary); font-weight:800;">✓ Active</span>' : ''}
+      `;
+      card.addEventListener("click", () => {
+        applyTheme(t.id);
+        playTone(720, "sine", 0.08, 0.1);
+        openThemeModal();
+      });
+      grid.appendChild(card);
+    });
+
+    modal.classList.add("open");
+    if (backdrop) backdrop.style.display = "block";
+    playTone(550, "sine", 0.08, 0.1);
   }
+
+  function closeThemeModal() {
+    const modal = document.getElementById("theme-modal");
+    const backdrop = document.getElementById("theme-backdrop");
+    if (modal) modal.classList.remove("open");
+    if (backdrop) backdrop.style.display = "none";
+  }
+
+  // Bind Theme Studio Triggers
+  const headerThemeTrigger = document.getElementById("header-theme-trigger");
+  if (headerThemeTrigger) headerThemeTrigger.addEventListener("click", openThemeModal);
+
+  const floatingThemeBtn = document.getElementById("floating-theme-btn");
+  if (floatingThemeBtn) floatingThemeBtn.addEventListener("click", openThemeModal);
+
+  const islandThemeBtn = document.getElementById("island-theme-btn");
+  if (islandThemeBtn) islandThemeBtn.addEventListener("click", openThemeModal);
+
+  const themeModalCloseBtn = document.getElementById("theme-modal-close-btn");
+  if (themeModalCloseBtn) themeModalCloseBtn.addEventListener("click", closeThemeModal);
+
+  const themeBackdrop = document.getElementById("theme-backdrop");
+  if (themeBackdrop) themeBackdrop.addEventListener("click", closeThemeModal);
 
   // Apply default or saved theme on boot
   applyTheme(currentTheme);

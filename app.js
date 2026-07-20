@@ -2531,7 +2531,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // THEME SWITCHER LOGIC
   // =====================================================================
   const THEMES = ["theme-indigo", "theme-saffron", "theme-forest", "theme-cyber", "theme-monochrome", "theme-cherry", "theme-ocean", "theme-solarized"];
-  const THEME_NAMES = ["Midnight Indigo", "Saffron Sunset", "Emerald Forest", "Cyberpunk Neon", "Monochrome Slate", "Cherry Blossom", "Ocean Deep", "Solarized Amber"];
+  const THEME_NAMES = ["Arvora Aurora 🌌", "Saffron Sunset 🌅", "Himalayan Jade 🏔️", "Neon Horizon ⚡", "Titanium Dark ⚙️", "Velvet Crimson 🍷", "Sapphire Abyss 🌊", "Solar Amber ☀️"];
   let currentTheme = localStorage.getItem("bharatpulse-theme") || "theme-indigo";
 
   function applyTheme(themeId) {
@@ -2540,14 +2540,22 @@ document.addEventListener("DOMContentLoaded", () => {
     currentTheme = themeId;
     localStorage.setItem("bharatpulse-theme", themeId);
     
+    const nameIdx = THEMES.indexOf(themeId);
+    const themeName = THEME_NAMES[nameIdx] || "Arvora Aurora 🌌";
+
     if (themeToggleBtn) {
-      const nameIdx = THEMES.indexOf(themeId);
-      themeToggleBtn.innerHTML = `<span>🎨</span> Theme: ${THEME_NAMES[nameIdx]}`;
+      themeToggleBtn.innerHTML = `<span>🎨</span> Theme: ${themeName}`;
     }
     const islandThemeBtn = document.getElementById("island-theme-btn");
     if (islandThemeBtn) {
-      const nameIdx = THEMES.indexOf(themeId);
-      islandThemeBtn.title = `Vibe: ${THEME_NAMES[nameIdx]}`;
+      islandThemeBtn.title = `Vibe: ${themeName}`;
+    }
+    const islandCompactLabel = document.getElementById("island-compact-label");
+    if (islandCompactLabel) {
+      islandCompactLabel.textContent = `Arvora · ${themeName}`;
+      setTimeout(() => {
+        if (islandCompactLabel) islandCompactLabel.textContent = "Arvora · Autocomplete 🔍";
+      }, 2500);
     }
   }
 
@@ -2556,7 +2564,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentIdx = THEMES.indexOf(currentTheme);
     const nextIdx = (currentIdx + 1) % THEMES.length;
     applyTheme(THEMES[nextIdx]);
-    playTone(600, "sine", 0.08, 0.1);
+    playTone(680, "sine", 0.08, 0.1);
   }
 
   // Apply default or saved theme on boot

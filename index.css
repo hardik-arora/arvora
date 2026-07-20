@@ -914,7 +914,14 @@ header {
   z-index: 1100;
   background: rgba(2, 6, 23, 0.7) !important;
   backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
   display: none;
+  pointer-events: none;
+}
+
+.sidebar-backdrop.active,
+.sidebar-backdrop[style*="display: block"] {
+  pointer-events: auto !important;
 }
 
 /* App container takes full screen width */

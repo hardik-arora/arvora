@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#020617">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.10">
+  <link rel="stylesheet" href="index.css?v=21.0.11">
 </head>
 <body>
   <!-- Site access lock overlay -->
@@ -43,7 +43,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.10</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.11</span>
       </div>
       
       <div class="island-shortcuts">
@@ -80,9 +80,14 @@
           <span style="opacity:0.4;">/</span>
           <span id="active-feature-breadcrumb" style="color:var(--text-primary); font-weight:700;">Autocomplete Engine</span>
         </div>
-        <button id="header-search-trigger" class="visualizer-btn" style="display:flex; align-items:center; gap:8px; font-size:0.75rem; padding:0.45rem 0.85rem; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
-          <span>🔍</span> Search 40+ Features... <kbd style="background:rgba(255,255,255,0.1); padding:1px 4px; border-radius:3px; font-size:0.65rem; font-family:inherit; margin-left:4px;">Cmd K</kbd>
-        </button>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <button id="header-theme-trigger" class="visualizer-btn" style="display:flex; align-items:center; gap:8px; font-size:0.75rem; padding:0.45rem 0.85rem; border-radius:12px; background:linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(6, 182, 212, 0.18)); border:1px solid rgba(139, 92, 246, 0.4); color:var(--text-primary); font-weight:700; cursor:pointer;">
+            <span>🎨</span> <span id="header-theme-label">Theme Studio (16)</span>
+          </button>
+          <button id="header-search-trigger" class="visualizer-btn" style="display:flex; align-items:center; gap:8px; font-size:0.75rem; padding:0.45rem 0.85rem; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+            <span>🔍</span> Search 40+ Features... <kbd style="background:rgba(255,255,255,0.1); padding:1px 4px; border-radius:3px; font-size:0.65rem; font-family:inherit; margin-left:4px;">Cmd K</kbd>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -105,6 +110,27 @@
   </div>
   <!-- Drawer backdrop (click to close) -->
   <div id="sidebar-backdrop" class="sidebar-backdrop" style="display:none;"></div>
+
+  <!-- STANDALONE THEME STUDIO MODAL -->
+  <div id="theme-modal" class="theme-modal">
+    <div class="drawer-header">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="font-size:1.1rem;">🎨</span>
+        <span class="drawer-title" style="font-size:0.9rem; color:var(--text-primary);">Arvora Theme Studio</span>
+      </div>
+      <button id="theme-modal-close-btn" class="drawer-close-btn" title="Close (ESC)">✕</button>
+    </div>
+    <div style="padding:0.65rem 1rem; font-size:0.75rem; color:var(--text-secondary); border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02);">
+      Select any of the 16 luminescent aesthetic color suites below. Every theme dynamically updates the ambient nebulas, glow accents, card borders, and brand typography gradients.
+    </div>
+    <div id="theme-swatch-grid" class="theme-swatch-grid">
+      <!-- JS dynamically renders 16 theme swatch cards -->
+    </div>
+  </div>
+  <div id="theme-backdrop" class="sidebar-backdrop" style="display:none;"></div>
+
+  <!-- FLOATING ACTION THEME BUTTON -->
+  <button id="floating-theme-btn" class="floating-theme-btn" title="Open Theme Studio (16 Themes)">🎨</button>
 
     <!-- Metrics Dashboard Row (Shared) -->
     <div class="metrics-row">
@@ -4527,14 +4553,14 @@
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.10 (16 Custom Arvora Color Themes Suite) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.0.11 (Arvora Theme Studio &amp; Standalone Triggers Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
   </footer>
 
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.10"></script>
-  <script src="trie.js?v=21.0.10"></script>
-  <script src="app.js?v=21.0.10"></script>
+  <script src="cities.js?v=21.0.11"></script>
+  <script src="trie.js?v=21.0.11"></script>
+  <script src="app.js?v=21.0.11"></script>
 </body>
 </html>

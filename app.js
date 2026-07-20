@@ -491,42 +491,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const t0 = performance.now();
     
     radixTrie = new RadixTrie();
-    standardTrie = new StandardTrie();
-    
     for (let i = 0; i < citiesArray.length; i++) {
       radixTrie.insert(citiesArray[i]);
-      standardTrie.insert(citiesArray[i]);
     }
     
     const t1 = performance.now();
     const buildDurationMs = t1 - t0;
 
-    const rtNodes = radixTrie.getNodeCount();
-    const stNodes = standardTrie.getNodeCount();
-    const rtChars = radixTrie.getEdgeCharacterCount();
-    
-    const stChars = Math.max(0, stNodes - 1);
-    const nodeReductionPct = ((stNodes - rtNodes) / stNodes) * 100;
+    safeText("stat-cities-count", citiesArray.length.toLocaleString());
+    safeText("stat-build-time", `${buildDurationMs.toFixed(2)} ms`);
+    safeText("island-latency-pill", `${buildDurationMs.toFixed(3)} ms`);
 
-    if (statCitiesCount) statCitiesCount.textContent = citiesArray.length.toLocaleString();
-    if (statBuildTime) statBuildTime.textContent = `${buildDurationMs.toFixed(2)} ms`;
-    if (statNodeReduction) statNodeReduction.textContent = `${nodeReductionPct.toFixed(1)}%`;
-    
-    const elStNodes = document.getElementById("table-st-nodes");
-    if (elStNodes) elStNodes.textContent = stNodes.toLocaleString();
-    const elRtNodes = document.getElementById("table-rt-nodes");
-    if (elRtNodes) elRtNodes.textContent = rtNodes.toLocaleString();
-    const elNodeSavings = document.getElementById("table-node-savings");
-    if (elNodeSavings) elNodeSavings.textContent = `-${nodeReductionPct.toFixed(1)}%`;
-    
-    const elStChars = document.getElementById("table-st-chars");
-    if (elStChars) elStChars.textContent = stChars.toLocaleString();
-    const elRtChars = document.getElementById("table-rt-chars");
-    if (elRtChars) elRtChars.textContent = rtChars.toLocaleString();
-    
-    const charSavingsPct = ((stChars - rtChars) / stChars) * 100;
-    const elCharSavings = document.getElementById("table-char-savings");
-    if (elCharSavings) elCharSavings.textContent = `-${charSavingsPct.toFixed(1)}%`;
+    // Defer secondary benchmark tree calculations asynchronously to keep UI 100% instant and non-blocking
+    setTimeout(() => {
+      standardTrie = new StandardTrie();
+      for (let i = 0; i < citiesArray.length; i++) {
+        standardTrie.insert(citiesArray[i]);
+      }
+      const rtNodes = radixTrie.getNodeCount();
+      const stNodes = standardTrie.getNodeCount();
+      const rtChars = radixTrie.getEdgeCharacterCount();
+      
+      const stChars = Math.max(0, stNodes - 1);
+      const nodeReductionPct = ((stNodes - rtNodes) / stNodes) * 100;
+
+      safeText("stat-node-reduction", `${nodeReductionPct.toFixed(1)}%`);
+      safeText("table-st-nodes", stNodes.toLocaleString());
+      safeText("table-rt-nodes", rtNodes.toLocaleString());
+      safeText("table-node-savings", `-${nodeReductionPct.toFixed(1)}%`);
+      safeText("table-st-chars", stChars.toLocaleString());
+      safeText("table-rt-chars", rtChars.toLocaleString());
+      const charSavingsPct = ((stChars - rtChars) / stChars) * 100;
+      safeText("table-char-savings", `-${charSavingsPct.toFixed(1)}%`);
+    }, 50);
   }
 
   function setupPlaygroundDefault() {

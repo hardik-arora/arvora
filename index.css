@@ -10,184 +10,184 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Default Theme (Midnight Indigo) */
-  --bg-primary: #020617;
-  --bg-secondary: #0f172a;
-  --card-bg: rgba(15, 23, 42, 0.65);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --color-primary: #3b82f6;
-  --color-primary-glow: rgba(59, 130, 246, 0.35);
-  --color-accent: #06b6d4;
-  --color-accent-glow: rgba(6, 182, 212, 0.35);
-  --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
-  --color-purple: #a855f7;
-  --color-purple-glow: rgba(168, 85, 247, 0.25);
-  --color-theme-glow-1: rgba(59, 130, 246, 0.35);
-  --color-theme-glow-2: rgba(6, 182, 212, 0.35);
-}
-
-body.theme-indigo {
-  --bg-primary: #020617;
-  --bg-secondary: #0f172a;
-  --card-bg: rgba(15, 23, 42, 0.65);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --color-primary: #3b82f6;
-  --color-primary-glow: rgba(59, 130, 246, 0.35);
-  --color-accent: #06b6d4;
-  --color-accent-glow: rgba(6, 182, 212, 0.35);
-  --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
-  --color-purple: #a855f7;
-  --color-purple-glow: rgba(168, 85, 247, 0.25);
-  --color-theme-glow-1: rgba(59, 130, 246, 0.35);
-  --color-theme-glow-2: rgba(6, 182, 212, 0.35);
-}
-
-body.theme-saffron {
-  --bg-primary: #0a0602;
-  --bg-secondary: #170e05;
-  --card-bg: rgba(23, 14, 5, 0.65);
-  --card-border: rgba(249, 115, 22, 0.15);
-  --text-primary: #fff7ed;
-  --text-secondary: #fdba74;
-  --text-muted: #ca8a04;
-  --color-primary: #f97316;
-  --color-primary-glow: rgba(249, 115, 22, 0.35);
-  --color-accent: #f59e0b;
-  --color-accent-glow: rgba(245, 158, 11, 0.35);
-  --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
-  --color-purple: #ec4899;
-  --color-purple-glow: rgba(236, 72, 153, 0.25);
-  --color-theme-glow-1: rgba(249, 115, 22, 0.3);
-  --color-theme-glow-2: rgba(245, 158, 11, 0.25);
-}
-
-body.theme-forest {
-  --bg-primary: #021c15;
-  --bg-secondary: #052e24;
-  --card-bg: rgba(5, 46, 36, 0.65);
-  --card-border: rgba(16, 185, 129, 0.15);
-  --text-primary: #f0fdf4;
-  --text-secondary: #86efac;
-  --text-muted: #22c55e;
-  --color-primary: #10b981;
-  --color-primary-glow: rgba(16, 185, 129, 0.35);
-  --color-accent: #14b8a6;
-  --color-accent-glow: rgba(20, 184, 166, 0.35);
-  --color-success: #34d399;
-  --color-success-glow: rgba(52, 211, 153, 0.25);
-  --color-purple: #3b82f6;
-  --color-purple-glow: rgba(59, 130, 246, 0.25);
-  --color-theme-glow-1: rgba(16, 185, 129, 0.3);
-  --color-theme-glow-2: rgba(20, 184, 166, 0.25);
-}
-
-body.theme-cyber {
-  --bg-primary: #07020d;
-  --bg-secondary: #120524;
-  --card-bg: rgba(18, 5, 36, 0.65);
-  --card-border: rgba(236, 72, 153, 0.15);
-  --text-primary: #fdf2f8;
-  --text-secondary: #f472b6;
-  --text-muted: #d946ef;
-  --color-primary: #d946ef;
-  --color-primary-glow: rgba(217, 70, 239, 0.35);
-  --color-accent: #f43f5e;
-  --color-accent-glow: rgba(244, 63, 94, 0.35);
-  --color-success: #06b6d4;
-  --color-success-glow: rgba(6, 182, 212, 0.25);
-  --color-purple: #a855f7;
-  --color-purple-glow: rgba(168, 85, 247, 0.25);
-  --color-theme-glow-1: rgba(217, 70, 239, 0.3);
-  --color-theme-glow-2: rgba(244, 63, 94, 0.25);
-}
-
-body.theme-monochrome {
-  --bg-primary: #0b0f19;
-  --bg-secondary: #1e293b;
-  --card-bg: rgba(30, 41, 59, 0.65);
-  --card-border: rgba(255, 255, 255, 0.08);
+  /* Signature Theme (Arvora Aurora / Cosmic Glow) */
+  --bg-primary: #030712;
+  --bg-secondary: #0b1120;
+  --card-bg: rgba(15, 23, 42, 0.72);
+  --card-border: rgba(139, 92, 246, 0.2);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
-  --color-primary: #64748b;
-  --color-primary-glow: rgba(100, 116, 139, 0.35);
-  --color-accent: #475569;
-  --color-accent-glow: rgba(71, 85, 105, 0.35);
+  --color-primary: #8b5cf6;
+  --color-primary-glow: rgba(139, 92, 246, 0.4);
+  --color-accent: #06b6d4;
+  --color-accent-glow: rgba(6, 182, 212, 0.4);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-purple: #ec4899;
+  --color-purple-glow: rgba(236, 72, 153, 0.3);
+  --color-theme-glow-1: rgba(139, 92, 246, 0.45);
+  --color-theme-glow-2: rgba(6, 182, 212, 0.45);
+}
+
+body.theme-indigo {
+  --bg-primary: #030712;
+  --bg-secondary: #0b1120;
+  --card-bg: rgba(15, 23, 42, 0.72);
+  --card-border: rgba(139, 92, 246, 0.2);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --color-primary: #8b5cf6;
+  --color-primary-glow: rgba(139, 92, 246, 0.4);
+  --color-accent: #06b6d4;
+  --color-accent-glow: rgba(6, 182, 212, 0.4);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-purple: #ec4899;
+  --color-purple-glow: rgba(236, 72, 153, 0.3);
+  --color-theme-glow-1: rgba(139, 92, 246, 0.45);
+  --color-theme-glow-2: rgba(6, 182, 212, 0.45);
+}
+
+body.theme-saffron {
+  --bg-primary: #0c0602;
+  --bg-secondary: #1a0e05;
+  --card-bg: rgba(28, 14, 5, 0.75);
+  --card-border: rgba(249, 115, 22, 0.22);
+  --text-primary: #fff7ed;
+  --text-secondary: #fed7aa;
+  --text-muted: #f97316;
+  --color-primary: #f97316;
+  --color-primary-glow: rgba(249, 115, 22, 0.45);
+  --color-accent: #fbbf24;
+  --color-accent-glow: rgba(251, 191, 36, 0.4);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-purple: #f43f5e;
+  --color-purple-glow: rgba(244, 63, 94, 0.3);
+  --color-theme-glow-1: rgba(249, 115, 22, 0.45);
+  --color-theme-glow-2: rgba(251, 191, 36, 0.4);
+}
+
+body.theme-forest {
+  --bg-primary: #011711;
+  --bg-secondary: #042d22;
+  --card-bg: rgba(4, 45, 34, 0.75);
+  --card-border: rgba(45, 212, 191, 0.22);
+  --text-primary: #f0fdf4;
+  --text-secondary: #99f6e4;
+  --text-muted: #2dd4bf;
+  --color-primary: #2dd4bf;
+  --color-primary-glow: rgba(45, 212, 191, 0.45);
+  --color-accent: #10b981;
+  --color-accent-glow: rgba(16, 185, 129, 0.4);
+  --color-success: #34d399;
+  --color-success-glow: rgba(52, 211, 153, 0.3);
+  --color-purple: #38bdf8;
+  --color-purple-glow: rgba(56, 189, 248, 0.3);
+  --color-theme-glow-1: rgba(45, 212, 191, 0.42);
+  --color-theme-glow-2: rgba(16, 185, 129, 0.4);
+}
+
+body.theme-cyber {
+  --bg-primary: #090212;
+  --bg-secondary: #180630;
+  --card-bg: rgba(24, 6, 48, 0.75);
+  --card-border: rgba(217, 70, 239, 0.25);
+  --text-primary: #fdf2f8;
+  --text-secondary: #f472b6;
+  --text-muted: #c084fc;
+  --color-primary: #d946ef;
+  --color-primary-glow: rgba(217, 70, 239, 0.45);
+  --color-accent: #38bdf8;
+  --color-accent-glow: rgba(56, 189, 248, 0.4);
+  --color-success: #10b981;
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-purple: #a855f7;
+  --color-purple-glow: rgba(168, 85, 247, 0.3);
+  --color-theme-glow-1: rgba(217, 70, 239, 0.45);
+  --color-theme-glow-2: rgba(56, 189, 248, 0.4);
+}
+
+body.theme-monochrome {
+  --bg-primary: #090d16;
+  --bg-secondary: #182232;
+  --card-bg: rgba(24, 34, 50, 0.75);
+  --card-border: rgba(148, 163, 184, 0.2);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --color-primary: #94a3b8;
+  --color-primary-glow: rgba(148, 163, 184, 0.35);
+  --color-accent: #64748b;
+  --color-accent-glow: rgba(100, 116, 139, 0.35);
   --color-success: #cbd5e1;
-  --color-success-glow: rgba(203, 213, 225, 0.25);
-  --color-purple: #94a3b8;
-  --color-purple-glow: rgba(148, 163, 184, 0.25);
-  --color-theme-glow-1: rgba(100, 116, 139, 0.3);
-  --color-theme-glow-2: rgba(71, 85, 105, 0.25);
+  --color-success-glow: rgba(203, 213, 225, 0.3);
+  --color-purple: #e2e8f0;
+  --color-purple-glow: rgba(226, 232, 240, 0.3);
+  --color-theme-glow-1: rgba(148, 163, 184, 0.32);
+  --color-theme-glow-2: rgba(100, 116, 139, 0.28);
 }
 
 body.theme-cherry {
-  --bg-primary: #12030b;
-  --bg-secondary: #270617;
-  --card-bg: rgba(39, 6, 23, 0.65);
-  --card-border: rgba(244, 63, 94, 0.15);
+  --bg-primary: #14020b;
+  --bg-secondary: #2b0618;
+  --card-bg: rgba(43, 6, 24, 0.75);
+  --card-border: rgba(244, 63, 94, 0.22);
   --text-primary: #fff1f2;
   --text-secondary: #fecdd3;
-  --text-muted: #fda4af;
+  --text-muted: #fb7185;
   --color-primary: #f43f5e;
-  --color-primary-glow: rgba(244, 63, 94, 0.35);
-  --color-accent: #db2777;
-  --color-accent-glow: rgba(219, 39, 119, 0.35);
+  --color-primary-glow: rgba(244, 63, 94, 0.45);
+  --color-accent: #fb7185;
+  --color-accent-glow: rgba(251, 113, 133, 0.4);
   --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
-  --color-purple: #c084fc;
-  --color-purple-glow: rgba(192, 132, 252, 0.25);
-  --color-theme-glow-1: rgba(244, 63, 94, 0.3);
-  --color-theme-glow-2: rgba(219, 39, 119, 0.25);
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-purple: #e879f9;
+  --color-purple-glow: rgba(232, 121, 249, 0.3);
+  --color-theme-glow-1: rgba(244, 63, 94, 0.42);
+  --color-theme-glow-2: rgba(251, 113, 133, 0.38);
 }
 
 body.theme-ocean {
-  --bg-primary: #020b18;
-  --bg-secondary: #031e3d;
-  --card-bg: rgba(3, 30, 61, 0.65);
-  --card-border: rgba(14, 165, 233, 0.15);
+  --bg-primary: #020d1c;
+  --bg-secondary: #042247;
+  --card-bg: rgba(4, 34, 71, 0.75);
+  --card-border: rgba(56, 189, 248, 0.22);
   --text-primary: #f0f9ff;
   --text-secondary: #bae6fd;
-  --text-muted: #7dd3fc;
-  --color-primary: #0284c7;
-  --color-primary-glow: rgba(2, 132, 199, 0.35);
-  --color-accent: #0ea5e9;
-  --color-accent-glow: rgba(14, 165, 233, 0.35);
+  --text-muted: #38bdf8;
+  --color-primary: #38bdf8;
+  --color-primary-glow: rgba(56, 189, 248, 0.45);
+  --color-accent: #3b82f6;
+  --color-accent-glow: rgba(59, 130, 246, 0.4);
   --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
+  --color-success-glow: rgba(16, 185, 129, 0.3);
   --color-purple: #818cf8;
-  --color-purple-glow: rgba(129, 140, 248, 0.25);
-  --color-theme-glow-1: rgba(2, 132, 199, 0.3);
-  --color-theme-glow-2: rgba(14, 165, 233, 0.25);
+  --color-purple-glow: rgba(129, 140, 248, 0.3);
+  --color-theme-glow-1: rgba(56, 189, 248, 0.42);
+  --color-theme-glow-2: rgba(59, 130, 246, 0.38);
 }
 
 body.theme-solarized {
-  --bg-primary: #15100c;
-  --bg-secondary: #2c1b10;
-  --card-bg: rgba(44, 27, 16, 0.65);
-  --card-border: rgba(245, 158, 11, 0.15);
+  --bg-primary: #140c06;
+  --bg-secondary: #2b190c;
+  --card-bg: rgba(43, 25, 12, 0.75);
+  --card-border: rgba(245, 158, 11, 0.22);
   --text-primary: #fef3c7;
   --text-secondary: #fde68a;
-  --text-muted: #fcd34d;
-  --color-primary: #d97706;
-  --color-primary-glow: rgba(217, 119, 6, 0.35);
-  --color-accent: #b45309;
-  --color-accent-glow: rgba(180, 83, 9, 0.35);
+  --text-muted: #fbbf24;
+  --color-primary: #f59e0b;
+  --color-primary-glow: rgba(245, 158, 11, 0.45);
+  --color-accent: #ea580c;
+  --color-accent-glow: rgba(234, 88, 12, 0.4);
   --color-success: #10b981;
-  --color-success-glow: rgba(16, 185, 129, 0.25);
-  --color-purple: #854d0e;
-  --color-purple-glow: rgba(133, 77, 14, 0.25);
-  --color-theme-glow-1: rgba(217, 119, 6, 0.3);
-  --color-theme-glow-2: rgba(180, 83, 9, 0.25);
+  --color-success-glow: rgba(16, 185, 129, 0.3);
+  --color-purple: #d97706;
+  --color-purple-glow: rgba(217, 119, 6, 0.3);
+  --color-theme-glow-1: rgba(245, 158, 11, 0.4);
+  --color-theme-glow-2: rgba(234, 88, 12, 0.35);
 }
 
 * {
@@ -296,19 +296,17 @@ header {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   background: linear-gradient(120deg,
-    #a78bfa 0%,
-    #818cf8 20%,
-    #67e8f9 40%,
-    #a78bfa 60%,
-    #f472b6 80%,
-    #818cf8 100%
+    var(--color-primary) 0%,
+    var(--color-accent) 35%,
+    var(--color-purple) 70%,
+    var(--color-primary) 100%
   );
   background-size: 250% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: arvora-shimmer 4s linear infinite;
-  filter: drop-shadow(0 0 18px rgba(129, 140, 248, 0.55));
+  filter: drop-shadow(0 0 20px var(--color-primary-glow));
   margin-bottom: 0.1rem;
   position: relative;
   display: inline-block;
@@ -320,9 +318,9 @@ header {
   height: 3px;
   width: 60%;
   margin: 0.15rem auto 0;
-  background: linear-gradient(90deg, #818cf8, #67e8f9, #f472b6);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-purple));
   border-radius: 9999px;
-  box-shadow: 0 0 10px rgba(103, 232, 249, 0.5);
+  box-shadow: 0 0 12px var(--color-primary-glow);
   animation: arvora-bar-pulse 3s ease-in-out infinite;
 }
 

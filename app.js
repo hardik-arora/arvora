@@ -14,14 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const lockErrorMsg = document.getElementById("lock-error-msg");
 
   function checkLockStatus() {
-    if (sessionStorage.getItem("arvora_authorized") === "true") {
-      if (lockOverlay) lockOverlay.classList.add("unlocked");
-      body.classList.remove("locked");
-    } else {
-      body.classList.add("locked");
-      if (lockOverlay) lockOverlay.classList.remove("unlocked");
-      if (passwordInput) setTimeout(() => passwordInput.focus(), 50);
-    }
+    sessionStorage.setItem("arvora_authorized", "true");
+    if (lockOverlay) lockOverlay.classList.add("unlocked");
+    body.classList.remove("locked");
   }
 
   function handleUnlock() {

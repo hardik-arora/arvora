@@ -2530,8 +2530,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================================
   // THEME SWITCHER LOGIC
   // =====================================================================
-  const THEMES = ["theme-indigo", "theme-saffron", "theme-forest", "theme-cyber", "theme-monochrome", "theme-cherry", "theme-ocean", "theme-solarized"];
-  const THEME_NAMES = ["Arvora Aurora 🌌", "Saffron Sunset 🌅", "Himalayan Jade 🏔️", "Neon Horizon ⚡", "Titanium Dark ⚙️", "Velvet Crimson 🍷", "Sapphire Abyss 🌊", "Solar Amber ☀️"];
+  const THEMES = [
+    "theme-indigo", "theme-saffron", "theme-forest", "theme-cyber",
+    "theme-monochrome", "theme-cherry", "theme-ocean", "theme-solarized",
+    "theme-peacock", "theme-marigold", "theme-monsoon", "theme-thar",
+    "theme-amethyst", "theme-emerald", "theme-synthwave", "theme-arctic"
+  ];
+  const THEME_NAMES = [
+    "Arvora Aurora 🌌", "Saffron Sunset 🌅", "Himalayan Jade 🏔️", "Neon Horizon ⚡",
+    "Titanium Dark ⚙️", "Velvet Crimson 🍷", "Sapphire Abyss 🌊", "Solar Amber ☀️",
+    "Royal Peacock 🦚", "Marigold Fest 🌼", "Monsoon Storm ⛈️", "Thar Desert Night 🏜️",
+    "Amethyst Crystal 🔮", "Emerald Palace 🏛️", "Retro Synthwave 🌇", "Glacier Frost ❄️"
+  ];
   let currentTheme = localStorage.getItem("bharatpulse-theme") || "theme-indigo";
 
   function applyTheme(themeId) {

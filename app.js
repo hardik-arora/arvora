@@ -5,6 +5,24 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // --- BULLETPROOF DOM HELPER UTILITIES ---
+  function safeText(id, text) {
+    const el = typeof id === 'string' ? document.getElementById(id) : id;
+    if (el) el.textContent = text;
+  }
+  function safeHtml(id, html) {
+    const el = typeof id === 'string' ? document.getElementById(id) : id;
+    if (el) el.innerHTML = html;
+  }
+  function safeDisplay(id, displayVal) {
+    const el = typeof id === 'string' ? document.getElementById(id) : id;
+    if (el) el.style.display = displayVal;
+  }
+  function safeVal(id, defaultVal = '') {
+    const el = typeof id === 'string' ? document.getElementById(id) : id;
+    return el ? el.value : defaultVal;
+  }
+
   // --- SITE ACCESS PROTECTION ---
   const correctPasswordHash = "27672";
   const body = document.body;
@@ -1714,10 +1732,10 @@ document.addEventListener("DOMContentLoaded", () => {
     exportCodeBlock.textContent = codeStr;
 
     // 5. Update Statistics elements
-    document.getElementById("logistics-cost").textContent = `${records.length} city record${records.length === 1 ? '' : 's'}`;
+    safeText("logistics-cost", `${records.length} city record${records.length === 1 ? '' : 's'}`);
     
     const sizeKb = (codeStr.length / 1024).toFixed(2);
-    document.getElementById("logistics-zip").textContent = `${sizeKb} KB`;
+    safeText("logistics-zip", `${sizeKb} KB`);
   }
 
   function capitalizeWord(word) {
@@ -2004,7 +2022,7 @@ document.addEventListener("DOMContentLoaded", () => {
       totalLen += c.length;
     });
     const avgLen = (totalLen / cities.length).toFixed(1);
-    document.getElementById('analytics-avg-len').textContent = avgLen;
+    safeText('analytics-avg-len', avgLen);
 
     const lenChart = document.getElementById('analytics-length-chart');
     const lenLabels = document.getElementById('analytics-length-labels');
@@ -2038,7 +2056,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const letterKeys = Object.keys(letterMap).sort();
     const letterMax = Math.max(...Object.values(letterMap));
     const topLetter = letterKeys.reduce((a, b) => (letterMap[a] || 0) >= (letterMap[b] || 0) ? a : b, letterKeys[0]);
-    document.getElementById('analytics-top-letter').textContent = `"${topLetter.toUpperCase()}" (${letterMap[topLetter].toLocaleString()} cities)`;
+    safeText('analytics-top-letter', `"${topLetter.toUpperCase()}" (${letterMap[topLetter].toLocaleString()} cities)`);
 
     const letterChart = document.getElementById('analytics-letter-chart');
     const letterLabels = document.getElementById('analytics-letter-labels');
@@ -2238,14 +2256,14 @@ document.addEventListener("DOMContentLoaded", () => {
     
     quizDiff.addEventListener('change', () => {
       quizStreak = 0;
-      document.getElementById('quiz-streak').textContent = '0';
+      safeText('quiz-streak', '0');
       generateQuizQuestion();
     });
 
     btnQuizNext.addEventListener('click', () => {
       generateQuizQuestion();
       btnQuizNext.style.display = 'none';
-      document.getElementById('quiz-feedback').textContent = '';
+      safeText('quiz-feedback', '');
     });
 
     generateQuizQuestion();
@@ -2349,9 +2367,9 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
 
-        document.getElementById('quiz-score').textContent = quizScore.toLocaleString();
-        document.getElementById('quiz-streak').textContent = quizStreak.toLocaleString();
-        document.getElementById('btn-quiz-next').style.display = 'block';
+        safeText('quiz-score', quizScore.toLocaleString());
+        safeText('quiz-streak', quizStreak.toLocaleString());
+        safeDisplay('btn-quiz-next', 'block');
       });
 
       optionsContainer.appendChild(btn);
@@ -2417,18 +2435,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const trainHrs = dist / 75;
       const flightHrs = dist / 800 + 0.4; // constant overhead for take off
 
-      document.getElementById('travel-dist').textContent = `${Math.round(dist).toLocaleString()} km`;
-      document.getElementById('travel-drive').textContent = driveHrs < 1 ? `${Math.round(driveHrs * 60)} min` : `${Math.floor(driveHrs)}h ${Math.round((driveHrs % 1) * 60)}m`;
-      document.getElementById('travel-flight').textContent = `${Math.floor(flightHrs)}h ${Math.round((flightHrs % 1) * 60)}m`;
+      safeText('travel-dist', `${Math.round(dist).toLocaleString()} km`);
+      safeText('travel-drive', driveHrs < 1 ? `${Math.round(driveHrs * 60)} min` : `${Math.floor(driveHrs)}h ${Math.round((driveHrs % 1) * 60)}m`);
+      safeText('travel-flight', `${Math.floor(flightHrs)}h ${Math.round((flightHrs % 1) * 60)}m`);
 
       // Log text description
       const log = `🎒 <strong>Journey Outline:</strong> Depart from <strong>${capitalizeWord(startCity)}</strong> (${f1.state}, PIN: ${f1.zipCode}). Heading through <strong>${f1.district}</strong>. Traversing cross-country coordinates to reach <strong>${capitalizeWord(endCity)}</strong> (${f2.state}, PIN: ${f2.zipCode}, regional district: <strong>${f2.district}</strong>). Total air displacement is ${Math.round(dist)} km.`;
-      document.getElementById('travel-diary').innerHTML = log;
+      safeHtml('travel-diary', log);
 
       // Draw SVG Route
       drawRouteSvg(c1, c2, capitalizeWord(startCity), capitalizeWord(endCity));
 
-      document.getElementById('travel-output').style.display = 'flex';
+      safeDisplay('travel-output', 'flex');
       playTone(587.33, "sine", 0.2, 0.15); // D5
     });
   }
@@ -3302,7 +3320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tripStops.length === 0) {
       list.innerHTML = '';
       if (emptyState) { emptyState.style.display = 'block'; list.appendChild(emptyState); }
-      document.getElementById('trip-itinerary-panel').style.display = 'none';
+      safeDisplay('trip-itinerary-panel', 'none');
       if (countLabel) countLabel.textContent = '0 cities';
       updateSummary();
       return;
@@ -3477,10 +3495,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fmt = (n) => n >= 100000 ? `₹${(n/100000).toFixed(1)}L` : n >= 1000 ? `₹${(n/1000).toFixed(1)}K` : `₹${n}`;
 
-    document.getElementById('summary-cities').textContent = cities;
-    document.getElementById('summary-days').textContent = totalDays;
-    document.getElementById('summary-travels').textContent = travels;
-    document.getElementById('summary-budget').textContent = cities > 0 ? fmt(estBudget) : '-';
+    safeText('summary-cities', cities);
+    safeText('summary-days', totalDays);
+    safeText('summary-travels', travels);
+    safeText('summary-budget', cities > 0 ? fmt(estBudget) : '-');
   }
 
   function buildItineraryText() {
@@ -4315,7 +4333,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
     
-    document.getElementById("compare-btn-add-both").style.display = "inline-block";
+    safeDisplay("compare-btn-add-both", "inline-block");
   }
 
   function initBudget() {
@@ -8619,10 +8637,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         const result = inr / RATES_TO_INR[to];
         const rate = RATES_TO_INR[from] / RATES_TO_INR[to];
 
-        document.getElementById('currency-result-value').textContent =
-          `${SYMBOLS[to]}${result.toLocaleString('en-IN', {maximumFractionDigits: 4})}`;
-        document.getElementById('currency-result-rate').textContent =
-          `1 ${from} = ${SYMBOLS[to]}${rate.toFixed(4)} ${to}   |   1 ${to} = ${SYMBOLS[from]}${(1/rate).toFixed(4)} ${from}`;
+        safeText('currency-result-value', `${SYMBOLS[to]}${result.toLocaleString('en-IN', {maximumFractionDigits: 4})}`);
+        safeText('currency-result-rate', `1 ${from} = ${SYMBOLS[to]}${rate.toFixed(4)} ${to}   |   1 ${to} = ${SYMBOLS[from]}${(1/rate).toFixed(4)} ${from}`);
 
         // Add to history
         const entry = `${SYMBOLS[from]}${amount.toLocaleString()} ${from} → ${SYMBOLS[to]}${result.toLocaleString('en-IN',{maximumFractionDigits:2})} ${to}`;
@@ -8636,8 +8652,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         playSelectSound();
       }
 
-      document.getElementById('currency-convert-btn').addEventListener('click', convert);
-      document.getElementById('currency-flip-btn').addEventListener('click', () => {
+      document.getElementById('currency-convert-btn')?.addEventListener('click', convert);
+      document.getElementById('currency-flip-btn')?.addEventListener('click', () => {
         const tmp = fromSel.value;
         fromSel.value = toSel.value;
         toSel.value = tmp;
@@ -8673,7 +8689,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         citySel.appendChild(o);
       });
 
-      document.getElementById('rickshaw-calc-btn').addEventListener('click', () => {
+      document.getElementById('rickshaw-calc-btn')?.addEventListener('click', () => {
         const city = CITIES[citySel.value];
         const dist = parseFloat(document.getElementById('rickshaw-dist').value) || 1;
         const isNight = document.getElementById('rickshaw-time').value === 'night';
@@ -8688,9 +8704,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         const minFare = Math.max(city.min, fare * 0.85);
         const maxFare = fare * 1.15;
 
-        document.getElementById('rickshaw-min').textContent = `₹${Math.round(minFare)}`;
-        document.getElementById('rickshaw-est').textContent = `₹${Math.round(fare)}`;
-        document.getElementById('rickshaw-max').textContent = `₹${Math.round(maxFare)}`;
+        safeText('rickshaw-min', `₹${Math.round(minFare)}`);
+        safeText('rickshaw-est', `₹${Math.round(fare)}`);
+        safeText('rickshaw-max', `₹${Math.round(maxFare)}`);
         document.getElementById('rickshaw-breakdown').innerHTML = `
           🚦 Minimum fare: ₹${city.min} (first 1.5km)<br>
           🛣️ Distance charge: ₹${distCharge.toFixed(1)} (${Math.max(0,dist-1.5).toFixed(1)}km × ₹${city.perKm})<br>
@@ -8698,7 +8714,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           ${isNight ? `🌙 Night surcharge: ×${city.nightMult} (11pm–6am)<br>` : ''}
           💡 Tip: Always insist on the meter. Refuse if driver quotes flat rate above ₹${Math.round(maxFare)}.
         `;
-        document.getElementById('rickshaw-result').style.display = 'block';
+        safeDisplay('rickshaw-result', 'block');
         playSelectSound();
       });
     })();
@@ -8918,7 +8934,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         });
       }
 
-      document.getElementById('sunclock-calc-btn').addEventListener('click', () => {
+      document.getElementById('sunclock-calc-btn')?.addEventListener('click', () => {
         const cityName = cityInput ? cityInput.value.trim() : '';
         const coords = CITY_COORDS[cityName] || CITY_COORDS[Object.keys(CITY_COORDS).find(k => k.toLowerCase() === cityName.toLowerCase())];
         if (!coords) {
@@ -8929,17 +8945,16 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         const result = calcSunTimes(coords[0], coords[1], dateStr);
         if (!result) { alert('Polar conditions — no sunrise/sunset today.'); return; }
 
-        document.getElementById('sun-rise').textContent = result.sunrise;
-        document.getElementById('sun-set').textContent = result.sunset;
-        document.getElementById('sun-golden-am').textContent = result.goldenAM;
-        document.getElementById('sun-golden-pm').textContent = result.goldenPM;
-        document.getElementById('sun-daylength').textContent = result.dayLength;
-        document.getElementById('sun-progress-label').textContent =
-          `Day progress for ${cityName} on ${dateStr}`;
+        safeText('sun-rise', result.sunrise);
+        safeText('sun-set', result.sunset);
+        safeText('sun-golden-am', result.goldenAM);
+        safeText('sun-golden-pm', result.goldenPM);
+        safeText('sun-daylength', result.dayLength);
+        safeText('sun-progress-label', `Day progress for ${cityName} on ${dateStr}`);
         setTimeout(() => {
           document.getElementById('sun-progress-bar').style.width = result.pct + '%';
         }, 100);
-        document.getElementById('sunclock-result').style.display = 'block';
+        safeDisplay('sunclock-result', 'block');
         playSelectSound();
       });
     })();
@@ -8988,7 +9003,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         sel.appendChild(o);
       });
 
-      document.getElementById('bagcalc-btn').addEventListener('click', () => {
+      document.getElementById('bagcalc-btn')?.addEventListener('click', () => {
         const airline = AIRLINES[sel.value];
         const cls = document.getElementById('bagcalc-class').value;
         const fare = document.getElementById('bagcalc-fare').value;
@@ -9000,14 +9015,14 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         const excess = Math.max(0, weight - allowed);
         const excessFee = excess > 0 ? excess * plan.fee : 0;
 
-        document.getElementById('bag-cabin').textContent = plan.cabin;
-        document.getElementById('bag-checkin').textContent = allowed === 0 ? 'Not included' : `${allowed} kg`;
-        document.getElementById('bag-excess').textContent = excess > 0 ? `₹${excessFee.toLocaleString()}` : '✓ No excess';
+        safeText('bag-cabin', plan.cabin);
+        safeText('bag-checkin', allowed === 0 ? 'Not included' : `${allowed} kg`);
+        safeText('bag-excess', excess > 0 ? `₹${excessFee.toLocaleString()}` : '✓ No excess');
         document.getElementById('bag-notes').innerHTML = `
           📋 ${airline.note}<br>
           ${excess > 0 ? `⚠️ Your bag (${weight}kg) exceeds the ${allowed}kg limit by <strong>${excess}kg</strong>. Excess fee: ₹${plan.fee}/kg = <strong>₹${excessFee.toLocaleString()}</strong>. Pre-booking extra baggage online is cheaper!` : `✅ Your bag (${weight}kg) is within the ${allowed === 0 ? '0kg (no check-in included)' : `${allowed}kg`} allowance.`}
         `;
-        document.getElementById('bagcalc-result').style.display = 'block';
+        safeDisplay('bagcalc-result', 'block');
         playSelectSound();
       });
     })();
@@ -9029,9 +9044,9 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           document.querySelectorAll('[data-qrtype]').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentType = btn.dataset.qrtype;
-          document.getElementById('qr-input-label').textContent = TYPE_LABELS[currentType];
+          safeText('qr-input-label', TYPE_LABELS[currentType]);
           document.getElementById('qr-input-value').placeholder = TYPE_PLACEHOLDERS[currentType];
-          document.getElementById('qr-output').style.display = 'none';
+          safeDisplay('qr-output', 'none');
         });
       });
 
@@ -9206,11 +9221,11 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         const size = parseInt(document.getElementById('qr-size-select').value) || 300;
         const canvas = document.getElementById('qr-canvas');
         drawQR(canvas, data, size);
-        document.getElementById('qr-output').style.display = 'block';
+        safeDisplay('qr-output', 'block');
         playSelectSound();
       });
 
-      document.getElementById('qr-download-btn').addEventListener('click', () => {
+      document.getElementById('qr-download-btn')?.addEventListener('click', () => {
         const canvas = document.getElementById('qr-canvas');
         const link = document.createElement('a');
         link.download = 'arvora-qr.png';
@@ -9218,7 +9233,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         link.click();
       });
 
-      document.getElementById('qr-copy-btn').addEventListener('click', () => {
+      document.getElementById('qr-copy-btn')?.addEventListener('click', () => {
         const val = document.getElementById('qr-input-value').value.trim();
         navigator.clipboard.writeText(buildQRData(currentType, val)).then(() => {
           const btn = document.getElementById('qr-copy-btn');
@@ -9550,7 +9565,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           <button id="insurance-download-btn" class="visualizer-btn" style="margin-top:0.75rem; width:100%; font-size:0.72rem; padding:0.35rem 0.5rem;">📥 Save Claims Note</button>
         `;
 
-        document.getElementById("insurance-download-btn").addEventListener("click", () => {
+        document.getElementById("insurance-download-btn")?.addEventListener("click", () => {
           playSelectSound();
           const content = `ARVORA TRAVEL INSURANCE CLAIM CHECKLIST\nCategory: ${isMed ? 'Medical Hospitalization' : 'Luggage Loss'}\nGenerated: ${new Date().toLocaleDateString()}\n\nRequired Documents:\n` + checklist.map(c => `- [ ] ${c.substring(2)}`).join("\n");
           const link = document.createElement("a");
@@ -10137,7 +10152,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           </div>
         `;
 
-        document.getElementById("diet-btn-copy").addEventListener("click", () => {
+        document.getElementById("diet-btn-copy")?.addEventListener("click", () => {
           playSelectSound();
           navigator.clipboard.writeText(nativeText).then(() => {
             alert("Translation text copied to clipboard!");
@@ -10315,12 +10330,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           </div>
         `;
 
-        document.getElementById("forex-btn-trap").addEventListener("click", () => {
+        document.getElementById("forex-btn-trap")?.addEventListener("click", () => {
           playSelectSound();
           alert(`❌ TRAP HIT!\nYou chose to charge in USD.\nThe ATM charged you $${dccUSD} instead of the standard bank rate of $${standardUSD}.\nYou lost $${markupLoss} (approx. ₹${Math.round(markupLoss * exchangeRate)}) in hidden markups!`);
         });
 
-        document.getElementById("forex-btn-safe").addEventListener("click", () => {
+        document.getElementById("forex-btn-safe")?.addEventListener("click", () => {
           playTone(880, "sine", 0.1, 0.35);
           alert(`🟢 SAFE DECISION!\nYou declined the conversion and chose to charge in INR.\nYour home bank will process this at the standard interbank exchange rate, saving you $${markupLoss} (approx. ₹${Math.round(markupLoss * exchangeRate)})!`);
         });

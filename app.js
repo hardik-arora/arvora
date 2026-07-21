@@ -58,35 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".site-lock-overlay, #site-lock-overlay").forEach(el => el.remove());
   }
 
-  function handleUnlock() {
-    if (!passwordInput || !lockOverlay) return;
-    const inputVal = passwordInput.value.trim();
-    if (inputVal === correctPasswordHash) {
-      sessionStorage.setItem("arvora_authorized", "true");
-      lockOverlay.classList.add("unlocked");
-      body.classList.remove("locked");
-      playSelectSound();
-    } else {
-      const card = lockOverlay.querySelector(".lock-card");
-      if (card) {
-        card.classList.add("shake");
-        setTimeout(() => card.classList.remove("shake"), 500);
-      }
-      if (lockErrorMsg) lockErrorMsg.textContent = "Incorrect Access Code. Please try again.";
-      passwordInput.value = "";
-      passwordInput.focus();
-    }
-  }
-
-  if (unlockBtn) {
-    unlockBtn.addEventListener("click", handleUnlock);
-  }
-  if (passwordInput) {
-    passwordInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleUnlock();
-    });
-  }
-
   checkLockStatus();
 
   // --- STATE VARIABLES ---

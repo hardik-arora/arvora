@@ -817,8 +817,8 @@ document.addEventListener("DOMContentLoaded", () => {
       content.style.display = isTarget ? "block" : "none";
     });
 
-    // Update active state on navigation pills, chips, and Dynamic Island buttons
-    document.querySelectorAll(".header-tab-pill, .main-nav-pill, .sub-chip, .island-btn").forEach(btn => {
+    // Update active state on navigation cards, pills, chips, and Dynamic Island buttons
+    document.querySelectorAll(".nav-grid-card, .header-tab-pill, .main-nav-pill, .sub-chip, .island-btn").forEach(btn => {
       const target = btn.dataset.target || btn.dataset.tab;
       if (target) {
         btn.classList.toggle("active", target === tabId);
@@ -840,7 +840,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playSelectSound();
     
-    // Generate schema on tab switch
+    // Lazy module initializers wrapped in try/catch for zero-error guarantee
+    try {
     if (tabId === 'routes') {
       setTimeout(generateDatabaseSeed, 20);
     }
@@ -1053,6 +1054,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (tabId === 'appguide') {
       initAppGuide();
+    }
+    } catch(e) {
+      console.warn("Tab module init non-fatal warning:", e);
     }
 
     // Update active highlight on sidebar rail icon

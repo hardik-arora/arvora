@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.1.0">
+  <link rel="stylesheet" href="index.css?v=21.2.0">
   <script>
     // Immediate pre-render DOM & Storage unblocker
     try {
@@ -42,7 +42,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.1.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.2.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4683,12 +4683,138 @@
     </div>
   </div>
 
+  <!-- TAB 69: EV CHARGING STATION & PLUG CALCULATOR -->
+  <div id="tab-content-evcharge" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>⚡</span> EV Charging Station Finder &amp; Plug Calculator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Find fast CCS2 &amp; Type 2 EV chargers across Indian highways and estimate charging time from 20% to 80%.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">🔋 EV Battery &amp; Charger Specs</h3>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Vehicle Model:</label>
+            <select id="evcharge-model-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="nexon">Tata Nexon EV Max (40.5 kWh, CCS2)</option>
+              <option value="mg_zse">MG ZS EV (50.3 kWh, CCS2)</option>
+              <option value="tiago">Tata Tiago EV (24 kWh, CCS2)</option>
+              <option value="hyundai_ioniq">Hyundai IONIQ 5 (72.6 kWh, CCS2 800V)</option>
+              <option value="byd_atto">BYD Atto 3 (60.48 kWh, CCS2)</option>
+            </select>
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Charger Speed (kW):</label>
+            <select id="evcharge-kw-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="25">25 kW DC Fast Charger (Tata Power EZ)</option>
+              <option value="50">50 kW DC Fast Charger (Zeon / Statiq)</option>
+              <option value="60">60 kW DC Ultra Fast (Jio-BP Pulse)</option>
+              <option value="7.2">7.2 kW AC Home Wallbox</option>
+            </select>
+          </div>
+          <button id="evcharge-btn-calc" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            ⚡ Calculate Charging Time &amp; Cost
+          </button>
+        </div>
+
+        <div id="evcharge-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Select EV model and click calculate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 70: TEMPLE PRASAD & OFFERING TRADITIONS GUIDE -->
+  <div id="tab-content-prasad" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(234, 179, 8, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🕉️</span> Temple Prasad &amp; Religious Offering Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Ingredients, shelf-life, FSSAI BHOG certification, and online booking guides for famous sacred temple offerings across India.</p>
+      </div>
+
+      <div id="prasad-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 71: HILL STATION & REMOTE NETWORK SIGNAL PROFILER -->
+  <div id="tab-content-signalprofiler" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📶</span> Remote Signal &amp; Workation Connectivity Profiler</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Check mobile network coverage (Jio, Airtel, BSNL, Vi), 4G/5G speeds, and remote work viability in hill stations &amp; border zones.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="signalprofiler-region-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="ladakh">Leh &amp; Pangong Tso (Ladakh)</option>
+          <option value="spiti">Kaza &amp; Tabo (Spiti Valley, HP)</option>
+          <option value="sikkim">Gangtok &amp; North Sikkim</option>
+          <option value="andaman">Havlock Island (Andaman)</option>
+          <option value="coorg">Madikeri (Coorg, Karnataka)</option>
+          <option value="kasol">Parvati Valley &amp; Kasol (HP)</option>
+        </select>
+      </div>
+
+      <div id="signalprofiler-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 72: INTERSTATE SLEEPER BUS COMFORT & BERTH RATING -->
+  <div id="tab-content-busguide" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(249, 115, 22, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚌</span> Interstate Sleeper Bus Comfort &amp; Berth Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Compare private AC Sleeper buses (VRL, SRS, KSRTC, Zingbus), berth positions (Upper vs Lower), and safety tips for night travel.</p>
+      </div>
+
+      <div id="busguide-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 73: HOTEL TARIFF GST & LUXURY TAX CHECKER -->
+  <div id="tab-content-hotelgst" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧾</span> Hotel Tariff GST &amp; Luxury Tax Checker</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate official GST tax rates (0%, 12%, 18%) on room night tariffs and verify hotel invoice service charge rules.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">🏨 Hotel Booking Details</h3>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Room Tariff per Night (₹ INR):</label>
+            <input type="number" id="hotelgst-tariff-input" value="4500" placeholder="e.g. 4500" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Number of Nights:</label>
+            <input type="number" id="hotelgst-nights-input" value="2" placeholder="e.g. 2" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <button id="hotelgst-btn-calc" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            📊 Calculate Hotel GST &amp; Bill Breakdown
+          </button>
+        </div>
+
+        <div id="hotelgst-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Enter room tariff and click calculate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.1.0 (5 New Travel Utilities: Train Live Status, GST Refund Calc, Ayurveda Wellness, UNESCO Explorer &amp; Roadtrip Estimator) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.2.0 (5 New Travel Utilities: EV Charging Calc, Temple Prasad Guide, Remote Network Profiler, Sleeper Bus Guide &amp; Hotel GST Checker) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -4699,8 +4825,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.1.0"></script>
-  <script src="trie.js?v=21.1.0"></script>
-  <script src="app.js?v=21.1.0"></script>
+  <script src="cities.js?v=21.2.0"></script>
+  <script src="trie.js?v=21.2.0"></script>
+  <script src="app.js?v=21.2.0"></script>
 </body>
 </html>

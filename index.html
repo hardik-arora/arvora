@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=22.0.0">
+  <link rel="stylesheet" href="index.css?v=22.1.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.0.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.1.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4872,12 +4872,130 @@
     </div>
   </div>
 
+  <!-- TAB 74: SATELLITE AIR QUALITY & AQI INDEX TRACKER -->
+  <div id="tab-content-airquality" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛰️</span> Satellite Air Quality &amp; AQI Index Tracker</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Monitor Real-time Air Quality Index (AQI), PM2.5 levels, mask advisories, and clean air travel seasons across Indian cities.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="airquality-city-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="delhi">New Delhi / NCR (Northern Plain)</option>
+          <option value="mumbai">Mumbai (Coastal Maharashtra)</option>
+          <option value="bangalore">Bengaluru (Karnataka Plateau)</option>
+          <option value="kolkata">Kolkata (West Bengal Delta)</option>
+          <option value="shimla">Shimla &amp; Manali (Himachal Hills)</option>
+          <option value="jaipur">Jaipur (Rajasthan Semi-Arid)</option>
+        </select>
+      </div>
+
+      <div id="airquality-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 75: CHAI & STREET TEA CULTURE DECODER -->
+  <div id="tab-content-chaiguide" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🍵</span> Regional Chai &amp; Indian Tea Culture Decoder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Explore regional Indian tea recipes, spice profiles, street snacks, and traditional brewing styles.</p>
+      </div>
+
+      <div id="chaiguide-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 76: IRCTC TATKAL BOOKING TIMER & HELPER -->
+  <div id="tab-content-tatkalhelper" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(249, 115, 22, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎟️</span> IRCTC Tatkal Ticket Booking Speed Helper</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Precision countdown timer for 10:00 AM (AC) &amp; 11:00 AM (Non-AC) Tatkal windows with UPI fast-payment strategies.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">⏱️ Tatkal Slot Countdown</h3>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Select Booking Class:</label>
+            <select id="tatkalhelper-class-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="ac">AC Classes (1A, 2A, 3A, CC) — Opens at 10:00 AM IST</option>
+              <option value="nonac">Sleeper &amp; 2S (SL, 2S) — Opens at 11:00 AM IST</option>
+            </select>
+          </div>
+          <button id="tatkalhelper-btn-start" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            ⚡ Start Precision Timer &amp; Checklist
+          </button>
+        </div>
+
+        <div id="tatkalhelper-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Select Tatkal class and start timer.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 77: INDIAN REGIONAL DANCE & FOLK ART SHOWCASE -->
+  <div id="tab-content-folkdance" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💃</span> Indian Regional Dance &amp; Folk Art Showcase</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Discover classical &amp; folk dance traditions (Kathakali, Bhangra, Garba, Lavani, Bihu), costume symbolism, and festival venues.</p>
+      </div>
+
+      <div id="folkdance-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 78: FOREIGN CURRENCY ATM FEE VS MARKUP CALCULATOR -->
+  <div id="tab-content-forexcalc" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧾</span> Foreign Forex ATM Fee vs Card Markup Calculator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate hidden FX markup fees (3.5% vs 0%), ATM withdrawal charges, and dynamic currency traps for international travelers.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">💳 Transaction Details</h3>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Amount Spent / Withdrawn (in Foreign Currency):</label>
+            <input type="number" id="forexcalc-amount-input" value="500" placeholder="e.g. 500" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Card Type Used:</label>
+            <select id="forexcalc-card-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="standard_credit">Standard Credit Card (3.5% FX Markup + GST)</option>
+              <option value="zero_markup">Zero Markup Forex Card (Niyo / Fi / OneCard 0%)</option>
+              <option value="airport_counter">Airport Physical Cash Exchange Counter (8-12% Markup)</option>
+            </select>
+          </div>
+          <button id="forexcalc-btn-calc" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            📊 Calculate FX Loss &amp; Savings
+          </button>
+        </div>
+
+        <div id="forexcalc-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Enter amount and click calculate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 22.0.0 (Creative Cyberpunk Passcode Vault Release) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 22.1.0 (5 New Creative Travel Tools: Air Quality Tracker, Chai Culture Guide, Tatkal Speed Helper, Folk Dance Showcase &amp; Forex Calculator) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -4888,8 +5006,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=22.0.0"></script>
-  <script src="trie.js?v=22.0.0"></script>
-  <script src="app.js?v=22.0.0"></script>
+  <script src="cities.js?v=22.1.0"></script>
+  <script src="trie.js?v=22.1.0"></script>
+  <script src="app.js?v=22.1.0"></script>
 </body>
 </html>

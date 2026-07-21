@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!lockModal) return;
 
-    const getSavedPassword = () => localStorage.getItem("arvora_site_password") || "arvora2026";
+    const getSavedPassword = () => localStorage.getItem("arvora_site_password") || "27672";
     const setSavedPassword = (pw) => localStorage.setItem("arvora_site_password", pw);
 
     const isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true";

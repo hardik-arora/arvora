@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.0.30">
+  <link rel="stylesheet" href="index.css?v=21.1.0">
   <script>
     // Immediate pre-render DOM & Storage unblocker
     try {
@@ -42,7 +42,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.0.30</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.1.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4542,12 +4542,153 @@
     </div>
   </div>
 
+  <!-- TAB 64: TRAIN LIVE TRACKER SIMULATOR -->
+  <div id="tab-content-livetrain" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚆</span> Train Live Status &amp; Route Simulator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Track express train routes, live speed, next station ETAs, platform numbers, and tea/snack stops across India.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary); display:flex; align-items:center; gap:8px;"><span>🚉</span> Select Express Train</h3>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Choose Express Route:</label>
+            <select id="livetrain-route-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="vande_bharat">20901 Vande Bharat Express (Mumbai ➔ Gandhinagar)</option>
+              <option value="rajdhani_delhi">12951 Rajdhani Express (Mumbai ➔ New Delhi)</option>
+              <option value="shatabdi_bangalore">12007 Shatabdi Express (Chennai ➔ Bengaluru)</option>
+              <option value="howrah_mail">12809 Howrah Mail (Mumbai ➔ Kolkata)</option>
+              <option value="kerala_express">12625 Kerala Express (New Delhi ➔ Trivandrum)</option>
+            </select>
+          </div>
+          <button id="livetrain-btn-start" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer; font-size:0.9rem;">
+            ▶️ Start Live Journey Simulation
+          </button>
+        </div>
+
+        <div id="livetrain-display-panel" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Select a train and click Start to simulate live train tracking.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 65: GST TAX REFUND CALCULATOR -->
+  <div id="tab-content-gstcalc" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧾</span> Tourist GST Tax Refund &amp; Shopping Calculator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate Goods &amp; Services Tax (5%, 12%, 18%, 28%) on shopping purchases and estimate airport VAT/GST refund eligibility.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">🛍️ Purchase Details</h3>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Category of Goods:</label>
+            <select id="gstcalc-cat-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="18">Textiles, Silk &amp; Handicrafts (18% GST)</option>
+              <option value="12">Spices, Tea &amp; Packaged Food (12% GST)</option>
+              <option value="28">Jewelry, Watches &amp; Luxury Goods (28% GST)</option>
+              <option value="5">Local Artisanal Handlooms (5% GST)</option>
+            </select>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Total Invoice Amount (₹ INR):</label>
+            <input type="number" id="gstcalc-amount-input" value="15000" placeholder="e.g. 15000" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <button id="gstcalc-btn-calc" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            📊 Calculate GST Breakdown &amp; Refund
+          </button>
+        </div>
+
+        <div id="gstcalc-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Enter purchase amount and click calculate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 66: AYURVEDA & NATURAL WELLNESS GUIDE -->
+  <div id="tab-content-ayurveda" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(132, 204, 22, 0.08) 100%); border-color: rgba(34, 197, 94, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🌿</span> Ayurveda &amp; Natural Travel Wellness Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Natural Indian herbs, herbal teas, and traditional Ayurvedic remedies for travel fatigue, heat stroke, and digestive balance.</p>
+      </div>
+
+      <div id="ayurveda-remedies-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 67: UNESCO WORLD HERITAGE SIGHTS EXPLORER -->
+  <div id="tab-content-unesco" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.08) 0%, rgba(249, 115, 22, 0.08) 100%); border-color: rgba(234, 179, 8, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏰</span> UNESCO World Heritage Sights Explorer</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Explore India's iconic UNESCO World Heritage architectural monuments, ancient caves, national parks, and visitor guides.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="unesco-search-input" placeholder="Search UNESCO sites by name, state, or era..." style="flex:1; min-width:260px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+      </div>
+
+      <div id="unesco-sites-container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 68: ROADTRIP & CAR RENTAL COST ESTIMATOR -->
+  <div id="tab-content-roadtrip" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚗</span> Self-Drive Roadtrip &amp; Taxi Cost Estimator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate total road trip costs including fuel (Petrol/Diesel/EV), FASTag highway tolls, inter-state permits, and driver charges.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">🚘 Journey Parameters</h3>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Vehicle Type:</label>
+            <select id="roadtrip-veh-type" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="hatchback">Hatchback / Small Sedan (Petrol, 16 km/L)</option>
+              <option value="suv">SUV / Innova (Diesel, 12 km/L)</option>
+              <option value="ev">Electric Vehicle (Nexon EV, 0.25 kWh/km)</option>
+              <option value="taxi">Private Taxi with Driver (₹14 / km)</option>
+            </select>
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Total Distance (km):</label>
+            <input type="number" id="roadtrip-dist-input" value="450" placeholder="e.g. 450" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Duration (Days):</label>
+            <input type="number" id="roadtrip-days-input" value="3" placeholder="e.g. 3" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <button id="roadtrip-btn-calc" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            🛣️ Calculate Trip Cost &amp; Toll Breakdown
+          </button>
+        </div>
+
+        <div id="roadtrip-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Enter distance and click calculate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.0.30 (Expandable Dynamic Island Restore &amp; Click Fix Integration Release) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.1.0 (5 New Travel Utilities: Train Live Status, GST Refund Calc, Ayurveda Wellness, UNESCO Explorer &amp; Roadtrip Estimator) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -4558,8 +4699,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.0.30"></script>
-  <script src="trie.js?v=21.0.30"></script>
-  <script src="app.js?v=21.0.30"></script>
+  <script src="cities.js?v=21.1.0"></script>
+  <script src="trie.js?v=21.1.0"></script>
+  <script src="app.js?v=21.1.0"></script>
 </body>
 </html>

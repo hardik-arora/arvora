@@ -550,6 +550,16 @@ document.addEventListener("DOMContentLoaded", () => {
       islandThemeBtn.addEventListener("click", openThemeModal);
     }
 
+    // Dynamic Island Tap Toggle for touch devices
+    const dynamicIsland = document.getElementById("dynamic-island");
+    if (dynamicIsland) {
+      dynamicIsland.addEventListener("click", (e) => {
+        if (!e.target.closest(".island-btn, .island-toggle-icon")) {
+          dynamicIsland.classList.toggle("is-expanded");
+        }
+      });
+    }
+
     // Sound FX enable toggler
     if (audioToggleBtn) {
       audioToggleBtn.addEventListener("click", () => {

@@ -2728,7 +2728,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const floatingThemeBtn = document.getElementById("floating-theme-btn");
   if (floatingThemeBtn) floatingThemeBtn.addEventListener("click", openThemeModal);
 
-  const islandThemeBtn = document.getElementById("island-theme-btn");
   if (islandThemeBtn) islandThemeBtn.addEventListener("click", openThemeModal);
 
   const themeModalCloseBtn = document.getElementById("theme-modal-close-btn");

@@ -651,6 +651,52 @@ document.addEventListener("DOMContentLoaded", () => {
       if (gameGuessInput && dropdownGame && !gameGuessInput.contains(e.target) && !dropdownGame.contains(e.target)) dropdownGame.classList.remove("active");
     });
 
+    // --- UNIFIED GLOBAL EVENT DELEGATION FOR ALL BUTTONS & TRIGGERS ---
+    document.addEventListener("click", (e) => {
+      // 1. Theme Studio Modal open triggers
+      const themeTrigger = e.target.closest("#header-theme-trigger, #floating-theme-btn, #island-theme-btn");
+      if (themeTrigger) {
+        e.preventDefault();
+        openThemeModal();
+        return;
+      }
+
+      // 2. Theme Studio Modal close triggers
+      const themeClose = e.target.closest("#theme-modal-close-btn, #theme-backdrop");
+      if (themeClose) {
+        e.preventDefault();
+        closeThemeModal();
+        return;
+      }
+
+      // 3. Tab navigation triggers ([data-target] or [data-tab])
+      const tabTrigger = e.target.closest("[data-target]:not(#island-more-btn), [data-tab]");
+      if (tabTrigger) {
+        const targetTab = tabTrigger.dataset.target || tabTrigger.dataset.tab;
+        if (targetTab) {
+          e.preventDefault();
+          switchTab(targetTab);
+          return;
+        }
+      }
+
+      // 4. Feature search drawer open triggers
+      const searchTrigger = e.target.closest("#header-search-trigger, #island-more-btn");
+      if (searchTrigger) {
+        e.preventDefault();
+        openDrawer("search");
+        return;
+      }
+
+      // 5. Feature drawer close triggers
+      const drawerClose = e.target.closest("#drawer-close-btn, #sidebar-backdrop");
+      if (drawerClose) {
+        e.preventDefault();
+        closeDrawer();
+        return;
+      }
+    });
+
     // Custom File Uploader logic (only if element exists)
     if (fileUpload) fileUpload.addEventListener("change", (e) => {
       const file = e.target.files[0];
@@ -759,20 +805,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function switchTab(tabId) {
-    if (activeTab === tabId) return;
+    if (!tabId) return;
     activeTab = tabId;
     initAudio();
 
-    const allTabContents = [tabContentEngine, tabContentRoutes, tabContentGame, tabContentPattern, tabContentAnalytics, tabContentScanner, tabContentTravel, tabContentTourism, tabContentTrip, tabContentDiscovery, tabContentFestivals, tabContentCompare, tabContentBudget, tabContentRouteSolver, tabContentCulinary, tabContentWeather, tabContentEmergency, tabContentSplitter, tabContentLandmarks, tabContentTracker, tabContentNotes, tabContentBaggage, tabContentTransitBooking, tabContentHealth, tabContentEvRouter, tabContentLocalizer, tabContentPhotoHub, tabContentShopping, tabContentFoodSafety, tabContentSmartPacker, tabContentSimAdvisor, tabContentVisa, tabContentSocket, tabContentAtm, tabContentVoice, tabContentSleep, tabContentPnrPredict, tabContentStomach, tabContentSoloSafety, tabContentVault, tabContentCurrency, tabContentRickshaw, tabContentSimGuide, tabContentSunclock, tabContentBagCalc, tabContentQrCode, tabContentSafety, tabContentCustoms, tabContentLegal, tabContentInsurance, tabContentMedical, tabContentPlaylist, tabContentMedkit, tabContentDiet, tabContentUpi, tabContentCoach, tabContentForex, tabContentPermits, tabContentSpiceMenu, tabContentScamCheck, tabContentAltitude, tabContentBargain, tabContentMonumentPhoto, tabContentMonsoonRisk, tabContentWaterRisk, tabContentTempleEtiquette, tabContentLocalSpeak, tabContentTipGuide, tabContentAppGuide];
-    const tabIds = ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner', 'travel', 'tourism', 'trip', 'discovery', 'festivals', 'compare', 'budget', 'routesolver', 'culinary', 'weather', 'emergency', 'splitter', 'landmarks', 'tracker', 'notes', 'baggage', 'transitbooking', 'health', 'evrouter', 'localizer', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'simadvisor', 'visa', 'socket', 'atm', 'voice', 'sleep', 'pnrpredict', 'stomach', 'solosafety', 'vault', 'currency', 'rickshaw', 'simguide', 'sunclock', 'bagcalc', 'qrcode', 'safety', 'customs', 'legal', 'insurance', 'medical', 'playlist', 'medkit', 'diet', 'upi', 'coach', 'forex', 'permits', 'spicemenu', 'scamcheck', 'altitude', 'bargain', 'monumentphoto', 'monsoonrisk', 'waterrisk', 'templeetiquette', 'localspeak', 'tipguide', 'appguide'];
-    const idx = tabIds.indexOf(tabId);
-
-    allTabContents.forEach((content, i) => {
-      if (content) {
-        content.classList.toggle("active", i === idx);
-        content.style.display = (i === idx) ? '' : 'none';
-      }
+    // Query all tab contents dynamically from DOM
+    const allTabContents = document.querySelectorAll(".tab-content");
+    allTabContents.forEach(content => {
+      const isTarget = content.id === `tab-content-${tabId}`;
+      content.classList.toggle("active", isTarget);
+      content.style.display = isTarget ? "block" : "none";
     });
+
+    // Update active feature breadcrumb in header
+    const breadcrumb = document.getElementById("active-feature-breadcrumb");
+    if (breadcrumb) {
+      const activeEl = document.getElementById(`tab-content-${tabId}`);
+      const titleEl = activeEl ? activeEl.querySelector(".panel-title, h2, h3") : null;
+      if (titleEl) {
+        const cleanTitle = titleEl.textContent.replace(/^[\s\S]*?\s+/, '').trim();
+        breadcrumb.textContent = cleanTitle || tabId.toUpperCase();
+      } else {
+        breadcrumb.textContent = tabId.toUpperCase();
+      }
+    }
 
     playSelectSound();
     

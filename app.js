@@ -5,6 +5,33 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // --- HARD RESET & UNFREEZE RECOVERY ---
+  function performHardReset() {
+    try {
+      sessionStorage.clear();
+      localStorage.clear();
+      sessionStorage.setItem("arvora_authorized", "true");
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+      }
+    } catch(e) {}
+    const cleanUrl = window.location.origin + window.location.pathname + '?nocache=' + Date.now();
+    window.location.href = cleanUrl;
+  }
+
+  const footerResetBtn = document.getElementById("footer-hard-reset-btn");
+  if (footerResetBtn) {
+    footerResetBtn.addEventListener("click", performHardReset);
+  }
+
+  // --- IMMEDIATE DOM PURGE OF LEGACY LOCK OVERLAYS ---
+  (function purgeStaleLocks() {
+    sessionStorage.setItem("arvora_authorized", "true");
+    localStorage.setItem("arvora_authorized", "true");
+    document.body?.classList.remove("locked");
+    document.querySelectorAll(".site-lock-overlay, #site-lock-overlay").forEach(el => el.remove());
+  })();
+
   // --- BULLETPROOF DOM HELPER UTILITIES ---
   function safeText(id, text) {
     const el = typeof id === 'string' ? document.getElementById(id) : id;
@@ -23,18 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return el ? el.value : defaultVal;
   }
 
-  // --- SITE ACCESS PROTECTION ---
-  const correctPasswordHash = "27672";
+  // --- SITE ACCESS PROTECTION (UNLOCKED BY DEFAULT) ---
   const body = document.body;
-  const lockOverlay = document.getElementById("site-lock-overlay");
-  const passwordInput = document.getElementById("site-access-password");
-  const unlockBtn = document.getElementById("site-unlock-btn");
-  const lockErrorMsg = document.getElementById("lock-error-msg");
-
   function checkLockStatus() {
     sessionStorage.setItem("arvora_authorized", "true");
-    if (lockOverlay) lockOverlay.classList.add("unlocked");
     body.classList.remove("locked");
+    document.querySelectorAll(".site-lock-overlay, #site-lock-overlay").forEach(el => el.remove());
   }
 
   function handleUnlock() {

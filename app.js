@@ -818,7 +818,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Update active state on navigation pills, chips, and Dynamic Island buttons
-    document.querySelectorAll(".main-nav-pill, .sub-chip, .island-btn").forEach(btn => {
+    document.querySelectorAll(".header-tab-pill, .main-nav-pill, .sub-chip, .island-btn").forEach(btn => {
       const target = btn.dataset.target || btn.dataset.tab;
       if (target) {
         btn.classList.toggle("active", target === tabId);

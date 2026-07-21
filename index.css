@@ -350,6 +350,11 @@ body.theme-arctic {
   --color-theme-glow-2: rgba(56, 189, 248, 0.38);
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -364,6 +369,23 @@ body {
   overflow-x: hidden;
   position: relative;
   line-height: 1.5;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.tab-content.active {
+  display: block;
+  animation: smoothTabFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes smoothTabFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Background grid layout overlay for tech/academics vibe */

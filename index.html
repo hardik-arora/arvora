@@ -9,19 +9,39 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.2.0">
-  <script>
-    // Immediate pre-render DOM & Storage unblocker
-    try {
-      sessionStorage.setItem("arvora_authorized", "true");
-      localStorage.setItem("arvora_authorized", "true");
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
-      }
-    } catch(e) {}
-  </script>
+  <link rel="stylesheet" href="index.css?v=21.3.0">
 </head>
 <body>
+  <!-- SITE LOCK / PASSWORD PROTECTION OVERLAY -->
+  <div id="site-lock-modal" style="position:fixed; inset:0; z-index:999999; background:rgba(2, 6, 23, 0.96); backdrop-filter:blur(24px); display:flex; align-items:center; justify-content:center; padding:1.5rem;">
+    <div style="max-width:440px; width:100%; background:rgba(15, 23, 42, 0.85); border:1px solid rgba(255, 255, 255, 0.12); border-radius:24px; padding:2.5rem 2rem; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.7); text-align:center; position:relative; overflow:hidden;">
+      <div style="width:64px; height:64px; margin:0 auto 1.25rem; background:rgba(59, 130, 246, 0.15); border:1px solid rgba(59, 130, 246, 0.3); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:2rem;">
+        🔒
+      </div>
+      <h2 style="font-size:1.4rem; font-weight:800; color:var(--text-primary); margin-bottom:0.4rem; letter-spacing:-0.02em;">Arvora Private Access</h2>
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.5;">This site is password protected. Enter passcode to unlock and continue.</p>
+
+      <form id="site-lock-form" style="display:flex; flex-direction:column; gap:1rem;">
+        <div style="position:relative;">
+          <input type="password" id="site-lock-input" placeholder="Enter password..." autocomplete="current-password" style="width:100%; padding:0.85rem 1rem; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-size:1rem; outline:none; text-align:center; letter-spacing:0.1em; transition:border-color 0.2s;" required>
+        </div>
+        
+        <div id="site-lock-error" style="display:none; font-size:0.8rem; color:#f87171; background:rgba(239,68,68,0.15); padding:0.5rem; border-radius:10px; border:1px solid rgba(239,68,68,0.3);">
+          ❌ Incorrect password. Please try again.
+        </div>
+
+        <button type="submit" id="site-lock-submit-btn" style="width:100%; padding:0.85rem; border-radius:14px; background:linear-gradient(135deg, var(--color-primary), #06b6d4); color:white; font-weight:700; font-size:0.95rem; border:none; cursor:pointer; box-shadow:0 10px 20px -5px rgba(59, 130, 246, 0.4); transition:transform 0.15s ease;">
+          🔓 Unlock Site
+        </button>
+      </form>
+
+      <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,0.08); font-size:0.75rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+        <span>Default Password: <strong style="color:var(--color-primary);">arvora2026</strong></span>
+        <button id="site-lock-change-btn" style="background:none; border:none; color:var(--text-secondary); text-decoration:underline; font-size:0.75rem; cursor:pointer;">Change Password</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Background canvas for active particle effects -->
   <canvas id="particle-canvas"></canvas>
 
@@ -42,7 +62,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.2.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.3.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -58,6 +78,7 @@
       <div class="island-toggles">
         <button id="island-audio-btn" class="island-toggle-icon" title="Toggle Sounds">🔊</button>
         <button id="island-theme-btn" class="island-toggle-icon" title="Change Vibe">🎨</button>
+        <button id="island-lock-btn" class="island-toggle-icon" title="Lock Site">🔒</button>
       </div>
     </div>
   </div>
@@ -4814,7 +4835,7 @@
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.2.0 (5 New Travel Utilities: EV Charging Calc, Temple Prasad Guide, Remote Network Profiler, Sleeper Bus Guide &amp; Hotel GST Checker) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 21.3.0 (Private Access &amp; Password Protection Release) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -4825,8 +4846,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.2.0"></script>
-  <script src="trie.js?v=21.2.0"></script>
-  <script src="app.js?v=21.2.0"></script>
+  <script src="cities.js?v=21.3.0"></script>
+  <script src="trie.js?v=21.3.0"></script>
+  <script src="app.js?v=21.3.0"></script>
 </body>
 </html>

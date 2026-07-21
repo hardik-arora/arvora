@@ -681,7 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // 4. Feature search drawer open triggers
-      const searchTrigger = e.target.closest("#header-search-trigger, #island-more-btn");
+      const searchTrigger = e.target.closest("#header-search-trigger, #island-more-btn, #nav-browse-all-btn");
       if (searchTrigger) {
         e.preventDefault();
         openDrawer("search");
@@ -815,6 +815,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const isTarget = content.id === `tab-content-${tabId}`;
       content.classList.toggle("active", isTarget);
       content.style.display = isTarget ? "block" : "none";
+    });
+
+    // Update active state on navigation pills, chips, and Dynamic Island buttons
+    document.querySelectorAll(".main-nav-pill, .sub-chip, .island-btn").forEach(btn => {
+      const target = btn.dataset.target || btn.dataset.tab;
+      if (target) {
+        btn.classList.toggle("active", target === tabId);
+      }
     });
 
     // Update active feature breadcrumb in header

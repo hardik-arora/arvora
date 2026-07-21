@@ -24,43 +24,114 @@ document.addEventListener("DOMContentLoaded", () => {
     footerResetBtn.addEventListener("click", performHardReset);
   }
 
-  // --- SITE LOCK / PASSWORD PROTECTION CONTROLLER ---
+  // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
   function initSiteLock() {
     const lockModal = document.getElementById("site-lock-modal");
+    const lockCard = document.getElementById("site-lock-card");
     const lockForm = document.getElementById("site-lock-form");
     const lockInput = document.getElementById("site-lock-input");
     const lockError = document.getElementById("site-lock-error");
     const islandLockBtn = document.getElementById("island-lock-btn");
     const changeBtn = document.getElementById("site-lock-change-btn");
+    const timeTicker = document.getElementById("site-lock-time-ticker");
+    const keypad = document.getElementById("pin-keypad");
+    const pinDots = document.querySelectorAll(".pin-dot");
 
     if (!lockModal) return;
 
     const getSavedPassword = () => localStorage.getItem("arvora_site_password") || "27672";
     const setSavedPassword = (pw) => localStorage.setItem("arvora_site_password", pw);
 
+    // Live clock update for HUD
+    function updateClock() {
+      if (!timeTicker) return;
+      const now = new Date();
+      timeTicker.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // PIN Dots sync
+    let currentPin = "";
+    function updateDots() {
+      pinDots.forEach((dot, idx) => {
+        if (idx < currentPin.length) {
+          dot.classList.add("filled");
+        } else {
+          dot.classList.remove("filled");
+        }
+      });
+      if (lockInput) lockInput.value = currentPin;
+    }
+
     const isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true";
     if (isUnlocked) {
       lockModal.style.display = "none";
     } else {
       lockModal.style.display = "flex";
-      setTimeout(() => lockInput && lockInput.focus(), 100);
+      currentPin = "";
+      updateDots();
     }
+
+    // Keypad Digit Clicks
+    if (keypad) {
+      keypad.addEventListener("click", (e) => {
+        const btn = e.target.closest(".pin-digit-btn");
+        if (!btn) return;
+
+        initAudio && initAudio();
+        const val = btn.getAttribute("data-val");
+
+        if (val === "clear") {
+          currentPin = "";
+          if (lockError) lockError.style.display = "none";
+          updateDots();
+        } else if (val && val !== "clear" && btn.type !== "submit") {
+          if (currentPin.length < 10) {
+            currentPin += val;
+            if (lockError) lockError.style.display = "none";
+            updateDots();
+          }
+        }
+      });
+    }
+
+    // Keyboard support (Direct Typing)
+    window.addEventListener("keydown", (e) => {
+      if (lockModal.style.display === "none") return;
+      
+      if (e.key >= "0" && e.key <= "9") {
+        if (currentPin.length < 10) {
+          currentPin += e.key;
+          if (lockError) lockError.style.display = "none";
+          updateDots();
+        }
+      } else if (e.key === "Backspace") {
+        currentPin = currentPin.slice(0, -1);
+        if (lockError) lockError.style.display = "none";
+        updateDots();
+      }
+    });
 
     if (lockForm) {
       lockForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const entered = lockInput ? lockInput.value.trim() : "";
+        const entered = currentPin.trim() || (lockInput ? lockInput.value.trim() : "");
         if (entered === getSavedPassword()) {
           sessionStorage.setItem("arvora_session_unlocked", "true");
           lockModal.style.display = "none";
           if (lockError) lockError.style.display = "none";
-          if (lockInput) lockInput.value = "";
+          currentPin = "";
+          updateDots();
         } else {
           if (lockError) lockError.style.display = "block";
-          if (lockInput) {
-            lockInput.value = "";
-            lockInput.focus();
+          if (lockCard) {
+            lockCard.classList.remove("lock-card-shake");
+            void lockCard.offsetWidth;
+            lockCard.classList.add("lock-card-shake");
           }
+          currentPin = "";
+          updateDots();
         }
       });
     }
@@ -69,23 +140,25 @@ document.addEventListener("DOMContentLoaded", () => {
       islandLockBtn.addEventListener("click", () => {
         sessionStorage.removeItem("arvora_session_unlocked");
         lockModal.style.display = "flex";
-        if (lockInput) lockInput.focus();
+        currentPin = "";
+        updateDots();
+        if (lockError) lockError.style.display = "none";
       });
     }
 
     if (changeBtn) {
       changeBtn.addEventListener("click", () => {
-        const currentPw = prompt("Enter current password:");
+        const currentPw = prompt("Enter current passcode:");
         if (currentPw === getSavedPassword()) {
-          const newPw = prompt("Enter your new password (minimum 4 characters):");
+          const newPw = prompt("Enter your new passcode (digits or text, minimum 4 characters):");
           if (newPw && newPw.trim().length >= 4) {
             setSavedPassword(newPw.trim());
-            alert("✅ Password updated successfully! Your new password is saved.");
+            alert("✅ Passcode updated successfully! Your new passcode is active.");
           } else if (newPw !== null) {
-            alert("⚠️ Password must be at least 4 characters.");
+            alert("⚠️ Passcode must be at least 4 characters.");
           }
         } else if (currentPw !== null) {
-          alert("❌ Incorrect password.");
+          alert("❌ Incorrect passcode.");
         }
       });
     }

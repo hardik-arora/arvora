@@ -455,19 +455,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================================
   
   function initializeApp() {
-    setupSvg();
-    buildTries(CITIES_DATA);
-    setupPlaygroundDefault();
-    setupEventListeners();
-    updateVisualizer();
-    setupGameScoreboard();
-    loadNewGameWord();
-    
+    // Run each init step in isolation so a crash in one never blocks the rest
+    try { setupSvg(); } catch(e) { console.warn('[initializeApp] setupSvg error:', e); }
+    try { buildTries(CITIES_DATA); } catch(e) { console.warn('[initializeApp] buildTries error:', e); }
+    try { setupPlaygroundDefault(); } catch(e) { console.warn('[initializeApp] setupPlaygroundDefault error:', e); }
+    // setupEventListeners MUST always run — it registers all button handlers
+    try { setupEventListeners(); } catch(e) { console.error('[initializeApp] setupEventListeners error:', e); }
+    try { updateVisualizer(); } catch(e) { console.warn('[initializeApp] updateVisualizer error:', e); }
+    try { setupGameScoreboard(); } catch(e) { console.warn('[initializeApp] setupGameScoreboard error:', e); }
+    try { loadNewGameWord(); } catch(e) { console.warn('[initializeApp] loadNewGameWord error:', e); }
     // Generate initial schema query immediately
-    setTimeout(generateDatabaseSeed, 20);
+    setTimeout(() => { try { generateDatabaseSeed(); } catch(e) {} }, 20);
   }
 
   function setupSvg() {
+    if (!treeSvg) return;
     treeSvg.innerHTML = "";
     svgViewport = document.createElementNS("http://www.w3.org/2000/svg", "g");
     svgViewport.setAttribute("id", "viewport");
@@ -476,6 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateTransform() {
+    if (!svgViewport) return;
     svgViewport.setAttribute("transform", `translate(${translateX}, ${translateY}) scale(${scale})`);
   }
 
@@ -1270,13 +1273,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================================
   
   function handlePlaygroundInsert() {
+    if (!playgroundInput) return;
     const input = playgroundInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
     if (!input || input.length < 2) {
       playErrorSound();
       alert("Please enter a valid alphabetic word of length 2 or more.");
       return;
     }
-    
     playgroundTrie.insert(input);
     playgroundInput.value = "";
     updateVisualizer();
@@ -1289,7 +1292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function runStressTest() {
     initAudio();
-    btnStressTest.disabled = true;
+    if (btnStressTest) btnStressTest.disabled = true;
     btnStressTest.textContent = "Benchmarking Engine...";
     stressTestStatus.textContent = "Running...";
     stressStatsDisplay.style.display = "none";

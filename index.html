@@ -9,36 +9,78 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=21.3.1">
+  <link rel="stylesheet" href="index.css?v=22.0.0">
 </head>
 <body>
-  <!-- SITE LOCK / PASSWORD PROTECTION OVERLAY -->
-  <div id="site-lock-modal" style="position:fixed; inset:0; z-index:999999; background:rgba(2, 6, 23, 0.96); backdrop-filter:blur(24px); display:flex; align-items:center; justify-content:center; padding:1.5rem;">
-    <div style="max-width:440px; width:100%; background:rgba(15, 23, 42, 0.85); border:1px solid rgba(255, 255, 255, 0.12); border-radius:24px; padding:2.5rem 2rem; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.7); text-align:center; position:relative; overflow:hidden;">
-      <div style="width:64px; height:64px; margin:0 auto 1.25rem; background:rgba(59, 130, 246, 0.15); border:1px solid rgba(59, 130, 246, 0.3); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:2rem;">
-        🔒
+  <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
+  <div id="site-lock-modal" style="position:fixed; inset:0; z-index:999999; background:rgba(2, 6, 23, 0.97); backdrop-filter:blur(30px); display:flex; align-items:center; justify-content:center; padding:1.5rem; overflow-y:auto;">
+    <!-- Ambient floating glowing elements -->
+    <div style="position:absolute; width:450px; height:450px; background:radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(0,0,0,0) 70%); top:-100px; left:-100px; border-radius:50%; pointer-events:none;"></div>
+    <div style="position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(6,182,212,0.18) 0%, rgba(0,0,0,0) 70%); bottom:-150px; right:-150px; border-radius:50%; pointer-events:none;"></div>
+
+    <div id="site-lock-card" style="max-width:440px; width:100%; background:linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(11, 17, 32, 0.95)); border:1px solid rgba(255, 255, 255, 0.12); border-radius:28px; padding:2.25rem 1.75rem; box-shadow:0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.1); text-align:center; position:relative; overflow:hidden;">
+      
+      <!-- Top HUD Header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.08); font-size:0.75rem; color:var(--text-muted);">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:8px; height:8px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+          <strong style="color:var(--text-primary); font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;">Arvora Sentinel</strong>
+        </div>
+        <div id="site-lock-time-ticker" style="font-family:var(--font-mono); color:var(--color-accent); font-weight:600; font-size:0.72rem;">11:43:00 PM IST</div>
       </div>
-      <h2 style="font-size:1.4rem; font-weight:800; color:var(--text-primary); margin-bottom:0.4rem; letter-spacing:-0.02em;">Arvora Private Access</h2>
-      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.5;">This site is password protected. Enter passcode to unlock and continue.</p>
 
-      <form id="site-lock-form" style="display:flex; flex-direction:column; gap:1rem;">
-        <div style="position:relative;">
-          <input type="password" id="site-lock-input" placeholder="Enter password..." autocomplete="current-password" style="width:100%; padding:0.85rem 1rem; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-size:1rem; outline:none; text-align:center; letter-spacing:0.1em; transition:border-color 0.2s;" required>
+      <!-- Animated Holographic Lock Icon Hub -->
+      <div style="position:relative; width:80px; height:80px; margin:0 auto 1.25rem; display:flex; align-items:center; justify-content:center;">
+        <div class="lock-orb-ring-1"></div>
+        <div class="lock-orb-ring-2"></div>
+        <div style="width:68px; height:68px; border-radius:24px; background:linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2)); border:1px solid rgba(59, 130, 246, 0.4); display:flex; align-items:center; justify-content:center; font-size:2.2rem; filter:drop-shadow(0 0 15px rgba(6,182,212,0.4)); animation:lockPulseGlow 3s ease-in-out infinite;">
+          🔒
         </div>
+      </div>
+
+      <h2 style="font-size:1.45rem; font-weight:800; color:var(--text-primary); margin-bottom:0.3rem; letter-spacing:-0.02em;">Private Access Vault</h2>
+      <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:1.25rem; line-height:1.5;">Enter your 5-digit passkey to authorize session entry.</p>
+
+      <!-- Visual PIN Dots Display -->
+      <div id="pin-dots-container" style="display:flex; justify-content:center; gap:12px; margin-bottom:1.5rem;">
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+      </div>
+
+      <!-- Hidden Input for Form Submission / Typing Support -->
+      <form id="site-lock-form" style="display:flex; flex-direction:column; gap:0.75rem;">
+        <input type="password" id="site-lock-input" maxlength="20" placeholder="•••••" autocomplete="current-password" style="position:absolute; opacity:0; pointer-events:none; width:1px; height:1px;" required>
         
-        <div id="site-lock-error" style="display:none; font-size:0.8rem; color:#f87171; background:rgba(239,68,68,0.15); padding:0.5rem; border-radius:10px; border:1px solid rgba(239,68,68,0.3);">
-          ❌ Incorrect password. Please try again.
+        <div id="site-lock-error" style="display:none; font-size:0.8rem; color:#f87171; background:rgba(239,68,68,0.15); padding:0.6rem; border-radius:12px; border:1px solid rgba(239,68,68,0.3); font-weight:600;">
+          ❌ Access Denied. Incorrect Passcode.
         </div>
 
-        <button type="submit" id="site-lock-submit-btn" style="width:100%; padding:0.85rem; border-radius:14px; background:linear-gradient(135deg, var(--color-primary), #06b6d4); color:white; font-weight:700; font-size:0.95rem; border:none; cursor:pointer; box-shadow:0 10px 20px -5px rgba(59, 130, 246, 0.4); transition:transform 0.15s ease;">
-          🔓 Unlock Site
-        </button>
+        <!-- Interactive Cyber Keypad Grid -->
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:0.75rem;" id="pin-keypad">
+          <button type="button" class="pin-digit-btn" data-val="1">1</button>
+          <button type="button" class="pin-digit-btn" data-val="2">2</button>
+          <button type="button" class="pin-digit-btn" data-val="3">3</button>
+          <button type="button" class="pin-digit-btn" data-val="4">4</button>
+          <button type="button" class="pin-digit-btn" data-val="5">5</button>
+          <button type="button" class="pin-digit-btn" data-val="6">6</button>
+          <button type="button" class="pin-digit-btn" data-val="7">7</button>
+          <button type="button" class="pin-digit-btn" data-val="8">8</button>
+          <button type="button" class="pin-digit-btn" data-val="9">9</button>
+          <button type="button" class="pin-digit-btn" data-val="clear" style="font-size:0.95rem; color:#f87171; background:rgba(239,68,68,0.08);">⌫ Clear</button>
+          <button type="button" class="pin-digit-btn" data-val="0">0</button>
+          <button type="submit" class="pin-digit-btn" style="font-size:0.95rem; color:#10b981; background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.3);">🔓 Enter</button>
+        </div>
       </form>
 
-      <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,0.08); font-size:0.75rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
-        <span>Passcode Required</span>
-        <button id="site-lock-change-btn" style="background:none; border:none; color:var(--text-secondary); text-decoration:underline; font-size:0.75rem; cursor:pointer;">Change Password</button>
+      <!-- Footer Info Bar -->
+      <div style="margin-top:0.75rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.08); font-size:0.75rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+        <span>🛡️ 256-Bit SSL Encrypted</span>
+        <button id="site-lock-change-btn" style="background:none; border:none; color:var(--color-primary); text-decoration:underline; font-size:0.75rem; cursor:pointer; font-weight:600;">Change Passcode</button>
       </div>
+
     </div>
   </div>
 
@@ -62,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v21.3.1</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.0.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -4835,7 +4877,7 @@
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 21.3.1 (Private Access Passcode Protection Update) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 22.0.0 (Creative Cyberpunk Passcode Vault Release) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -4846,8 +4888,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=21.3.1"></script>
-  <script src="trie.js?v=21.3.1"></script>
-  <script src="app.js?v=21.3.1"></script>
+  <script src="cities.js?v=22.0.0"></script>
+  <script src="trie.js?v=22.0.0"></script>
+  <script src="app.js?v=22.0.0"></script>
 </body>
 </html>

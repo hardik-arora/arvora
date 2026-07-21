@@ -24,13 +24,74 @@ document.addEventListener("DOMContentLoaded", () => {
     footerResetBtn.addEventListener("click", performHardReset);
   }
 
-  // --- IMMEDIATE DOM PURGE OF LEGACY LOCK OVERLAYS ---
-  (function purgeStaleLocks() {
-    sessionStorage.setItem("arvora_authorized", "true");
-    localStorage.setItem("arvora_authorized", "true");
-    document.body?.classList.remove("locked");
-    document.querySelectorAll(".site-lock-overlay, #site-lock-overlay").forEach(el => el.remove());
-  })();
+  // --- SITE LOCK / PASSWORD PROTECTION CONTROLLER ---
+  function initSiteLock() {
+    const lockModal = document.getElementById("site-lock-modal");
+    const lockForm = document.getElementById("site-lock-form");
+    const lockInput = document.getElementById("site-lock-input");
+    const lockError = document.getElementById("site-lock-error");
+    const islandLockBtn = document.getElementById("island-lock-btn");
+    const changeBtn = document.getElementById("site-lock-change-btn");
+
+    if (!lockModal) return;
+
+    const getSavedPassword = () => localStorage.getItem("arvora_site_password") || "arvora2026";
+    const setSavedPassword = (pw) => localStorage.setItem("arvora_site_password", pw);
+
+    const isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true";
+    if (isUnlocked) {
+      lockModal.style.display = "none";
+    } else {
+      lockModal.style.display = "flex";
+      setTimeout(() => lockInput && lockInput.focus(), 100);
+    }
+
+    if (lockForm) {
+      lockForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const entered = lockInput ? lockInput.value.trim() : "";
+        if (entered === getSavedPassword()) {
+          sessionStorage.setItem("arvora_session_unlocked", "true");
+          lockModal.style.display = "none";
+          if (lockError) lockError.style.display = "none";
+          if (lockInput) lockInput.value = "";
+        } else {
+          if (lockError) lockError.style.display = "block";
+          if (lockInput) {
+            lockInput.value = "";
+            lockInput.focus();
+          }
+        }
+      });
+    }
+
+    if (islandLockBtn) {
+      islandLockBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("arvora_session_unlocked");
+        lockModal.style.display = "flex";
+        if (lockInput) lockInput.focus();
+      });
+    }
+
+    if (changeBtn) {
+      changeBtn.addEventListener("click", () => {
+        const currentPw = prompt("Enter current password:");
+        if (currentPw === getSavedPassword()) {
+          const newPw = prompt("Enter your new password (minimum 4 characters):");
+          if (newPw && newPw.trim().length >= 4) {
+            setSavedPassword(newPw.trim());
+            alert("✅ Password updated successfully! Your new password is saved.");
+          } else if (newPw !== null) {
+            alert("⚠️ Password must be at least 4 characters.");
+          }
+        } else if (currentPw !== null) {
+          alert("❌ Incorrect password.");
+        }
+      });
+    }
+  }
+
+  initSiteLock();
 
   // --- BULLETPROOF DOM HELPER UTILITIES ---
   function safeText(id, text) {

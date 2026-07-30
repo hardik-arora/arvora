@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=22.9.0">
+  <link rel="stylesheet" href="index.css?v=23.0.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.9.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.0.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -5654,12 +5654,88 @@
     </div>
   </div>
 
+  <!-- TAB 114: GEN Z SPLITWISE UPI EXPENSE CALCULATOR -->
+  <div id="tab-content-genzsplit" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💸</span> Group Travel UPI Expense &amp; Bill Splitter</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate fair group travel bill splitting with UPI QR links (GPay/PhonePe) &amp; instant 'who owes whom' breakdown.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem; display:flex; flex-wrap:wrap; gap:1rem;">
+        <input type="number" id="genzsplit-amount" placeholder="Total Bill Amount (₹)" value="3500" style="padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none; width:200px;" />
+        <input type="number" id="genzsplit-people" placeholder="Number of People" value="4" min="1" max="20" style="padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none; width:160px;" />
+        <input type="number" id="genzsplit-tip" placeholder="Tip % (Optional)" value="10" min="0" max="30" style="padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none; width:160px;" />
+      </div>
+
+      <div id="genzsplit-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 115: 35MM FILM CAMERA AESTHETIC & X-RAY SAFETY GUIDE -->
+  <div id="tab-content-filmcamera" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📸</span> 35mm Film Camera Aesthetic &amp; Airport X-Ray Safety Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Analog film stock tips (Kodak Gold/Fuji C200), lab developing shops &amp; airport CT scanner hand-check rules.</p>
+      </div>
+
+      <div id="filmcamera-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 116: AIRPORT CAPSULE HOTEL & SLEEPING POD FINDER -->
+  <div id="tab-content-capsulehotel" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>😴</span> Airport Capsule Hotel &amp; Day-Use Sleeping Pod Finder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Airport sleeping pods (Snooze At My Space, Urbanpod), hourly transit rates &amp; lounge pass access.</p>
+      </div>
+
+      <div id="capsulehotel-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 117: ROOFTOP SUNSET YOGA & SOUND HEALING RETREATS -->
+  <div id="tab-content-wellnessretreat" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧘</span> Rooftop Sunset Yoga, Sound Healing &amp; Wellness Retreats</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Drop-in yoga classes (Rishikesh, Varkala), Tibetan singing bowl sound healing (Dharamshala) &amp; meditation.</p>
+      </div>
+
+      <div id="wellnessretreat-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 118: ESIM SETUP & INTERNATIONAL ROAMING DATA PACK CHECKER -->
+  <div id="tab-content-esimchecker" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📱</span> Tourist eSIM Activation &amp; Data Roaming Pack Checker</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Activate digital eSIMs (Airalo, Nomad, Jio eSIM, Airtel eSIM) instantly without physical SIM swap.</p>
+      </div>
+
+      <div id="esimchecker-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 22.9.0 (5 Gen Z Features: Vintage Thrift Store Map, Bouldering &amp; Surf Spots, Pet-Friendly Trains &amp; Stays, Matcha Boba Tea &amp; Silent Discos) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 23.0.0 (5 Gen Z Features: Group UPI Bill Splitter, 35mm Film Camera Guide, Airport Capsule Pods, Sunset Yoga Retreats &amp; Tourist eSIM Activation) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -5670,8 +5746,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=22.9.0"></script>
-  <script src="trie.js?v=22.9.0"></script>
-  <script src="app.js?v=22.9.0"></script>
+  <script src="cities.js?v=23.0.0"></script>
+  <script src="trie.js?v=23.0.0"></script>
+  <script src="app.js?v=23.0.0"></script>
 </body>
 </html>

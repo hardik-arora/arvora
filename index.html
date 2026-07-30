@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=22.3.0">
+  <link rel="stylesheet" href="index.css?v=22.4.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.3.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.4.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -5096,12 +5096,148 @@
     </div>
   </div>
 
+  <!-- TAB 84: 24/7 EMERGENCY PHARMACY & BLOOD BANK LOCATOR -->
+  <div id="tab-content-emergencyhealth" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(220, 38, 38, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏥</span> 24/7 Emergency Pharmacy &amp; Health Helpline Finder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Locate 24-hour pharmacies, emergency blood banks, oxygen suppliers, and 108 ambulance helplines across Indian cities.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="emergencyhealth-city-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="delhi">New Delhi / NCR (Northern Hub)</option>
+          <option value="mumbai">Mumbai (Financial Capital)</option>
+          <option value="bangalore">Bengaluru (Karnataka Tech Hub)</option>
+          <option value="kolkata">Kolkata (Eastern Metro)</option>
+          <option value="chennai">Chennai (Tamil Nadu Coastal)</option>
+          <option value="hyderabad">Hyderabad (Telangana)</option>
+          <option value="jaipur">Jaipur (Rajasthan)</option>
+          <option value="varanasi">Varanasi (Uttar Pradesh)</option>
+        </select>
+      </div>
+
+      <div id="emergencyhealth-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 85: TRAIN COACH ELECTRICAL SOCKET & WI-FI FINDER -->
+  <div id="tab-content-trainsocket" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🔌</span> Train Coach Electrical Socket &amp; Wi-Fi Finder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Check mobile &amp; laptop charging socket availability by coach class (Vande Bharat, 1A, 2A, 3A, SL) and RailWire station Wi-Fi rules.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="trainsocket-class-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="vande_bharat">Vande Bharat Express (Executive &amp; Chair Car)</option>
+          <option value="first_ac">1st AC (1A) — Executive Sleeper</option>
+          <option value="second_ac">2nd AC (2A) — 2-Tier Sleeper</option>
+          <option value="third_ac">3rd AC (3A / 3E) — 3-Tier Economy</option>
+          <option value="sleeper">Sleeper Class (SL) — Non-AC</option>
+          <option value="tejas">Tejas / Shatabdi Express (Chair Car)</option>
+        </select>
+      </div>
+
+      <div id="trainsocket-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 86: RAILWAY CLOAKROOM & LUGGAGE LOCKER GUIDE -->
+  <div id="tab-content-cloakroom" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎒</span> Railway Cloakroom &amp; Luggage Locker Station Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Official Indian Railways cloakroom rules (padlock rules, valid ticket requirement, ₹15-30/day charges) &amp; major station lockers.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="cloakroom-station-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="ndls">New Delhi (NDLS) &amp; Hazrat Nizamuddin (NZM)</option>
+          <option value="csmt">Mumbai CSMT &amp; Mumbai Central (MMCT)</option>
+          <option value="hwh">Howrah Junction (HWH) &amp; Sealdah (SDAH)</option>
+          <option value="sbc">KSR Bengaluru (SBC) &amp; Yashvantpur (YPR)</option>
+          <option value="mas">Chennai Central (MAS) &amp; Egmore (MS)</option>
+          <option value="secunda">Secunderabad (SC) &amp; Hyderabad (HYB)</option>
+        </select>
+      </div>
+
+      <div id="cloakroom-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 87: OFFLINE MAPS & DATA SAVER TRAVEL ADVISOR -->
+  <div id="tab-content-datasaver" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📱</span> Offline Navigation &amp; Mobile Data Saver Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Step-by-step instructions to download offline maps, 112 India SOS app setup, and data-saving tips for low network zones.</p>
+      </div>
+
+      <div id="datasaver-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 88: AUTO RICKSHAW METER FARE & NIGHT SURGE ESTIMATOR -->
+  <div id="tab-content-rickshawmeter" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛺</span> Auto Rickshaw Meter Fare &amp; Night Surge Estimator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate official government auto meter fares, base rates, night surge fees (11 PM - 5 AM), and prepaid booth tips.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+        <div class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <h3 style="font-size:1rem; margin-bottom:1rem; color:var(--text-primary);">🛺 Auto Journey Details</h3>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Select City / Region:</label>
+            <select id="rickshawmeter-city-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="mumbai">Mumbai (Electronic Meter Mandatory)</option>
+              <option value="delhi">Delhi NCR (RTO Approved Rate)</option>
+              <option value="bangalore">Bengaluru (Digital Auto Meter)</option>
+              <option value="chennai">Chennai (Prepaid Auto / Meter)</option>
+              <option value="hyderabad">Hyderabad (RTO Standard Meter)</option>
+              <option value="ahmedabad">Ahmedabad (RTO Meter Fare)</option>
+            </select>
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Approximate Travel Distance (in km):</label>
+            <input type="number" id="rickshawmeter-km-input" value="7.5" step="0.5" placeholder="e.g. 7.5" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+          </div>
+          <div style="margin-bottom:0.85rem;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Time of Travel:</label>
+            <select id="rickshawmeter-time-select" style="width:100%; padding:0.6rem; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.85rem; outline:none;">
+              <option value="day">Day Time (05:00 AM – 11:00 PM)</option>
+              <option value="night">Night Time (11:00 PM – 05:00 AM) [+25% to +50% Extra]</option>
+            </select>
+          </div>
+          <button id="rickshawmeter-btn-calc" class="visualizer-btn" style="width:100%; padding:0.75rem; border-radius:12px; background:var(--color-primary); color:white; font-weight:700; border:none; cursor:pointer;">
+            📊 Calculate Official Auto Meter Fare
+          </button>
+        </div>
+
+        <div id="rickshawmeter-result-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+          <div style="text-align:center; padding:2rem; color:var(--text-muted);">Enter details and click calculate fare.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 22.3.0 (5 New Practical Tools: ASI Monument Tickets, Altitude AMS Profiler, GI Craft Guide, Expressway FASTag &amp; Tide Safety) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 22.4.0 (5 Essential Travel Tools: 24/7 Pharmacy &amp; Blood Bank, Train Socket &amp; Wi-Fi, Railway Cloakrooms, Offline Maps &amp; Auto Meter Calc) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -5112,8 +5248,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=22.3.0"></script>
-  <script src="trie.js?v=22.3.0"></script>
-  <script src="app.js?v=22.3.0"></script>
+  <script src="cities.js?v=22.4.0"></script>
+  <script src="trie.js?v=22.4.0"></script>
+  <script src="app.js?v=22.4.0"></script>
 </body>
 </html>

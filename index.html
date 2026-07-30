@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=23.9.0">
+  <link rel="stylesheet" href="index.css?v=24.0.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.9.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v24.0.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -6285,12 +6285,180 @@
     </div>
   </div>
 
+    <!-- TAB: E-VISA & INDIAN ENTRY TOURIST VISA GUIDE -->
+  <div id="tab-content-evisa" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛂</span> e-Visa & Indian Entry Tourist Visa Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Official e-Visa portal, fee structures, 30-day/1-year/5-year tourist visa rules & e-tourist landing ports.</p>
+      </div>
+
+      <div id="evisa-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: AIRPORT TERMINAL & LOUNGE PASS GUIDE -->
+  <div id="tab-content-airport" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>✈️</span> Airport Terminal & Lounge Pass Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">IGI Delhi T3, BOM T2, BLR T2 lounge access, Digiyatra biometric entry & airport express metro.</p>
+      </div>
+
+      <div id="airport-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PLUG ADAPTERS & VOLTAGE SAFETY GUIDE -->
+  <div id="tab-content-voltage" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>⚡</span> Plug Adapters & Voltage Safety Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">India Type C/D/M plugs, 230V 50Hz frequency, surge protector tips & universal adapter recommendations.</p>
+      </div>
+
+      <div id="voltage-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: ICONIC PHOTOGRAPHY SPOTS & LANDMARK TIMING -->
+  <div id="tab-content-photo" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📸</span> Iconic Photography Spots & Landmark Timing</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Taj Mahal sunrise photography rules, Qutub Minar Golden hour, Gateway of India & drone permit rules.</p>
+      </div>
+
+      <div id="photo-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: INDIAN RAILWAYS SEAT & COACH MAP GUIDE -->
+  <div id="tab-content-seat" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💺</span> Indian Railways Seat & Coach Map Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">1A, 2A, 3A, 3E, SL, CC coach layouts, side lower seat preference, emergency quotas & berth maps.</p>
+      </div>
+
+      <div id="seat-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: INTERCITY TRANSIT & BOOKING HUB -->
+  <div id="tab-content-transit" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚌</span> Intercity Transit & Booking Hub</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Vande Bharat Express, RedBus, AbhiBus, State RTCs (KSRTC, MSRTC, UPSRTC) & flight deal trackers.</p>
+      </div>
+
+      <div id="transit-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: INDIAN CULTURAL ETIQUETTE & CUSTOMS GUIDE -->
+  <div id="tab-content-culture" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛕</span> Indian Cultural Etiquette & Customs Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Temple shoe removal rules, dress codes, head covering, namaste greeting & traditional meal etiquette.</p>
+      </div>
+
+      <div id="culture-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: IRCTC MASTER BOOKING & TATKAL HELPER -->
+  <div id="tab-content-irctc" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎫</span> IRCTC Master Booking & Tatkal Helper</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Tatkal 10 AM / 11 AM booking hacks, IRCTC eWallet, Master List auto-fill & chart preparation timing.</p>
+      </div>
+
+      <div id="irctc-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: MAJOR INDIAN FESTIVAL & EVENT CALENDAR -->
+  <div id="tab-content-festival" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎉</span> Major Indian Festival & Event Calendar</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Diwali, Holi, Durga Puja, Ganesh Chaturthi, Pushkar Camel Fair & Hornbill Festival dates & locations.</p>
+      </div>
+
+      <div id="festival-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: TRAIN LIVE RUNNING STATUS & SPOTTING GUIDE -->
+  <div id="tab-content-train" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚆</span> Train Live Running Status & Spotting Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">NTES live train status, spot your train, platform number predictor & train delay refund rules.</p>
+      </div>
+
+      <div id="train-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: METRORAIL MAPS & SMART CARD GUIDE -->
+  <div id="tab-content-metro" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚇</span> Metrorail Maps & Smart Card Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Delhi Metro, Namma Metro BLR, Mumbai Metro, Hyderabad & Kolkata Metro smart cards & QR ticket apps.</p>
+      </div>
+
+      <div id="metro-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PAN-INDIA CULINARY & STREET FOOD GUIDE -->
+  <div id="tab-content-food" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🍲</span> Pan-India Culinary & Street Food Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Delhi Chaat, Mumbai Vada Pav, Hyderabadi Biryani, South Indian Tiffin & Amritsari Kulcha hotspots.</p>
+      </div>
+
+      <div id="food-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 23.9.0 (Bugfix Release: Restored &amp; Verified Complete Interactive Initializers for All 157 City Universe &amp; Gen Z Features) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 24.0.0 (Major Milestone Release: Exhaustive 157 Feature Synchronization, 100% HTML Panel Binding &amp; Hyper-Detailed Travel Data Cards) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -6301,8 +6469,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=23.9.0"></script>
-  <script src="trie.js?v=23.9.0"></script>
-  <script src="app.js?v=23.9.0"></script>
+  <script src="cities.js?v=24.0.0"></script>
+  <script src="trie.js?v=24.0.0"></script>
+  <script src="app.js?v=24.0.0"></script>
 </body>
 </html>

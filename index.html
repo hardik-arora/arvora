@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=23.4.0">
+  <link rel="stylesheet" href="index.css?v=23.5.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.4.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.5.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -6010,12 +6010,82 @@
     </div>
   </div>
 
+  <!-- TAB 139: PODCAST RECORDING STUDIO & CONTENT CREATOR BOOTHS -->
+  <div id="tab-content-podcaststudio" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎙️</span> Podcast Studios &amp; Content Creator Sound Booths</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Acoustically treated podcast studios (Subko Studio, Creator Garage) with Shure SM7B mics &amp; video gear.</p>
+      </div>
+
+      <div id="podcaststudio-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 140: VINTAGE PHOTO BOOTH KIOSKS & INSTANT STRIP PRINTS -->
+  <div id="tab-content-photobooth" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📸</span> Vintage Y2K Photo Booths &amp; Instant Strip Print Hubs</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Retro Korean-style 4-cut photo booth kiosks (Life4Cuts, PhotoAutomat) with fun props &amp; QR soft copies.</p>
+      </div>
+
+      <div id="photobooth-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 141: CUSTOM SNEAKER PAINTING & DENIM UPCYCLING WORKSHOPS -->
+  <div id="tab-content-customworkshop" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎨</span> DIY Custom Sneaker Painting &amp; Denim Upcycling Studios</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Sneaker customizer studios (The Glue Guild, Craftivity) with acrylic leather paints, stencils &amp; instructors.</p>
+      </div>
+
+      <div id="customworkshop-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 142: POTTERY WHEEL THROWING & CERAMIC CLAY STUDIOS -->
+  <div id="tab-content-potterystudio" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🪴</span> Ceramic Pottery Wheel Throwing &amp; Clay Studios</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Drop-in pottery wheel spinning classes (Clay Station BLR, Terra Cotta Goa) with kiln firing services.</p>
+      </div>
+
+      <div id="potterystudio-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 143: BOTANICAL TERRARIUM WORKSHOPS & PLANT CAFES -->
+  <div id="tab-content-terrariumshop" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🌱</span> Urban Terrarium Workshops &amp; Botanical Plant Cafes</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Build glass moss terrariums at botanical plant cafes (The Plant Cell, Greenr, Native Vegetation).</p>
+      </div>
+
+      <div id="terrariumshop-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 23.4.0 (5 Gen Z Features: Immersive Escape Rooms, Trampoline Foam Parks, Neon Laser Tag &amp; Paintball, Board Game Cafes &amp; Axe Throwing Rage Rooms) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 23.5.0 (5 Gen Z Features: Acoustic Podcast Studios, Vintage Y2K Photo Booths, DIY Custom Sneaker Painting, Ceramic Pottery Wheel Studios &amp; Botanical Terrarium Workshops) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -6026,8 +6096,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=23.4.0"></script>
-  <script src="trie.js?v=23.4.0"></script>
-  <script src="app.js?v=23.4.0"></script>
+  <script src="cities.js?v=23.5.0"></script>
+  <script src="trie.js?v=23.5.0"></script>
+  <script src="app.js?v=23.5.0"></script>
 </body>
 </html>

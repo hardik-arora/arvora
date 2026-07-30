@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=23.6.0">
+  <link rel="stylesheet" href="index.css?v=23.7.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.6.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.7.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -6150,12 +6150,82 @@
     </div>
   </div>
 
+  <!-- TAB 149: 24/7 EMERGENCY PHARMACY & NIGHT CHEMISTS -->
+  <div id="tab-content-nightchemist" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏥</span> 24/7 Emergency Pharmacies &amp; Night Chemists</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Round-the-clock 24-hour pharmacies (Apollo 24/7, MedPlus, Wellness Forever) with emergency contact lines.</p>
+      </div>
+
+      <div id="nightchemist-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 150: UNIVERSAL CHARGING STATIONS & LAPTOP DESKS -->
+  <div id="tab-content-charginghub" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🔌</span> Universal Laptop &amp; Fast Phone Charging Stations</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Fast 65W Type-C laptop charge desks, airport power points &amp; power bank swap kiosks.</p>
+      </div>
+
+      <div id="charginghub-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 151: CLEAN DRINKING WATER & RO REFILL STATIONS -->
+  <div id="tab-content-waterrefill" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💧</span> Clean RO Drinking Water &amp; Refill Stations</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Public RO water ATMs (₹1/liter), railway water vending machines &amp; eco cafe bottle refill spots.</p>
+      </div>
+
+      <div id="waterrefill-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 152: 24/7 CO-WORKING DESKS & LATE-NIGHT HUBS -->
+  <div id="tab-content-coworkingdesk" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💼</span> 24/7 Co-Working Flexi Desks &amp; Night Shift Work Hubs</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Flexi day passes &amp; 24/7 work desks (WeWork Day Pass, Awfis, Innov8, Social) with 200Mbps Wi-Fi.</p>
+      </div>
+
+      <div id="coworkingdesk-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 153: LUGGAGE STORAGE & STATION CLOAKROOMS -->
+  <div id="tab-content-luggagestorage" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧳</span> Luggage Storage &amp; Railway Station Cloakrooms</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Verified luggage drop points, station cloakrooms (₹30/day) &amp; airport left luggage holding facilities.</p>
+      </div>
+
+      <div id="luggagestorage-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 23.6.0 (5 Gen Z Features: 24/7 Gym Day Passes, Bouldering Gyms, Ice Bath Cold Plunge Hydrotherapy, Ceremonial Matcha Bars &amp; Artisanal Gelaterias) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 23.7.0 (5 Practical Features: 24/7 Emergency Night Pharmacies, Universal Laptop Fast Charge Hubs, Public RO Water ATMs, 24/7 Co-Working Flexi Desks &amp; Station Luggage Storage) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -6166,8 +6236,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=23.6.0"></script>
-  <script src="trie.js?v=23.6.0"></script>
-  <script src="app.js?v=23.6.0"></script>
+  <script src="cities.js?v=23.7.0"></script>
+  <script src="trie.js?v=23.7.0"></script>
+  <script src="app.js?v=23.7.0"></script>
 </body>
 </html>

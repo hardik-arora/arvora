@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=23.7.0">
+  <link rel="stylesheet" href="index.css?v=23.8.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.7.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v23.8.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -6220,12 +6220,77 @@
     </div>
   </div>
 
+  <!-- TAB 154: NOTARY, PASSPORT PHOTO & DOCUMENT PRINTING -->
+  <div id="tab-content-docservices" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(59, 130, 246, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📋</span> Passport Photo, Notary &amp; Document Services</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Instant passport-size photo studios, Aadhaar &amp; PAN photocopy centers, notary &amp; attestation services.</p>
+      </div>
+      <div id="docservices-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 155: CASH WITHDRAWAL, ATM LOCATOR & FOREX -->
+  <div id="tab-content-atmcash" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🏧</span> ATM Cash Withdrawal &amp; Forex Exchange Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Zero-fee ATM tips, cash withdrawal limits, forex exchange counters &amp; RBI-approved money changers.</p>
+      </div>
+      <div id="atmcash-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 156: LAUNDRY, WASH & FOLD & DRY CLEANING -->
+  <div id="tab-content-laundryspot" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>👕</span> Laundry, Wash &amp; Fold &amp; Express Dry Cleaning</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Same-day laundry pickup (UClean, Wassup, Mr. White) with per-kg pricing &amp; 6-hour turnaround.</p>
+      </div>
+      <div id="laundryspot-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 157: PUBLIC TOILET & CLEAN RESTROOM FINDER -->
+  <div id="tab-content-cleantoilet" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚻</span> Clean Public Toilet &amp; Paid Restroom Finder</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Sulabh complexes, mall restrooms, café toilet passes &amp; e-toilet kiosks at railway stations &amp; malls.</p>
+      </div>
+      <div id="cleantoilet-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 158: MOTORCYCLE & BICYCLE PUNCTURE REPAIR SHOPS -->
+  <div id="tab-content-puncturerepair" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛵</span> Bike Puncture Repair &amp; Roadside Mechanic Shops</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Roadside tyre puncture shops, petrol bunk mechanics &amp; 24/7 breakdown assistance contacts.</p>
+      </div>
+      <div id="puncturerepair-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 23.7.0 (5 Practical Features: 24/7 Emergency Night Pharmacies, Universal Laptop Fast Charge Hubs, Public RO Water ATMs, 24/7 Co-Working Flexi Desks &amp; Station Luggage Storage) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 23.8.0 (5 Everyday Essentials: Passport Photo &amp; Notary Services, ATM &amp; Forex Guide, Same-Day Laundry Pickup, Clean Toilet Finder &amp; Bike Puncture Repair) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -6236,8 +6301,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=23.7.0"></script>
-  <script src="trie.js?v=23.7.0"></script>
-  <script src="app.js?v=23.7.0"></script>
+  <script src="cities.js?v=23.8.0"></script>
+  <script src="trie.js?v=23.8.0"></script>
+  <script src="app.js?v=23.8.0"></script>
 </body>
 </html>

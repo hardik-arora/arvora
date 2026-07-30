@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=22.6.0">
+  <link rel="stylesheet" href="index.css?v=22.7.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.6.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.7.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -5414,12 +5414,102 @@
     </div>
   </div>
 
+  <!-- TAB 99: GEN Z INSTAGRAM & REELS AESTHETIC SPOTLIGHT -->
+  <div id="tab-content-genzspotlight" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📸</span> Gen Z Aesthetic Spot &amp; Reels Lighting Predictor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Viral aesthetic photo spots, golden hour lighting, cinematic camera angles, and color palette presets.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="genzspotlight-city-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="jaipur">Jaipur (Pink City Rooftops &amp; Patrika Gate Aesthetics)</option>
+          <option value="mumbai">Mumbai (Bandra Street Art &amp; Marine Drive Golden Hour)</option>
+          <option value="goa">Goa (Fontainhas Latin Quarter &amp; Parra Coconut Road)</option>
+          <option value="kochi">Fort Kochi (Art Cafes, Chinese Nets &amp; Vintage Murals)</option>
+          <option value="varanasi">Varanasi (Subah-e-Banaras Ghats &amp; Evening Aarti Lights)</option>
+        </select>
+      </div>
+
+      <div id="genzspotlight-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 100: SPECIALTY COFFEE & WORKATION CAFÉ FINDER -->
+  <div id="tab-content-workcafe" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>☕</span> Specialty Coffee &amp; Workation Remote Work Cafés</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Locate laptop-friendly specialty coffee shops (Blue Tokai, Third Wave, Subko), high-speed Wi-Fi, and pour-over brews.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="workcafe-city-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="bangalore">Bengaluru (Indiranagar &amp; Koramangala Coffee Capital)</option>
+          <option value="mumbai">Mumbai (Bandra West &amp; Kala Ghoda Specialty Coffee)</option>
+          <option value="delhi">Delhi NCR (Hauz Khas Village &amp; Dhan Mill Complex)</option>
+          <option value="goa">Goa (Anjuna &amp; Panaji Workation Cafes)</option>
+          <option value="manali">Manali / Old Manali (Mountain Workation Hubs)</option>
+        </select>
+      </div>
+
+      <div id="workcafe-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 101: BACKPACKER HOSTEL & SOCIAL COMMUNITY GUIDE -->
+  <div id="tab-content-backpackerhostel" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎒</span> Backpacker Hostel &amp; Social Solo Traveler Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Compare top social hostels (Zostel, Hosteller, GoStops), dorm rates (₹400-800/night), female-only dorm safety &amp; events.</p>
+      </div>
+
+      <div id="backpackerhostel-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 102: ECO-CONSCIOUS & SUSTAINABLE TRAVEL PROFILER -->
+  <div id="tab-content-ecotravel" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🌱</span> Eco-Conscious &amp; Sustainable Travel Profiler</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate travel carbon footprint (Electric Bus vs Train vs Flight), water refill spots, and plastic-free guidelines.</p>
+      </div>
+
+      <div id="ecotravel-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 103: GEN Z REGIONAL SUNSET VIBES PLAYLIST CURATOR -->
+  <div id="tab-content-genzvibes" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎵</span> Gen Z Regional Sunset Vibes &amp; Indie Music Curator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Curated Indie-Indian aesthetic Spotify playlists for roadtrips, mountain sunsets, and beach chill sessions.</p>
+      </div>
+
+      <div id="genzvibes-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 22.6.0 (5 Essential Travel Tools: OTC Medicine Salt Translator, Train Luggage Rules, Hotel Socket Adapters, Station Wi-Fi OTP &amp; Night Safety Share) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 22.7.0 (5 Gen Z Travel Features: Reels Aesthetic Spot Finder, Specialty Workation Cafes, Backpacker Hostels, Eco-Travel Profiler &amp; Sunset Playlists) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -5430,8 +5520,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=22.6.0"></script>
-  <script src="trie.js?v=22.6.0"></script>
-  <script src="app.js?v=22.6.0"></script>
+  <script src="cities.js?v=22.7.0"></script>
+  <script src="trie.js?v=22.7.0"></script>
+  <script src="app.js?v=22.7.0"></script>
 </body>
 </html>

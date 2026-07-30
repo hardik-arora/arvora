@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=22.5.0">
+  <link rel="stylesheet" href="index.css?v=22.6.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.5.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.6.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -5323,12 +5323,103 @@
     </div>
   </div>
 
+  <!-- TAB 94: OTC MEDICINE & PHARMACY BRAND TRANSLATOR -->
+  <div id="tab-content-medtranslator" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>💊</span> Indian OTC Medicine &amp; Pharmacy Salt Translator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Translate global generic medicine salt names to popular Indian pharmacy brand names and OTC availability.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="medtranslator-salt-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="paracetamol">Paracetamol / Acetaminophen (Fever &amp; Pain)</option>
+          <option value="ibuprofen">Ibuprofen + Paracetamol (Body Pain / Inflammation)</option>
+          <option value="pantoprazole">Pantoprazole / Omeprazole (Acidity &amp; Heartburn)</option>
+          <option value="cetirizine">Cetirizine (Allergies &amp; Running Nose)</option>
+          <option value="ors">Oral Rehydration Salts (ORS) (Dehydration / Diarrhea)</option>
+          <option value="loperamide">Loperamide (Stomach Upset / Loose Motion)</option>
+        </select>
+      </div>
+
+      <div id="medtranslator-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 95: IRCTC TRAIN LUGGAGE WEIGHT ALLOWANCE CALCULATOR -->
+  <div id="tab-content-trainluggage" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎒</span> IRCTC Train Free Luggage Weight &amp; Dimension Rules</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Check free luggage weight allowances by coach class (1A, 2A, 3A, SL), marginal limits, and excess baggage booking fees.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="trainluggage-class-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="first_ac">1st AC (1A) / Executive Anubhuti Class</option>
+          <option value="second_ac">2nd AC (2A) / Executive Chair Car</option>
+          <option value="third_ac">3rd AC (3A / 3E) / AC Chair Car (CC)</option>
+          <option value="sleeper">Sleeper Class (SL) — Non-AC</option>
+          <option value="second_sitting">2nd Seating (2S) — General Reserved</option>
+        </select>
+      </div>
+
+      <div id="trainluggage-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 96: HOTEL PLUG SOCKET & VOLTAGE ADAPTER GUIDE -->
+  <div id="tab-content-plugsockets" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🔌</span> Indian Hotel Socket Plugs &amp; Voltage Adapter Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Type D (5A) and Type M (15A) socket compatibility, 230V 50Hz voltage, and universal adapter advice.</p>
+      </div>
+
+      <div id="plugsockets-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 97: RAILWAY STATION FREE WI-FI & OTP GUIDE -->
+  <div id="tab-content-stationwifi" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📶</span> Railway Station RailWire Free Wi-Fi OTP Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">How to connect to RailWire station Wi-Fi across 6,000+ Indian stations, OTP login steps, and speed limits.</p>
+      </div>
+
+      <div id="stationwifi-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 98: NIGHT TRAVEL SAFETY & LIVE LOCATION SHARING ADVISOR -->
+  <div id="tab-content-livelocation" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(236, 72, 153, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🛡️</span> Night Travel Safety &amp; Live Location Tracking Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">WhatsApp Live Location, Uber/Ola Share Ride status, 112 India SOS trigger, and late-night cab safety tips.</p>
+      </div>
+
+      <div id="livelocation-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 22.5.0 (5 Essential Practical Tools: Tourist UPI Setup, IRCTC Refund &amp; TDR, Airport Cab Rate Estimator, Remote SIM Signal &amp; Cabin Security) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 22.6.0 (5 Essential Travel Tools: OTC Medicine Salt Translator, Train Luggage Rules, Hotel Socket Adapters, Station Wi-Fi OTP &amp; Night Safety Share) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -5339,8 +5430,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=22.5.0"></script>
-  <script src="trie.js?v=22.5.0"></script>
-  <script src="app.js?v=22.5.0"></script>
+  <script src="cities.js?v=22.6.0"></script>
+  <script src="trie.js?v=22.6.0"></script>
+  <script src="app.js?v=22.6.0"></script>
 </body>
 </html>

@@ -956,540 +956,482 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function switchTab(tabId) {
-    if (!tabId) return;
-    activeTab = tabId;
-    initAudio();
+    const tabs = document.querySelectorAll(".tab-content");
+    tabs.forEach(tab => tab.classList.remove("active"));
+    const activeTab = document.getElementById("tab-content-" + tabId);
+    if (activeTab) activeTab.classList.add("active");
 
-    // Query all tab contents dynamically from DOM
-    const allTabContents = document.querySelectorAll(".tab-content");
-    allTabContents.forEach(content => {
-      const isTarget = content.id === `tab-content-${tabId}`;
-      content.classList.toggle("active", isTarget);
-      content.style.display = isTarget ? "block" : "none";
-    });
-
-    // Update active state on navigation cards, pills, chips, and Dynamic Island buttons
-    document.querySelectorAll(".nav-grid-card, .header-tab-pill, .main-nav-pill, .sub-chip, .island-btn").forEach(btn => {
-      const target = btn.dataset.target || btn.dataset.tab;
-      if (target) {
-        btn.classList.toggle("active", target === tabId);
-      }
-    });
-
-    // Update active feature breadcrumb in header
-    const breadcrumb = document.getElementById("active-feature-breadcrumb");
-    if (breadcrumb) {
-      const activeEl = document.getElementById(`tab-content-${tabId}`);
-      const titleEl = activeEl ? activeEl.querySelector(".panel-title, h2, h3") : null;
-      if (titleEl) {
-        const cleanTitle = titleEl.textContent.replace(/^[\s\S]*?\s+/, '').trim();
-        breadcrumb.textContent = cleanTitle || tabId.toUpperCase();
-      } else {
-        breadcrumb.textContent = tabId.toUpperCase();
-      }
-    }
-
-    playSelectSound();
-    
-    // Lazy module initializers wrapped in try/catch for zero-error guarantee
     try {
+    if (tabId === 'engine') {
+      if (typeof renderEngine === 'function') renderEngine();
+    }
     if (tabId === 'routes') {
-      setTimeout(generateDatabaseSeed, 20);
+      if (typeof initRouteSolver === 'function') initRouteSolver();
     }
-    // Render analytics lazily on first visit
+    if (tabId === 'game') {
+      if (typeof initQuiz === 'function') initQuiz();
+    }
+    if (tabId === 'pattern') {
+      if (typeof renderPattern === 'function') renderPattern();
+    }
     if (tabId === 'analytics') {
-      renderAnalytics();
+      if (typeof renderAnalytics === 'function') renderAnalytics();
     }
-    // Initialize or load first quiz question on travel tab visit
+    if (tabId === 'scanner') {
+      if (typeof initQRGenerator === 'function') initQRGenerator();
+    }
     if (tabId === 'travel') {
-      initQuiz();
+      if (typeof initQuiz === 'function') initQuiz();
     }
-    // Initialize state showcase on visit
     if (tabId === 'tourism') {
-      initTourism();
+      if (typeof initTourism === 'function') initTourism();
     }
-    // Initialize trip planner on visit
     if (tabId === 'trip') {
-      initTripPlanner();
+      if (typeof initTripPlanner === 'function') initTripPlanner();
     }
-    // Initialize city discovery on visit
-    if (tabId === 'discovery') {
-      initDiscovery();
-    }
-    // Initialize festivals calendar on visit
-    if (tabId === 'festivals') {
-      initFestivals();
-    }
-    // Initialize city comparison on visit
-    if (tabId === 'compare') {
-      initCompare();
-    }
-    // Initialize budget calculator on visit
-    if (tabId === 'budget') {
-      initBudget();
-    }
-    // Initialize route solver on visit
     if (tabId === 'routesolver') {
-      initRouteSolver();
+      if (typeof initRouteSolver === 'function') initRouteSolver();
     }
-    // Initialize culinary showcase on visit
-    if (tabId === 'culinary') {
-      initCulinary();
+    if (tabId === 'transit') {
+      if (typeof initTransitHub === 'function') initTransitHub();
     }
-    // Initialize weather advisor on visit
-    if (tabId === 'weather') {
-      initWeather();
+    if (tabId === 'seat') {
+      if (typeof initCoach === 'function') initCoach();
     }
-    // Initialize emergency survival hub
-    if (tabId === 'emergency') {
-      initEmergency();
+    if (tabId === 'metro') {
+      if (typeof initTransitHub === 'function') initTransitHub();
     }
-    // Initialize expense splitter
-    if (tabId === 'splitter') {
-      initSplitter();
+    if (tabId === 'airport') {
+      if (typeof initAirportSecurity === 'function') initAirportSecurity();
     }
-    // Initialize landmarks explorer
-    if (tabId === 'landmarks') {
-      initLandmarks();
+    if (tabId === 'evisa') {
+      if (typeof initVisaAdvisor === 'function') initVisaAdvisor();
     }
-    // Initialize exploration tracker
-    if (tabId === 'tracker') {
-      initTracker();
+    if (tabId === 'voltage') {
+      if (typeof initSocketGuide === 'function') initSocketGuide();
     }
-    // Initialize travel notes
-    if (tabId === 'notes') {
-      initTravelNotes();
-    }
-    // Initialize baggage calculator
-    if (tabId === 'baggage') {
-      initBaggageCalculator();
-    }
-    // Initialize transit & booking hub
-    if (tabId === 'transitbooking') {
-      initTransitHub();
-    }
-    // Initialize health & safety hub
-    if (tabId === 'health') {
-      initHealthHub();
-    }
-    // Initialize EV charging router
-    if (tabId === 'evrouter') {
-      initEvRouter();
-    }
-    // Initialize dialect localizer
-    if (tabId === 'localizer') {
-      initLocalizer();
-    }
-    // Initialize photo sightseeing checklist
-    if (tabId === 'photohub') {
-      initPhotoHub();
-    }
-    // Initialize shopping guide
-    if (tabId === 'shopping') {
-      initShoppingGuide();
-    }
-    // Initialize food safety advisor
-    if (tabId === 'foodsafety') {
-      initFoodSafety();
-    }
-    // Initialize smart gear packer
-    if (tabId === 'smartpacker') {
-      initSmartPacker();
-    }
-    // Initialize network SIM advisor
-    if (tabId === 'simadvisor') {
-      initSimAdvisor();
-    }
-    // Initialize visa advisor
-    if (tabId === 'visa') {
-      initVisaAdvisor();
-    }
-    // Initialize socket guide
-    if (tabId === 'socket') {
-      initSocketGuide();
-    }
-    // Initialize ATM advisor
     if (tabId === 'atm') {
-      initAtmAdvisor();
+      if (typeof initAtmAdvisor === 'function') initAtmAdvisor();
     }
-    // Initialize speech translator
-    if (tabId === 'voice') {
-      initVoiceTranslator();
+    if (tabId === 'irctc') {
+      if (typeof initTatkalHelper === 'function') initTatkalHelper();
     }
-    // Initialize coach sleep guide
-    if (tabId === 'sleep') {
-      initSleepGuide();
+    if (tabId === 'train') {
+      if (typeof initLiveTrain === 'function') initLiveTrain();
     }
-    // Initialize waitlist predictor
-    if (tabId === 'pnrpredict') {
-      initPnrPredictor();
+    if (tabId === 'currency') {
+      if (typeof initCurrencyConverter === 'function') initCurrencyConverter();
     }
-    // Initialize stomach safety advisor
-    if (tabId === 'stomach') {
-      initStomachAdvisor();
+    if (tabId === 'rickshaw') {
+      if (typeof initRickshawCalc === 'function') initRickshawCalc();
     }
-    // Initialize solo safety advisor
-    if (tabId === 'solosafety') {
-      initSoloSafety();
-    }
-    // Initialize document checklist vault
-    if (tabId === 'vault') {
-      initVault();
-    }
-    // Phase 18 - 5 new Safety Initializers
-    if (tabId === 'safety') {
-      initSafety();
-    }
-    if (tabId === 'customs') {
-      initCustoms();
-    }
-    if (tabId === 'legal') {
-      initLegal();
-    }
-    if (tabId === 'insurance') {
-      initInsurance();
-    }
-    if (tabId === 'medical') {
-      initMedical();
-    }
-    if (tabId === 'playlist') {
-      initPlaylist();
-    }
-    if (tabId === 'medkit') {
-      initMedkit();
-    }
-    if (tabId === 'diet') {
-      initDiet();
+    if (tabId === 'bagcalc') {
+      if (typeof initBagCalc === 'function') initBagCalc();
     }
     if (tabId === 'upi') {
-      initUpi();
+      if (typeof initUpi === 'function') initUpi();
     }
     if (tabId === 'coach') {
-      initCoach();
+      if (typeof initCoach === 'function') initCoach();
     }
     if (tabId === 'forex') {
-      initForex();
-    }
-    if (tabId === 'permits') {
-      initPermits();
-    }
-    if (tabId === 'spicemenu') {
-      initSpiceMenu();
-    }
-    if (tabId === 'scamcheck') {
-      initScamCheck();
-    }
-    if (tabId === 'altitude') {
-      initAltitude();
-    }
-    if (tabId === 'bargain') {
-      initBargain();
-    }
-     if (tabId === 'monumentphoto') {
-      initMonumentPhoto();
-    }
-    if (tabId === 'monsoonrisk') {
-      initMonsoonRisk();
-    }
-    if (tabId === 'waterrisk') {
-      initWaterRisk();
-    }
-    if (tabId === 'templeetiquette') {
-      initTempleEtiquette();
-    }
-    if (tabId === 'localspeak') {
-      initLocalSpeak();
-    }
-    if (tabId === 'tipguide') {
-      initTipGuide();
+      if (typeof initForex === 'function') initForex();
     }
     if (tabId === 'appguide') {
-      initAppGuide();
+      if (typeof initAppGuide === 'function') initAppGuide();
     }
     if (tabId === 'livetrain') {
-      initLiveTrain();
+      if (typeof initLiveTrain === 'function') initLiveTrain();
     }
     if (tabId === 'gstcalc') {
-      initGstCalc();
-    }
-    if (tabId === 'ayurveda') {
-      initAyurveda();
-    }
-    if (tabId === 'unesco') {
-      initUnesco();
+      if (typeof initGstCalc === 'function') initGstCalc();
     }
     if (tabId === 'roadtrip') {
-      initRoadtrip();
+      if (typeof initRoadtrip === 'function') initRoadtrip();
     }
     if (tabId === 'evcharge') {
-      initEvCharge();
-    }
-    if (tabId === 'prasad') {
-      initPrasad();
-    }
-    if (tabId === 'signalprofiler') {
-      initSignalProfiler();
+      if (typeof initEvCharge === 'function') initEvCharge();
     }
     if (tabId === 'busguide') {
-      initBusGuide();
+      if (typeof initBusGuide === 'function') initBusGuide();
     }
     if (tabId === 'hotelgst') {
-      initHotelGst();
-    }
-    if (tabId === 'airquality') {
-      initAirQuality();
-    }
-    if (tabId === 'chaiguide') {
-      initChaiGuide();
+      if (typeof initHotelGst === 'function') initHotelGst();
     }
     if (tabId === 'tatkalhelper') {
-      initTatkalHelper();
-    }
-    if (tabId === 'folkdance') {
-      initFolkDance();
+      if (typeof initTatkalHelper === 'function') initTatkalHelper();
     }
     if (tabId === 'forexcalc') {
-      initForexCalc();
-    }
-    if (tabId === 'monumenttickets') {
-      initMonumentTickets();
-    }
-    if (tabId === 'altitudeprofiler') {
-      initAltitudeProfiler();
-    }
-    if (tabId === 'gitagguide') {
-      initGiTagGuide();
+      if (typeof initForexCalc === 'function') initForexCalc();
     }
     if (tabId === 'fastagcalc') {
-      initFastagCalc();
-    }
-    if (tabId === 'tidesafety') {
-      initTideSafety();
-    }
-    if (tabId === 'emergencyhealth') {
-      initEmergencyHealth();
+      if (typeof initFastagCalc === 'function') initFastagCalc();
     }
     if (tabId === 'trainsocket') {
-      initTrainSocket();
+      if (typeof initTrainSocket === 'function') initTrainSocket();
     }
     if (tabId === 'cloakroom') {
-      initCloakroom();
-    }
-    if (tabId === 'datasaver') {
-      initDataSaver();
+      if (typeof initCloakroom === 'function') initCloakroom();
     }
     if (tabId === 'rickshawmeter') {
-      initRickshawMeter();
-    }
-    if (tabId === 'upiguide') {
-      initUpiGuide();
+      if (typeof initRickshawMeter === 'function') initRickshawMeter();
     }
     if (tabId === 'pnrrefund') {
-      initPnrRefund();
+      if (typeof initPnrRefund === 'function') initPnrRefund();
     }
     if (tabId === 'cabestimator') {
-      initCabEstimator();
-    }
-    if (tabId === 'signalsimplified') {
-      initSignalSimplified();
-    }
-    if (tabId === 'airportsecurity') {
-      initAirportSecurity();
-    }
-    if (tabId === 'medtranslator') {
-      initMedTranslator();
+      if (typeof initCabEstimator === 'function') initCabEstimator();
     }
     if (tabId === 'trainluggage') {
-      initTrainLuggage();
+      if (typeof initTrainLuggage === 'function') initTrainLuggage();
+    }
+    if (tabId === 'safety') {
+      if (typeof initSafety === 'function') initSafety();
+    }
+    if (tabId === 'customs') {
+      if (typeof initCustoms === 'function') initCustoms();
+    }
+    if (tabId === 'legal') {
+      if (typeof initLegal === 'function') initLegal();
+    }
+    if (tabId === 'insurance') {
+      if (typeof initInsurance === 'function') initInsurance();
+    }
+    if (tabId === 'medical') {
+      if (typeof initMedical === 'function') initMedical();
+    }
+    if (tabId === 'emergency') {
+      if (typeof initEmergency === 'function') initEmergency();
+    }
+    if (tabId === 'solosafety') {
+      if (typeof initSoloSafety === 'function') initSoloSafety();
+    }
+    if (tabId === 'vault') {
+      if (typeof initVault === 'function') initVault();
+    }
+    if (tabId === 'simguide') {
+      if (typeof initSimGuide === 'function') initSimGuide();
+    }
+    if (tabId === 'medkit') {
+      if (typeof initMedkit === 'function') initMedkit();
+    }
+    if (tabId === 'permits') {
+      if (typeof initPermits === 'function') initPermits();
+    }
+    if (tabId === 'scamcheck') {
+      if (typeof initScamCheck === 'function') initScamCheck();
+    }
+    if (tabId === 'altitude') {
+      if (typeof initAltitude === 'function') initAltitude();
+    }
+    if (tabId === 'monsoonrisk') {
+      if (typeof initMonsoonRisk === 'function') initMonsoonRisk();
+    }
+    if (tabId === 'waterrisk') {
+      if (typeof initWaterRisk === 'function') initWaterRisk();
+    }
+    if (tabId === 'ayurveda') {
+      if (typeof initAyurveda === 'function') initAyurveda();
+    }
+    if (tabId === 'signalprofiler') {
+      if (typeof initSignalProfiler === 'function') initSignalProfiler();
+    }
+    if (tabId === 'airquality') {
+      if (typeof initAirQuality === 'function') initAirQuality();
+    }
+    if (tabId === 'altitudeprofiler') {
+      if (typeof initAltitudeProfiler === 'function') initAltitudeProfiler();
+    }
+    if (tabId === 'tidesafety') {
+      if (typeof initTideSafety === 'function') initTideSafety();
+    }
+    if (tabId === 'emergencyhealth') {
+      if (typeof initEmergencyHealth === 'function') initEmergencyHealth();
+    }
+    if (tabId === 'datasaver') {
+      if (typeof initDataSaver === 'function') initDataSaver();
+    }
+    if (tabId === 'upiguide') {
+      if (typeof initUpiGuide === 'function') initUpiGuide();
+    }
+    if (tabId === 'signalsimplified') {
+      if (typeof initSignalSimplified === 'function') initSignalSimplified();
+    }
+    if (tabId === 'airportsecurity') {
+      if (typeof initAirportSecurity === 'function') initAirportSecurity();
+    }
+    if (tabId === 'medtranslator') {
+      if (typeof initMedTranslator === 'function') initMedTranslator();
     }
     if (tabId === 'plugsockets') {
-      initPlugSockets();
+      if (typeof initPlugSockets === 'function') initPlugSockets();
     }
     if (tabId === 'stationwifi') {
-      initStationWifi();
+      if (typeof initStationWifi === 'function') initStationWifi();
     }
     if (tabId === 'livelocation') {
-      initLiveLocation();
+      if (typeof initLiveLocation === 'function') initLiveLocation();
+    }
+    if (tabId === 'culture') {
+      if (typeof initTempleEtiquette === 'function') initTempleEtiquette();
+    }
+    if (tabId === 'festival') {
+      if (typeof initFestivals === 'function') initFestivals();
+    }
+    if (tabId === 'food') {
+      if (typeof initCulinary === 'function') initCulinary();
+    }
+    if (tabId === 'foodsafety') {
+      if (typeof initFoodSafety === 'function') initFoodSafety();
+    }
+    if (tabId === 'photo') {
+      if (typeof initPhotoHub === 'function') initPhotoHub();
+    }
+    if (tabId === 'shopping') {
+      if (typeof initShoppingGuide === 'function') initShoppingGuide();
+    }
+    if (tabId === 'notes') {
+      if (typeof initTravelNotes === 'function') initTravelNotes();
+    }
+    if (tabId === 'smartpacker') {
+      if (typeof initSmartPacker === 'function') initSmartPacker();
+    }
+    if (tabId === 'voice') {
+      if (typeof initVoiceTranslator === 'function') initVoiceTranslator();
+    }
+    if (tabId === 'stomach') {
+      if (typeof initStomachAdvisor === 'function') initStomachAdvisor();
+    }
+    if (tabId === 'weather') {
+      if (typeof initWeather === 'function') initWeather();
+    }
+    if (tabId === 'sunclock') {
+      if (typeof initSunClock === 'function') initSunClock();
+    }
+    if (tabId === 'qrcode') {
+      if (typeof initQRGenerator === 'function') initQRGenerator();
+    }
+    if (tabId === 'playlist') {
+      if (typeof initPlaylist === 'function') initPlaylist();
+    }
+    if (tabId === 'diet') {
+      if (typeof initDiet === 'function') initDiet();
+    }
+    if (tabId === 'spicemenu') {
+      if (typeof initSpiceMenu === 'function') initSpiceMenu();
+    }
+    if (tabId === 'bargain') {
+      if (typeof initBargain === 'function') initBargain();
+    }
+    if (tabId === 'monumentphoto') {
+      if (typeof initMonumentPhoto === 'function') initMonumentPhoto();
+    }
+    if (tabId === 'templeetiquette') {
+      if (typeof initTempleEtiquette === 'function') initTempleEtiquette();
+    }
+    if (tabId === 'localspeak') {
+      if (typeof initLocalSpeak === 'function') initLocalSpeak();
+    }
+    if (tabId === 'tipguide') {
+      if (typeof initTipGuide === 'function') initTipGuide();
+    }
+    if (tabId === 'unesco') {
+      if (typeof initUnesco === 'function') initUnesco();
+    }
+    if (tabId === 'prasad') {
+      if (typeof initPrasad === 'function') initPrasad();
+    }
+    if (tabId === 'chaiguide') {
+      if (typeof initChaiGuide === 'function') initChaiGuide();
+    }
+    if (tabId === 'folkdance') {
+      if (typeof initFolkDance === 'function') initFolkDance();
+    }
+    if (tabId === 'monumenttickets') {
+      if (typeof initMonumentTickets === 'function') initMonumentTickets();
+    }
+    if (tabId === 'gitagguide') {
+      if (typeof initGiTagGuide === 'function') initGiTagGuide();
     }
     if (tabId === 'genzspotlight') {
-      initGenzSpotlight();
+      if (typeof initGenzSpotlight === 'function') initGenzSpotlight();
     }
     if (tabId === 'workcafe') {
-      initWorkCafe();
+      if (typeof initWorkCafe === 'function') initWorkCafe();
     }
     if (tabId === 'backpackerhostel') {
-      initBackpackerHostel();
+      if (typeof initBackpackerHostel === 'function') initBackpackerHostel();
     }
     if (tabId === 'ecotravel') {
-      initEcoTravel();
+      if (typeof initEcoTravel === 'function') initEcoTravel();
     }
     if (tabId === 'genzvibes') {
-      initGenzVibes();
+      if (typeof initGenzVibes === 'function') initGenzVibes();
     }
     if (tabId === 'powerbankswap') {
-      initPowerBankSwap();
+      if (typeof initPowerBankSwap === 'function') initPowerBankSwap();
     }
     if (tabId === 'scooterrental') {
-      initScooterRental();
+      if (typeof initScooterRental === 'function') initScooterRental();
     }
     if (tabId === 'genzslang') {
-      initGenzSlang();
+      if (typeof initGenzSlang === 'function') initGenzSlang();
     }
     if (tabId === 'livegigs') {
-      initLiveGigs();
+      if (typeof initLiveGigs === 'function') initLiveGigs();
     }
     if (tabId === 'veganindia') {
-      initVeganIndia();
+      if (typeof initVeganIndia === 'function') initVeganIndia();
     }
     if (tabId === 'thriftmap') {
-      initThriftMap();
+      if (typeof initThriftMap === 'function') initThriftMap();
     }
     if (tabId === 'adventuregenz') {
-      initAdventureGenz();
+      if (typeof initAdventureGenz === 'function') initAdventureGenz();
     }
     if (tabId === 'petfriendly') {
-      initPetFriendly();
+      if (typeof initPetFriendly === 'function') initPetFriendly();
     }
     if (tabId === 'bobafinder') {
-      initBobaFinder();
+      if (typeof initBobaFinder === 'function') initBobaFinder();
     }
     if (tabId === 'nightlifegenz') {
-      initNightlifeGenz();
+      if (typeof initNightlifeGenz === 'function') initNightlifeGenz();
     }
     if (tabId === 'genzsplit') {
-      initGenzSplit();
+      if (typeof initGenzSplit === 'function') initGenzSplit();
     }
     if (tabId === 'filmcamera') {
-      initFilmCamera();
+      if (typeof initFilmCamera === 'function') initFilmCamera();
     }
     if (tabId === 'capsulehotel') {
-      initCapsuleHotel();
+      if (typeof initCapsuleHotel === 'function') initCapsuleHotel();
     }
     if (tabId === 'wellnessretreat') {
-      initWellnessRetreat();
+      if (typeof initWellnessRetreat === 'function') initWellnessRetreat();
     }
     if (tabId === 'esimchecker') {
-      initEsimChecker();
+      if (typeof initEsimChecker === 'function') initEsimChecker();
     }
     if (tabId === 'streetart') {
-      initStreetArt();
+      if (typeof initStreetArt === 'function') initStreetArt();
     }
     if (tabId === 'nightmarket') {
-      initNightMarket();
+      if (typeof initNightMarket === 'function') initNightMarket();
     }
     if (tabId === 'popupevents') {
-      initPopupEvents();
+      if (typeof initPopupEvents === 'function') initPopupEvents();
     }
     if (tabId === 'naturetrails') {
-      initNatureTrails();
+      if (typeof initNatureTrails === 'function') initNatureTrails();
     }
     if (tabId === 'artisanchai') {
-      initArtisanChai();
+      if (typeof initArtisanChai === 'function') initArtisanChai();
     }
     if (tabId === 'pocketwifi') {
-      initPocketWifi();
+      if (typeof initPocketWifi === 'function') initPocketWifi();
     }
     if (tabId === 'skateparks') {
-      initSkateparks();
+      if (typeof initSkateparks === 'function') initSkateparks();
     }
     if (tabId === 'driveincinema') {
-      initDriveInCinema();
+      if (typeof initDriveInCinema === 'function') initDriveInCinema();
     }
     if (tabId === 'sneakerculture') {
-      initSneakerCulture();
+      if (typeof initSneakerCulture === 'function') initSneakerCulture();
     }
     if (tabId === 'comedyclubs') {
-      initComedyClubs();
+      if (typeof initComedyClubs === 'function') initComedyClubs();
     }
     if (tabId === 'gokarting') {
-      initGokarting();
+      if (typeof initGokarting === 'function') initGokarting();
     }
     if (tabId === 'ziplinegenz') {
-      initZiplineGenz();
+      if (typeof initZiplineGenz === 'function') initZiplineGenz();
     }
     if (tabId === 'neonbowling') {
-      initNeonBowling();
+      if (typeof initNeonBowling === 'function') initNeonBowling();
     }
     if (tabId === 'suppaddle') {
-      initSupPaddle();
+      if (typeof initSupPaddle === 'function') initSupPaddle();
     }
     if (tabId === 'scubagenz') {
-      initScubaGenz();
+      if (typeof initScubaGenz === 'function') initScubaGenz();
     }
     if (tabId === 'escaperoom') {
-      initEscapeRoom();
+      if (typeof initEscapeRoom === 'function') initEscapeRoom();
     }
     if (tabId === 'trampolinepark') {
-      initTrampolinePark();
+      if (typeof initTrampolinePark === 'function') initTrampolinePark();
     }
     if (tabId === 'lasertagarena') {
-      initLaserTagArena();
+      if (typeof initLaserTagArena === 'function') initLaserTagArena();
     }
     if (tabId === 'boardgamecafe') {
-      initBoardGameCafe();
+      if (typeof initBoardGameCafe === 'function') initBoardGameCafe();
     }
     if (tabId === 'axethrowing') {
-      initAxeThrowing();
+      if (typeof initAxeThrowing === 'function') initAxeThrowing();
     }
     if (tabId === 'podcaststudio') {
-      initPodcastStudio();
+      if (typeof initPodcastStudio === 'function') initPodcastStudio();
     }
     if (tabId === 'photobooth') {
-      initPhotoBooth();
+      if (typeof initPhotoBooth === 'function') initPhotoBooth();
     }
     if (tabId === 'customworkshop') {
-      initCustomWorkshop();
+      if (typeof initCustomWorkshop === 'function') initCustomWorkshop();
     }
     if (tabId === 'potterystudio') {
-      initPotteryStudio();
+      if (typeof initPotteryStudio === 'function') initPotteryStudio();
     }
     if (tabId === 'terrariumshop') {
-      initTerrariumShop();
+      if (typeof initTerrariumShop === 'function') initTerrariumShop();
     }
     if (tabId === 'gympassgenz') {
-      initGymPassGenz();
+      if (typeof initGymPassGenz === 'function') initGymPassGenz();
     }
     if (tabId === 'boulderinggym') {
-      initBoulderingGym();
+      if (typeof initBoulderingGym === 'function') initBoulderingGym();
     }
     if (tabId === 'icebathhub') {
-      initIceBathHub();
+      if (typeof initIceBathHub === 'function') initIceBathHub();
     }
     if (tabId === 'matchabar') {
-      initMatchaBar();
+      if (typeof initMatchaBar === 'function') initMatchaBar();
     }
     if (tabId === 'artisangelato') {
-      initArtisanGelato();
+      if (typeof initArtisanGelato === 'function') initArtisanGelato();
     }
     if (tabId === 'nightchemist') {
-      initNightChemist();
+      if (typeof initNightChemist === 'function') initNightChemist();
     }
     if (tabId === 'charginghub') {
-      initChargingHub();
+      if (typeof initChargingHub === 'function') initChargingHub();
     }
     if (tabId === 'waterrefill') {
-      initWaterRefill();
+      if (typeof initWaterRefill === 'function') initWaterRefill();
     }
     if (tabId === 'coworkingdesk') {
-      initCoworkingDesk();
+      if (typeof initCoworkingDesk === 'function') initCoworkingDesk();
     }
     if (tabId === 'luggagestorage') {
-      initLuggageStorage();
+      if (typeof initLuggageStorage === 'function') initLuggageStorage();
     }
     if (tabId === 'docservices') {
-      initDocServices();
+      if (typeof initDocServices === 'function') initDocServices();
     }
     if (tabId === 'atmcash') {
-      initAtmCash();
+      if (typeof initAtmCash === 'function') initAtmCash();
     }
     if (tabId === 'laundryspot') {
-      initLaundrySpot();
+      if (typeof initLaundrySpot === 'function') initLaundrySpot();
     }
     if (tabId === 'cleantoilet') {
-      initCleanToilet();
+      if (typeof initCleanToilet === 'function') initCleanToilet();
     }
     if (tabId === 'puncturerepair') {
-      initPunctureRepair();
+      if (typeof initPunctureRepair === 'function') initPunctureRepair();
     }
     } catch(e) {
       console.warn("Tab module init non-fatal warning:", e);
@@ -14028,61 +13970,27 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initWorkCafe (workcafe)
   // =====================================================================
   function initWorkCafe() {
-    const grid = document.getElementById("workcafe-cards-grid");
-    const container = document.getElementById("tab-content-workcafe");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("workcafe-cards-grid") || document.getElementById("tab-content-workcafe");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? null : (document.getElementById("workcafe-cards-grid") || grid);
+    if (!target) return;
     const DATA = [
-      {
-        title: "Workcafe Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for workcafe across major Indian metro cities."
-      },
-      {
-        title: "Workcafe Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Workcafe Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Blue Tokai Coffee Roasters (Pan-India)", icon: "☕", tag: "Work-Friendly", price: "₹220 - ₹350 per drink", desc: "High-speed 200Mbps Wi-Fi, power sockets at every table, specialty single-origin espresso & artisanal sourdough toasts." },
+      { title: "Subko Coffee & Bakehouse (Mumbai / BLR)", icon: "🥐", tag: "Craft Coffee", price: "₹250 - ₹400 per drink", desc: "Industrial aesthetic craft coffee hubs with quiet work desks, oat milk lattes, pod seating & fast fiber internet." },
+      { title: "Third Wave Coffee Roasters (Pan-India)", icon: "🍃", tag: "Late Night Work", price: "₹200 - ₹320 per drink", desc: "Spacious seating with universal plug points under every bench, cold brews & reliable high-bandwidth Wi-Fi." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14091,60 +13999,24 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initBackpackerHostel() {
     const grid = document.getElementById("backpackerhostel-cards-grid");
-    const container = document.getElementById("tab-content-backpackerhostel");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Backpackerhostel Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for backpackerhostel across major Indian metro cities."
-      },
-      {
-        title: "Backpackerhostel Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Backpackerhostel Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Zostel Hostels (60+ Destinations in India)", icon: "🎒", tag: "Most Popular", price: "₹599 - ₹1,200 / bed / night", desc: "Vibrant social backpacker dorms & private rooms in Goa, Rishikesh, Manali, Jaipur & Gokarna with rooftop cafes & bonfire nights." },
+      { title: "The Hosteller (Himalayas & Rajasthan)", icon: "🏔️", tag: "Workation Ready", price: "₹499 - ₹999 / bed / night", desc: "Modern aesthetic hostels with dedicated co-working tables, high-speed Wi-Fi, community games & local village walks." },
+      { title: "goSTOPS Backpackers (Metro & Hill Stations)", icon: "🌟", tag: "Budget Friendly", price: "₹399 - ₹899 / bed / night", desc: "Clean dorms with privacy curtains, reading lights, power sockets, home-style meals & 24/7 security reception." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    grid.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14277,60 +14149,24 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initPowerBankSwap() {
     const grid = document.getElementById("powerbankswap-cards-grid");
-    const container = document.getElementById("tab-content-powerbankswap");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Powerbankswap Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for powerbankswap across major Indian metro cities."
-      },
-      {
-        title: "Powerbankswap Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Powerbankswap Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Spiro & Chargeup Power Bank Rental Kiosks", icon: "🔋", tag: "Metro & Cafes", price: "₹20 / hour (₹100 day cap)", desc: "Scan QR code at metro stations, Blue Tokai cafes & malls to eject a 5000mAh powerbank with built-in Type-C & Lightning cables." },
+      { title: "Airport Fast-Charge Stations (DEL / BOM / BLR)", icon: "⚡", tag: "Free Public Sockets", price: "Free Access", desc: "Universal 65W PD Type-C charge desks located near airport departure gates & lounge areas." },
+      { title: "Railway Concourse Power Kiosks", icon: "🚆", tag: "Station Charging", price: "₹10 / 30 mins", desc: "Lockable charging locker boxes at major railway junction platforms (Delhi, CST Mumbai, BLR City)." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    grid.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14338,61 +14174,27 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initScooterRental (scooterrental)
   // =====================================================================
   function initScooterRental() {
-    const grid = document.getElementById("scooterrental-cards-grid");
-    const container = document.getElementById("tab-content-scooterrental");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("scooterrental-cards-grid") || document.getElementById("tab-content-scooterrental");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? null : (document.getElementById("scooterrental-cards-grid") || grid);
+    if (!target) return;
     const DATA = [
-      {
-        title: "Scooterrental Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for scooterrental across major Indian metro cities."
-      },
-      {
-        title: "Scooterrental Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Scooterrental Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Royal Brothers Bike & Scooter Rentals (40+ Cities)", icon: "🛵", tag: "Verified Fleet", price: "₹350 - ₹750 / day", desc: "Rent Activa, Access, Jupiter or Royal Enfield Classic 350. Valid driving license & helmet included. Zero deposit option." },
+      { title: "Goa & Varkala Local Scooter Drops", icon: "🌴", tag: "Beach Cruiser", price: "₹300 - ₹500 / day", desc: "Scooter delivered straight to railway station or airport arrival. Petrol extra (1 liter provided)." },
+      { title: "Bounce Electric Scooter Drops (Bengaluru / HYD)", icon: "⚡", tag: "EV Keyless", price: "₹6 / km or ₹350 / day", desc: "Keyless electric scooter unlocked via Bounce smartphone app. Swap battery at any Bounce swap station." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 

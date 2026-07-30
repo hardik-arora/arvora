@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=22.4.0">
+  <link rel="stylesheet" href="index.css?v=22.5.0">
 </head>
 <body>
   <!-- SITE LOCK / PRIVATE SENTINEL VAULT OVERLAY -->
@@ -104,7 +104,7 @@
       <div class="island-stats">
         <span class="island-stat-pill">⚡ 15K Cities</span>
         <span class="island-stat-pill" id="island-latency-pill">0.025 ms</span>
-        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.4.0</span>
+        <span class="island-stat-pill" style="color: var(--color-primary); font-weight: 700; border-color: rgba(59, 130, 246, 0.25);">v22.5.0</span>
       </div>
       
       <div class="island-shortcuts">
@@ -5232,12 +5232,103 @@
     </div>
   </div>
 
+  <!-- TAB 89: UPI FOR TOURISTS & DIGITAL PAYMENT SETUP -->
+  <div id="tab-content-upiguide" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(16, 185, 129, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📱</span> UPI for Foreigners &amp; Tourist Digital Payment Guide</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Set up UPI One World / Cheq wallet for scanning QR codes at Indian shops without an Indian bank account.</p>
+      </div>
+
+      <div id="upiguide-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 90: IRCTC TICKET REFUND & TDR FILING CALCULATOR -->
+  <div id="tab-content-pnrrefund" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚆</span> IRCTC Ticket Cancellation Refund &amp; TDR Rules Calculator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Calculate cancellation deductions (48h, 12h, 4h rules), Tatkal refund rules, and TDR filing for delayed trains.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="pnrrefund-rule-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="ac_48h">AC Class (1A, 2A, 3A, EC) — Cancelled > 48h before chart</option>
+          <option value="ac_12h">AC Class — Cancelled between 48h and 12h before departure</option>
+          <option value="ac_4h">AC Class — Cancelled within 4h of departure (Post Charting)</option>
+          <option value="tatkal">Tatkal Ticket Cancellation Rules</option>
+          <option value="tdr_delay">Train Delayed by > 3 Hours (Full Refund TDR Rule)</option>
+          <option value="rac_wl">RAC / Waitlisted Ticket Auto-Cancellation</option>
+        </select>
+      </div>
+
+      <div id="pnrrefund-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 91: AIRPORT PREPAID TAXI vs RIDE-HAILING CAB RATE CALCULATOR -->
+  <div id="tab-content-cabestimator" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚕</span> Airport Prepaid Taxi vs App Cab Rate Estimator</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Compare Official Traffic Police Prepaid Taxi counters with Uber/Ola ride-hailing fares and toll additions.</p>
+      </div>
+
+      <div style="margin-top:1.25rem; margin-bottom:1.25rem;">
+        <select id="cabestimator-airport-select" style="width:100%; max-width:400px; padding:0.65rem 1rem; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-primary); font-family:inherit; font-size:0.88rem; outline:none;">
+          <option value="delhi_igi">Delhi IGI Airport (T3 / T1) to City Center</option>
+          <option value="mumbai_bom">Mumbai Airport (T2 / T1) to South Mumbai / Suburbs</option>
+          <option value="blr_kempegowda">Bengaluru Airport (KIA BLR) to City Center (40 km)</option>
+          <option value="kolkata_ccu">Kolkata Airport (CCU) to Howrah / Park Street</option>
+          <option value="chennai_maa">Chennai Airport (MAA) to Central / T. Nagar</option>
+        </select>
+      </div>
+
+      <div id="cabestimator-display-card" class="panel" style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; padding:1.25rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 92: REMOTE HILL STATION SIM CARD & NETWORK ADVISOR -->
+  <div id="tab-content-signalsimplified" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>📶</span> Remote Hill Station SIM Card &amp; Signal Strength Advisor</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">Check cellular coverage (Jio 5G, Airtel 4G, BSNL 3G) and prepaid vs postpaid SIM bans in J&amp;K, Ladakh &amp; North-East.</p>
+      </div>
+
+      <div id="signalsimplified-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 93: AIRPORT SECURITY HAND LUGGAGE LIQUIDS & BATTERY CHECKER -->
+  <div id="tab-content-airportsecurity" class="tab-content">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
+      <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(168, 85, 247, 0.25);">
+        <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🧳</span> Airport Security Hand Luggage Liquids &amp; Power Bank Checker</h2>
+        <p style="color:var(--text-secondary); font-size:0.95rem;">BCAS Indian domestic flight rules: 100ml liquid limits, power banks in cabin luggage, and banned items.</p>
+      </div>
+
+      <div id="airportsecurity-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.25rem; margin-top:1.5rem;">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </div>
+
   </div><!-- /.app-tab-wrapper -->
 
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 22.4.0 (5 Essential Travel Tools: 24/7 Pharmacy &amp; Blood Bank, Train Socket &amp; Wi-Fi, Railway Cloakrooms, Offline Maps &amp; Auto Meter Calc) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 22.5.0 (5 Essential Practical Tools: Tourist UPI Setup, IRCTC Refund &amp; TDR, Airport Cab Rate Estimator, Remote SIM Signal &amp; Cabin Security) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -5248,8 +5339,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=22.4.0"></script>
-  <script src="trie.js?v=22.4.0"></script>
-  <script src="app.js?v=22.4.0"></script>
+  <script src="cities.js?v=22.5.0"></script>
+  <script src="trie.js?v=22.5.0"></script>
+  <script src="app.js?v=22.5.0"></script>
 </body>
 </html>

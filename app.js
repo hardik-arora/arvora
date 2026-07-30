@@ -26,142 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
   function initSiteLock() {
-    const lockModal = document.getElementById("site-lock-modal");
-    const lockCard = document.getElementById("site-lock-card");
-    const lockForm = document.getElementById("site-lock-form");
-    const lockInput = document.getElementById("site-lock-input");
-    const lockError = document.getElementById("site-lock-error");
-    const islandLockBtn = document.getElementById("island-lock-btn");
-    const changeBtn = document.getElementById("site-lock-change-btn");
-    const timeTicker = document.getElementById("site-lock-time-ticker");
-    const keypad = document.getElementById("pin-keypad");
-    const pinDots = document.querySelectorAll(".pin-dot");
-
-    if (!lockModal) return;
-
-    const getSavedPassword = () => localStorage.getItem("arvora_site_password") || "27672";
-    const setSavedPassword = (pw) => localStorage.setItem("arvora_site_password", pw);
-
-    // Live clock update for HUD
-    function updateClock() {
-      if (!timeTicker) return;
-      const now = new Date();
-      timeTicker.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
-
-    // PIN Dots sync
-    let currentPin = "";
-    function updateDots() {
-      pinDots.forEach((dot, idx) => {
-        if (idx < currentPin.length) {
-          dot.classList.add("filled");
-        } else {
-          dot.classList.remove("filled");
-        }
-      });
-      if (lockInput) lockInput.value = currentPin;
-    }
-
-    const isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true";
-    if (isUnlocked) {
-      lockModal.style.display = "none";
-    } else {
-      lockModal.style.display = "flex";
-      currentPin = "";
-      updateDots();
-    }
-
-    // Keypad Digit Clicks
-    if (keypad) {
-      keypad.addEventListener("click", (e) => {
-        const btn = e.target.closest(".pin-digit-btn");
-        if (!btn) return;
-
-        initAudio && initAudio();
-        const val = btn.getAttribute("data-val");
-
-        if (val === "clear") {
-          currentPin = "";
-          if (lockError) lockError.style.display = "none";
-          updateDots();
-        } else if (val && val !== "clear" && btn.type !== "submit") {
-          if (currentPin.length < 10) {
-            currentPin += val;
-            if (lockError) lockError.style.display = "none";
-            updateDots();
-          }
-        }
-      });
-    }
-
-    // Keyboard support (Direct Typing)
-    window.addEventListener("keydown", (e) => {
-      if (lockModal.style.display === "none") return;
-      
-      if (e.key >= "0" && e.key <= "9") {
-        if (currentPin.length < 10) {
-          currentPin += e.key;
-          if (lockError) lockError.style.display = "none";
-          updateDots();
-        }
-      } else if (e.key === "Backspace") {
-        currentPin = currentPin.slice(0, -1);
-        if (lockError) lockError.style.display = "none";
-        updateDots();
-      }
-    });
-
-    if (lockForm) {
-      lockForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const entered = currentPin.trim() || (lockInput ? lockInput.value.trim() : "");
-        if (entered === getSavedPassword()) {
-          sessionStorage.setItem("arvora_session_unlocked", "true");
-          lockModal.style.display = "none";
-          if (lockError) lockError.style.display = "none";
-          currentPin = "";
-          updateDots();
-        } else {
-          if (lockError) lockError.style.display = "block";
-          if (lockCard) {
-            lockCard.classList.remove("lock-card-shake");
-            void lockCard.offsetWidth;
-            lockCard.classList.add("lock-card-shake");
-          }
-          currentPin = "";
-          updateDots();
-        }
-      });
-    }
-
-    if (islandLockBtn) {
-      islandLockBtn.addEventListener("click", () => {
-        sessionStorage.removeItem("arvora_session_unlocked");
-        lockModal.style.display = "flex";
-        currentPin = "";
-        updateDots();
-        if (lockError) lockError.style.display = "none";
-      });
-    }
-
-    if (changeBtn) {
-      changeBtn.addEventListener("click", () => {
-        const currentPw = prompt("Enter current passcode:");
-        if (currentPw === getSavedPassword()) {
-          const newPw = prompt("Enter your new passcode (digits or text, minimum 4 characters):");
-          if (newPw && newPw.trim().length >= 4) {
-            setSavedPassword(newPw.trim());
-            alert("✅ Passcode updated successfully! Your new passcode is active.");
-          } else if (newPw !== null) {
-            alert("⚠️ Passcode must be at least 4 characters.");
-          }
-        } else if (currentPw !== null) {
-          alert("❌ Incorrect passcode.");
-        }
-      });
-    }
+    const grid = document.getElementById("sitelock-cards-grid") || document.getElementById("tab-content-sitelock");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("sitelock-cards-grid") || grid);
+    if (!target) return;
+    
+    const DATA = [
+      { title: "Sitelock Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Sitelock Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Sitelock 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
+    ];
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
+          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+        </div>
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
   initSiteLock();
@@ -13530,14 +13416,17 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPnrRefund (pnrrefund)
   // =====================================================================
   function initPnrRefund() {
-    const grid = document.getElementById("pnrrefund-cards-grid");
-    if (!grid || grid.children.length > 0) return;
+    const grid = document.getElementById("pnrrefund-cards-grid") || document.getElementById("tab-content-pnrrefund");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("pnrrefund-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      { title: "Ticket Cancelled > 48 Hours Before Departure", icon: "🎫", tag: "Standard Refund", price: "Flat Cancellation Fee", desc: "1AC: ₹240, 2AC: ₹200, 3AC/CC: ₹180, SL: ₹120 per passenger deducted. Remaining balance refunded to source account in 3-5 days." },
-      { title: "Ticket Cancelled Between 48 Hrs & 12 Hrs Before Departure", icon: "⏳", tag: "25% Deduction", price: "25% Fee Deducted", desc: "Subject to minimum flat cancellation fee per class. Applicable for confirmed ticket cancellation before chart preparation." },
-      { title: "Ticket Cancelled < 12 Hrs & Up to 4 Hrs Before Chart", icon: "🚨", tag: "50% Deduction", price: "50% Fee Deducted", desc: "50% of ticket fare deducted. No refund if ticket is cancelled after chart preparation or less than 4 hours before scheduled departure." }
+      { title: "Pnrrefund Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Pnrrefund Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Pnrrefund 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-    grid.innerHTML = DATA.map(item => `
+    target.innerHTML = DATA.map(item => `
       <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
         <div>
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
@@ -13696,14 +13585,17 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initTrainLuggage (trainluggage)
   // =====================================================================
   function initTrainLuggage() {
-    const grid = document.getElementById("trainluggage-cards-grid");
-    if (!grid || grid.children.length > 0) return;
+    const grid = document.getElementById("trainluggage-cards-grid") || document.getElementById("tab-content-trainluggage");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("trainluggage-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      { title: "Free Luggage Allowance per Ticket Class", icon: "🧳", tag: "Official IRCTC Policy", price: "SL: 40kg • 3AC: 40kg • 2AC: 50kg • 1AC: 70kg", desc: "Marginal allowance: 10kg extra permitted above free limit. Excess luggage must be booked in brake van." },
-      { title: "Luggage Dimensions & Under-Seat Clearance", icon: "📐", tag: "Coach Underseat Fit", price: "Max 100cm x 60cm x 25cm", desc: "Trunks & suitcases fitting under lower berths. Oversized bags blocking gangways are subject to penalty." },
-      { title: "Parcel Office Excess Luggage Booking Rate", icon: "📦", tag: "Station Luggage Office", price: "₹30 - ₹150 / 100 km", desc: "Book heavy luggage at station Parcel Office 2 hours prior to departure for transport in Guard brake van." }
+      { title: "Trainluggage Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Trainluggage Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Trainluggage 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-    grid.innerHTML = DATA.map(item => `
+    target.innerHTML = DATA.map(item => `
       <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
         <div>
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
@@ -13784,61 +13676,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initStationWifi (stationwifi)
   // =====================================================================
   function initStationWifi() {
-    const grid = document.getElementById("stationwifi-cards-grid");
-    const container = document.getElementById("tab-content-stationwifi");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("stationwifi-cards-grid") || document.getElementById("tab-content-stationwifi");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("stationwifi-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Stationwifi Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for stationwifi across major Indian metro cities."
-      },
-      {
-        title: "Stationwifi Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Stationwifi Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Stationwifi Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Stationwifi Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Stationwifi 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -13846,61 +13705,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initLiveLocation (livelocation)
   // =====================================================================
   function initLiveLocation() {
-    const grid = document.getElementById("livelocation-cards-grid");
-    const container = document.getElementById("tab-content-livelocation");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("livelocation-cards-grid") || document.getElementById("tab-content-livelocation");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("livelocation-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Livelocation Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for livelocation across major Indian metro cities."
-      },
-      {
-        title: "Livelocation Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Livelocation Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Livelocation Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Livelocation Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Livelocation 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -13908,61 +13734,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initGenzSpotlight (genzspotlight)
   // =====================================================================
   function initGenzSpotlight() {
-    const grid = document.getElementById("genzspotlight-cards-grid");
-    const container = document.getElementById("tab-content-genzspotlight");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("genzspotlight-cards-grid") || document.getElementById("tab-content-genzspotlight");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("genzspotlight-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Genz Spotlight Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for genzspotlight across major Indian metro cities."
-      },
-      {
-        title: "Genz Spotlight Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Genz Spotlight Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Genzspotlight Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Genzspotlight Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Genzspotlight 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -13972,12 +13765,13 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   function initWorkCafe() {
     const grid = document.getElementById("workcafe-cards-grid") || document.getElementById("tab-content-workcafe");
     if (!grid) return;
-    const target = grid.querySelector('.trip-stop-card') ? null : (document.getElementById("workcafe-cards-grid") || grid);
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("workcafe-cards-grid") || grid);
     if (!target) return;
+    
     const DATA = [
-      { title: "Blue Tokai Coffee Roasters (Pan-India)", icon: "☕", tag: "Work-Friendly", price: "₹220 - ₹350 per drink", desc: "High-speed 200Mbps Wi-Fi, power sockets at every table, specialty single-origin espresso & artisanal sourdough toasts." },
-      { title: "Subko Coffee & Bakehouse (Mumbai / BLR)", icon: "🥐", tag: "Craft Coffee", price: "₹250 - ₹400 per drink", desc: "Industrial aesthetic craft coffee hubs with quiet work desks, oat milk lattes, pod seating & fast fiber internet." },
-      { title: "Third Wave Coffee Roasters (Pan-India)", icon: "🍃", tag: "Late Night Work", price: "₹200 - ₹320 per drink", desc: "Spacious seating with universal plug points under every bench, cold brews & reliable high-bandwidth Wi-Fi." }
+      { title: "Workcafe Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Workcafe Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Workcafe 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
     target.innerHTML = DATA.map(item => `
       <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
@@ -14086,61 +13880,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initGenzVibes (genzvibes)
   // =====================================================================
   function initGenzVibes() {
-    const grid = document.getElementById("genzvibes-cards-grid");
-    const container = document.getElementById("tab-content-genzvibes");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("genzvibes-cards-grid") || document.getElementById("tab-content-genzvibes");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("genzvibes-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Genzvibes Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for genzvibes across major Indian metro cities."
-      },
-      {
-        title: "Genzvibes Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Genzvibes Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Genzvibes Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Genzvibes Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Genzvibes 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14148,14 +13909,17 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPowerBankSwap (powerbankswap)
   // =====================================================================
   function initPowerBankSwap() {
-    const grid = document.getElementById("powerbankswap-cards-grid");
+    const grid = document.getElementById("powerbankswap-cards-grid") || document.getElementById("tab-content-powerbankswap");
     if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("powerbankswap-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      { title: "Spiro & Chargeup Power Bank Rental Kiosks", icon: "🔋", tag: "Metro & Cafes", price: "₹20 / hour (₹100 day cap)", desc: "Scan QR code at metro stations, Blue Tokai cafes & malls to eject a 5000mAh powerbank with built-in Type-C & Lightning cables." },
-      { title: "Airport Fast-Charge Stations (DEL / BOM / BLR)", icon: "⚡", tag: "Free Public Sockets", price: "Free Access", desc: "Universal 65W PD Type-C charge desks located near airport departure gates & lounge areas." },
-      { title: "Railway Concourse Power Kiosks", icon: "🚆", tag: "Station Charging", price: "₹10 / 30 mins", desc: "Lockable charging locker boxes at major railway junction platforms (Delhi, CST Mumbai, BLR City)." }
+      { title: "Powerbankswap Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Powerbankswap Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Powerbankswap 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-    grid.innerHTML = DATA.map(item => `
+    target.innerHTML = DATA.map(item => `
       <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
         <div>
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
@@ -14264,61 +14028,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initLiveGigs (livegigs)
   // =====================================================================
   function initLiveGigs() {
-    const grid = document.getElementById("livegigs-cards-grid");
-    const container = document.getElementById("tab-content-livegigs");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("livegigs-cards-grid") || document.getElementById("tab-content-livegigs");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("livegigs-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Livegigs Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for livegigs across major Indian metro cities."
-      },
-      {
-        title: "Livegigs Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Livegigs Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Livegigs Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Livegigs Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Livegigs 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14326,61 +14057,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initVeganIndia (veganindia)
   // =====================================================================
   function initVeganIndia() {
-    const grid = document.getElementById("veganindia-cards-grid");
-    const container = document.getElementById("tab-content-veganindia");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("veganindia-cards-grid") || document.getElementById("tab-content-veganindia");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("veganindia-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Veganindia Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for veganindia across major Indian metro cities."
-      },
-      {
-        title: "Veganindia Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Veganindia Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Veganindia Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Veganindia Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Veganindia 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14388,61 +14086,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initThriftMap (thriftmap)
   // =====================================================================
   function initThriftMap() {
-    const grid = document.getElementById("thriftmap-cards-grid");
-    const container = document.getElementById("tab-content-thriftmap");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("thriftmap-cards-grid") || document.getElementById("tab-content-thriftmap");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("thriftmap-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Thriftmap Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for thriftmap across major Indian metro cities."
-      },
-      {
-        title: "Thriftmap Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Thriftmap Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Thriftmap Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Thriftmap Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Thriftmap 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14450,61 +14115,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initAdventureGenz (adventuregenz)
   // =====================================================================
   function initAdventureGenz() {
-    const grid = document.getElementById("adventuregenz-cards-grid");
-    const container = document.getElementById("tab-content-adventuregenz");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("adventuregenz-cards-grid") || document.getElementById("tab-content-adventuregenz");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("adventuregenz-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Adventure Gen-Z Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for adventuregenz across major Indian metro cities."
-      },
-      {
-        title: "Adventure Gen-Z Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Adventure Gen-Z Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Adventuregenz Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Adventuregenz Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Adventuregenz 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14512,61 +14144,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPetFriendly (petfriendly)
   // =====================================================================
   function initPetFriendly() {
-    const grid = document.getElementById("petfriendly-cards-grid");
-    const container = document.getElementById("tab-content-petfriendly");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("petfriendly-cards-grid") || document.getElementById("tab-content-petfriendly");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("petfriendly-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Petfriendly Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for petfriendly across major Indian metro cities."
-      },
-      {
-        title: "Petfriendly Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Petfriendly Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Petfriendly Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Petfriendly Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Petfriendly 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14574,61 +14173,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initBobaFinder (bobafinder)
   // =====================================================================
   function initBobaFinder() {
-    const grid = document.getElementById("bobafinder-cards-grid");
-    const container = document.getElementById("tab-content-bobafinder");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("bobafinder-cards-grid") || document.getElementById("tab-content-bobafinder");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("bobafinder-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Bobafinder Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for bobafinder across major Indian metro cities."
-      },
-      {
-        title: "Bobafinder Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Bobafinder Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Bobafinder Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Bobafinder Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Bobafinder 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14636,61 +14202,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initNightlifeGenz (nightlifegenz)
   // =====================================================================
   function initNightlifeGenz() {
-    const grid = document.getElementById("nightlifegenz-cards-grid");
-    const container = document.getElementById("tab-content-nightlifegenz");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("nightlifegenz-cards-grid") || document.getElementById("tab-content-nightlifegenz");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("nightlifegenz-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Nightlife Gen-Z Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for nightlifegenz across major Indian metro cities."
-      },
-      {
-        title: "Nightlife Gen-Z Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Nightlife Gen-Z Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Nightlifegenz Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Nightlifegenz Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Nightlifegenz 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14698,61 +14231,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initGenzSplit (genzsplit)
   // =====================================================================
   function initGenzSplit() {
-    const grid = document.getElementById("genzsplit-cards-grid");
-    const container = document.getElementById("tab-content-genzsplit");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("genzsplit-cards-grid") || document.getElementById("tab-content-genzsplit");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("genzsplit-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Genzsplit Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for genzsplit across major Indian metro cities."
-      },
-      {
-        title: "Genzsplit Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Genzsplit Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Genzsplit Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Genzsplit Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Genzsplit 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14760,61 +14260,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initFilmCamera (filmcamera)
   // =====================================================================
   function initFilmCamera() {
-    const grid = document.getElementById("filmcamera-cards-grid");
-    const container = document.getElementById("tab-content-filmcamera");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("filmcamera-cards-grid") || document.getElementById("tab-content-filmcamera");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("filmcamera-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Filmcamera Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for filmcamera across major Indian metro cities."
-      },
-      {
-        title: "Filmcamera Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Filmcamera Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Filmcamera Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Filmcamera Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Filmcamera 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14822,61 +14289,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initCapsuleHotel (capsulehotel)
   // =====================================================================
   function initCapsuleHotel() {
-    const grid = document.getElementById("capsulehotel-cards-grid");
-    const container = document.getElementById("tab-content-capsulehotel");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("capsulehotel-cards-grid") || document.getElementById("tab-content-capsulehotel");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("capsulehotel-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Capsulehotel Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for capsulehotel across major Indian metro cities."
-      },
-      {
-        title: "Capsulehotel Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Capsulehotel Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Capsulehotel Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Capsulehotel Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Capsulehotel 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14884,61 +14318,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initWellnessRetreat (wellnessretreat)
   // =====================================================================
   function initWellnessRetreat() {
-    const grid = document.getElementById("wellnessretreat-cards-grid");
-    const container = document.getElementById("tab-content-wellnessretreat");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("wellnessretreat-cards-grid") || document.getElementById("tab-content-wellnessretreat");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("wellnessretreat-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Wellnessretreat Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for wellnessretreat across major Indian metro cities."
-      },
-      {
-        title: "Wellnessretreat Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Wellnessretreat Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Wellnessretreat Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Wellnessretreat Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Wellnessretreat 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -14946,61 +14347,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initEsimChecker (esimchecker)
   // =====================================================================
   function initEsimChecker() {
-    const grid = document.getElementById("esimchecker-cards-grid");
-    const container = document.getElementById("tab-content-esimchecker");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("esimchecker-cards-grid") || document.getElementById("tab-content-esimchecker");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("esimchecker-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Esimchecker Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for esimchecker across major Indian metro cities."
-      },
-      {
-        title: "Esimchecker Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Esimchecker Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Esimchecker Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Esimchecker Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Esimchecker 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15008,61 +14376,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initStreetArt (streetart)
   // =====================================================================
   function initStreetArt() {
-    const grid = document.getElementById("streetart-cards-grid");
-    const container = document.getElementById("tab-content-streetart");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("streetart-cards-grid") || document.getElementById("tab-content-streetart");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("streetart-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Streetart Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for streetart across major Indian metro cities."
-      },
-      {
-        title: "Streetart Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Streetart Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Streetart Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Streetart Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Streetart 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15070,61 +14405,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initNightMarket (nightmarket)
   // =====================================================================
   function initNightMarket() {
-    const grid = document.getElementById("nightmarket-cards-grid");
-    const container = document.getElementById("tab-content-nightmarket");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("nightmarket-cards-grid") || document.getElementById("tab-content-nightmarket");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("nightmarket-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Nightmarket Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for nightmarket across major Indian metro cities."
-      },
-      {
-        title: "Nightmarket Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Nightmarket Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Nightmarket Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Nightmarket Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Nightmarket 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15132,61 +14434,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPopupEvents (popupevents)
   // =====================================================================
   function initPopupEvents() {
-    const grid = document.getElementById("popupevents-cards-grid");
-    const container = document.getElementById("tab-content-popupevents");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("popupevents-cards-grid") || document.getElementById("tab-content-popupevents");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("popupevents-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Popupevents Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for popupevents across major Indian metro cities."
-      },
-      {
-        title: "Popupevents Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Popupevents Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Popupevents Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Popupevents Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Popupevents 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15194,61 +14463,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initNatureTrails (naturetrails)
   // =====================================================================
   function initNatureTrails() {
-    const grid = document.getElementById("naturetrails-cards-grid");
-    const container = document.getElementById("tab-content-naturetrails");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("naturetrails-cards-grid") || document.getElementById("tab-content-naturetrails");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("naturetrails-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Naturetrails Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for naturetrails across major Indian metro cities."
-      },
-      {
-        title: "Naturetrails Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Naturetrails Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Naturetrails Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Naturetrails Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Naturetrails 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15256,61 +14492,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initArtisanChai (artisanchai)
   // =====================================================================
   function initArtisanChai() {
-    const grid = document.getElementById("artisanchai-cards-grid");
-    const container = document.getElementById("tab-content-artisanchai");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("artisanchai-cards-grid") || document.getElementById("tab-content-artisanchai");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("artisanchai-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Artisanchai Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for artisanchai across major Indian metro cities."
-      },
-      {
-        title: "Artisanchai Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Artisanchai Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Artisanchai Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Artisanchai Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Artisanchai 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15318,61 +14521,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPocketWifi (pocketwifi)
   // =====================================================================
   function initPocketWifi() {
-    const grid = document.getElementById("pocketwifi-cards-grid");
-    const container = document.getElementById("tab-content-pocketwifi");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("pocketwifi-cards-grid") || document.getElementById("tab-content-pocketwifi");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("pocketwifi-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Pocketwifi Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for pocketwifi across major Indian metro cities."
-      },
-      {
-        title: "Pocketwifi Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Pocketwifi Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Pocketwifi Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Pocketwifi Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Pocketwifi 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15380,61 +14550,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initSkateparks (skateparks)
   // =====================================================================
   function initSkateparks() {
-    const grid = document.getElementById("skateparks-cards-grid");
-    const container = document.getElementById("tab-content-skateparks");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("skateparks-cards-grid") || document.getElementById("tab-content-skateparks");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("skateparks-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Skateparks Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for skateparks across major Indian metro cities."
-      },
-      {
-        title: "Skateparks Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Skateparks Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Skateparks Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Skateparks Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Skateparks 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15442,61 +14579,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initDriveInCinema (driveincinema)
   // =====================================================================
   function initDriveInCinema() {
-    const grid = document.getElementById("driveincinema-cards-grid");
-    const container = document.getElementById("tab-content-driveincinema");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("driveincinema-cards-grid") || document.getElementById("tab-content-driveincinema");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("driveincinema-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Driveincinema Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for driveincinema across major Indian metro cities."
-      },
-      {
-        title: "Driveincinema Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Driveincinema Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Driveincinema Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Driveincinema Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Driveincinema 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15504,61 +14608,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initSneakerCulture (sneakerculture)
   // =====================================================================
   function initSneakerCulture() {
-    const grid = document.getElementById("sneakerculture-cards-grid");
-    const container = document.getElementById("tab-content-sneakerculture");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("sneakerculture-cards-grid") || document.getElementById("tab-content-sneakerculture");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("sneakerculture-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Sneakerculture Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for sneakerculture across major Indian metro cities."
-      },
-      {
-        title: "Sneakerculture Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Sneakerculture Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Sneakerculture Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Sneakerculture Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Sneakerculture 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15566,61 +14637,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initComedyClubs (comedyclubs)
   // =====================================================================
   function initComedyClubs() {
-    const grid = document.getElementById("comedyclubs-cards-grid");
-    const container = document.getElementById("tab-content-comedyclubs");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("comedyclubs-cards-grid") || document.getElementById("tab-content-comedyclubs");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("comedyclubs-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Comedyclubs Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for comedyclubs across major Indian metro cities."
-      },
-      {
-        title: "Comedyclubs Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Comedyclubs Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Comedyclubs Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Comedyclubs Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Comedyclubs 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15628,61 +14666,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initGokarting (gokarting)
   // =====================================================================
   function initGokarting() {
-    const grid = document.getElementById("gokarting-cards-grid");
-    const container = document.getElementById("tab-content-gokarting");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("gokarting-cards-grid") || document.getElementById("tab-content-gokarting");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("gokarting-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Gokarting Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for gokarting across major Indian metro cities."
-      },
-      {
-        title: "Gokarting Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Gokarting Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Gokarting Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Gokarting Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Gokarting 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15690,61 +14695,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initZiplineGenz (ziplinegenz)
   // =====================================================================
   function initZiplineGenz() {
-    const grid = document.getElementById("ziplinegenz-cards-grid");
-    const container = document.getElementById("tab-content-ziplinegenz");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("ziplinegenz-cards-grid") || document.getElementById("tab-content-ziplinegenz");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("ziplinegenz-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Zipline Gen-Z Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for ziplinegenz across major Indian metro cities."
-      },
-      {
-        title: "Zipline Gen-Z Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Zipline Gen-Z Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Ziplinegenz Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Ziplinegenz Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Ziplinegenz 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15752,61 +14724,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initNeonBowling (neonbowling)
   // =====================================================================
   function initNeonBowling() {
-    const grid = document.getElementById("neonbowling-cards-grid");
-    const container = document.getElementById("tab-content-neonbowling");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("neonbowling-cards-grid") || document.getElementById("tab-content-neonbowling");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("neonbowling-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Neonbowling Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for neonbowling across major Indian metro cities."
-      },
-      {
-        title: "Neonbowling Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Neonbowling Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Neonbowling Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Neonbowling Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Neonbowling 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15814,61 +14753,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initSupPaddle (suppaddle)
   // =====================================================================
   function initSupPaddle() {
-    const grid = document.getElementById("suppaddle-cards-grid");
-    const container = document.getElementById("tab-content-suppaddle");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("suppaddle-cards-grid") || document.getElementById("tab-content-suppaddle");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("suppaddle-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Suppaddle Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for suppaddle across major Indian metro cities."
-      },
-      {
-        title: "Suppaddle Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Suppaddle Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Suppaddle Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Suppaddle Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Suppaddle 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15876,61 +14782,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initScubaGenz (scubagenz)
   // =====================================================================
   function initScubaGenz() {
-    const grid = document.getElementById("scubagenz-cards-grid");
-    const container = document.getElementById("tab-content-scubagenz");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("scubagenz-cards-grid") || document.getElementById("tab-content-scubagenz");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("scubagenz-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Scuba Gen-Z Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for scubagenz across major Indian metro cities."
-      },
-      {
-        title: "Scuba Gen-Z Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Scuba Gen-Z Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Scubagenz Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Scubagenz Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Scubagenz 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -15938,61 +14811,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initEscapeRoom (escaperoom)
   // =====================================================================
   function initEscapeRoom() {
-    const grid = document.getElementById("escaperoom-cards-grid");
-    const container = document.getElementById("tab-content-escaperoom");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("escaperoom-cards-grid") || document.getElementById("tab-content-escaperoom");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("escaperoom-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Escaperoom Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for escaperoom across major Indian metro cities."
-      },
-      {
-        title: "Escaperoom Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Escaperoom Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Escaperoom Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Escaperoom Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Escaperoom 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16000,61 +14840,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initTrampolinePark (trampolinepark)
   // =====================================================================
   function initTrampolinePark() {
-    const grid = document.getElementById("trampolinepark-cards-grid");
-    const container = document.getElementById("tab-content-trampolinepark");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("trampolinepark-cards-grid") || document.getElementById("tab-content-trampolinepark");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("trampolinepark-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Trampolinepark Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for trampolinepark across major Indian metro cities."
-      },
-      {
-        title: "Trampolinepark Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Trampolinepark Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Trampolinepark Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Trampolinepark Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Trampolinepark 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16062,61 +14869,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initLaserTagArena (lasertagarena)
   // =====================================================================
   function initLaserTagArena() {
-    const grid = document.getElementById("lasertagarena-cards-grid");
-    const container = document.getElementById("tab-content-lasertagarena");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("lasertagarena-cards-grid") || document.getElementById("tab-content-lasertagarena");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("lasertagarena-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Lasertagarena Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for lasertagarena across major Indian metro cities."
-      },
-      {
-        title: "Lasertagarena Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Lasertagarena Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Lasertagarena Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Lasertagarena Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Lasertagarena 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16124,61 +14898,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initBoardGameCafe (boardgamecafe)
   // =====================================================================
   function initBoardGameCafe() {
-    const grid = document.getElementById("boardgamecafe-cards-grid");
-    const container = document.getElementById("tab-content-boardgamecafe");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("boardgamecafe-cards-grid") || document.getElementById("tab-content-boardgamecafe");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("boardgamecafe-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Boardgamecafe Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for boardgamecafe across major Indian metro cities."
-      },
-      {
-        title: "Boardgamecafe Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Boardgamecafe Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Boardgamecafe Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Boardgamecafe Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Boardgamecafe 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16186,61 +14927,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initAxeThrowing (axethrowing)
   // =====================================================================
   function initAxeThrowing() {
-    const grid = document.getElementById("axethrowing-cards-grid");
-    const container = document.getElementById("tab-content-axethrowing");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("axethrowing-cards-grid") || document.getElementById("tab-content-axethrowing");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("axethrowing-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Axethrowing Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for axethrowing across major Indian metro cities."
-      },
-      {
-        title: "Axethrowing Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Axethrowing Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Axethrowing Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Axethrowing Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Axethrowing 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16248,61 +14956,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPodcastStudio (podcaststudio)
   // =====================================================================
   function initPodcastStudio() {
-    const grid = document.getElementById("podcaststudio-cards-grid");
-    const container = document.getElementById("tab-content-podcaststudio");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("podcaststudio-cards-grid") || document.getElementById("tab-content-podcaststudio");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("podcaststudio-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Podcaststudio Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for podcaststudio across major Indian metro cities."
-      },
-      {
-        title: "Podcaststudio Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Podcaststudio Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Podcaststudio Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Podcaststudio Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Podcaststudio 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16310,61 +14985,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPhotoBooth (photobooth)
   // =====================================================================
   function initPhotoBooth() {
-    const grid = document.getElementById("photobooth-cards-grid");
-    const container = document.getElementById("tab-content-photobooth");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("photobooth-cards-grid") || document.getElementById("tab-content-photobooth");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("photobooth-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Photobooth Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for photobooth across major Indian metro cities."
-      },
-      {
-        title: "Photobooth Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Photobooth Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Photobooth Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Photobooth Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Photobooth 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16372,61 +15014,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initCustomWorkshop (customworkshop)
   // =====================================================================
   function initCustomWorkshop() {
-    const grid = document.getElementById("customworkshop-cards-grid");
-    const container = document.getElementById("tab-content-customworkshop");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("customworkshop-cards-grid") || document.getElementById("tab-content-customworkshop");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("customworkshop-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Customworkshop Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for customworkshop across major Indian metro cities."
-      },
-      {
-        title: "Customworkshop Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Customworkshop Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Customworkshop Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Customworkshop Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Customworkshop 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16434,61 +15043,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initPotteryStudio (potterystudio)
   // =====================================================================
   function initPotteryStudio() {
-    const grid = document.getElementById("potterystudio-cards-grid");
-    const container = document.getElementById("tab-content-potterystudio");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("potterystudio-cards-grid") || document.getElementById("tab-content-potterystudio");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("potterystudio-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Potterystudio Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for potterystudio across major Indian metro cities."
-      },
-      {
-        title: "Potterystudio Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Potterystudio Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Potterystudio Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Potterystudio Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Potterystudio 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16496,61 +15072,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initTerrariumShop (terrariumshop)
   // =====================================================================
   function initTerrariumShop() {
-    const grid = document.getElementById("terrariumshop-cards-grid");
-    const container = document.getElementById("tab-content-terrariumshop");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("terrariumshop-cards-grid") || document.getElementById("tab-content-terrariumshop");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("terrariumshop-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Terrariumshop Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for terrariumshop across major Indian metro cities."
-      },
-      {
-        title: "Terrariumshop Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Terrariumshop Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Terrariumshop Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Terrariumshop Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Terrariumshop 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16558,61 +15101,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initGymPassGenz (gympassgenz)
   // =====================================================================
   function initGymPassGenz() {
-    const grid = document.getElementById("gympassgenz-cards-grid");
-    const container = document.getElementById("tab-content-gympassgenz");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("gympassgenz-cards-grid") || document.getElementById("tab-content-gympassgenz");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("gympassgenz-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Gympass Gen-Z Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for gympassgenz across major Indian metro cities."
-      },
-      {
-        title: "Gympass Gen-Z Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Gympass Gen-Z Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Gympassgenz Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Gympassgenz Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Gympassgenz 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16620,61 +15130,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initBoulderingGym (boulderinggym)
   // =====================================================================
   function initBoulderingGym() {
-    const grid = document.getElementById("boulderinggym-cards-grid");
-    const container = document.getElementById("tab-content-boulderinggym");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("boulderinggym-cards-grid") || document.getElementById("tab-content-boulderinggym");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("boulderinggym-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Boulderinggym Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for boulderinggym across major Indian metro cities."
-      },
-      {
-        title: "Boulderinggym Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Boulderinggym Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Boulderinggym Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Boulderinggym Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Boulderinggym 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16682,61 +15159,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initIceBathHub (icebathhub)
   // =====================================================================
   function initIceBathHub() {
-    const grid = document.getElementById("icebathhub-cards-grid");
-    const container = document.getElementById("tab-content-icebathhub");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("icebathhub-cards-grid") || document.getElementById("tab-content-icebathhub");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("icebathhub-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Icebath Hub Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for icebathhub across major Indian metro cities."
-      },
-      {
-        title: "Icebath Hub Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Icebath Hub Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Icebathhub Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Icebathhub Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Icebathhub 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16744,61 +15188,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initMatchaBar (matchabar)
   // =====================================================================
   function initMatchaBar() {
-    const grid = document.getElementById("matchabar-cards-grid");
-    const container = document.getElementById("tab-content-matchabar");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("matchabar-cards-grid") || document.getElementById("tab-content-matchabar");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("matchabar-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Matchabar Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for matchabar across major Indian metro cities."
-      },
-      {
-        title: "Matchabar Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Matchabar Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Matchabar Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Matchabar Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Matchabar 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16806,61 +15217,28 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // initArtisanGelato (artisangelato)
   // =====================================================================
   function initArtisanGelato() {
-    const grid = document.getElementById("artisangelato-cards-grid");
-    const container = document.getElementById("tab-content-artisangelato");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    const grid = document.getElementById("artisangelato-cards-grid") || document.getElementById("tab-content-artisangelato");
+    if (!grid) return;
+    const target = grid.querySelector('.trip-stop-card') ? grid : (document.getElementById("artisangelato-cards-grid") || grid);
+    if (!target) return;
+    
     const DATA = [
-      {
-        title: "Artisangelato Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for artisangelato across major Indian metro cities."
-      },
-      {
-        title: "Artisangelato Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Artisangelato Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { title: "Artisangelato Metro Guide & Locations", icon: "📍", tag: "Verified Spot", price: "Standard Rates", desc: "Top-rated locations, operating hours & booking tips across Delhi, Mumbai, Bengaluru & Goa." },
+      { title: "Artisangelato Budget Option", icon: "🌟", tag: "Traveler Choice", price: "Affordable Pass", desc: "Budget friendly access, customer reviews, contact details & easy digital payment options." },
+      { title: "Artisangelato 24/7 Express Service", icon: "⚡", tag: "24/7 Available", price: "Pay Per Use", desc: "Round-the-clock availability, emergency assistance line & instant QR booking." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
+    target.innerHTML = DATA.map(item => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+            <div style="display:flex; align-items:center; gap:0.6rem;"><span style="font-size:1.5rem;">${item.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong></div>
+            <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
           </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${item.desc}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16869,60 +15247,22 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initNightChemist() {
     const grid = document.getElementById("nightchemist-cards-grid");
-    const container = document.getElementById("tab-content-nightchemist");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Nightchemist Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for nightchemist across major Indian metro cities."
-      },
-      {
-        title: "Nightchemist Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Nightchemist Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Apollo Pharmacy 24/7 (Pan-India)", icon: "🏥", hours: "24 Hours / 365 Days", contact: "📞 1860-500-0101 (Night Home Delivery)", services: "Prescription emergency drugs, cold chain insulin, oxygen canisters & 2-hour doorstep delivery." },
+      { name: "Wellness Forever 24x7 (Mumbai / Pune / Goa / BLR)", icon: "💊", hours: "24 Hours Open", contact: "📞 1800-102-4242", services: "Late-night OTC medicines, baby care essentials, surgical supplies & digital billing." },
+      { name: "MedPlus 24-Hour Pharmacy (Hyderabad / Chennai / BLR)", icon: "🚨", hours: "24 Hours Open", contact: "📞 040-6700-6700", services: "Generic medicines discount (up to 20%), emergency nebulizers & rapid diagnostic kits." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(c => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${c.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${c.name}</strong></div>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.4rem;">⏰ ${c.hours}</div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.75rem;">${c.contact}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">💊 <strong>Services:</strong> ${c.services}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16931,60 +15271,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initChargingHub() {
     const grid = document.getElementById("charginghub-cards-grid");
-    const container = document.getElementById("tab-content-charginghub");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Charging Hub Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for charginghub across major Indian metro cities."
-      },
-      {
-        title: "Charging Hub Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Charging Hub Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Airport & Metro 65W PD Charge Desks (DEL / BOM / BLR)", icon: "🔌", rates: "Free Public Access", plugs: "Multi-pin 230V AC sockets, USB-A QuickCharge & 65W USB-C Power Delivery ports." },
+      { name: "Blue Tokai & Subko Cafe Laptop Desks", icon: "☕", rates: "Free with Cafe Order", plugs: "Dedicated 3-pin laptop power sockets under every seat with universal travel adapter support." },
+      { name: "Spiro & Chargeup Power Bank Rental Kiosks", icon: "🔋", rates: "₹20 / hour (₹100 day cap)", plugs: "Compact 5000mAh power banks with built-in Type-C, Lightning & Micro-USB cables." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(ch => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${ch.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${ch.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${ch.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">⚡ <strong>Plug Specs:</strong> ${ch.plugs}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -16993,60 +15294,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initWaterRefill() {
     const grid = document.getElementById("waterrefill-cards-grid");
-    const container = document.getElementById("tab-content-waterrefill");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Waterrefill Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for waterrefill across major Indian metro cities."
-      },
-      {
-        title: "Waterrefill Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Waterrefill Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Jal ATM Public RO Purifier Kiosks (Pan-India)", icon: "💧", rates: "₹1 for 1 Liter • ₹5 for 5 Liters", quality: "7-stage RO + UV + UF filtration supplying 100% chilled purified drinking water." },
+      { name: "Indian Railways Water Vending Machines (IRCTC Stations)", icon: "🚆", rates: "₹3 for 1L Refill (Without Bottle)", quality: "Govt certified UV sanitized water available across platform concourses." },
+      { name: "Refillable Cafe Network (Eco Travel Hubs)", icon: "🌿", rates: "Free Bottle Refills", quality: "Participating cafes (Blue Tokai, Third Wave, Starbucks) offering free filtered water for reusable bottles." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(s => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${s.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${s.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${s.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">🚰 <strong>Quality:</strong> ${s.quality}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17055,60 +15317,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initCoworkingDesk() {
     const grid = document.getElementById("coworkingdesk-cards-grid");
-    const container = document.getElementById("tab-content-coworkingdesk");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Coworking Desk Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for coworkingdesk across major Indian metro cities."
-      },
-      {
-        title: "Coworking Desk Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Coworking Desk Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "WeWork On-Demand Day Pass (Mumbai / Delhi / BLR / HYD)", icon: "💼", pricing: "₹500 - ₹800 Day Pass", amenities: "High-speed 300Mbps Wi-Fi, soundproof phone booths, micro-roasted coffee & tea." },
+      { name: "Awfis Flexi Desk Day Pass (Pan-India)", icon: "⚡", pricing: "₹400 Day Pass", amenities: "Ergonomic seating, dual monitor plug-ins, printer access & community lounges." },
+      { name: "Social Work Pass (Cafes across India)", icon: "☕", pricing: "₹500 Cover (Redeemable on Food & Drinks)", amenities: "Work-friendly tables with power sockets, high-speed Wi-Fi & vibrant networking vibe." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(d => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${d.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${d.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${d.pricing}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">🌐 <strong>Amenities:</strong> ${d.amenities}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17117,60 +15340,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initLuggageStorage() {
     const grid = document.getElementById("luggagestorage-cards-grid");
-    const container = document.getElementById("tab-content-luggagestorage");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Luggagestorage Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for luggagestorage across major Indian metro cities."
-      },
-      {
-        title: "Luggagestorage Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Luggagestorage Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Indian Railways Station Cloakrooms (All Junctions)", icon: "🧳", rates: "₹30 per 24 Hours per bag (Lock Required)", details: "Official railway station luggage deposit counters (requires valid train ticket & locked luggage)." },
+      { name: "Airport Left Luggage Counters (DEL / BOM / BLR Airports)", icon: "✈️", rates: "₹150 - ₹300 per 24 Hours", details: "X-ray scanned secure baggage storage facility inside terminal concourses." },
+      { name: "LuggageBazaar & City Storage Hubs (Near Metro Stations)", icon: "🔑", rates: "₹80 - ₹120 per bag per day", details: "Verified luggage holding shops with digital QR tag tracking & insured storage." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(l => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${l.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${l.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${l.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">🔒 <strong>Rules:</strong> ${l.details}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17179,60 +15363,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initDocServices() {
     const grid = document.getElementById("docservices-cards-grid");
-    const container = document.getElementById("tab-content-docservices");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Docservices Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for docservices across major Indian metro cities."
-      },
-      {
-        title: "Docservices Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Docservices Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Instant Passport Photo Studios (All Major Cities)", icon: "📸", rates: "₹30 - ₹60 for 6 prints", info: "Digital soft-copy on WhatsApp in 5 minutes. Accepted for Passport, Visa, PAN & Aadhaar." },
+      { name: "Notary Public & Document Attestation (District Courts)", icon: "📋", rates: "₹50 - ₹200 per document", info: "Affidavit drafting, stamp paper, rent agreement attestation & Apostille stamp facilitation." },
+      { name: "Aadhaar / PAN / UDID Photocopy & Print Centers", icon: "🖨️", rates: "₹2 per A4 B&W photocopy • ₹10 colour print", info: "Shops near courts, railway stations & bus stands offering scanning & xerox services." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(d => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${d.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${d.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${d.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${d.info}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17241,60 +15386,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initAtmCash() {
     const grid = document.getElementById("atmcash-cards-grid");
-    const container = document.getElementById("tab-content-atmcash");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Atmcash Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for atmcash across major Indian metro cities."
-      },
-      {
-        title: "Atmcash Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Atmcash Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "SBI ATM Network (Largest Rural & Urban Coverage)", icon: "🏦", limit: "₹20,000 - ₹40,000 / day", tip: "Zero-fee withdrawals for SBI account holders. Foreign cards: ₹125 fee + 3.5% FX markup." },
+      { name: "Thomas Cook & BookMyForex Airport Counters", icon: "💱", limit: "Multi-Currency Forex Cards", tip: "Multi-currency Forex prepaid cards lock exchange rate before travel. Available at all major airports." },
+      { name: "RBI-Approved Money Changers (FFMC License)", icon: "💰", limit: "USD to INR, EUR to INR & 30+ currencies", tip: "Always insist on encashment receipt. Better rates than banks. Avoid informal exchange." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(a => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${a.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${a.name}</strong></div>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.4rem;">💳 ${a.limit}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">💡 <strong>Pro Tip:</strong> ${a.tip}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17303,60 +15409,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initLaundrySpot() {
     const grid = document.getElementById("laundryspot-cards-grid");
-    const container = document.getElementById("tab-content-laundryspot");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Laundry Spot Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for laundryspot across major Indian metro cities."
-      },
-      {
-        title: "Laundry Spot Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Laundry Spot Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "UClean Wash & Fold (150+ Cities)", icon: "👕", rates: "₹75 per kg (Wash+Dry+Fold) • 6h Express", app: "Book on UClean app. Free pickup & delivery above ₹300 order." },
+      { name: "Wassup Laundry (Mumbai / Pune / Delhi)", icon: "🧸", rates: "₹60 per kg • Dry Cleaning from ₹149", app: "App-based scheduling with live tracking." },
+      { name: "Mr. White Laundry (Bangalore / Chennai / HYD)", icon: "✨", rates: "₹50 per kg • Shoe & Sneaker Cleaning ₹199", app: "Same-day service available if booked before 10 AM." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(l => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${l.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${l.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${l.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📲 <strong>App &amp; Booking:</strong> ${l.app}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17365,60 +15432,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initCleanToilet() {
     const grid = document.getElementById("cleantoilet-cards-grid");
-    const container = document.getElementById("tab-content-cleantoilet");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Cleantoilet Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for cleantoilet across major Indian metro cities."
-      },
-      {
-        title: "Cleantoilet Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Cleantoilet Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Sulabh International Toilet Complexes (Pan-India)", icon: "🚻", rates: "₹2 - ₹5 usage fee", details: "Clean paid public toilets at railway stations, bus stands & busy markets. Soap & water available." },
+      { name: "e-Toilet Automated Kiosks (Smart City Stations)", icon: "🤖", rates: "₹2 UPI tap (Auto-sanitizing)", details: "Solar-powered automated kiosks with sensor flush, soap dispenser & exhaust fan." },
+      { name: "Mall & Multiplex Restrooms (Free Access)", icon: "🏬", rates: "Free with mall entry", details: "Phoenix Palladium, Select Citywalk & Inorbit Mall have Western + Indian seats & baby care stations." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(t => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${t.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${t.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${t.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">📌 <strong>Details:</strong> ${t.details}</div>
+      </div>
+    `).join('');
   }
 
 
@@ -17427,60 +15455,21 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
   // =====================================================================
   function initPunctureRepair() {
     const grid = document.getElementById("puncturerepair-cards-grid");
-    const container = document.getElementById("tab-content-puncturerepair");
-    if (!grid && !container) return;
-
-    // Check if custom elements already initialized in HTML
-    if (!grid && container) {
-      // Custom interactive HTML container exists in index.html
-      return;
-    }
-
-    if (grid && grid.children.length > 0) return; // Already rendered
-
+    if (!grid) return;
     const DATA = [
-      {
-        title: "Puncturerepair Feature Option 1",
-        icon: "⚡",
-        tag: "Recommended / Verified",
-        price: "Standard Rates",
-        desc: "Essential details, tips, operating guidelines & verified vendor info for puncturerepair across major Indian metro cities."
-      },
-      {
-        title: "Puncturerepair Option 2",
-        icon: "🌟",
-        tag: "Popular / Budget",
-        price: "Affordable Access",
-        desc: "Convenient location access, transparent pricing, customer service contacts & quick tips for travelers."
-      },
-      {
-        title: "Puncturerepair Option 3",
-        icon: "📍",
-        tag: "24/7 Available",
-        price: "Pay Per Use",
-        desc: "Round-the-clock availability, instant booking links, digital payment acceptance & emergency assistance."
-      }
+      { name: "Roadside Tyre Puncture Shops (Local Mechanics)", icon: "🔧", rates: "₹30 - ₹60 (Tube) • ₹150 (Tubeless)", tip: "Found at every petrol bunk, market & highway chai stall. Usually open 7 AM to 10 PM." },
+      { name: "GoMechanic Doorstep Bike Repair (Pan-India)", icon: "🛵", rates: "₹199 puncture repair doorstep", tip: "Book via GoMechanic app. Covers puncture, chain fix & brake adjustment. 45-min response." },
+      { name: "Emergency Breakdown Helplines", icon: "🚨", rates: "Free to call • Tow truck ₹500-₹1,500", tip: "NHAI Toll-free: 1033 (Highways). IRDA Motor: 1800-103-5555. Highway police: 100." }
     ];
-
-    if (grid) {
-      grid.innerHTML = DATA.map(item => `
-        <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15, 23, 42, 0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-              <div style="display:flex; align-items:center; gap:0.6rem;">
-                <span style="font-size:1.5rem; line-height:1;">${item.icon}</span>
-                <strong style="font-size:0.95rem; color:var(--text-primary);">${item.title}</strong>
-              </div>
-              <span style="font-size:0.7rem; padding:0.2rem 0.5rem; border-radius:6px; background:rgba(59,130,246,0.15); color:var(--color-primary); font-weight:600;">${item.tag}</span>
-            </div>
-            <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${item.price}</div>
-          </div>
-          <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted); line-height:1.5;">
-            📌 <strong>Details:</strong> ${item.desc}
-          </div>
+    grid.innerHTML = DATA.map(r => `
+      <div class="trip-stop-card" style="padding:1.25rem; background:rgba(15,23,42,0.6); border:1px solid var(--card-border); border-radius:16px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;"><span style="font-size:1.5rem;">${r.icon}</span><strong style="font-size:0.95rem; color:var(--text-primary);">${r.name}</strong></div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:0.4rem;">${r.rates}</div>
         </div>
-      `).join('');
-    }
+        <div style="padding:0.6rem 0.75rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.06); font-size:0.74rem; color:var(--text-muted);">💡 <strong>Pro Tip:</strong> ${r.tip}</div>
+      </div>
+    `).join('');
   }
 
 });

@@ -57,15 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (pinBtns) {
     pinBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
         if (!siteLockInput) return;
+        
+        // If it's the submit button, let the form handle it or handle here
+        if (btn.type === "submit") return; 
+        
         if (siteLockError) siteLockError.style.display = "none";
         
         const val = btn.getAttribute("data-val");
-        if (val === "C") {
+        if (!val) return;
+        
+        if (val === "clear") {
           siteLockInput.value = "";
-        } else if (val === "<") {
-          siteLockInput.value = siteLockInput.value.slice(0, -1);
         } else {
           if (siteLockInput.value.length < 5) {
             siteLockInput.value += val;
@@ -73,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         updatePinUI();
         
+        // Auto-submit if 5 digits reached
         if (siteLockInput.value.length === 5) {
           if (siteLockInput.value === passCode) {
             sessionStorage.setItem(authKey, "true");
@@ -98,7 +103,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!siteLockInput) return;
       if (siteLockInput.value === passCode) {
         sessionStorage.setItem(authKey, "true");
-        if (siteLockModal) siteLockModal.style.display = "none";
+        if (siteLockModal) {
+          siteLockModal.style.opacity = "0";
+          setTimeout(() => {
+            siteLockModal.style.display = "none";
+          }, 300);
+        }
       } else {
         if (siteLockError) siteLockError.style.display = "block";
         siteLockInput.value = "";
@@ -111,7 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
     siteLockInput.addEventListener("input", updatePinUI);
   }
 
-function initSiteLock() {
+
+  function initSiteLock() {
     const grid = document.getElementById("sitelock-cards-grid") || document.getElementById("tab-content-sitelock");
     if (!grid) return;
     const DATA = [

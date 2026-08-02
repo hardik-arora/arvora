@@ -25,6 +25,92 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
+
+  const siteLockModal = document.getElementById("site-lock-modal");
+  const siteLockForm = document.getElementById("site-lock-form");
+  const siteLockInput = document.getElementById("site-lock-input");
+  const siteLockError = document.getElementById("site-lock-error");
+  const pinDots = document.querySelectorAll(".pin-dot");
+  const pinBtns = document.querySelectorAll(".pin-digit-btn");
+  const authKey = "arvora_authorized";
+  const passCode = "27672";
+
+  if (sessionStorage.getItem(authKey) === "true") {
+    if (siteLockModal) siteLockModal.style.display = "none";
+  } else {
+    if (siteLockModal) siteLockModal.style.display = "flex";
+  }
+
+  function updatePinUI() {
+    if (!siteLockInput) return;
+    const val = siteLockInput.value || "";
+    pinDots.forEach((dot, index) => {
+      if (index < val.length) {
+        dot.style.background = "#10b981";
+        dot.style.boxShadow = "0 0 10px #10b981";
+      } else {
+        dot.style.background = "rgba(255,255,255,0.1)";
+        dot.style.boxShadow = "none";
+      }
+    });
+  }
+
+  if (pinBtns) {
+    pinBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!siteLockInput) return;
+        if (siteLockError) siteLockError.style.display = "none";
+        
+        const val = btn.getAttribute("data-val");
+        if (val === "C") {
+          siteLockInput.value = "";
+        } else if (val === "<") {
+          siteLockInput.value = siteLockInput.value.slice(0, -1);
+        } else {
+          if (siteLockInput.value.length < 5) {
+            siteLockInput.value += val;
+          }
+        }
+        updatePinUI();
+        
+        if (siteLockInput.value.length === 5) {
+          if (siteLockInput.value === passCode) {
+            sessionStorage.setItem(authKey, "true");
+            if (siteLockModal) {
+              siteLockModal.style.opacity = "0";
+              setTimeout(() => {
+                siteLockModal.style.display = "none";
+              }, 300);
+            }
+          } else {
+            if (siteLockError) siteLockError.style.display = "block";
+            siteLockInput.value = "";
+            updatePinUI();
+          }
+        }
+      });
+    });
+  }
+  
+  if (siteLockForm) {
+    siteLockForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!siteLockInput) return;
+      if (siteLockInput.value === passCode) {
+        sessionStorage.setItem(authKey, "true");
+        if (siteLockModal) siteLockModal.style.display = "none";
+      } else {
+        if (siteLockError) siteLockError.style.display = "block";
+        siteLockInput.value = "";
+        updatePinUI();
+      }
+    });
+  }
+  
+  if (siteLockInput) {
+    siteLockInput.addEventListener("input", updatePinUI);
+  }
+
 function initSiteLock() {
     const grid = document.getElementById("sitelock-cards-grid") || document.getElementById("tab-content-sitelock");
     if (!grid) return;

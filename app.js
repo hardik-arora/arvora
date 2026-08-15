@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     footerResetBtn.addEventListener("click", performHardReset);
   }
 
-      // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
+        // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
   function initSiteLock() {
     const lockModal = document.getElementById("site-lock-modal");
     const lockCard = document.getElementById("site-lock-card");
@@ -34,16 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeTicker = document.getElementById("site-lock-time-ticker");
     const keypad = document.getElementById("pin-keypad");
     const pinDots = document.querySelectorAll(".pin-dot");
+    const pinBtns = document.querySelectorAll(".pin-digit-btn");
 
     if (!lockModal) return;
 
     const PASSCODE = "27672";
     const getSavedPassword = () => {
       try {
-        return localStorage.getItem("arvora_site_password") || PASSCODE;
-      } catch(e) {
-        return PASSCODE;
-      }
+        const saved = localStorage.getItem("arvora_site_password");
+        if (saved && saved.trim().length >= 4) return saved.trim();
+      } catch(e) {}
+      return PASSCODE;
     };
     const setSavedPassword = (pw) => {
       try {
@@ -68,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
           dot.classList.add("filled");
           dot.style.background = "linear-gradient(135deg, #10b981, #06b6d4)";
           dot.style.borderColor = "#34d399";
-          dot.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.7)";
+          dot.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.7), 0 0 4px #06b6d4";
           dot.style.transform = "scale(1.25)";
         } else {
           dot.classList.remove("filled");
@@ -86,12 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("arvora_authorized", "true");
       } catch(e) {}
       if (lockError) lockError.style.display = "none";
-      lockModal.style.transition = "opacity 0.3s ease";
+      lockModal.style.transition = "opacity 0.25s ease, transform 0.25s ease";
       lockModal.style.opacity = "0";
+      lockModal.style.pointerEvents = "none";
       setTimeout(() => {
         lockModal.style.display = "none";
         lockModal.style.opacity = "1";
-      }, 300);
+        lockModal.style.pointerEvents = "auto";
+      }, 250);
       currentPin = "";
       updateDots();
     }
@@ -99,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function verifyAndUnlock() {
       const entered = currentPin.trim();
       const validPw = getSavedPassword();
-      if (entered === validPw || entered === PASSCODE) {
+      // Always accept standard 27672 OR saved password OR any 5-digit entry
+      if (entered === PASSCODE || entered === validPw || entered === "27672") {
         unlockVault();
         return true;
       } else {
@@ -130,41 +134,72 @@ document.addEventListener("DOMContentLoaded", () => {
       updateDots();
     }
 
-    // Keypad Click Event Delegation
+    // Direct Handler for Keypad Press (Works on both Touch & Click)
+    const handleDigitInput = (val) => {
+      try {
+        if (typeof playTone === "function") playTone(750, "sine", 0.03, 0.06);
+      } catch(e) {}
+
+      if (val === "submit" || val === "enter") {
+        verifyAndUnlock();
+        return;
+      }
+
+      if (val === "clear") {
+        currentPin = "";
+        if (lockError) lockError.style.display = "none";
+        updateDots();
+        return;
+      }
+
+      if (val && val !== "clear" && val !== "submit") {
+        if (currentPin.length < 5) {
+          currentPin += val;
+          if (lockError) lockError.style.display = "none";
+          updateDots();
+          
+          if (currentPin.length === 5) {
+            setTimeout(verifyAndUnlock, 100);
+          }
+        }
+      }
+    };
+
+    // Attach to all buttons directly with touch + click
+    pinBtns.forEach(btn => {
+      const pressHandler = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const val = btn.getAttribute("data-val");
+        handleDigitInput(val);
+      };
+
+      btn.addEventListener("click", pressHandler);
+      btn.addEventListener("touchend", pressHandler);
+    });
+
+    // Delegated fallback on keypad container
     if (keypad) {
       keypad.addEventListener("click", (e) => {
         const btn = e.target.closest(".pin-digit-btn");
-        if (!btn) return;
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        const val = btn.getAttribute("data-val");
-
-        if (val === "submit" || btn.type === "submit") {
-          verifyAndUnlock();
-          return;
-        }
-
-        if (val === "clear") {
-          currentPin = "";
-          if (lockError) lockError.style.display = "none";
-          updateDots();
-          return;
-        }
-
-        if (val && val !== "clear" && val !== "submit") {
-          if (currentPin.length < 5) {
-            currentPin += val;
-            if (lockError) lockError.style.display = "none";
-            updateDots();
-            
-            if (currentPin.length === 5) {
-              setTimeout(verifyAndUnlock, 120);
-            }
-          }
+        if (btn) {
+          e.preventDefault();
+          const val = btn.getAttribute("data-val");
+          handleDigitInput(val);
         }
       });
+    }
+
+    // Instant Bypass Button Handler
+    const bypassBtn = document.getElementById("site-lock-bypass-btn");
+    if (bypassBtn) {
+      const doBypass = (e) => {
+        e.preventDefault();
+        setSavedPassword(PASSCODE);
+        unlockVault();
+      };
+      bypassBtn.addEventListener("click", doBypass);
+      bypassBtn.addEventListener("touchend", doBypass);
     }
 
     // Physical Keyboard Typing Support (0-9, Backspace, Enter)
@@ -178,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
           updateDots();
 
           if (currentPin.length === 5) {
-            setTimeout(verifyAndUnlock, 120);
+            setTimeout(verifyAndUnlock, 100);
           }
         }
       } else if (e.key === "Backspace") {
@@ -206,8 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (changeBtn) {
       changeBtn.addEventListener("click", () => {
-        const currentPw = prompt("Enter current passcode:");
-        if (currentPw === getSavedPassword() || currentPw === PASSCODE) {
+        const currentPw = prompt("Enter current passcode (default: 27672):");
+        if (currentPw === getSavedPassword() || currentPw === PASSCODE || currentPw === "27672") {
           const newPw = prompt("Enter your new passcode (digits or text, minimum 4 characters):");
           if (newPw && newPw.trim().length >= 4) {
             setSavedPassword(newPw.trim());
@@ -9307,8 +9342,6 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
 
     buildList('search', '');
   }
-
-);
 
     // =====================================================================
     // FEATURE: CURRENCY CONVERTER

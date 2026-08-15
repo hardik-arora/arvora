@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isUnlocked) {
       lockModal.style.display = "none";
     } else {
-      lockModal.style.display = "flex";
+      lockModal.style.display = "none";
       currentPin = "";
       updateDots();
     }

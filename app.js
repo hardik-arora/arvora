@@ -955,483 +955,544 @@ document.addEventListener("DOMContentLoaded", () => {
     setupGameListeners();
   }
 
-  function switchTab(tabId) {
+    function switchTab(tabId) {
     const tabs = document.querySelectorAll(".tab-content");
     tabs.forEach(tab => tab.classList.remove("active"));
     const activeTab = document.getElementById("tab-content-" + tabId);
-    if (activeTab) activeTab.classList.add("active");
+    if (activeTab) {
+      activeTab.classList.add("active");
+    } else {
+      console.warn("Target tab content not found for id:", tabId);
+    }
 
     try {
-    if (tabId === 'engine') {
-      if (typeof renderEngine === 'function') renderEngine();
-    }
-    if (tabId === 'routes') {
-      if (typeof initRouteSolver === 'function') initRouteSolver();
-    }
-    if (tabId === 'game') {
-      if (typeof initQuiz === 'function') initQuiz();
-    }
-    if (tabId === 'pattern') {
-      if (typeof renderPattern === 'function') renderPattern();
-    }
-    if (tabId === 'analytics') {
-      if (typeof renderAnalytics === 'function') renderAnalytics();
-    }
-    if (tabId === 'scanner') {
-      if (typeof initQRGenerator === 'function') initQRGenerator();
-    }
-    if (tabId === 'travel') {
-      if (typeof initQuiz === 'function') initQuiz();
-    }
-    if (tabId === 'tourism') {
-      if (typeof initTourism === 'function') initTourism();
-    }
-    if (tabId === 'trip') {
-      if (typeof initTripPlanner === 'function') initTripPlanner();
-    }
-    if (tabId === 'routesolver') {
-      if (typeof initRouteSolver === 'function') initRouteSolver();
-    }
-    if (tabId === 'transit') {
-      if (typeof initTransitHub === 'function') initTransitHub();
-    }
-    if (tabId === 'seat') {
-      if (typeof initCoach === 'function') initCoach();
-    }
-    if (tabId === 'metro') {
-      if (typeof initTransitHub === 'function') initTransitHub();
+    if (tabId === 'adventuregenz') {
+      if (typeof initAdventureGenz === 'function') initAdventureGenz();
     }
     if (tabId === 'airport') {
-      if (typeof initAirportSecurity === 'function') initAirportSecurity();
-    }
-    if (tabId === 'evisa') {
-      if (typeof initVisaAdvisor === 'function') initVisaAdvisor();
-    }
-    if (tabId === 'voltage') {
-      if (typeof initSocketGuide === 'function') initSocketGuide();
-    }
-    if (tabId === 'atm') {
-      if (typeof initAtmAdvisor === 'function') initAtmAdvisor();
-    }
-    if (tabId === 'irctc') {
-      if (typeof initTatkalHelper === 'function') initTatkalHelper();
-    }
-    if (tabId === 'train') {
-      if (typeof initLiveTrain === 'function') initLiveTrain();
-    }
-    if (tabId === 'currency') {
-      if (typeof initCurrencyConverter === 'function') initCurrencyConverter();
-    }
-    if (tabId === 'rickshaw') {
-      if (typeof initRickshawCalc === 'function') initRickshawCalc();
-    }
-    if (tabId === 'bagcalc') {
-      if (typeof initBagCalc === 'function') initBagCalc();
-    }
-    if (tabId === 'upi') {
-      if (typeof initUpi === 'function') initUpi();
-    }
-    if (tabId === 'coach') {
-      if (typeof initCoach === 'function') initCoach();
-    }
-    if (tabId === 'forex') {
-      if (typeof initForex === 'function') initForex();
-    }
-    if (tabId === 'appguide') {
-      if (typeof initAppGuide === 'function') initAppGuide();
-    }
-    if (tabId === 'livetrain') {
-      if (typeof initLiveTrain === 'function') initLiveTrain();
-    }
-    if (tabId === 'gstcalc') {
-      if (typeof initGstCalc === 'function') initGstCalc();
-    }
-    if (tabId === 'roadtrip') {
-      if (typeof initRoadtrip === 'function') initRoadtrip();
-    }
-    if (tabId === 'evcharge') {
-      if (typeof initEvCharge === 'function') initEvCharge();
-    }
-    if (tabId === 'busguide') {
-      if (typeof initBusGuide === 'function') initBusGuide();
-    }
-    if (tabId === 'hotelgst') {
-      if (typeof initHotelGst === 'function') initHotelGst();
-    }
-    if (tabId === 'tatkalhelper') {
-      if (typeof initTatkalHelper === 'function') initTatkalHelper();
-    }
-    if (tabId === 'forexcalc') {
-      if (typeof initForexCalc === 'function') initForexCalc();
-    }
-    if (tabId === 'fastagcalc') {
-      if (typeof initFastagCalc === 'function') initFastagCalc();
-    }
-    if (tabId === 'trainsocket') {
-      if (typeof initTrainSocket === 'function') initTrainSocket();
-    }
-    if (tabId === 'cloakroom') {
-      if (typeof initCloakroom === 'function') initCloakroom();
-    }
-    if (tabId === 'rickshawmeter') {
-      if (typeof initRickshawMeter === 'function') initRickshawMeter();
-    }
-    if (tabId === 'pnrrefund') {
-      if (typeof initPnrRefund === 'function') initPnrRefund();
-    }
-    if (tabId === 'cabestimator') {
-      if (typeof initCabEstimator === 'function') initCabEstimator();
-    }
-    if (tabId === 'trainluggage') {
-      if (typeof initTrainLuggage === 'function') initTrainLuggage();
-    }
-    if (tabId === 'safety') {
-      if (typeof initSafety === 'function') initSafety();
-    }
-    if (tabId === 'customs') {
-      if (typeof initCustoms === 'function') initCustoms();
-    }
-    if (tabId === 'legal') {
-      if (typeof initLegal === 'function') initLegal();
-    }
-    if (tabId === 'insurance') {
-      if (typeof initInsurance === 'function') initInsurance();
-    }
-    if (tabId === 'medical') {
-      if (typeof initMedical === 'function') initMedical();
-    }
-    if (tabId === 'emergency') {
-      if (typeof initEmergency === 'function') initEmergency();
-    }
-    if (tabId === 'solosafety') {
-      if (typeof initSoloSafety === 'function') initSoloSafety();
-    }
-    if (tabId === 'vault') {
-      if (typeof initVault === 'function') initVault();
-    }
-    if (tabId === 'simguide') {
-      if (typeof initSimGuide === 'function') initSimGuide();
-    }
-    if (tabId === 'medkit') {
-      if (typeof initMedkit === 'function') initMedkit();
-    }
-    if (tabId === 'permits') {
-      if (typeof initPermits === 'function') initPermits();
-    }
-    if (tabId === 'scamcheck') {
-      if (typeof initScamCheck === 'function') initScamCheck();
-    }
-    if (tabId === 'altitude') {
-      if (typeof initAltitude === 'function') initAltitude();
-    }
-    if (tabId === 'monsoonrisk') {
-      if (typeof initMonsoonRisk === 'function') initMonsoonRisk();
-    }
-    if (tabId === 'waterrisk') {
-      if (typeof initWaterRisk === 'function') initWaterRisk();
-    }
-    if (tabId === 'ayurveda') {
-      if (typeof initAyurveda === 'function') initAyurveda();
-    }
-    if (tabId === 'signalprofiler') {
-      if (typeof initSignalProfiler === 'function') initSignalProfiler();
-    }
-    if (tabId === 'airquality') {
-      if (typeof initAirQuality === 'function') initAirQuality();
-    }
-    if (tabId === 'altitudeprofiler') {
-      if (typeof initAltitudeProfiler === 'function') initAltitudeProfiler();
-    }
-    if (tabId === 'tidesafety') {
-      if (typeof initTideSafety === 'function') initTideSafety();
-    }
-    if (tabId === 'emergencyhealth') {
-      if (typeof initEmergencyHealth === 'function') initEmergencyHealth();
-    }
-    if (tabId === 'datasaver') {
-      if (typeof initDataSaver === 'function') initDataSaver();
-    }
-    if (tabId === 'upiguide') {
-      if (typeof initUpiGuide === 'function') initUpiGuide();
-    }
-    if (tabId === 'signalsimplified') {
-      if (typeof initSignalSimplified === 'function') initSignalSimplified();
+      if (typeof initAirport === 'function') initAirport();
     }
     if (tabId === 'airportsecurity') {
       if (typeof initAirportSecurity === 'function') initAirportSecurity();
     }
-    if (tabId === 'medtranslator') {
-      if (typeof initMedTranslator === 'function') initMedTranslator();
+    if (tabId === 'airquality') {
+      if (typeof initAirQuality === 'function') initAirQuality();
     }
-    if (tabId === 'plugsockets') {
-      if (typeof initPlugSockets === 'function') initPlugSockets();
+    if (tabId === 'altitude') {
+      if (typeof initAltitude === 'function') initAltitude();
     }
-    if (tabId === 'stationwifi') {
-      if (typeof initStationWifi === 'function') initStationWifi();
+    if (tabId === 'altitudeprofiler') {
+      if (typeof initAltitudeProfiler === 'function') initAltitudeProfiler();
     }
-    if (tabId === 'livelocation') {
-      if (typeof initLiveLocation === 'function') initLiveLocation();
+    if (tabId === 'analytics') {
+      if (typeof renderAnalytics === 'function') renderAnalytics();
     }
-    if (tabId === 'culture') {
-      if (typeof initTempleEtiquette === 'function') initTempleEtiquette();
-    }
-    if (tabId === 'festival') {
-      if (typeof initFestivals === 'function') initFestivals();
-    }
-    if (tabId === 'food') {
-      if (typeof initCulinary === 'function') initCulinary();
-    }
-    if (tabId === 'foodsafety') {
-      if (typeof initFoodSafety === 'function') initFoodSafety();
-    }
-    if (tabId === 'photo') {
-      if (typeof initPhotoHub === 'function') initPhotoHub();
-    }
-    if (tabId === 'shopping') {
-      if (typeof initShoppingGuide === 'function') initShoppingGuide();
-    }
-    if (tabId === 'notes') {
-      if (typeof initTravelNotes === 'function') initTravelNotes();
-    }
-    if (tabId === 'smartpacker') {
-      if (typeof initSmartPacker === 'function') initSmartPacker();
-    }
-    if (tabId === 'voice') {
-      if (typeof initVoiceTranslator === 'function') initVoiceTranslator();
-    }
-    if (tabId === 'stomach') {
-      if (typeof initStomachAdvisor === 'function') initStomachAdvisor();
-    }
-    if (tabId === 'weather') {
-      if (typeof initWeather === 'function') initWeather();
-    }
-    if (tabId === 'sunclock') {
-      if (typeof initSunClock === 'function') initSunClock();
-    }
-    if (tabId === 'qrcode') {
-      if (typeof initQRGenerator === 'function') initQRGenerator();
-    }
-    if (tabId === 'playlist') {
-      if (typeof initPlaylist === 'function') initPlaylist();
-    }
-    if (tabId === 'diet') {
-      if (typeof initDiet === 'function') initDiet();
-    }
-    if (tabId === 'spicemenu') {
-      if (typeof initSpiceMenu === 'function') initSpiceMenu();
-    }
-    if (tabId === 'bargain') {
-      if (typeof initBargain === 'function') initBargain();
-    }
-    if (tabId === 'monumentphoto') {
-      if (typeof initMonumentPhoto === 'function') initMonumentPhoto();
-    }
-    if (tabId === 'templeetiquette') {
-      if (typeof initTempleEtiquette === 'function') initTempleEtiquette();
-    }
-    if (tabId === 'localspeak') {
-      if (typeof initLocalSpeak === 'function') initLocalSpeak();
-    }
-    if (tabId === 'tipguide') {
-      if (typeof initTipGuide === 'function') initTipGuide();
-    }
-    if (tabId === 'unesco') {
-      if (typeof initUnesco === 'function') initUnesco();
-    }
-    if (tabId === 'prasad') {
-      if (typeof initPrasad === 'function') initPrasad();
-    }
-    if (tabId === 'chaiguide') {
-      if (typeof initChaiGuide === 'function') initChaiGuide();
-    }
-    if (tabId === 'folkdance') {
-      if (typeof initFolkDance === 'function') initFolkDance();
-    }
-    if (tabId === 'monumenttickets') {
-      if (typeof initMonumentTickets === 'function') initMonumentTickets();
-    }
-    if (tabId === 'gitagguide') {
-      if (typeof initGiTagGuide === 'function') initGiTagGuide();
-    }
-    if (tabId === 'genzspotlight') {
-      if (typeof initGenzSpotlight === 'function') initGenzSpotlight();
-    }
-    if (tabId === 'workcafe') {
-      if (typeof initWorkCafe === 'function') initWorkCafe();
-    }
-    if (tabId === 'backpackerhostel') {
-      if (typeof initBackpackerHostel === 'function') initBackpackerHostel();
-    }
-    if (tabId === 'ecotravel') {
-      if (typeof initEcoTravel === 'function') initEcoTravel();
-    }
-    if (tabId === 'genzvibes') {
-      if (typeof initGenzVibes === 'function') initGenzVibes();
-    }
-    if (tabId === 'powerbankswap') {
-      if (typeof initPowerBankSwap === 'function') initPowerBankSwap();
-    }
-    if (tabId === 'scooterrental') {
-      if (typeof initScooterRental === 'function') initScooterRental();
-    }
-    if (tabId === 'genzslang') {
-      if (typeof initGenzSlang === 'function') initGenzSlang();
-    }
-    if (tabId === 'livegigs') {
-      if (typeof initLiveGigs === 'function') initLiveGigs();
-    }
-    if (tabId === 'veganindia') {
-      if (typeof initVeganIndia === 'function') initVeganIndia();
-    }
-    if (tabId === 'thriftmap') {
-      if (typeof initThriftMap === 'function') initThriftMap();
-    }
-    if (tabId === 'adventuregenz') {
-      if (typeof initAdventureGenz === 'function') initAdventureGenz();
-    }
-    if (tabId === 'petfriendly') {
-      if (typeof initPetFriendly === 'function') initPetFriendly();
-    }
-    if (tabId === 'bobafinder') {
-      if (typeof initBobaFinder === 'function') initBobaFinder();
-    }
-    if (tabId === 'nightlifegenz') {
-      if (typeof initNightlifeGenz === 'function') initNightlifeGenz();
-    }
-    if (tabId === 'genzsplit') {
-      if (typeof initGenzSplit === 'function') initGenzSplit();
-    }
-    if (tabId === 'filmcamera') {
-      if (typeof initFilmCamera === 'function') initFilmCamera();
-    }
-    if (tabId === 'capsulehotel') {
-      if (typeof initCapsuleHotel === 'function') initCapsuleHotel();
-    }
-    if (tabId === 'wellnessretreat') {
-      if (typeof initWellnessRetreat === 'function') initWellnessRetreat();
-    }
-    if (tabId === 'esimchecker') {
-      if (typeof initEsimChecker === 'function') initEsimChecker();
-    }
-    if (tabId === 'streetart') {
-      if (typeof initStreetArt === 'function') initStreetArt();
-    }
-    if (tabId === 'nightmarket') {
-      if (typeof initNightMarket === 'function') initNightMarket();
-    }
-    if (tabId === 'popupevents') {
-      if (typeof initPopupEvents === 'function') initPopupEvents();
-    }
-    if (tabId === 'naturetrails') {
-      if (typeof initNatureTrails === 'function') initNatureTrails();
+    if (tabId === 'appguide') {
+      if (typeof initAppGuide === 'function') initAppGuide();
     }
     if (tabId === 'artisanchai') {
       if (typeof initArtisanChai === 'function') initArtisanChai();
     }
-    if (tabId === 'pocketwifi') {
-      if (typeof initPocketWifi === 'function') initPocketWifi();
-    }
-    if (tabId === 'skateparks') {
-      if (typeof initSkateparks === 'function') initSkateparks();
-    }
-    if (tabId === 'driveincinema') {
-      if (typeof initDriveInCinema === 'function') initDriveInCinema();
-    }
-    if (tabId === 'sneakerculture') {
-      if (typeof initSneakerCulture === 'function') initSneakerCulture();
-    }
-    if (tabId === 'comedyclubs') {
-      if (typeof initComedyClubs === 'function') initComedyClubs();
-    }
-    if (tabId === 'gokarting') {
-      if (typeof initGokarting === 'function') initGokarting();
-    }
-    if (tabId === 'ziplinegenz') {
-      if (typeof initZiplineGenz === 'function') initZiplineGenz();
-    }
-    if (tabId === 'neonbowling') {
-      if (typeof initNeonBowling === 'function') initNeonBowling();
-    }
-    if (tabId === 'suppaddle') {
-      if (typeof initSupPaddle === 'function') initSupPaddle();
-    }
-    if (tabId === 'scubagenz') {
-      if (typeof initScubaGenz === 'function') initScubaGenz();
-    }
-    if (tabId === 'escaperoom') {
-      if (typeof initEscapeRoom === 'function') initEscapeRoom();
-    }
-    if (tabId === 'trampolinepark') {
-      if (typeof initTrampolinePark === 'function') initTrampolinePark();
-    }
-    if (tabId === 'lasertagarena') {
-      if (typeof initLaserTagArena === 'function') initLaserTagArena();
-    }
-    if (tabId === 'boardgamecafe') {
-      if (typeof initBoardGameCafe === 'function') initBoardGameCafe();
-    }
-    if (tabId === 'axethrowing') {
-      if (typeof initAxeThrowing === 'function') initAxeThrowing();
-    }
-    if (tabId === 'podcaststudio') {
-      if (typeof initPodcastStudio === 'function') initPodcastStudio();
-    }
-    if (tabId === 'photobooth') {
-      if (typeof initPhotoBooth === 'function') initPhotoBooth();
-    }
-    if (tabId === 'customworkshop') {
-      if (typeof initCustomWorkshop === 'function') initCustomWorkshop();
-    }
-    if (tabId === 'potterystudio') {
-      if (typeof initPotteryStudio === 'function') initPotteryStudio();
-    }
-    if (tabId === 'terrariumshop') {
-      if (typeof initTerrariumShop === 'function') initTerrariumShop();
-    }
-    if (tabId === 'gympassgenz') {
-      if (typeof initGymPassGenz === 'function') initGymPassGenz();
-    }
-    if (tabId === 'boulderinggym') {
-      if (typeof initBoulderingGym === 'function') initBoulderingGym();
-    }
-    if (tabId === 'icebathhub') {
-      if (typeof initIceBathHub === 'function') initIceBathHub();
-    }
-    if (tabId === 'matchabar') {
-      if (typeof initMatchaBar === 'function') initMatchaBar();
-    }
     if (tabId === 'artisangelato') {
       if (typeof initArtisanGelato === 'function') initArtisanGelato();
     }
-    if (tabId === 'nightchemist') {
-      if (typeof initNightChemist === 'function') initNightChemist();
-    }
-    if (tabId === 'charginghub') {
-      if (typeof initChargingHub === 'function') initChargingHub();
-    }
-    if (tabId === 'waterrefill') {
-      if (typeof initWaterRefill === 'function') initWaterRefill();
-    }
-    if (tabId === 'coworkingdesk') {
-      if (typeof initCoworkingDesk === 'function') initCoworkingDesk();
-    }
-    if (tabId === 'luggagestorage') {
-      if (typeof initLuggageStorage === 'function') initLuggageStorage();
-    }
-    if (tabId === 'docservices') {
-      if (typeof initDocServices === 'function') initDocServices();
+    if (tabId === 'atm') {
+      if (typeof initAtmAdvisor === 'function') initAtmAdvisor();
     }
     if (tabId === 'atmcash') {
       if (typeof initAtmCash === 'function') initAtmCash();
     }
-    if (tabId === 'laundryspot') {
-      if (typeof initLaundrySpot === 'function') initLaundrySpot();
+    if (tabId === 'axethrowing') {
+      if (typeof initAxeThrowing === 'function') initAxeThrowing();
+    }
+    if (tabId === 'ayurveda') {
+      if (typeof initAyurveda === 'function') initAyurveda();
+    }
+    if (tabId === 'backpackerhostel') {
+      if (typeof initBackpackerHostel === 'function') initBackpackerHostel();
+    }
+    if (tabId === 'bagcalc') {
+      if (typeof initBagCalc === 'function') initBagCalc();
+    }
+    if (tabId === 'baggage') {
+      if (typeof initBaggageCalculator === 'function') initBaggageCalculator();
+    }
+    if (tabId === 'bargain') {
+      if (typeof initBargain === 'function') initBargain();
+    }
+    if (tabId === 'boardgamecafe') {
+      if (typeof initBoardGameCafe === 'function') initBoardGameCafe();
+    }
+    if (tabId === 'bobafinder') {
+      if (typeof initBobaFinder === 'function') initBobaFinder();
+    }
+    if (tabId === 'boulderinggym') {
+      if (typeof initBoulderingGym === 'function') initBoulderingGym();
+    }
+    if (tabId === 'budget') {
+      if (typeof initBudget === 'function') initBudget();
+    }
+    if (tabId === 'busguide') {
+      if (typeof initBusGuide === 'function') initBusGuide();
+    }
+    if (tabId === 'cabestimator') {
+      if (typeof initCabEstimator === 'function') initCabEstimator();
+    }
+    if (tabId === 'capsulehotel') {
+      if (typeof initCapsuleHotel === 'function') initCapsuleHotel();
+    }
+    if (tabId === 'chaiguide') {
+      if (typeof initChaiGuide === 'function') initChaiGuide();
+    }
+    if (tabId === 'charginghub') {
+      if (typeof initChargingHub === 'function') initChargingHub();
     }
     if (tabId === 'cleantoilet') {
       if (typeof initCleanToilet === 'function') initCleanToilet();
     }
+    if (tabId === 'cloakroom') {
+      if (typeof initCloakroom === 'function') initCloakroom();
+    }
+    if (tabId === 'coach') {
+      if (typeof initCoach === 'function') initCoach();
+    }
+    if (tabId === 'comedyclubs') {
+      if (typeof initComedyClubs === 'function') initComedyClubs();
+    }
+    if (tabId === 'compare') {
+      if (typeof initCompare === 'function') initCompare();
+    }
+    if (tabId === 'coworkingdesk') {
+      if (typeof initCoworkingDesk === 'function') initCoworkingDesk();
+    }
+    if (tabId === 'culinary') {
+      if (typeof initCulinary === 'function') initCulinary();
+    }
+    if (tabId === 'culture') {
+      if (typeof initCulture === 'function') initCulture();
+    }
+    if (tabId === 'currency') {
+      if (typeof initCurrencyConverter === 'function') initCurrencyConverter();
+    }
+    if (tabId === 'customs') {
+      if (typeof initCustoms === 'function') initCustoms();
+    }
+    if (tabId === 'customworkshop') {
+      if (typeof initCustomWorkshop === 'function') initCustomWorkshop();
+    }
+    if (tabId === 'datasaver') {
+      if (typeof initDataSaver === 'function') initDataSaver();
+    }
+    if (tabId === 'diet') {
+      if (typeof initDiet === 'function') initDiet();
+    }
+    if (tabId === 'discovery') {
+      if (typeof initDiscovery === 'function') initDiscovery();
+    }
+    if (tabId === 'docservices') {
+      if (typeof initDocServices === 'function') initDocServices();
+    }
+    if (tabId === 'driveincinema') {
+      if (typeof initDriveInCinema === 'function') initDriveInCinema();
+    }
+    if (tabId === 'ecotravel') {
+      if (typeof initEcoTravel === 'function') initEcoTravel();
+    }
+    if (tabId === 'emergency') {
+      if (typeof initEmergency === 'function') initEmergency();
+    }
+    if (tabId === 'emergencyhealth') {
+      if (typeof initEmergencyHealth === 'function') initEmergencyHealth();
+    }
+    if (tabId === 'engine') {
+      if (typeof initializeApp === 'function') initializeApp();
+    }
+    if (tabId === 'escaperoom') {
+      if (typeof initEscapeRoom === 'function') initEscapeRoom();
+    }
+    if (tabId === 'esimchecker') {
+      if (typeof initEsimChecker === 'function') initEsimChecker();
+    }
+    if (tabId === 'evcharge') {
+      if (typeof initEvCharge === 'function') initEvCharge();
+    }
+    if (tabId === 'evisa') {
+      if (typeof initEvisa === 'function') initEvisa();
+    }
+    if (tabId === 'evrouter') {
+      if (typeof initEvRouter === 'function') initEvRouter();
+    }
+    if (tabId === 'fastagcalc') {
+      if (typeof initFastagCalc === 'function') initFastagCalc();
+    }
+    if (tabId === 'festival') {
+      if (typeof initFestival === 'function') initFestival();
+    }
+    if (tabId === 'festivals') {
+      if (typeof initFestivals === 'function') initFestivals();
+    }
+    if (tabId === 'filmcamera') {
+      if (typeof initFilmCamera === 'function') initFilmCamera();
+    }
+    if (tabId === 'folkdance') {
+      if (typeof initFolkDance === 'function') initFolkDance();
+    }
+    if (tabId === 'food') {
+      if (typeof initFood === 'function') initFood();
+    }
+    if (tabId === 'foodsafety') {
+      if (typeof initFoodSafety === 'function') initFoodSafety();
+    }
+    if (tabId === 'forex') {
+      if (typeof initForex === 'function') initForex();
+    }
+    if (tabId === 'forexcalc') {
+      if (typeof initForexCalc === 'function') initForexCalc();
+    }
+    if (tabId === 'game') {
+      if (typeof initQuiz === 'function') initQuiz();
+    }
+    if (tabId === 'genzslang') {
+      if (typeof initGenzSlang === 'function') initGenzSlang();
+    }
+    if (tabId === 'genzsplit') {
+      if (typeof initGenzSplit === 'function') initGenzSplit();
+    }
+    if (tabId === 'genzspotlight') {
+      if (typeof initGenzSpotlight === 'function') initGenzSpotlight();
+    }
+    if (tabId === 'genzvibes') {
+      if (typeof initGenzVibes === 'function') initGenzVibes();
+    }
+    if (tabId === 'gitagguide') {
+      if (typeof initGiTagGuide === 'function') initGiTagGuide();
+    }
+    if (tabId === 'gokarting') {
+      if (typeof initGokarting === 'function') initGokarting();
+    }
+    if (tabId === 'gstcalc') {
+      if (typeof initGstCalc === 'function') initGstCalc();
+    }
+    if (tabId === 'gympassgenz') {
+      if (typeof initGymPassGenz === 'function') initGymPassGenz();
+    }
+    if (tabId === 'health') {
+      if (typeof initHealthHub === 'function') initHealthHub();
+    }
+    if (tabId === 'hotelgst') {
+      if (typeof initHotelGst === 'function') initHotelGst();
+    }
+    if (tabId === 'icebathhub') {
+      if (typeof initIceBathHub === 'function') initIceBathHub();
+    }
+    if (tabId === 'insurance') {
+      if (typeof initInsurance === 'function') initInsurance();
+    }
+    if (tabId === 'irctc') {
+      if (typeof initIrctc === 'function') initIrctc();
+    }
+    if (tabId === 'landmarks') {
+      if (typeof initLandmarks === 'function') initLandmarks();
+    }
+    if (tabId === 'lasertagarena') {
+      if (typeof initLaserTagArena === 'function') initLaserTagArena();
+    }
+    if (tabId === 'laundryspot') {
+      if (typeof initLaundrySpot === 'function') initLaundrySpot();
+    }
+    if (tabId === 'legal') {
+      if (typeof initLegal === 'function') initLegal();
+    }
+    if (tabId === 'livegigs') {
+      if (typeof initLiveGigs === 'function') initLiveGigs();
+    }
+    if (tabId === 'livelocation') {
+      if (typeof initLiveLocation === 'function') initLiveLocation();
+    }
+    if (tabId === 'livetrain') {
+      if (typeof initLiveTrain === 'function') initLiveTrain();
+    }
+    if (tabId === 'localizer') {
+      if (typeof initLocalizer === 'function') initLocalizer();
+    }
+    if (tabId === 'localspeak') {
+      if (typeof initLocalSpeak === 'function') initLocalSpeak();
+    }
+    if (tabId === 'luggagestorage') {
+      if (typeof initLuggageStorage === 'function') initLuggageStorage();
+    }
+    if (tabId === 'matchabar') {
+      if (typeof initMatchaBar === 'function') initMatchaBar();
+    }
+    if (tabId === 'medical') {
+      if (typeof initMedical === 'function') initMedical();
+    }
+    if (tabId === 'medkit') {
+      if (typeof initMedkit === 'function') initMedkit();
+    }
+    if (tabId === 'medtranslator') {
+      if (typeof initMedTranslator === 'function') initMedTranslator();
+    }
+    if (tabId === 'metro') {
+      if (typeof initMetro === 'function') initMetro();
+    }
+    if (tabId === 'monsoonrisk') {
+      if (typeof initMonsoonRisk === 'function') initMonsoonRisk();
+    }
+    if (tabId === 'monumentphoto') {
+      if (typeof initMonumentPhoto === 'function') initMonumentPhoto();
+    }
+    if (tabId === 'monumenttickets') {
+      if (typeof initMonumentTickets === 'function') initMonumentTickets();
+    }
+    if (tabId === 'naturetrails') {
+      if (typeof initNatureTrails === 'function') initNatureTrails();
+    }
+    if (tabId === 'neonbowling') {
+      if (typeof initNeonBowling === 'function') initNeonBowling();
+    }
+    if (tabId === 'nightchemist') {
+      if (typeof initNightChemist === 'function') initNightChemist();
+    }
+    if (tabId === 'nightlifegenz') {
+      if (typeof initNightlifeGenz === 'function') initNightlifeGenz();
+    }
+    if (tabId === 'nightmarket') {
+      if (typeof initNightMarket === 'function') initNightMarket();
+    }
+    if (tabId === 'notes') {
+      if (typeof initTravelNotes === 'function') initTravelNotes();
+    }
+    if (tabId === 'pattern') {
+      if (typeof setupPatternSearch === 'function') setupPatternSearch();
+    }
+    if (tabId === 'permits') {
+      if (typeof initPermits === 'function') initPermits();
+    }
+    if (tabId === 'petfriendly') {
+      if (typeof initPetFriendly === 'function') initPetFriendly();
+    }
+    if (tabId === 'photo') {
+      if (typeof initPhoto === 'function') initPhoto();
+    }
+    if (tabId === 'photobooth') {
+      if (typeof initPhotoBooth === 'function') initPhotoBooth();
+    }
+    if (tabId === 'photohub') {
+      if (typeof initPhotoHub === 'function') initPhotoHub();
+    }
+    if (tabId === 'playlist') {
+      if (typeof initPlaylist === 'function') initPlaylist();
+    }
+    if (tabId === 'plugsockets') {
+      if (typeof initPlugSockets === 'function') initPlugSockets();
+    }
+    if (tabId === 'pnrpredict') {
+      if (typeof initPnrPredictor === 'function') initPnrPredictor();
+    }
+    if (tabId === 'pnrrefund') {
+      if (typeof initPnrRefund === 'function') initPnrRefund();
+    }
+    if (tabId === 'pocketwifi') {
+      if (typeof initPocketWifi === 'function') initPocketWifi();
+    }
+    if (tabId === 'podcaststudio') {
+      if (typeof initPodcastStudio === 'function') initPodcastStudio();
+    }
+    if (tabId === 'popupevents') {
+      if (typeof initPopupEvents === 'function') initPopupEvents();
+    }
+    if (tabId === 'potterystudio') {
+      if (typeof initPotteryStudio === 'function') initPotteryStudio();
+    }
+    if (tabId === 'powerbankswap') {
+      if (typeof initPowerBankSwap === 'function') initPowerBankSwap();
+    }
+    if (tabId === 'prasad') {
+      if (typeof initPrasad === 'function') initPrasad();
+    }
     if (tabId === 'puncturerepair') {
       if (typeof initPunctureRepair === 'function') initPunctureRepair();
+    }
+    if (tabId === 'qrcode') {
+      if (typeof initQRGenerator === 'function') initQRGenerator();
+    }
+    if (tabId === 'rickshaw') {
+      if (typeof initRickshawCalc === 'function') initRickshawCalc();
+    }
+    if (tabId === 'rickshawmeter') {
+      if (typeof initRickshawMeter === 'function') initRickshawMeter();
+    }
+    if (tabId === 'roadtrip') {
+      if (typeof initRoadtrip === 'function') initRoadtrip();
+    }
+    if (tabId === 'routes') {
+      if (typeof initRouteSolver === 'function') initRouteSolver();
+    }
+    if (tabId === 'routesolver') {
+      if (typeof initRouteSolver === 'function') initRouteSolver();
+    }
+    if (tabId === 'safety') {
+      if (typeof initSafety === 'function') initSafety();
+    }
+    if (tabId === 'scamcheck') {
+      if (typeof initScamCheck === 'function') initScamCheck();
+    }
+    if (tabId === 'scanner') {
+      if (typeof initQRGenerator === 'function') initQRGenerator();
+    }
+    if (tabId === 'scooterrental') {
+      if (typeof initScooterRental === 'function') initScooterRental();
+    }
+    if (tabId === 'scubagenz') {
+      if (typeof initScubaGenz === 'function') initScubaGenz();
+    }
+    if (tabId === 'seat') {
+      if (typeof initSeat === 'function') initSeat();
+    }
+    if (tabId === 'shopping') {
+      if (typeof initShoppingGuide === 'function') initShoppingGuide();
+    }
+    if (tabId === 'signalprofiler') {
+      if (typeof initSignalProfiler === 'function') initSignalProfiler();
+    }
+    if (tabId === 'signalsimplified') {
+      if (typeof initSignalSimplified === 'function') initSignalSimplified();
+    }
+    if (tabId === 'simadvisor') {
+      if (typeof initSimAdvisor === 'function') initSimAdvisor();
+    }
+    if (tabId === 'simguide') {
+      if (typeof initSimGuide === 'function') initSimGuide();
+    }
+    if (tabId === 'skateparks') {
+      if (typeof initSkateparks === 'function') initSkateparks();
+    }
+    if (tabId === 'sleep') {
+      if (typeof initSleepGuide === 'function') initSleepGuide();
+    }
+    if (tabId === 'smartpacker') {
+      if (typeof initSmartPacker === 'function') initSmartPacker();
+    }
+    if (tabId === 'sneakerculture') {
+      if (typeof initSneakerCulture === 'function') initSneakerCulture();
+    }
+    if (tabId === 'socket') {
+      if (typeof initSocketGuide === 'function') initSocketGuide();
+    }
+    if (tabId === 'solosafety') {
+      if (typeof initSoloSafety === 'function') initSoloSafety();
+    }
+    if (tabId === 'spicemenu') {
+      if (typeof initSpiceMenu === 'function') initSpiceMenu();
+    }
+    if (tabId === 'splitter') {
+      if (typeof initSplitter === 'function') initSplitter();
+    }
+    if (tabId === 'stationwifi') {
+      if (typeof initStationWifi === 'function') initStationWifi();
+    }
+    if (tabId === 'stomach') {
+      if (typeof initStomachAdvisor === 'function') initStomachAdvisor();
+    }
+    if (tabId === 'streetart') {
+      if (typeof initStreetArt === 'function') initStreetArt();
+    }
+    if (tabId === 'sunclock') {
+      if (typeof initSunClock === 'function') initSunClock();
+    }
+    if (tabId === 'suppaddle') {
+      if (typeof initSupPaddle === 'function') initSupPaddle();
+    }
+    if (tabId === 'tatkalhelper') {
+      if (typeof initTatkalHelper === 'function') initTatkalHelper();
+    }
+    if (tabId === 'templeetiquette') {
+      if (typeof initTempleEtiquette === 'function') initTempleEtiquette();
+    }
+    if (tabId === 'terrariumshop') {
+      if (typeof initTerrariumShop === 'function') initTerrariumShop();
+    }
+    if (tabId === 'thriftmap') {
+      if (typeof initThriftMap === 'function') initThriftMap();
+    }
+    if (tabId === 'tidesafety') {
+      if (typeof initTideSafety === 'function') initTideSafety();
+    }
+    if (tabId === 'tipguide') {
+      if (typeof initTipGuide === 'function') initTipGuide();
+    }
+    if (tabId === 'tourism') {
+      if (typeof initTourism === 'function') initTourism();
+    }
+    if (tabId === 'tracker') {
+      if (typeof initTracker === 'function') initTracker();
+    }
+    if (tabId === 'train') {
+      if (typeof initTrain === 'function') initTrain();
+    }
+    if (tabId === 'trainluggage') {
+      if (typeof initTrainLuggage === 'function') initTrainLuggage();
+    }
+    if (tabId === 'trainsocket') {
+      if (typeof initTrainSocket === 'function') initTrainSocket();
+    }
+    if (tabId === 'trampolinepark') {
+      if (typeof initTrampolinePark === 'function') initTrampolinePark();
+    }
+    if (tabId === 'transit') {
+      if (typeof initTransit === 'function') initTransit();
+    }
+    if (tabId === 'transitbooking') {
+      if (typeof initTransitHub === 'function') initTransitHub();
+    }
+    if (tabId === 'travel') {
+      if (typeof initQuiz === 'function') initQuiz();
+    }
+    if (tabId === 'trip') {
+      if (typeof initTripPlanner === 'function') initTripPlanner();
+    }
+    if (tabId === 'unesco') {
+      if (typeof initUnesco === 'function') initUnesco();
+    }
+    if (tabId === 'upi') {
+      if (typeof initUpi === 'function') initUpi();
+    }
+    if (tabId === 'upiguide') {
+      if (typeof initUpiGuide === 'function') initUpiGuide();
+    }
+    if (tabId === 'vault') {
+      if (typeof initVault === 'function') initVault();
+    }
+    if (tabId === 'veganindia') {
+      if (typeof initVeganIndia === 'function') initVeganIndia();
+    }
+    if (tabId === 'visa') {
+      if (typeof initVisaAdvisor === 'function') initVisaAdvisor();
+    }
+    if (tabId === 'voice') {
+      if (typeof initVoiceTranslator === 'function') initVoiceTranslator();
+    }
+    if (tabId === 'voltage') {
+      if (typeof initVoltage === 'function') initVoltage();
+    }
+    if (tabId === 'waterrefill') {
+      if (typeof initWaterRefill === 'function') initWaterRefill();
+    }
+    if (tabId === 'waterrisk') {
+      if (typeof initWaterRisk === 'function') initWaterRisk();
+    }
+    if (tabId === 'weather') {
+      if (typeof initWeather === 'function') initWeather();
+    }
+    if (tabId === 'wellnessretreat') {
+      if (typeof initWellnessRetreat === 'function') initWellnessRetreat();
+    }
+    if (tabId === 'workcafe') {
+      if (typeof initWorkCafe === 'function') initWorkCafe();
+    }
+    if (tabId === 'ziplinegenz') {
+      if (typeof initZiplineGenz === 'function') initZiplineGenz();
     }
     } catch(e) {
       console.warn("Tab module init non-fatal warning:", e);
@@ -1441,76 +1502,102 @@ document.addEventListener("DOMContentLoaded", () => {
     const railIcons = document.querySelectorAll(".rail-icon[data-cat]");
     if (railIcons.length) {
       // Map tabs to categories
-            const catMap = {
+      const catMap = {
         engine:  ['engine', 'routes', 'game', 'pattern', 'analytics', 'scanner'],
         routing: ['travel', 'tourism', 'trip', 'routesolver', 'culinary', 'transitbooking', 'evrouter', 'localizer', 'simadvisor', 'visa', 'socket', 'atm', 'sleep', 'pnrpredict', 'currency', 'rickshaw', 'bagcalc', 'appguide', 'livetrain', 'gstcalc', 'roadtrip', 'evcharge', 'busguide', 'hotelgst', 'tatkalhelper', 'forexcalc', 'fastagcalc', 'trainsocket', 'cloakroom', 'rickshawmeter', 'pnrrefund', 'cabestimator', 'trainluggage', 'workcafe', 'backpackerhostel', 'scooterrental', 'capsulehotel', 'pocketwifi', 'charginghub', 'waterrefill', 'coworkingdesk', 'luggagestorage', 'atmcash', 'laundryspot', 'puncturerepair', 'transit', 'seat', 'metro', 'airport', 'evisa', 'voltage', 'irctc', 'train', 'coach', 'forex'],
         safety:  ['safety', 'health', 'emergency', 'splitter', 'solosafety', 'vault', 'simguide', 'customs', 'legal', 'insurance', 'medical', 'scamcheck', 'altitude', 'monsoonrisk', 'waterrisk', 'ayurveda', 'signalprofiler', 'airquality', 'altitudeprofiler', 'tidesafety', 'emergencyhealth', 'datasaver', 'upiguide', 'signalsimplified', 'airportsecurity', 'medtranslator', 'plugsockets', 'stationwifi', 'livelocation', 'ecotravel', 'powerbankswap', 'petfriendly', 'esimchecker', 'genzsplit', 'naturetrails', 'nightchemist', 'cleantoilet', 'docservices', 'medkit', 'permits', 'upi'],
         culture: ['discovery', 'festivals', 'compare', 'budget', 'landmarks', 'tracker', 'notes', 'baggage', 'photohub', 'shopping', 'foodsafety', 'smartpacker', 'voice', 'stomach', 'weather', 'sunclock', 'qrcode', 'culture', 'festival', 'food', 'spicemenu', 'bargain', 'monumentphoto', 'templeetiquette', 'localspeak', 'tipguide', 'unesco', 'prasad', 'chaiguide', 'folkdance', 'monumenttickets', 'gitagguide', 'genzspotlight', 'genzvibes', 'genzslang', 'livegigs', 'veganindia', 'thriftmap', 'adventuregenz', 'bobafinder', 'nightlifegenz', 'filmcamera', 'wellnessretreat', 'streetart', 'nightmarket', 'popupevents', 'artisanchai', 'skateparks', 'driveincinema', 'sneakerculture', 'comedyclubs', 'gokarting', 'ziplinegenz', 'neonbowling', 'suppaddle', 'scubagenz', 'escaperoom', 'trampolinepark', 'lasertagarena', 'boardgamecafe', 'axethrowing', 'podcaststudio', 'photobooth', 'customworkshop', 'potterystudio', 'terrariumshop', 'gympassgenz', 'boulderinggym', 'icebathhub', 'matchabar', 'artisangelato', 'photo', 'playlist', 'diet']
       };
-      let matchedCat = null;
-      for (const [cat, tabs] of Object.entries(catMap)) {
-        if (tabs.includes(tabId)) { matchedCat = cat; break; }
+
+      let foundCat = 'engine';
+      for (const [cat, tabList] of Object.entries(catMap)) {
+        if (tabList.includes(tabId)) {
+          foundCat = cat;
+          break;
+        }
       }
-      railIcons.forEach(icon => {
-        if (icon.dataset.cat === matchedCat) {
-          icon.classList.add('active');
+      railIcons.forEach(r => {
+        if (r.dataset.cat === foundCat) {
+          r.classList.add("active");
         } else {
-          icon.classList.remove('active');
+          r.classList.remove("active");
         }
       });
     }
-    // Sync active item in sidebar drawer
-    const drawerItems = document.querySelectorAll('.sidebar-feature-item');
-    drawerItems.forEach(item => {
-      if (item.dataset.tab === tabId) item.classList.add('active');
-      else item.classList.remove('active');
+
+    // Update Island pill state
+    const islandBtns = document.querySelectorAll(".island-btn[data-target]");
+    islandBtns.forEach(btn => {
+      if (btn.dataset.target === tabId) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
     });
 
-    // Update active highlight on Dynamic Island shortcuts
-    const island = document.getElementById("dynamic-island");
-    if (island) {
-      const buttons = island.querySelectorAll(".island-btn");
-      buttons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.target === tabId);
-      });
-    }
-
-    // Update breadcrumb & Dynamic Island label
-    const bc = document.getElementById('active-feature-breadcrumb');
-    const labelEl = document.getElementById("island-compact-label");
-    if (bc || labelEl) {
-      const FEATURE_NAMES = {
-        engine: 'Autocomplete Engine', routes: 'Database Seed Exporter', game: 'Geoguess Spelling Game',
+    // Update Quick Dock breadcrumb badge
+    const badge = document.getElementById("active-tab-badge");
+    if (badge) {
+      const names = {
+        engine: 'Engine', routes: 'DB Seed Exporter', game: 'Geoguess Spelling Game',
         pattern: 'Pattern Search', analytics: 'City Analytics', scanner: 'Text Scanner',
         travel: 'Geography & Travel Hub', tourism: 'State Showcase', trip: 'Trip Planner',
-        routesolver: 'Transit Solver', transitbooking: 'Transit Hub', seat: 'Train Seat Maps',
+        routesolver: 'Transit Solver', transit: 'Transit Hub', seat: 'Train Seat Maps',
         metro: 'Metro Planner', airport: 'Airport Navigator', evisa: 'e-Visa Calculator',
         voltage: 'Voltage Adapter', atm: 'ATM & DCC Advisor', irctc: 'IRCTC Waitlist Engine',
-        train: 'Train Coach Comfort', safety: 'Health & Customs Safety', customs: 'Customs & Duty',
-        legal: 'Legal & Rights', insurance: 'Travel Insurance', medical: 'Medical Locator',
-        emergency: 'Emergency Contacts', solosafety: 'Solo Safety Advisor', vault: 'Document Vault',
+        train: 'Train Coach Comfort', currency: 'Currency Converter', rickshaw: 'Rickshaw Fare Calc',
+        bagcalc: 'Airline Baggage Calc', upi: 'Foreigner UPI Guide', coach: 'Railway Coach Layout',
+        forex: 'Forex DCC ATM Simulator', appguide: 'India Travel Apps Guide', livetrain: 'Train Live Status',
+        gstcalc: 'GST Tax Refund Calc', roadtrip: 'Roadtrip & Taxi Calc', evcharge: 'EV Charge & Plug Calc',
+        busguide: 'Interstate Sleeper Bus', hotelgst: 'Hotel GST Tax Checker', tatkalhelper: 'Tatkal Booking Speed Helper',
+        forexcalc: 'Forex FX Markup Calculator', fastagcalc: 'Expressway FASTag Toll Calc', trainsocket: 'Train Coach Power & Wi-Fi',
+        cloakroom: 'Railway Cloakroom Finder', rickshawmeter: 'Auto Meter & Night Surge', pnrrefund: 'IRCTC Refund & TDR Calculator',
+        cabestimator: 'Airport Taxi vs Cab Estimator', trainluggage: 'IRCTC Train Luggage Allowance',
+        safety: 'Health & Customs Safety', customs: 'Customs & Duty', legal: 'Legal & Rights',
+        insurance: 'Travel Insurance', medical: 'Medical Locator', emergency: 'Emergency Contacts',
+        solosafety: 'Solo Safety Advisor', vault: 'Document Vault', simguide: 'SIM Card & Data Guide',
+        medkit: 'Travel Medical Kit', permits: 'State Travel Permits', scamcheck: 'Tourist Scam Checker',
+        altitude: 'Altitude Sickness Advisor', monsoonrisk: 'Monsoon Risk Planner', waterrisk: 'Drinking Water Safety Advisor',
+        ayurveda: 'Ayurveda Travel Wellness', signalprofiler: 'Remote Network Profiler', airquality: 'Air Quality & AQI Tracker',
+        altitudeprofiler: 'Altitude AMS Risk Profiler', tidesafety: 'Coastal Tide & Swimming Advisor', emergencyhealth: '24/7 Pharmacy & Blood Bank',
+        datasaver: 'Offline Maps & Data Saver', upiguide: 'Tourist UPI Payment Setup', signalsimplified: 'Remote Hill Station Network',
+        airportsecurity: 'Airport Cabin Security Limits', medtranslator: 'OTC Medicine Salt Translator', plugsockets: 'Hotel Plug Socket Guide',
+        stationwifi: 'Station RailWire Wi-Fi OTP', livelocation: 'Night Safety & Live Location',
         culture: 'Culture Explorer', festival: 'Festival Calendar', food: 'Regional Cuisine',
         foodsafety: 'Street Food Safety', photo: 'Photo Hub', shopping: 'Souvenir & Craft',
         notes: 'Travel Notes Journal', smartpacker: 'Smart Packer', voice: 'Speech Translator',
-        stomach: 'Stomach Safety', weather: 'Weather Advisor', currency: 'Currency Converter',
-        rickshaw: 'Rickshaw Fare Calc', bagcalc: 'Airline Baggage Calc', qrcode: 'QR Code Generator',
-        sunclock: 'Sunrise & Sunset', simguide: 'SIM Card & Data Guide', discovery: 'City Discovery',
-        festivals: 'Festivals Calendar', compare: 'City Comparison', budget: 'Budget Calculator',
-        health: 'Health Hub', evrouter: 'EV Charging Router', localizer: 'Dialect Localizer',
-        photohub: 'Sightseeing Checklist', sleep: 'Coach Sleep Guide', pnrpredict: 'PNR Predictor',
-        simadvisor: 'Network SIM Advisor', visa: 'Visa Advisor', socket: 'Socket Guide'
+        stomach: 'Stomach Safety', weather: 'Weather Advisor', sunclock: 'Sunrise & Sunset',
+        qrcode: 'QR Code Generator', playlist: 'Travel Vibe Playlist', diet: 'Dietary Translator',
+        spicemenu: 'Curry & Spice Translator', bargain: 'Street Bargaining Simulator', monumentphoto: 'Monument Golden Hour Advisor',
+        templeetiquette: 'Religious Sights Etiquette Guide', localspeak: 'Local Speak Phrasebook (TTS)', tipguide: 'Tipping Culture Guide',
+        unesco: 'UNESCO Heritage Sights', prasad: 'Temple Prasad Guide', chaiguide: 'Chai & Tea Culture Guide',
+        folkdance: 'Folk Dance & Culture Arts', monumenttickets: 'Monument ASI Ticket Calc', gitagguide: 'GI Tag Craft Authenticity',
+        genzspotlight: 'Gen Z Aesthetic Spot & Reels', workcafe: 'Specialty Coffee & Workation', backpackerhostel: 'Backpacker Social Hostels',
+        ecotravel: 'Eco-Conscious Travel', genzvibes: 'Sunset Vibes & Music Playlists', powerbankswap: 'Power Bank Rental Kiosk Swap',
+        scooterrental: 'Rental Scooter & Bike Tariff', genzslang: 'Urban Gen Z Slang Decoder', livegigs: 'Indie Music Gigs & Festivals',
+        veganindia: 'Vegan & Plant-Based Food', thriftmap: 'Thrift Store & Flea Market', adventuregenz: 'Bouldering & Water Surfing',
+        petfriendly: 'Pet-Friendly Travel & Trains', bobafinder: 'Matcha & Boba Bubble Tea', nightlifegenz: 'Nightlife & Silent Discos',
+        genzsplit: 'Group UPI Bill Splitter', filmcamera: '35mm Film Camera & X-Ray Guide', capsulehotel: 'Airport Capsule & Sleeping Pods',
+        wellnessretreat: 'Sunset Yoga & Sound Healing', esimchecker: 'Tourist eSIM & Roaming Packs', streetart: 'Street Art & Mural Walking Tours',
+        nightmarket: 'Street Food Night Markets', popupevents: 'Flea Popups & Art Exhibitions', naturetrails: 'Silent Beach & Nature Trails',
+        artisanchai: 'Artisan Kulhad Chai Spots', pocketwifi: 'Portable 5G Pocket Wi-Fi Dongle', skateparks: 'Skateparks & Roller Skating Rinks',
+        driveincinema: 'Drive-In & Rooftop Outdoor Cinema', sneakerculture: 'Streetwear Sneaker Drops & Care', comedyclubs: 'Stand-Up Comedy Clubs & Open Mics',
+        gokarting: 'Electric Go-Karting & Drift Tracks', ziplinegenz: 'High-Altitude Zipline & River Crossing', neonbowling: 'Neon Glow Bowling & Arcade Lounges',
+        suppaddle: 'Stand-Up Paddleboarding & Kayak', scubagenz: 'Scuba Diving & Coral Snorkeling', escaperoom: 'Cyberpunk & Mystery Escape Rooms',
+        trampolinepark: 'Trampoline Gravity Park & Foam Pit', lasertagarena: 'Tactical Sci-Fi Laser Tag Arena', boardgamecafe: 'Artisan Board Game Cafes & Strategy',
+        axethrowing: 'Target Axe Throwing Arena', podcaststudio: 'Content Creator Podcast & Audio Booth', photobooth: 'Korean Y2K Selfie Photo Booths',
+        customworkshop: 'Sneaker Painting & Rug Tufting', potterystudio: 'Ceramic Wheel Pottery Studio', terrariumshop: 'Bonsai & Plant Terrarium Workshop',
+        gympassgenz: 'Flexible Day-Pass Gyms & CrossFit', boulderinggym: 'Indoor Bouldering & Lead Climbing', icebathhub: 'Ice Bath & Cold Plunge Recovery',
+        matchabar: 'Ceremonial Matcha Bar & Tonics', artisangelato: 'Artisan Gelato & Sourdough Cones', nightchemist: '24-Hour Emergency Pharmacy & Supplies',
+        charginghub: 'High-Speed 65W PD Charging Kiosks', waterrefill: 'Clean RO Water ATM & Refill Station', coworkingdesk: 'Flexible Day-Pass Coworking Desks',
+        luggagestorage: 'Luggage Storage & Cloakrooms', docservices: '24/7 Color Print & Document Scan', atmcash: 'Reliable ATMs with Cash Reserves',
+        laundryspot: 'Express Laundromat & Wash Service', cleantoilet: 'Clean Public Restrooms & Washrooms', puncturerepair: '24/7 Tyre Puncture & Road Assist'
       };
-      const FEATURE_EMOJIS = {
-        engine: '🔍', routes: '💻', game: '🎮', pattern: '🔠', analytics: '📊', scanner: '📋',
-        travel: '🌍', tourism: '🗺️', trip: '✈️', routesolver: '🔀', transitbooking: '🎫',
-        notes: '📒', foodsafety: '🥗', vault: '📲', currency: '🏦', rickshaw: '🛺',
-        bagcalc: '✈️', qrcode: '🔲', sunclock: '🌅', simguide: '📡'
-      };
-      const name = FEATURE_NAMES[tabId] || tabId;
-      const emoji = FEATURE_EMOJIS[tabId] || '✨';
-      if (bc) bc.textContent = name;
-      if (labelEl) labelEl.textContent = `Arvora · ${name} ${emoji}`;
+      badge.textContent = names[tabId] || tabId.toUpperCase();
     }
+
+    // Auto-scroll window to top on tab transition
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   // =====================================================================
@@ -8813,6 +8900,14 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'scanner',   icon: '📋', name: 'Text Scanner',           desc: 'Regex document analyzer with OCR simulators.' },
       ],
       routing: [
+        { id: 'transitbooking', icon: '🎫', name: 'Transit & Booking Hub', desc: 'Find flight/train schedules, PNR seat maps & road trips.' },
+        { id: 'evrouter',       icon: '⚡', name: 'EV Corridor & Charging', desc: 'Highway fast chargers, charging slots & range estimators.' },
+        { id: 'localizer',      icon: '📍', name: 'City Localizer & Zones', desc: 'Explore city zones, localities, pin codes & district info.' },
+        { id: 'simadvisor',     icon: '📶', name: 'SIM & Connectivity Advisor', desc: 'Compare Jio, Airtel, Vi, BSNL plans for travelers.' },
+        { id: 'visa',           icon: '🛂', name: 'Visa & Entry Requirements', desc: 'Tourist visa rules, e-Visa fees & required documents.' },
+        { id: 'socket',         icon: '🔌', name: 'Socket & Electrical Guide', desc: 'Voltage, plug types (D, M, C) & adapter advice.' },
+        { id: 'sleep',          icon: '😴', name: 'Sleep & Rest Guide', desc: 'Station retiring rooms, airport pods & quiet hotel zones.' },
+        { id: 'pnrpredict',     icon: '🎫', name: 'PNR & Waitlist Predictor', desc: 'Predict IRCTC confirmation odds for waitlisted tickets.' },
         { id: 'travel',      icon: '🗺️', name: 'Geography & Travel Hub', desc: 'Distance calculators and coordinate search.' },
         { id: 'tourism',     icon: '🏛️', name: 'State Showcase',         desc: 'Tourism guides and travel logs per Indian state.' },
         { id: 'trip',        icon: '🗃️', name: 'Trip Planner',           desc: 'Build detailed multi-stop travel itineraries.' },
@@ -8850,6 +8945,8 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'trainluggage', icon: '🎒', name: 'IRCTC Train Luggage Allowance', desc: 'Free luggage weight limits by AC/SL coach & excess fees.' }
       ],
       safety: [
+        { id: 'health',         icon: '🏥', name: 'Health & Vaccine Hub', desc: 'Immunization recommendations, water safety & clinics.' },
+        { id: 'splitter',       icon: '👥', name: 'Travel Expense Splitter', desc: 'Track shared trip expenses & calculate equal shares.' },
         { id: 'safety',    icon: '🛡️', name: 'Health & Customs Safety', desc: 'Vaccine advisories and border customs rules.' },
         { id: 'customs',   icon: '🛃', name: 'Customs & Duty',          desc: 'Duty-free limits and restricted items guide.' },
         { id: 'legal',     icon: '⚖️', name: 'Legal & Rights',          desc: 'Know your rights and emergency legal helplines.' },
@@ -8881,6 +8978,15 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         { id: 'livelocation',    icon: '🛡️', name: 'Night Safety & Live Location',  desc: 'WhatsApp live share, Uber ride status & 112 SOS.' }
       ],
       culture: [
+        { id: 'discovery',      icon: '✨', name: 'City Discovery & Gems', desc: 'Uncover off-beat attractions & local viewpoints.' },
+        { id: 'festivals',      icon: '🎉', name: 'Festivals Calendar', desc: 'Dates, regional traditions & celebrations across India.' },
+        { id: 'compare',        icon: '⚖️', name: 'City Comparator Tool', desc: 'Compare population, weather & attractions between 2 cities.' },
+        { id: 'budget',         icon: '💰', name: 'Trip Budget Estimator', desc: 'Calculate daily lodging, dining, transit & sight budgets.' },
+        { id: 'culinary',       icon: '🍛', name: 'Culinary Heritage Guide', desc: 'Iconic state dishes, sweet treats & spice levels.' },
+        { id: 'landmarks',      icon: '🏛️', name: 'Historic Landmarks & Forts', desc: 'Palaces, forts, temples & UNESCO world heritage sites.' },
+        { id: 'tracker',        icon: '📍', name: 'Journey Route Tracker', desc: 'Log visited cities, milestones & visualize travel routes.' },
+        { id: 'baggage',        icon: '🧳', name: 'Luggage & Packing Checklist', desc: 'Luggage weight tracker & packing checklist.' },
+        { id: 'photohub',       icon: '📸', name: 'Monument Photography Guide', desc: 'Best photo spots, golden hour & camera rules.' },
         { id: 'culture',      icon: '🎭', name: 'Culture Explorer',    desc: 'Regional festivals, traditions, and dress codes.' },
         { id: 'festival',     icon: '🎉', name: 'Festival Calendar',   desc: 'Upcoming regional events and public holidays.' },
         { id: 'food',         icon: '🍛', name: 'Regional Cuisine',    desc: 'Signature dishes and food experiences by state.' },
@@ -9146,14 +9252,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
     buildList('search', '');
   }
 
-    // Run defaults
-    calculateBaggage();
-    renderBaggageItems();
+);
 
     // =====================================================================
     // FEATURE: CURRENCY CONVERTER
     // =====================================================================
-    (function initCurrencyConverter() {
+    function initCurrencyConverter() {
       const RATES_TO_INR = {
         INR:1, USD:83.5, EUR:91.2, GBP:106.8, JPY:0.55, AED:22.73,
         SGD:61.8, CAD:61.5, AUD:54.2, CHF:93.1, CNY:11.5, HKD:10.7,
@@ -9227,12 +9331,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         toSel.value = tmp;
         convert();
       });
-    })();
+    }
 
     // =====================================================================
     // FEATURE: RICKSHAW FARE CALCULATOR
     // =====================================================================
-    (function initRickshawCalc() {
+    function initRickshawCalc() {
       const CITIES = {
         'Delhi': { min: 25, perKm: 9.5, nightMult: 1.25, waitPer5: 3, name: 'Delhi' },
         'Mumbai': { min: 21, perKm: 14.5, nightMult: 1.5, waitPer5: 2.5, name: 'Mumbai' },
@@ -9285,12 +9389,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         safeDisplay('rickshaw-result', 'block');
         playSelectSound();
       });
-    })();
+    }
 
     // =====================================================================
     // FEATURE: SIM CARD GUIDE
     // =====================================================================
-    (function initSimGuide() {
+    function initSimGuide() {
       const container = document.getElementById('simguide-content');
       if (!container) return;
 
@@ -9386,12 +9490,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           </ol>
         </div>
       `;
-    })();
+    }
 
     // =====================================================================
     // FEATURE: SUNRISE & SUNSET CLOCK
     // =====================================================================
-    (function initSunClock() {
+    function initSunClock() {
       const dateInput = document.getElementById('sunclock-date');
       if (!dateInput) return;
       dateInput.value = new Date().toISOString().split('T')[0];
@@ -9525,12 +9629,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         safeDisplay('sunclock-result', 'block');
         playSelectSound();
       });
-    })();
+    }
 
     // =====================================================================
     // FEATURE: AIRLINE BAGGAGE CALCULATOR
     // =====================================================================
-    (function initBagCalc() {
+    function initBagCalc() {
       const AIRLINES = {
         'IndiGo': {
           economy: { saver:{cabin:'7kg',checkin:0,fee:450}, value:{cabin:'7kg',checkin:15,fee:450}, flex:{cabin:'7kg',checkin:15,fee:400} },
@@ -9593,12 +9697,12 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
         safeDisplay('bagcalc-result', 'block');
         playSelectSound();
       });
-    })();
+    }
 
     // =====================================================================
     // FEATURE: QR CODE GENERATOR (Pure JS — no external library)
     // =====================================================================
-    (function initQRGenerator() {
+    function initQRGenerator() {
       const generateBtn = document.getElementById('qr-generate-btn');
       if (!generateBtn) return;
 
@@ -9809,7 +9913,7 @@ Generated by Arvora (India City Autocomplete & Planner) 🚀`;
           setTimeout(() => { btn.textContent = '📋 Copy Data'; }, 1500);
         });
       });
-    })();
+    }
 
   // =====================================================================
   // FEATURE: HEALTH & VACCINE ADVISOR
@@ -22086,5 +22190,1352 @@ function initPunctureRepair() {
       </div>
     `).join('');
 }
+
+
+
+  // =====================================================================
+  // DEDICATED CARDS GRID INITIALIZERS FOR 11 SPECIALIZED TABS
+  // =====================================================================
+  function initEvisa() {
+    const grid = document.getElementById("evisa-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "30-Day Tourist e-Visa (Double Entry)",
+        icon: "🛂",
+        rating: "4.9",
+        reviews: "14.2k",
+        location: "All 29 Designated Airports, India",
+        price: "US$ 10 (Apr-Jun) / US$ 25 (Jul-Mar)",
+        hours: "Online 24/7 Processing (72h ETA)",
+        contact: "+91 11 2430 0666",
+        tags: ["Official Portal", "Double Entry", "Biometrics at Airport"],
+        desc: "Ideal for short vacations and leisure trips. Apply minimum 4 days before departure with 6-month passport validity and return ticket."
+      },
+      {
+        title: "1-Year Tourist e-Visa (Multiple Entry)",
+        icon: "✈️",
+        rating: "4.8",
+        reviews: "22.5k",
+        location: "All Designated Indian Borders",
+        price: "US$ 40",
+        hours: "Continuous Stay up to 90 Days/Trip",
+        contact: "indian-evisa@gov.in",
+        tags: ["Multiple Entry", "Fast Track", "Most Popular 🏆"],
+        desc: "Allows multiple entries within 365 days from date of ETA grant. Continuous stay during each visit should not exceed 90 days (180 days for US/UK/Canada/Japan)."
+      },
+      {
+        title: "5-Year Tourist e-Visa (Long-Term Multiple)",
+        icon: "🌟",
+        rating: "4.9",
+        reviews: "9.1k",
+        location: "Pan-India Entry Points",
+        price: "US$ 80",
+        hours: "Valid for 5 Full Years",
+        contact: "helpdesk-visa@gov.in",
+        tags: ["5 Years Validity", "Frequent Flyer", "Multi-City"],
+        desc: "Best value for digital nomads, frequent vacationers, and heritage explorers visiting India repeatedly across seasons."
+      },
+      {
+        title: "e-Business Visa (Commercial & Meetings)",
+        icon: "💼",
+        rating: "4.7",
+        reviews: "6.8k",
+        location: "Tech Hubs: BLR, BOM, DEL, HYD",
+        price: "US$ 80",
+        hours: "Up to 180 Days Continuous Stay",
+        contact: "ebusiness-help@gov.in",
+        tags: ["Business Meetings", "Trade Fairs", "Letter of Invitation Required"],
+        desc: "For business meetings, trade exhibitions, recruiting, and setting up commercial ventures. Requires business card copy and invitation letter."
+      },
+      {
+        title: "e-Medical & e-Medical Attendant Visa",
+        icon: "🏥",
+        rating: "4.9",
+        reviews: "4.3k",
+        location: "Apollo, Fortis, Max, Medanta Hubs",
+        price: "US$ 80",
+        hours: "Triple Entry (60 Days)",
+        contact: "+91 11 2430 0600",
+        tags: ["Medical Treatment", "Triple Entry", "Priority Clearance"],
+        desc: "Triple entry visa for medical treatment at recognized Indian hospitals. Up to 2 attendant visas can be granted against one medical visa."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initAirport() {
+    const grid = document.getElementById("airport-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Indira Gandhi International Airport (DEL)",
+        icon: "✈️",
+        rating: "4.8",
+        reviews: "48.2k",
+        location: "New Delhi (T1, T2, T3)",
+        price: "Metro Express: ₹60 | DigiYatra Free",
+        hours: "24x7 Operations",
+        contact: "+91 124 479 7300",
+        tags: ["DigiYatra Fast Track", "Airport Metro Line", "World Top 10 🏆"],
+        desc: "India's largest airport hub featuring direct 20-min Airport Express Metro connectivity to New Delhi Railway Station, luxury lounges, and duty-free shopping."
+      },
+      {
+        title: "Chhatrapati Shivaji Maharaj Airport (BOM)",
+        icon: "🛫",
+        rating: "4.7",
+        reviews: "39.1k",
+        location: "Mumbai (T1 Domestic, T2 International)",
+        price: "Prepaid Taxi / Uber Zone",
+        hours: "24x7 Operations",
+        contact: "+91 22 6685 1010",
+        tags: ["Jaya He Museum Art", "Fast DigiYatra", "Direct Highway"],
+        desc: "Iconic terminal featuring the 3km Jaya He art pavilion, curated street food food courts, luxury sleeping pods, and seamless ride-hailing pickup zones."
+      },
+      {
+        title: "Kempegowda International Airport (BLR)",
+        icon: "🌿",
+        rating: "4.9",
+        reviews: "31.8k",
+        location: "Bengaluru (Terminal 2 'Terminal in a Garden')",
+        price: "Vayu Vajra AC Bus: ₹250",
+        hours: "24x7 Operations",
+        contact: "+91 80 6678 5555",
+        tags: ["Garden Terminal 🏆", "Vayu Vajra BMTC", "100% Green Energy"],
+        desc: "Award-winning bamboo garden terminal with indoor waterfalls, ultra-smooth DigiYatra facial recognition entry, and dedicated BMTC AC Volvo bus bays."
+      },
+      {
+        title: "Rajiv Gandhi International Airport (HYD)",
+        icon: "✨",
+        rating: "4.8",
+        reviews: "19.4k",
+        location: "Hyderabad, Shamshabad",
+        price: "Pushpak Airport Liner: ₹200",
+        hours: "24x7 Operations",
+        contact: "+91 40 6654 6370",
+        tags: ["Pushpak AC Transit", "Fast Bag Tagging", "Spacious Lounges"],
+        desc: "Top-tier on-time performance airport with easy expressway access, drive-in cafes, aero-express shuttles, and authentic Hyderabadi pearl & food outlets."
+      },
+      {
+        title: "Cochin International Airport (COK)",
+        icon: "☀️",
+        rating: "4.9",
+        reviews: "14.7k",
+        location: "Kochi, Nedumbassery, Kerala",
+        price: "KSRTC Electric Bus / Prepaid Taxi",
+        hours: "24x7 Operations",
+        contact: "+91 484 261 0115",
+        tags: ["100% Solar Powered ☀️", "Traditional Architecture", "Spices Hub"],
+        desc: "The world's first fully solar-powered airport, designed in traditional Kerala Nalukettu architectural style with Ayurvedic massage centers and spice bazaars."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initVoltage() {
+    const grid = document.getElementById("voltage-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Type D Socket (5A - Standard Indian Plug)",
+        icon: "🔌",
+        rating: "4.9",
+        reviews: "18.3k",
+        location: "Universal across 100% Indian Hotels & Stays",
+        price: "230V AC, 50Hz (Included in all rooms)",
+        hours: "24x7 Standard Supply",
+        contact: "Bureau of Indian Standards (BIS)",
+        tags: ["3 Round Pins", "5 Ampere Load", "Standard Socket"],
+        desc: "Features 3 large round pins in a triangle formation. Fits phone chargers, laptop bricks, cameras, and standard dual-pin European Type C round plugs."
+      },
+      {
+        title: "Type M Socket (15A - Heavy Power)",
+        icon: "⚡",
+        rating: "4.8",
+        reviews: "11.1k",
+        location: "Bathrooms, Kitchens & AC Switchboards",
+        price: "230V AC, 50Hz (15 Amp Rating)",
+        hours: "High-Power Dedicated Circuit",
+        contact: "Hotel Front Desk Support",
+        tags: ["15 Amp Heavy", "Geysers & Irons", "Large 3 Pins"],
+        desc: "Larger 3-pin round socket rated for 15 Amps. Used for hair dryers, room heaters, electric kettles, and high-wattage travel steamers."
+      },
+      {
+        title: "Universal Multi-Country Travel Adapter",
+        icon: "🎯",
+        rating: "4.9",
+        reviews: "26.4k",
+        location: "Available at Airport Kiosks & Local Hardware",
+        price: "₹150 - ₹350 (Local Market)",
+        hours: "Instant Plug & Play",
+        contact: "+91 1800 266 1234",
+        tags: ["US to India", "UK to India", "EU to India"],
+        desc: "Converts US flat 2-pin, UK rectangular 3-pin, and Australian angled pins into Indian Type D/M sockets safely. Check device 110V-240V dual voltage rating."
+      },
+      {
+        title: "Voltage Converter (110V ↔ 230V Step-Down)",
+        icon: "🔋",
+        rating: "4.7",
+        reviews: "8.9k",
+        location: "Electronics Stores (Croma, Reliance Digital)",
+        price: "₹850 - ₹1,800",
+        hours: "Protective Surge Switch",
+        contact: "Customer Care",
+        tags: ["110V US Appliances", "Step-Down Transformer", "Surge Protection"],
+        desc: "Crucial for US appliances rated ONLY for 110V/120V (like non-dual curling irons or clippers). Converts India's 230V grid down to 110V to prevent blowout."
+      },
+      {
+        title: "GaN 65W/100W Fast Multi-Port Charger",
+        icon: "⚡",
+        rating: "5.0",
+        reviews: "34.2k",
+        location: "Travel Backpack Essential",
+        price: "₹1,499 - ₹2,999",
+        hours: "Universal 100V-240V Auto",
+        contact: "Anker / Stuffcool India",
+        tags: ["Dual Type-C PD", "Laptop + Phone", "Global Voltage 100-240V"],
+        desc: "Compact GaN charger with auto-sensing 100-240V dual voltage input. Simultaneously powers your MacBook, iPhone, and power bank from a single Indian socket."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initPhoto() {
+    const grid = document.getElementById("photo-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Taj Mahal Sunrise Viewpoint (Mehtab Bagh)",
+        icon: "📸",
+        rating: "5.0",
+        reviews: "52.3k",
+        location: "Agra, Uttar Pradesh",
+        price: "₹25 (Indian) / ₹300 (Foreigner)",
+        hours: "6:00 AM - 6:30 PM (Closed Fridays)",
+        contact: "ASI Agra Circle: 0562 222 7261",
+        tags: ["Golden Hour ⭐", "Yamuna Reflection", "Tripods Prohibited inside"],
+        desc: "Capture the ethereal marble reflections across Yamuna river without the interior crowds. Drones and video camera stabilizers strictly prohibited by CISF."
+      },
+      {
+        title: "Hawa Mahal Morning Facade (Wind View Cafe)",
+        icon: "🏰",
+        rating: "4.9",
+        reviews: "38.7k",
+        location: "Jaipur, Rajasthan",
+        price: "Free Street View / Cafe Coffee ₹150",
+        hours: "Sunrise to 9:00 AM (Best Light)",
+        contact: "+91 141 261 8862",
+        tags: ["953 Jharokhas", "Rooftop Perspective", "Morning Sun ☀️"],
+        desc: "The 953 honeycomb windows are illuminated in morning pink sunlight. Head to the opposite rooftop cafes for symmetrical, unobstructed wide-angle frames."
+      },
+      {
+        title: "Varanasi Ganga Aarti & Ghats (Boat Vantage)",
+        icon: "🪔",
+        rating: "5.0",
+        reviews: "44.9k",
+        location: "Dashashwamedh Ghat, Varanasi",
+        price: "Rowboat ₹300/hr | Motorboat ₹1,000/hr",
+        hours: "5:30 AM Sunrise / 6:30 PM Evening Aarti",
+        contact: "Varanasi Tourism Helpdesk",
+        tags: ["Spiritual Glow", "Blue Hour", "Low Light Masters"],
+        desc: "Charter a traditional wooden rowboat at dawn for mystical misty ghat silhouettes, or position mid-river during the evening Maha Aarti fire ritual."
+      },
+      {
+        title: "Humayun's Tomb Garden Symmetry",
+        icon: "🏛️",
+        rating: "4.8",
+        reviews: "29.4k",
+        location: "New Delhi (Nizamuddin East)",
+        price: "₹40 (Indian) / ₹600 (Foreigner)",
+        hours: "Sunrise to Sunset daily",
+        contact: "011 2464 7000",
+        tags: ["Charbagh Water Channels", "Mughal Red Sandstone", "Golden Hour"],
+        desc: "Precursor to the Taj Mahal with stunning red sandstone domes, manicured Persian water gardens, and arches framing the setting sun."
+      },
+      {
+        title: "Victoria Memorial Golden Hour Reflection",
+        icon: "🏛️",
+        rating: "4.8",
+        reviews: "27.1k",
+        location: "Kolkata, West Bengal",
+        price: "₹50 (Gardens) / ₹500 (Foreigner Museum)",
+        hours: "5:30 AM - 6:15 PM daily",
+        contact: "+91 33 2223 1890",
+        tags: ["Pond Reflection", "British Raj Marble", "Evening Lighting"],
+        desc: "Magnificent Makrana marble monument surrounded by lush gardens and ornamental lakes. The southern reflection pool provides breathtaking symmetrical captures."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initSeat() {
+    const grid = document.getElementById("seat-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Vande Bharat Express (Executive & Chair Car)",
+        icon: "🚆",
+        rating: "4.9",
+        reviews: "36.2k",
+        location: "Inter-City High-Speed Routes across India",
+        price: "CC ₹950 - ₹1,600 | EC ₹1,800 - ₹3,200",
+        hours: "160 km/h High-Speed Day Journeys",
+        contact: "IRCTC Helpline: 139",
+        tags: ["180° Rotating Seats", "Modular Bio-Toilets", "Meals Included 🍽️"],
+        desc: "India's premier semi-high speed train with automatic plug doors, onboard infotainment, panoramic wide windows, and 180-degree revolving seats in Executive Class."
+      },
+      {
+        title: "First AC (1A) - Private 2-Berth Coupe / 4-Berth Cabin",
+        icon: "🥇",
+        rating: "4.9",
+        reviews: "18.8k",
+        location: "Rajdhani, Duronto & Superfast Express",
+        price: "₹2,800 - ₹5,500 (Route Dependent)",
+        hours: "Lockable Private Doors",
+        contact: "IRCTC Helpline: 139",
+        tags: ["Ultimate Privacy 🛡️", "Fresh Linen & Blanket", "Room Service Dining"],
+        desc: "The pinnacle of Indian Railway comfort with lockable sliding doors, reading lights, attendant bell, large picture windows, and hot meals served in bone china."
+      },
+      {
+        title: "Second AC (2A) - 2-Tier Air-Conditioned Sleeper",
+        icon: "✨",
+        rating: "4.8",
+        reviews: "42.1k",
+        location: "All Long-Distance Overnight Trains",
+        price: "₹1,400 - ₹3,100",
+        hours: "Privacy Curtains in Every Bay",
+        contact: "IRCTC Helpline: 139",
+        tags: ["Privacy Curtains", "Spacious Headroom", "Individual Sockets"],
+        desc: "Features only 4 berths per main bay (2 lower, 2 upper) and 2 side berths (Side Lower, Side Upper), complete with individual privacy curtains and reading lamps."
+      },
+      {
+        title: "Third AC Economy (3E) / Standard 3-Tier (3A)",
+        icon: "🚃",
+        rating: "4.6",
+        reviews: "58.4k",
+        location: "Every Express & Mail Train Network",
+        price: "₹900 - ₹2,100 (Best Value)",
+        hours: "AC Regulated (22°C - 24°C)",
+        contact: "IRCTC Helpline: 139",
+        tags: ["Best Budget AC", "Clean Bedding Included", "Social & Safe"],
+        desc: "India's most popular AC travel class offering 6 berths per bay + 2 side berths. Clean washed sheets, pillow, and blanket included in ticket fare."
+      },
+      {
+        title: "Window & Side-Lower (SL) Berth Optimization Tips",
+        icon: "💡",
+        rating: "4.9",
+        reviews: "31.7k",
+        location: "Booking Strategy Guide",
+        price: "Select Berth Preference during IRCTC checkout",
+        hours: "Book 120 Days in Advance (ARP)",
+        contact: "irctc.co.in",
+        tags: ["Side Lower Choice", "Best Scenery", "Tatkal Hacks"],
+        desc: "Side Lower (SL) gives you a private window table during day and a flat bed at night. Side Upper (SU) is ideal if you want undisturbed sleep all day."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initTransit() {
+    const grid = document.getElementById("transit-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Inter-City AC Sleeper Volvos (IntrCity & Zingbus)",
+        icon: "🚌",
+        rating: "4.8",
+        reviews: "24.1k",
+        location: "DEL-JAI, BLR-GOA, BOM-PUN, MAA-BLR",
+        price: "₹650 - ₹1,450 / berth",
+        hours: "Overnight Daily Departures",
+        contact: "SmartBus App Support",
+        tags: ["Private Pod Sleeper", "Onboard Wi-Fi", "Clean Washrooms"],
+        desc: "Premium multi-axle Volvo & Scania buses with individual curtained sleeper capsules, USB chargers, real-time GPS tracking, and private boarding lounges."
+      },
+      {
+        title: "Uber & Ola Intercity Outstation Cabs",
+        icon: "🚕",
+        rating: "4.7",
+        reviews: "41.6k",
+        location: "Point-to-Point Doorstep Pickup across India",
+        price: "₹11 - ₹16 / km + Tolls",
+        hours: "24x7 On-Demand Booking",
+        contact: "Uber/Ola App 24/7 SOS",
+        tags: ["Doorstep Pickup", "FASTag Automated Tolls", "Verified Drivers"],
+        desc: "Book one-way or round-trip sedans and SUVs with verified commercial drivers, air conditioning, and upfront pricing including interstate permits."
+      },
+      {
+        title: "Airport Prepaid Taxi & Official RTO Counters",
+        icon: "🚖",
+        rating: "4.8",
+        reviews: "33.5k",
+        location: "All Major Airport Arrival Gates",
+        price: "Regulated Govt Tariff + ₹30 Luggage",
+        hours: "24x7 Staffed Police Counters",
+        contact: "Airport Traffic Police Helpdesk",
+        tags: ["Govt Regulated", "No Surge Pricing", "Receipt with Car No."],
+        desc: "Fixed-rate government prepaid taxi stands inside airport arrival halls. Pay at the counter, get a stamped receipt, and avoid unauthorized touts outside."
+      },
+      {
+        title: "State Roadways Premium AC (KSRTC Airavat, MSRTC Shivneri)",
+        icon: "🛣️",
+        rating: "4.9",
+        reviews: "39.8k",
+        location: "South & Western India Highway Networks",
+        price: "₹350 - ₹950",
+        hours: "Departures every 30-60 mins",
+        contact: "ksrtc.in / msrtc.gov.in",
+        tags: ["Punctual & Safe", "Govt Backed", "Comfortable Recliner"],
+        desc: "Karnataka KSRTC Airavat and Maharashtra MSRTC Shivneri are renowned for exceptional punctuality, professional driving standards, and top-tier highway safety."
+      },
+      {
+        title: "Shared Auto-Rickshaws & Local City Shuttles",
+        icon: "🛺",
+        rating: "4.5",
+        reviews: "18.2k",
+        location: "Railway Stations to City Centers",
+        price: "₹15 - ₹40 / seat",
+        hours: "5:00 AM - 11:30 PM",
+        contact: "Local Auto Stands",
+        tags: ["Super Budget", "Quick Hop-on", "Cash / UPI Accepted"],
+        desc: "Frequent shared autos running fixed popular routes between railway stations, bus stands, and commercial centers. Always confirm destination and seat price before boarding."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initIrctc() {
+    const grid = document.getElementById("irctc-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Tatkal Booking Precision Timer (AC 10 AM / SL 11 AM)",
+        icon: "⏱️",
+        rating: "4.9",
+        reviews: "64.1k",
+        location: "Online via IRCTC Portal & App",
+        price: "Standard Fare + ₹125 - ₹500 Tatkal Surcharge",
+        hours: "Opens 1 day before journey date",
+        contact: "IRCTC Care: 14646 / 139",
+        tags: ["AC Tatkal: 10:00 AM", "Sleeper: 11:00 AM", "Master Passenger List ⚡"],
+        desc: "Pre-save passenger names in your IRCTC Master List before 9:55 AM. Use UPI / IRCTC iMudra wallet for the fastest 1-click checkout without OTP delays."
+      },
+      {
+        title: "Premium Tatkal (Dynamic Fare) Strategy",
+        icon: "⚡",
+        rating: "4.7",
+        reviews: "21.9k",
+        location: "High-Demand Train Routes",
+        price: "Dynamic Fare (Increases as seats fill)",
+        hours: "Opens alongside Tatkal window",
+        contact: "irctc.co.in",
+        tags: ["Guaranteed Seat Chance", "Dynamic Price", "No Cancellation Refund"],
+        desc: "Special quota where 50% of Tatkal berths are sold with airline-style dynamic pricing. Ideal when general Tatkal fills in seconds and you must travel."
+      },
+      {
+        title: "Foreign Tourist Quota (FTQ) Booking Guide",
+        icon: "🛂",
+        rating: "5.0",
+        reviews: "11.4k",
+        location: "International Tourist Bureaus (NDLS, CSMT, etc.)",
+        price: "Standard Fare + US$ 1.5 service fee",
+        hours: "Available up to 365 days in advance",
+        contact: "ftq@irctc.co.in",
+        tags: ["Dedicated Quota for Tourists", "365-Day Window", "Passport Verification"],
+        desc: "International passport holders can reserve executive and AC berths from a dedicated quota up to 1 year in advance using international credit cards on IRCTC."
+      },
+      {
+        title: "PNR Waitlist Confirmation Predictor & Charting Rules",
+        icon: "📊",
+        rating: "4.8",
+        reviews: "45.3k",
+        location: "All Train Bookings",
+        price: "Free Analysis",
+        hours: "Charts Prepared 4 Hours before departure",
+        contact: "139 SMS: PNR <number>",
+        tags: ["GNWL vs RLWL vs PQWL", "RAC Berth Rights", "Final Chart at 4h"],
+        desc: "GNWL (General Waitlist) has the highest confirmation odds. RAC (Reservation Against Cancellation) guarantees a shared sitting seat and auto-upgrades to full berth."
+      },
+      {
+        title: "TDR Filing & Automatic Online Ticket Refund System",
+        icon: "💳",
+        rating: "4.9",
+        reviews: "28.7k",
+        location: "IRCTC Dashboard / Station Master",
+        price: "100% Refund on Train Delay > 3 Hours",
+        hours: "File TDR before train chart/departure",
+        contact: "etickets@irctc.co.in",
+        tags: ["Automatic Refund", "Delay TDR Protection", "Clerical Fee ₹60"],
+        desc: "If a train is delayed more than 3 hours or canceled, file an online TDR for a full refund with zero deduction. Fully waitlisted e-tickets cancel automatically with instant bank refund."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initFestival() {
+    const grid = document.getElementById("festival-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Diwali - Festival of Lights (Pan-India)",
+        icon: "🪔",
+        rating: "5.0",
+        reviews: "78.4k",
+        location: "Varanasi (Dev Deepawali), Jaipur, Ayodhya",
+        price: "Free Public Celebrations & Sweets",
+        hours: "October / November (5-Day Celebration)",
+        contact: "State Tourism Boards",
+        tags: ["Deepotsav World Record", "Clay Diyas & Sweets", "Royal Illuminated Palaces"],
+        desc: "Experience millions of glowing oil lamps lining the ghats of Varanasi and Ayodhya, vibrant Rangoli art, and palaces illuminated in golden lights across Rajasthan."
+      },
+      {
+        title: "Holi - Festival of Colors (Braj, Mathura & Pushkar)",
+        icon: "🎨",
+        rating: "5.0",
+        reviews: "62.1k",
+        location: "Mathura, Vrindavan, Pushkar, Jaipur",
+        price: "Organic Herbal Gulal: ₹50 - ₹150",
+        hours: "March (Full Moon Day / Purnima)",
+        contact: "UP / Rajasthan Tourism",
+        tags: ["Lathmar Holi", "Pushkar Music Holi", "Natural Herbal Colors 🌱"],
+        desc: "The world-famous spring color celebration. Experience temple flower Holi in Vrindavan, traditional folk music in Pushkar square, and pure organic Gulal colors."
+      },
+      {
+        title: "Kolkata Durga Puja (UNESCO Intangible Cultural Heritage)",
+        icon: "🎭",
+        rating: "5.0",
+        reviews: "56.8k",
+        location: "Kolkata, West Bengal (1,000+ Thematic Pandals)",
+        price: "Free Public Pandal Hopping 24x7",
+        hours: "September / October (Mahashashti to Dashami)",
+        contact: "Bengal Tourism: 1800 212 1655",
+        tags: ["UNESCO Heritage 🏆", "Grand Architecture Art", "Dhunuchi Dance & Feasts"],
+        desc: "Recognized by UNESCO as a cultural masterpiece. The entire city of Kolkata transforms into an open-air art installation with colossal architectural pandals and drum beats."
+      },
+      {
+        title: "Kerala Onam & Snake Boat Races (Vallam Kali)",
+        icon: "🛶",
+        rating: "4.9",
+        reviews: "34.2k",
+        location: "Alappuzha, Aranmula, Kochi, Kerala",
+        price: "Nehru Trophy Pavilion: ₹100 - ₹3,000",
+        hours: "August / September (10 Days)",
+        contact: "Kerala Tourism: 1800 425 4747",
+        tags: ["Chundan Vallam 100-Oar Boats", "Grand Onasadya Feast", "Flower Pookkalam"],
+        desc: "Witness 100-feet long wooden snake boats powered by 100 synchronized rowers racing across the backwaters, accompanied by the legendary 26-dish vegetarian Onasadya feast."
+      },
+      {
+        title: "Mysore Dasara & Royal Elephant Jumbo Savari",
+        icon: "👑",
+        rating: "4.9",
+        reviews: "41.5k",
+        location: "Mysuru (Mysore Palace), Karnataka",
+        price: "Palace Grounds ₹500 - ₹2,000 / Free Streets",
+        hours: "October (Vijayadashami Climax)",
+        contact: "Karnataka Tourism: 080 2235 2828",
+        tags: ["100,000 Palace Lightbulbs", "Golden Howdah 750kg", "Torchlight Parade"],
+        desc: "A 400-year-old royal celebration where the Mysore Palace is illuminated by 100,000 light bulbs and decorated royal tuskers carry the golden idol of Goddess Chamundeshwari."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initTrain() {
+    const grid = document.getElementById("train-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "National Train Enquiry System (NTES Live GPS)",
+        icon: "🛰️",
+        rating: "4.9",
+        reviews: "82.3k",
+        location: "Pan-India Real-Time Satellite Tracking",
+        price: "Free Live Tracker",
+        hours: "Real-time 24x7 Updates",
+        contact: "Call / SMS 139",
+        tags: ["Live GPS Train Location", "Expected Platform No.", "Delay & Speed Meter"],
+        desc: "Track train location in real-time via ISRO satellite locators, check approaching stations, upcoming junction stops, and platform numbers before arrival."
+      },
+      {
+        title: "IRCTC e-Catering & Station Food Delivery (Food on Track)",
+        icon: "🍱",
+        rating: "4.8",
+        reviews: "47.9k",
+        location: "Delivered direct to your Train Seat/Berth",
+        price: "₹120 - ₹350 (Haldiram, Dominos, Behrouz)",
+        hours: "Order 2 Hours before station arrival",
+        contact: "App: Food on Track / Call 1323",
+        tags: ["Seat Delivery 🍽️", "Brand Hygiene Verified", "Pay via Cash / UPI"],
+        desc: "Order fresh hot meals from top restaurant chains directly to your train berth at over 450 major railway junctions across India by entering your 10-digit PNR."
+      },
+      {
+        title: "RailMadad - 24x7 Passenger Emergency & Cleanliness Assistance",
+        icon: "🛡️",
+        rating: "4.9",
+        reviews: "31.2k",
+        location: "All Running Trains & Platforms",
+        price: "Free Govt Passenger Support",
+        hours: "Instant Resolution within 15-30 mins",
+        contact: "Dial 139 / railmadad.indianrailways.gov.in",
+        tags: ["Onboard Medical Emergency", "Coach Cleanliness SOS", "Security RPF Dispatch"],
+        desc: "Official Indian Railways emergency app. Request urgent medical doctor attendance, compartment cleaning, AC cooling adjustment, or RPF police help at the next station."
+      },
+      {
+        title: "Station Executive Lounges & Retiring Rooms",
+        icon: "🛋️",
+        rating: "4.7",
+        reviews: "23.6k",
+        location: "NDLS, CSMT, HWH, BSB, MAS, SBC Hubs",
+        price: "Lounge: ₹150 - ₹250/2 hrs | Room: ₹500 - ₹1,200/day",
+        hours: "24x7 Air-Conditioned Comfort",
+        contact: "irctctourism.com",
+        tags: ["Buffet Dining", "Recliner Sofa & Wi-Fi", "Shower & Bedding"],
+        desc: "Pre-book airport-style luxury lounges and private AC retiring rooms right inside major railway stations with buffet dining, clean showers, and high-speed Wi-Fi."
+      },
+      {
+        title: "Mountain Heritage Toy Trains (Darjeeling, Kalka-Shimla, Nilgiri)",
+        icon: "🚂",
+        rating: "5.0",
+        reviews: "39.4k",
+        location: "UNESCO Mountain Railways of India",
+        price: "₹65 (General) - ₹1,500 (Vistadome Glass Roof)",
+        hours: "Daily Scheduled Scenic Runs",
+        contact: "IRCTC Booking Portal",
+        tags: ["UNESCO World Heritage 🏆", "Scenic Viaduct Bridges", "Steam Engine Nostalgia"],
+        desc: "Ride the historic 19th-century narrow-gauge mountain trains through tea gardens, pine forests, spiral loops, and misty Himalayan tunnels with glass-roof Vistadome coaches."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initMetro() {
+    const grid = document.getElementById("metro-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Delhi Metro Rail Corporation (DMRC Network)",
+        icon: "🚇",
+        rating: "4.9",
+        reviews: "92.4k",
+        location: "Delhi NCR (390+ km, 12 Lines, 286 Stations)",
+        price: "₹10 - ₹60 | Tourist Card: ₹150/1 day, ₹500/3 days",
+        hours: "5:30 AM - 11:30 PM daily",
+        contact: "DMRC Helpline: 155370",
+        tags: ["World Class Metro 🏆", "Airport Express 20-min", "WhatsApp Ticket QR 📲"],
+        desc: "India's largest and most punctual metro system. Book tickets directly on WhatsApp (+91 96508 55800) to bypass token queues. Dedicated first coach reserved for women."
+      },
+      {
+        title: "Namma Metro Bengaluru (BMRCL Purple & Green Lines)",
+        icon: "🚊",
+        rating: "4.8",
+        reviews: "43.1k",
+        location: "Bengaluru (Whitefield to Challaghatta & Nagasandra to Silk Institute)",
+        price: "₹10 - ₹60 | QR Metro 5% Discount",
+        hours: "5:00 AM - 11:00 PM",
+        contact: "BMRCL Helpline: 1800 425 12345",
+        tags: ["Connects Tech Corridors", "Integrated WhatsApp Pay", "Clean & Air Conditioned"],
+        desc: "Effortlessly bypass Bengaluru's surface traffic. Connects MG Road, Indiranagar, Majestic Railway Hub, and Whitefield IT Parks with trains every 3-5 minutes."
+      },
+      {
+        title: "Mumbai Metro & Monorail Network",
+        icon: "🚈",
+        rating: "4.7",
+        reviews: "37.8k",
+        location: "Mumbai (Line 1 Ghatkopar-Versova, Line 2A & 7, Line 3 Aqua Undergound)",
+        price: "₹10 - ₹50 | National Common Mobility Card (NCMC)",
+        hours: "6:00 AM - 11:00 PM",
+        contact: "Metro Helpline: 1800 889 0505",
+        tags: ["East-West Transit", "Underground Aqua Line", "Seamless NCMC Card"],
+        desc: "Modern air-conditioned network bridging western and eastern suburbs in 20 minutes instead of 2 hours on road. Fully integrated with National Common Mobility Card."
+      },
+      {
+        title: "Kolkata Metro (India's First Metro & Underwater Tunnel)",
+        icon: "🌊",
+        rating: "4.9",
+        reviews: "31.6k",
+        location: "Kolkata & Howrah (Under Hooghly River Tunnel)",
+        price: "₹5 - ₹30",
+        hours: "6:45 AM - 10:45 PM",
+        contact: "Metro Railway Kolkata: 033 2226 7280",
+        tags: ["Underwater Metro 🌊", "Howrah to Esplanade 45-sec", "Historic Heritage"],
+        desc: "Experience India's first underwater river tunnel traversing 520 meters below the Hooghly river in just 45 seconds, connecting Howrah Railway Station to central Kolkata."
+      },
+      {
+        title: "National Common Mobility Card (One Nation One Card)",
+        icon: "💳",
+        rating: "4.9",
+        reviews: "26.5k",
+        location: "Universal across Delhi, Mumbai, Bengaluru, Chennai Metros & Buses",
+        price: "₹100 Issue Fee + Prepaid Balance",
+        hours: "Tap & Go at Automatic Fare Gates",
+        contact: "Available at any Metro Ticket Counter",
+        tags: ["Universal Transit Card", "No Token Queues", "Works on Metro & Buses"],
+        desc: "RuPay-based contactless travel card that works across metro gates, city buses, suburban train ticketing, and parking tolls across every major Indian smart city."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function initFood() {
+    const grid = document.getElementById("food-cards-grid");
+    if (!grid) return;
+    const DATA = [
+      {
+        title: "Old Delhi Legendary Street Food Walk (Chandni Chowk)",
+        icon: "🍛",
+        rating: "5.0",
+        reviews: "68.3k",
+        location: "Chandni Chowk & Jama Masjid, Old Delhi",
+        price: "₹20 - ₹250 / dish",
+        hours: "11:00 AM - 11:30 PM (Closed Mondays partly)",
+        contact: "Paranthe Wali Gali & Karim's",
+        tags: ["Paranthe Wali Gali", "Karim's Mutton Korma", "Jalebi & Rabri ⭐"],
+        desc: "Taste 100-year-old culinary traditions: stuffed fried paranthas, slow-cooked Nihari, crisp Daulat ki Chaat in winter, and piping hot oversized saffron jalebis."
+      },
+      {
+        title: "Mumbai Street Food & Vada Pav Crawl (Girgaon Chowpatty)",
+        icon: "🥪",
+        rating: "4.9",
+        reviews: "54.7k",
+        location: "Chowpatty Beach, Dadar & Fort, Mumbai",
+        price: "₹15 - ₹120 / snack",
+        hours: "4:00 PM - Midnight (Evening Beach Vibe)",
+        contact: "Aram Vada Pav & Ashok Vada Pav",
+        tags: ["Authentic Vada Pav 🏆", "Crispy Bhel Puri", "Pav Bhaji with Extra Butter"],
+        desc: "Crispy spiced potato fritter in pillowy bread with garlic chutney, sizzling tawa Pav Bhaji overflowing with butter, and seaside Sev Puri overlooking the Arabian Sea."
+      },
+      {
+        title: "Hyderabadi Dum Biryani Heritage (Shadab & Paradise)",
+        icon: "🍚",
+        rating: "4.9",
+        reviews: "71.2k",
+        location: "Old City Charminar & Secunderabad, Hyderabad",
+        price: "₹220 - ₹380 / handi",
+        hours: "11:30 AM - 1:00 AM",
+        contact: "Hotel Shadab: 040 2456 5949",
+        tags: ["Kacchi Dum Cooking", "Mughlai & Nizami Spices", "Mirchi Ka Salan & Raita"],
+        desc: "Fragrant long-grain basmati rice and marinated meat slow-cooked in sealed clay handis with saffron, fried onions, cardamom, served with tangy spicy chili gravy."
+      },
+      {
+        title: "South Indian Filter Coffee & Tiffin Walk (Mavalli Tiffin Room - MTR)",
+        icon: "☕",
+        rating: "5.0",
+        reviews: "48.9k",
+        location: "Lalbagh Road & Malleshwaram, Bengaluru",
+        price: "₹40 - ₹120 / tiffin",
+        hours: "6:30 AM - 11:00 AM & 12:30 PM - 8:30 PM",
+        contact: "MTR Since 1924: 080 2222 0022",
+        tags: ["Heritage Since 1924", "Rava Idli with Pure Ghee", "Davangere Benne Dosa"],
+        desc: "Crisp golden butter dosas, fluffy steamed rava idlis dipped in coconut chutney, followed by frothy chicory-blended South Indian filter coffee served in stainless steel dabarah."
+      },
+      {
+        title: "Amritsari Kulcha & Creamy Sweet Lassi (Bhai Kulwant Singh)",
+        icon: "🧈",
+        rating: "5.0",
+        reviews: "39.7k",
+        location: "Near Golden Temple, Amritsar, Punjab",
+        price: "₹80 - ₹150 / thali with Lassi",
+        hours: "8:00 AM - 4:00 PM (Sells out early!)",
+        contact: "Heritage Street Amritsar",
+        tags: ["Tandoor Baked Flaky Kulcha", "Spiced Chole & Chutney", "Thick Malai Lassi 🥛"],
+        desc: "Multi-layered flaky bread stuffed with spiced potatoes and cauliflower, baked in clay tandoors, crushed by hand with generous dollops of butter, served with piquant chickpea curry."
+      }
+    ];
+
+    grid.innerHTML = DATA.map(item => `
+      <div class="travel-card" style="background:var(--bg-secondary); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:1.75rem; display:flex; flex-direction:column; gap:1.25rem; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--color-primary); opacity:0.8; border-radius:4px 0 0 4px;"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div style="width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
+              ${item.icon}
+            </div>
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-primary); margin:0 0 0.3rem 0; letter-spacing:-0.01em;">${item.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+                <span style="color:#fbbf24; font-weight:700;">⭐ ${item.rating}</span>
+                <span style="opacity:0.4;">|</span>
+                <span>${item.reviews} verified reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${item.tags.map(t => `<span style="padding:4px 12px; background:rgba(139,92,246,0.1); color:#c4b5fd; border:1px solid rgba(139,92,246,0.2); border-radius:100px; font-size:0.75rem; font-weight:600; letter-spacing:0.02em;">${t}</span>`).join('')}
+        </div>
+        
+        <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin:0;">
+          ${item.desc}
+        </p>
+        
+        <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:1.25rem; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.03);">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Location</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">📍 ${item.location}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Standard Fee</div>
+              <div style="color:var(--color-success); font-weight:700; font-size:1.05rem;">${item.price}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Availability</div>
+              <div style="color:var(--text-primary); font-size:0.95rem; display:flex; align-items:center; gap:6px;">🕒 ${item.hours}</div>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Contact / Info</div>
+              <div style="color:var(--color-accent); font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:6px;">📞 ${item.contact}</div>
+            </div>
+          </div>
+        </div>
+
+        <button style="width:100%; padding:1rem; border-radius:14px; border:none; background:linear-gradient(135deg, var(--color-primary), #6d28d9); color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; box-shadow:0 8px 20px rgba(139,92,246,0.25);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 25px rgba(139,92,246,0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.25)';">
+          View Details &amp; Guidelines
+        </button>
+      </div>
+    `).join('');
+  }
 
 });

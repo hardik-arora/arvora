@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=27.0.0">
+  <link rel="stylesheet" href="index.css?v=28.0.0">
 <script>
   window._arvoraPin = "";
   function handlePinDigit(d) {
@@ -4217,7 +4217,7 @@
             <span style="color:var(--text-muted);">Enter withdrawal amount:</span>
             <div style="display:flex; gap:0.5rem;">
               <input type="number" id="forex-atm-amount" class="form-input" value="10000" step="1000" min="1000" style="flex:1;">
-              <button id="forex-btn-simulate" class="visualizer-btn">Load ATM Screen</button>
+              <button id="forex-btn-safe" id="forex-btn-simulate" class="visualizer-btn">Load ATM Screen</button>
             </div>
           </div>
 
@@ -5315,6 +5315,7 @@
 
   <!-- TAB 90: IRCTC TICKET REFUND & TDR FILING CALCULATOR -->
   <div id="tab-content-pnrrefund" class="tab-content">
+        <div id="pnrrefund-cards-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.25rem; margin-top:1.5rem;"></div>
     <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
       <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%); border-color: rgba(239, 68, 68, 0.25);">
         <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚆</span> IRCTC Ticket Cancellation Refund &amp; TDR Rules Calculator</h2>
@@ -5340,6 +5341,7 @@
 
   <!-- TAB 91: AIRPORT PREPAID TAXI vs RIDE-HAILING CAB RATE CALCULATOR -->
   <div id="tab-content-cabestimator" class="tab-content">
+        <div id="cabestimator-cards-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.25rem; margin-top:1.5rem;"></div>
     <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
       <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border-color: rgba(6, 182, 212, 0.25);">
         <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🚕</span> Airport Prepaid Taxi vs App Cab Rate Estimator</h2>
@@ -5417,6 +5419,7 @@
 
   <!-- TAB 95: IRCTC TRAIN LUGGAGE WEIGHT ALLOWANCE CALCULATOR -->
   <div id="tab-content-trainluggage" class="tab-content">
+        <div id="trainluggage-cards-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.25rem; margin-top:1.5rem;"></div>
     <div style="max-width:1100px; margin:0 auto; padding: 0 1rem 3rem;">
       <div class="panel trip-hero-panel" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: rgba(245, 158, 11, 0.25);">
         <h2 class="panel-title" style="margin-bottom:0.25rem;"><span>🎒</span> IRCTC Train Free Luggage Weight &amp; Dimension Rules</h2>
@@ -6525,7 +6528,7 @@
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 27.0.0 (Ultra-Detail Release: 100% Custom Travel Card Overhaul, Zero Placeholder Templates &amp; Full 157 Feature Routing Verification) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 28.0.0 (Ultra-Detail Release: 100% Custom Travel Card Overhaul, Zero Placeholder Templates &amp; Full 157 Feature Routing Verification) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -6536,8 +6539,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=27.0.0"></script>
-  <script src="trie.js?v=27.0.0"></script>
-  <script src="app.js?v=27.0.0"></script>
+  <script src="cities.js?v=28.0.0"></script>
+  <script src="trie.js?v=28.0.0"></script>
+  <script src="app.js?v=28.0.0"></script>
 </body>
 </html>

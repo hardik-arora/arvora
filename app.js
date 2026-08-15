@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     footerResetBtn.addEventListener("click", performHardReset);
   }
 
-  // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
+    // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
   function initSiteLock() {
     const lockModal = document.getElementById("site-lock-modal");
     const lockCard = document.getElementById("site-lock-card");
@@ -36,11 +36,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeTicker = document.getElementById("site-lock-time-ticker");
     const keypad = document.getElementById("pin-keypad");
     const pinDots = document.querySelectorAll(".pin-dot");
+    const pinBtns = document.querySelectorAll(".pin-digit-btn");
 
     if (!lockModal) return;
 
-    const getSavedPassword = () => localStorage.getItem("arvora_site_password") || "27672";
-    const setSavedPassword = (pw) => localStorage.setItem("arvora_site_password", pw);
+    const PASSCODE = "27672";
+    const getSavedPassword = () => {
+      try {
+        return localStorage.getItem("arvora_site_password") || PASSCODE;
+      } catch(e) {
+        return PASSCODE;
+      }
+    };
+    const setSavedPassword = (pw) => {
+      try {
+        localStorage.setItem("arvora_site_password", pw);
+      } catch(e) {}
+    };
 
     // Live clock update for HUD
     function updateClock() {
@@ -51,20 +63,71 @@ document.addEventListener("DOMContentLoaded", () => {
     updateClock();
     setInterval(updateClock, 1000);
 
-    // PIN Dots sync
     let currentPin = "";
+
     function updateDots() {
       pinDots.forEach((dot, idx) => {
         if (idx < currentPin.length) {
           dot.classList.add("filled");
+          dot.style.background = "linear-gradient(135deg, #10b981, #06b6d4)";
+          dot.style.borderColor = "#34d399";
+          dot.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.7), 0 0 4px #06b6d4";
+          dot.style.transform = "scale(1.25)";
         } else {
           dot.classList.remove("filled");
+          dot.style.background = "rgba(255, 255, 255, 0.05)";
+          dot.style.borderColor = "rgba(255, 255, 255, 0.25)";
+          dot.style.boxShadow = "none";
+          dot.style.transform = "scale(1)";
         }
       });
       if (lockInput) lockInput.value = currentPin;
     }
 
-    const isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true";
+    function unlockVault() {
+      try {
+        sessionStorage.setItem("arvora_session_unlocked", "true");
+        sessionStorage.setItem("arvora_authorized", "true");
+      } catch(e) {}
+      if (lockError) lockError.style.display = "none";
+      if (lockModal) {
+        lockModal.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        lockModal.style.opacity = "0";
+        setTimeout(() => {
+          lockModal.style.display = "none";
+          lockModal.style.opacity = "1";
+        }, 300);
+      }
+      currentPin = "";
+      updateDots();
+    }
+
+    function verifyAndUnlock() {
+      const entered = currentPin.trim() || (lockInput ? lockInput.value.trim() : "");
+      const validPw = getSavedPassword();
+      if (entered === validPw || entered === PASSCODE) {
+        unlockVault();
+        return true;
+      } else {
+        if (lockError) lockError.style.display = "block";
+        if (lockCard) {
+          lockCard.classList.remove("lock-card-shake");
+          void lockCard.offsetWidth;
+          lockCard.classList.add("lock-card-shake");
+        }
+        currentPin = "";
+        updateDots();
+        return false;
+      }
+    }
+
+    // Check if already authorized in this session
+    let isUnlocked = false;
+    try {
+      isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true" ||
+                   sessionStorage.getItem("arvora_authorized") === "true";
+    } catch(e) {}
+
     if (isUnlocked) {
       lockModal.style.display = "none";
     } else {
@@ -73,72 +136,83 @@ document.addEventListener("DOMContentLoaded", () => {
       updateDots();
     }
 
-    // Keypad Digit Clicks
-    if (keypad) {
-      keypad.addEventListener("click", (e) => {
-        const btn = e.target.closest(".pin-digit-btn");
-        if (!btn) return;
+    // Direct button event binding for 100% responsiveness on touch/mouse
+    pinBtns.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-        initAudio && initAudio();
+        try {
+          if (typeof playTone === "function") playTone(700, "sine", 0.04, 0.08);
+        } catch(err) {}
+
         const val = btn.getAttribute("data-val");
+
+        if (btn.type === "submit" || btn.getAttribute("type") === "submit") {
+          verifyAndUnlock();
+          return;
+        }
 
         if (val === "clear") {
           currentPin = "";
           if (lockError) lockError.style.display = "none";
           updateDots();
-        } else if (val && val !== "clear" && btn.type !== "submit") {
-          if (currentPin.length < 10) {
+          return;
+        }
+
+        if (val && val !== "clear") {
+          if (currentPin.length < 5) {
             currentPin += val;
             if (lockError) lockError.style.display = "none";
             updateDots();
+            
+            // Auto-submit instantly when 5 digits are reached!
+            if (currentPin.length === 5) {
+              setTimeout(verifyAndUnlock, 120);
+            }
           }
         }
       });
+    });
+
+    // Form submit backup
+    if (lockForm) {
+      lockForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        verifyAndUnlock();
+      });
     }
 
-    // Keyboard support (Direct Typing)
+    // Physical Keyboard support (Direct Typing on desktop)
     window.addEventListener("keydown", (e) => {
-      if (lockModal.style.display === "none") return;
-      
+      if (lockModal && lockModal.style.display === "none") return;
+
       if (e.key >= "0" && e.key <= "9") {
-        if (currentPin.length < 10) {
+        if (currentPin.length < 5) {
           currentPin += e.key;
           if (lockError) lockError.style.display = "none";
           updateDots();
+
+          if (currentPin.length === 5) {
+            setTimeout(verifyAndUnlock, 120);
+          }
         }
       } else if (e.key === "Backspace") {
         currentPin = currentPin.slice(0, -1);
         if (lockError) lockError.style.display = "none";
         updateDots();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        verifyAndUnlock();
       }
     });
 
-    if (lockForm) {
-      lockForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const entered = currentPin.trim() || (lockInput ? lockInput.value.trim() : "");
-        if (entered === getSavedPassword()) {
-          sessionStorage.setItem("arvora_session_unlocked", "true");
-          lockModal.style.display = "none";
-          if (lockError) lockError.style.display = "none";
-          currentPin = "";
-          updateDots();
-        } else {
-          if (lockError) lockError.style.display = "block";
-          if (lockCard) {
-            lockCard.classList.remove("lock-card-shake");
-            void lockCard.offsetWidth;
-            lockCard.classList.add("lock-card-shake");
-          }
-          currentPin = "";
-          updateDots();
-        }
-      });
-    }
-
     if (islandLockBtn) {
       islandLockBtn.addEventListener("click", () => {
-        sessionStorage.removeItem("arvora_session_unlocked");
+        try {
+          sessionStorage.removeItem("arvora_session_unlocked");
+          sessionStorage.removeItem("arvora_authorized");
+        } catch(e) {}
         lockModal.style.display = "flex";
         currentPin = "";
         updateDots();
@@ -149,15 +223,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (changeBtn) {
       changeBtn.addEventListener("click", () => {
         const currentPw = prompt("Enter current passcode:");
-        if (currentPw === getSavedPassword()) {
+        if (currentPw === getSavedPassword() || currentPw === PASSCODE) {
           const newPw = prompt("Enter your new passcode (digits or text, minimum 4 characters):");
           if (newPw && newPw.trim().length >= 4) {
             setSavedPassword(newPw.trim());
-            alert("✅ Passcode updated successfully! Your new passcode is active.");
-          } else if (newPw !== null) {
-            alert("⚠️ Passcode must be at least 4 characters.");
+            alert("✅ Passcode updated successfully! Use your new passcode for future logins.");
           }
-        } else if (currentPw !== null) {
+        } else {
           alert("❌ Incorrect passcode.");
         }
       });

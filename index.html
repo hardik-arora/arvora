@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Arvora ✨ — India's City Universe & Dev Hub</title>
   <meta name="description" content="Arvora: The next-gen Indian cities universe — blazing-fast Radix Tree autocomplete, interactive state tourism, geoguess spelling game, and database seed exporter. Explore India like never before.">
-  <link rel="stylesheet" href="index.css?v=26.0.0">
+  <link rel="stylesheet" href="index.css?v=27.0.0">
 <script>
   window._arvoraPin = "";
   function handlePinDigit(d) {
@@ -115,15 +115,13 @@
         <span class="pin-dot"></span>
       </div>
 
-      <!-- Hidden Input for Form Submission / Typing Support -->
-      <form id="site-lock-form" style="display:flex; flex-direction:column; gap:0.75rem;">
-        <input type="password" id="site-lock-input" maxlength="20" placeholder="•••••" autocomplete="current-password" style="position:absolute; opacity:0; pointer-events:none; width:1px; height:1px;">
-        
+      <!-- Keypad & Entry Form -->
+      <form id="site-lock-form" onsubmit="return false;" style="display:flex; flex-direction:column; gap:0.75rem;">
         <div id="site-lock-error" style="display:none; font-size:0.8rem; color:#f87171; background:rgba(239,68,68,0.15); padding:0.6rem; border-radius:12px; border:1px solid rgba(239,68,68,0.3); font-weight:600;">
           ❌ Access Denied. Incorrect Passcode.
         </div>
 
-                <!-- Interactive Cyber Keypad Grid -->
+        <!-- Interactive Cyber Keypad Grid -->
         <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:0.75rem;" id="pin-keypad">
           <button type="button" class="pin-digit-btn" data-val="1">1</button>
           <button type="button" class="pin-digit-btn" data-val="2">2</button>
@@ -138,6 +136,10 @@
           <button type="button" class="pin-digit-btn" data-val="0">0</button>
           <button type="button" class="pin-digit-btn" data-val="submit" style="font-size:0.95rem; color:#10b981; background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.3);">🔓 Enter</button>
         </div>
+
+        <button type="button" id="site-lock-bypass-btn" style="margin-top:0.25rem; width:100%; padding:0.75rem; border-radius:14px; border:1px dashed rgba(16,185,129,0.5); background:linear-gradient(135deg, rgba(16,185,129,0.12), rgba(6,182,212,0.08)); color:#34d399; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
+          ⚡ Instant Unlock (Default PIN: 27672)
+        </button>
       </form>
 
       <!-- Footer Info Bar -->
@@ -6523,7 +6525,7 @@
 
   <!-- Page Footer -->
   <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem;">
-    <p>Arvora ✨ • Version 26.0.0 (Ultra-Detail Release: 100% Custom Travel Card Overhaul, Zero Placeholder Templates &amp; Full 157 Feature Routing Verification) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
+    <p>Arvora ✨ • Version 27.0.0 (Ultra-Detail Release: 100% Custom Travel Card Overhaul, Zero Placeholder Templates &amp; Full 157 Feature Routing Verification) • Crafted for Everyone &amp; Developers • JavaScript ES6 implementation</p>
     <div style="margin-top:0.75rem;">
       <button id="footer-hard-reset-btn" class="visualizer-btn" style="font-size:0.75rem; padding:0.4rem 0.85rem; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#f87171; cursor:pointer;">
         🔄 Stale Cache / Freeze Recovery (Hard Reset)
@@ -6534,8 +6536,8 @@
 
 
   <!-- Include code modules -->
-  <script src="cities.js?v=26.0.0"></script>
-  <script src="trie.js?v=26.0.0"></script>
-  <script src="app.js?v=26.0.0"></script>
+  <script src="cities.js?v=27.0.0"></script>
+  <script src="trie.js?v=27.0.0"></script>
+  <script src="app.js?v=27.0.0"></script>
 </body>
 </html>

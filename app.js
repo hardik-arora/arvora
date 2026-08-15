@@ -24,19 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
     footerResetBtn.addEventListener("click", performHardReset);
   }
 
-    // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
+      // --- SITE LOCK / PRIVATE SENTINEL VAULT CONTROLLER ---
   function initSiteLock() {
     const lockModal = document.getElementById("site-lock-modal");
     const lockCard = document.getElementById("site-lock-card");
-    const lockForm = document.getElementById("site-lock-form");
-    const lockInput = document.getElementById("site-lock-input");
     const lockError = document.getElementById("site-lock-error");
     const islandLockBtn = document.getElementById("island-lock-btn");
     const changeBtn = document.getElementById("site-lock-change-btn");
     const timeTicker = document.getElementById("site-lock-time-ticker");
     const keypad = document.getElementById("pin-keypad");
     const pinDots = document.querySelectorAll(".pin-dot");
-    const pinBtns = document.querySelectorAll(".pin-digit-btn");
 
     if (!lockModal) return;
 
@@ -71,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
           dot.classList.add("filled");
           dot.style.background = "linear-gradient(135deg, #10b981, #06b6d4)";
           dot.style.borderColor = "#34d399";
-          dot.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.7), 0 0 4px #06b6d4";
+          dot.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.7)";
           dot.style.transform = "scale(1.25)";
         } else {
           dot.classList.remove("filled");
@@ -81,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
           dot.style.transform = "scale(1)";
         }
       });
-      if (lockInput) lockInput.value = currentPin;
     }
 
     function unlockVault() {
@@ -90,20 +86,18 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("arvora_authorized", "true");
       } catch(e) {}
       if (lockError) lockError.style.display = "none";
-      if (lockModal) {
-        lockModal.style.transition = "opacity 0.3s ease, transform 0.3s ease";
-        lockModal.style.opacity = "0";
-        setTimeout(() => {
-          lockModal.style.display = "none";
-          lockModal.style.opacity = "1";
-        }, 300);
-      }
+      lockModal.style.transition = "opacity 0.3s ease";
+      lockModal.style.opacity = "0";
+      setTimeout(() => {
+        lockModal.style.display = "none";
+        lockModal.style.opacity = "1";
+      }, 300);
       currentPin = "";
       updateDots();
     }
 
     function verifyAndUnlock() {
-      const entered = currentPin.trim() || (lockInput ? lockInput.value.trim() : "");
+      const entered = currentPin.trim();
       const validPw = getSavedPassword();
       if (entered === validPw || entered === PASSCODE) {
         unlockVault();
@@ -121,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Check if already authorized in this session
+    // Check if previously unlocked in this active session
     let isUnlocked = false;
     try {
       isUnlocked = sessionStorage.getItem("arvora_session_unlocked") === "true" ||
@@ -131,24 +125,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isUnlocked) {
       lockModal.style.display = "none";
     } else {
-      lockModal.style.display = "none";
+      lockModal.style.display = "flex";
       currentPin = "";
       updateDots();
     }
 
-    // Direct button event binding for 100% responsiveness on touch/mouse
-    pinBtns.forEach(btn => {
-      btn.addEventListener("click", (e) => {
+    // Keypad Click Event Delegation
+    if (keypad) {
+      keypad.addEventListener("click", (e) => {
+        const btn = e.target.closest(".pin-digit-btn");
+        if (!btn) return;
+
         e.preventDefault();
         e.stopPropagation();
 
-        try {
-          if (typeof playTone === "function") playTone(700, "sine", 0.04, 0.08);
-        } catch(err) {}
-
         const val = btn.getAttribute("data-val");
 
-        if (btn.type === "submit" || btn.getAttribute("type") === "submit") {
+        if (val === "submit" || btn.type === "submit") {
           verifyAndUnlock();
           return;
         }
@@ -160,30 +153,21 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        if (val && val !== "clear") {
+        if (val && val !== "clear" && val !== "submit") {
           if (currentPin.length < 5) {
             currentPin += val;
             if (lockError) lockError.style.display = "none";
             updateDots();
             
-            // Auto-submit instantly when 5 digits are reached!
             if (currentPin.length === 5) {
               setTimeout(verifyAndUnlock, 120);
             }
           }
         }
       });
-    });
-
-    // Form submit backup
-    if (lockForm) {
-      lockForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        verifyAndUnlock();
-      });
     }
 
-    // Physical Keyboard support (Direct Typing on desktop)
+    // Physical Keyboard Typing Support (0-9, Backspace, Enter)
     window.addEventListener("keydown", (e) => {
       if (lockModal && lockModal.style.display === "none") return;
 

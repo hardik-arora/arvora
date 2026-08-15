@@ -3284,325 +3284,325 @@ document.addEventListener("DOMContentLoaded", () => {
   let tourismInitialized = false;
   let activeState = "";
 
-  const TOURISM_DATABASE = {
+    const TOURISM_DATABASE = {
     "Maharashtra": {
       capital: "Mumbai",
       language: "Marathi",
       climate: "Tropical Monsoon (Best: Oct-Mar)",
-      desc: "Land of historic caves, massive forts, beaches, and the bustling financial capital of India.",
+      desc: "Land of historic rock-cut caves, massive Sahyadri forts, Arabian Sea beaches, and India's vibrant financial capital.",
       attractions: [
-        { name: "Gateway of India", icon: "🏛️", desc: "A spectacular 20th-century arch monument overlooking the Arabian Sea in Mumbai." },
-        { name: "Ajanta & Ellora Caves", icon: "🗿", desc: "UNESCO World Heritage site featuring rock-cut Buddhist, Hindu, and Jain cave monuments." },
-        { name: "Western Ghats & Lonavala", icon: "⛰️", desc: "Lush green hill stations famous for deep valleys, gorgeous waterfalls, and historic forts." }
+        { name: "Gateway of India & Marine Drive", icon: "🏛️", desc: "A spectacular 20th-century arch monument overlooking the Arabian Sea, coupled with the sweeping Queen's Necklace promenade." },
+        { name: "Ajanta & Ellora Caves (Aurangabad)", icon: "🗿", desc: "UNESCO World Heritage rock-cut Buddhist, Hindu, and Jain cave monuments dating back to the 2nd century BCE." },
+        { name: "Western Ghats & Lonavala Forts", icon: "⛰️", desc: "Lush green hill stations famous for deep valleys, gorgeous monsoonal waterfalls, and Shivaji Maharaj's historic forts." }
       ],
       foods: [
-        { name: "Vada Pav", desc: "The iconic street food consisting of a spicy potato dumpling inside a bread bun." },
-        { name: "Misal Pav", desc: "A spicy curry made from sprouted moth beans, topped with farsan and served with pav." },
-        { name: "Puran Poli", desc: "A sweet flatbread stuffed with a sweet lentil filling made of chana dal and jaggery." }
+        { name: "Vada Pav & Pav Bhaji", desc: "The iconic spiced potato fritter in fresh pav, and tawa-cooked mashed vegetable butter curry." },
+        { name: "Misal Pav", desc: "A fiery sprouted moth bean curry topped with crunchy farsan, chopped onions, lemon, and buttered pav." },
+        { name: "Puran Poli", desc: "A warm, sweet handcrafted flatbread stuffed with chana dal, jaggery, cardamom, and pure desi ghee." }
       ]
     },
     "Delhi": {
       capital: "New Delhi",
-      language: "Hindi, Punjabi, English",
-      climate: "Semi-arid (Best: Oct-Mar)",
-      desc: "India's capital territory, a rich historical hub blending Mughal monuments with modern avenues.",
+      language: "Hindi, Punjabi, English, Urdu",
+      climate: "Continental (Best: Oct-Mar)",
+      desc: "India's capital territory, an architectural wonder blending centuries of Mughal heritage with sprawling modern avenues.",
       attractions: [
-        { name: "Red Fort (Lal Qila)", icon: "🏰", desc: "The historic octagonal Mughal fort built in red sandstone by Emperor Shah Jahan." },
-        { name: "Qutub Minar", icon: "🗼", desc: "A towering 73-meter victory tower and minaret constructed in the 12th century." },
-        { name: "India Gate", icon: "🎖️", desc: "A majestic war memorial archway commemorating soldiers who fell in the World War." }
+        { name: "Red Fort & Chandni Chowk", icon: "🏰", desc: "The massive 17th-century Mughal red sandstone fortress facing the vibrant 350-year-old spice and street food bazaars." },
+        { name: "Qutub Minar & Mehrauli Complex", icon: "🗼", desc: "A soaring 73-meter victory tower and minaret constructed in 1192 CE amidst ancient ruins." },
+        { name: "India Gate & Kartavya Path", icon: "🎖️", desc: "The majestic ceremonial war memorial archway surrounded by lush lawns and the President's Estate." }
       ],
       foods: [
-        { name: "Chole Bhature", desc: "Spicy chickpea curry paired with giant fluffy fried leavened bread." },
-        { name: "Butter Chicken", desc: "Succulent tandoori chicken simmered in a rich, creamy, tomato-butter gravy." },
-        { name: "Paranthas", desc: "Crispy, shallow-fried flatbreads stuffed with potatoes, paneer, or radishes." }
+        { name: "Chole Bhature", desc: "Spiced chickpea curry simmered with black tea and aromatic garam masala, served with puffed bhature." },
+        { name: "Old Delhi Butter Chicken", desc: "Tender tandoor-roasted chicken in a rich, velvety tomato, butter, and fenugreek gravy." },
+        { name: "Chandni Chowk Paranthas & Jalebis", desc: "Crispy layered stuffed flatbreads and giant spiral saffron jalebis topped with thick rabri." }
       ]
     },
     "Karnataka": {
       capital: "Bengaluru",
       language: "Kannada",
-      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
-      desc: "India's high-tech hub, offering a stunning mix of royal palaces, ancient empires, and wild forests.",
+      climate: "Moderate Tropical (Best: Oct-Mar)",
+      desc: "India's technology capital, rich in royal palaces, UNESCO ruins, aromatic coffee estates, and coastal heritage.",
       attractions: [
-        { name: "Mysore Palace", icon: "🕌", desc: "A breathtaking royal palace famous for its Indo-Saracenic architecture and grand heritage." },
-        { name: "Hampi Ruins", icon: "🏛️", desc: "The mesmerizing UNESCO World Heritage site showcasing the capital of the Vijayanagara Empire." },
-        { name: "Coorg Hills", icon: "☕", desc: "A scenic coffee country known as the 'Scotland of India' with mist-covered hills." }
+        { name: "Mysore Palace & Chamundi Hill", icon: "👑", desc: "A world-renowned Indo-Saracenic royal palace illuminated by 100,000 lightbulbs on weekends." },
+        { name: "Hampi UNESCO Ruins", icon: "🏛️", desc: "The mesmerizing boulder-strewn capital of the Vijayanagara Empire with stone chariots and riverside temples." },
+        { name: "Coorg (Kodagu) Coffee Plantations", icon: "☕", desc: "The 'Scotland of India' renowned for mist-covered hills, cardamom plantations, and Abbey Falls." }
       ],
       foods: [
-        { name: "Bisi Bele Bath", desc: "A delicious, spicy hot lentil rice dish cooked with vegetables and tamarind." },
-        { name: "Mysore Pak", desc: "A rich, melt-in-the-mouth sweet made of generous amounts of ghee, sugar, and gram flour." },
-        { name: "Idli & Vada", desc: "Steamed rice cakes and crispy lentil donuts served with coconut chutney and sambar." }
+        { name: "Bisi Bele Bath & Dosa", desc: "Spiced hot lentil-rice dish infused with tamarind and nutmeg, and crispy Davangere benne dosas." },
+        { name: "Mysore Pak", desc: "A royal melt-in-the-mouth dessert made with roasted gram flour, sugar syrup, and generous desi ghee." },
+        { name: "South Indian Filter Coffee", desc: "Freshly brewed dark chicory-blend coffee frothed with boiling milk in traditional brass dabarahs." }
       ]
     },
     "Tamil Nadu": {
       capital: "Chennai",
       language: "Tamil",
-      climate: "Tropical Wet & Dry (Best: Nov-Feb)",
-      desc: "Famous for its ancient Dravidian temples, rich classical music/dance, and beautiful coastline.",
+      climate: "Tropical Coastal (Best: Nov-Feb)",
+      desc: "Cradle of Dravidian temple architecture, classical Carnatic music, ancient silk weaving, and the Coromandel coast.",
       attractions: [
-        { name: "Brihadeeswarar Temple", icon: "🛕", desc: "A majestic Chola temple in Thanjavur, famous for its grand vimana tower made of granite." },
-        { name: "Mahabalipuram Shore", icon: "🏖️", desc: "UNESCO-listed 7th-century rock-cut monuments and temples along the Coromandel Coast." },
-        { name: "Ooty Gardens", icon: "🌲", desc: "A scenic hill station nestled in the Nilgiri Hills, famous for tea gardens and toy train." }
+        { name: "Brihadeeswarar Temple (Thanjavur)", icon: "🛕", desc: "The 1,000-year-old Great Living Chola Temple carved entirely from granite with an 80-tonne dome." },
+        { name: "Mahabalipuram Shore Temples", icon: "🏖️", desc: "UNESCO-listed 7th-century rock-cut monolithic rathas and sea-facing temples by the Bay of Bengal." },
+        { name: "Nilgiri Mountain Railway (Ooty)", icon: "🚂", desc: "Historic UNESCO heritage toy train winding through tea estates, waterfalls, and blue mountain tunnels." }
       ],
       foods: [
-        { name: "Masala Dosa", desc: "A thin, crispy fermented rice crepe stuffed with spiced mashed potatoes." },
-        { name: "Filter Coffee", desc: "A strong, frothy traditional chicory-blended brew served in a brass tumbler." },
-        { name: "Idiyappam & Kurma", desc: "Steamed string hoppers served with a flavorful spiced vegetable coconut gravy." }
-      ]
-    },
-    "West Bengal": {
-      capital: "Kolkata",
-      language: "Bengali",
-      climate: "Sub-tropical Monsoon (Best: Oct-Mar)",
-      desc: "The cultural heartland of India, famous for literature, colonial architecture, and sweet delicacies.",
-      attractions: [
-        { name: "Victoria Memorial", icon: "🏛️", desc: "A magnificent white marble palace built in memory of Queen Victoria, set in lush gardens." },
-        { name: "Sundarbans Park", icon: "🐅", desc: "The world's largest mangrove forest, home to the elusive Royal Bengal Tiger." },
-        { name: "Darjeeling Hills", icon: "⛰️", desc: "A beautiful Himalayan town famous for premium tea plantations and views of Mount Kanchenjunga." }
-      ],
-      foods: [
-        { name: "Kosha Mangsho", desc: "A rich, slow-cooked spicy mutton curry full of deep caramelized onion flavors." },
-        { name: "Roshogolla", desc: "Soft, spongy cottage-cheese balls soaked in sweet light sugar syrup." },
-        { name: "Bengali Fish Curry", desc: "A light, aromatic mustard-oil based fish stew seasoned with panch phoron spices." }
-      ]
-    },
-    "Uttar Pradesh": {
-      capital: "Agra (Heritage) / Lucknow",
-      language: "Hindi, Urdu",
-      climate: "Humid Sub-tropical (Best: Oct-Mar)",
-      desc: "The spiritual and historical heartland, housing the iconic Taj Mahal and sacred ancient towns.",
-      attractions: [
-        { name: "Taj Mahal", icon: "🕌", desc: "The ultimate monument to love, a stunning white marble mausoleum built by Shah Jahan in Agra." },
-        { name: "Varanasi Ghats", icon: "🛕", desc: "One of the oldest continuously inhabited cities in the world, sacred for Ganga Aarti rituals." },
-        { name: "Bara Imambara", icon: "🏛️", desc: "A grand historical shrine in Lucknow famous for its incredible pillarless arched hall." }
-      ],
-      foods: [
-        { name: "Tunday Kababi", desc: "Melt-in-the-mouth minced buffalo meat kebabs flavored with over 150 spices." },
-        { name: "Petha", desc: "A translucent soft candy made from ash gourd, originating from the city of Agra." },
-        { name: "Kachori Sabzi", desc: "Flaky deep-fried breads stuffed with lentils, served with spicy potato curry." }
-      ]
-    },
-    "Gujarat": {
-      capital: "Gandhinagar",
-      language: "Gujarati",
-      climate: "Semi-arid (Best: Oct-Mar)",
-      desc: "Land of vibrant festivals, historic stepwells, the Gir lions, and delicious vegetarian platters.",
-      attractions: [
-        { name: "Statue of Unity", icon: "🗽", desc: "The world's tallest statue (182 meters) depicting Sardar Vallabhbhai Patel by the Narmada River." },
-        { name: "Rann of Kutch", icon: "⛺", desc: "A vast white salt desert that comes alive with music, crafts, and tents during Rann Utsav." },
-        { name: "Gir National Park", icon: "🦁", desc: "The sole sanctuary in the world sheltering the majestic Asiatic Lion in the wild." }
-      ],
-      foods: [
-        { name: "Dhokla", desc: "A soft, spongy, fermented savory cake made of chickpea flour, tempered with mustard seeds." },
-        { name: "Theple", desc: "Thin, nutritious flatbreads spiced with fresh fenugreek leaves (methi) and yogurt." },
-        { name: "Khandvi", desc: "Tempting yellow rolls made of gram flour and buttermilk, garnished with coconut." }
+        { name: "Chettinad Pepper Chicken", desc: "A spicy, highly aromatic curry flavored with freshly ground star anise, black peppercorns, and coconut." },
+        { name: "Steamed Idlis & Medu Vada", desc: "Fluffy fermented rice-lentil cakes and crispy cumin fritters served with 3 signature coconut chutneys." },
+        { name: "Madurai Jigarthanda", desc: "A refreshing traditional cooling beverage made from almond gum, nannari root syrup, condensed milk, and ice cream." }
       ]
     },
     "Rajasthan": {
       capital: "Jaipur",
-      language: "Hindi, Rajasthani",
-      climate: "Arid Desert (Best: Oct-Mar)",
-      desc: "The land of kings, royal forts, shimmering desert sands, and majestic palaces.",
+      language: "Hindi, Rajasthani, Marwari",
+      climate: "Arid / Desert (Best: Oct-Mar)",
+      desc: "Land of Maharajas, imposing hilltop citadels, vibrant colorful turbans, camel safaris, and golden desert dunes.",
       attractions: [
-        { name: "Amber Fort", icon: "🏰", desc: "A grand hilltop fortress in Jaipur blending Hindu artistic elements with red sandstone architecture." },
-        { name: "Hawa Mahal", icon: "🏛️", desc: "The iconic 'Palace of Winds' featuring a stunning honeycomb facade of 953 small windows." },
-        { name: "Thar Desert Dunes", icon: "🐪", desc: "Golden sand dunes of Jaisalmer, famous for camel safaris and folk campfire nights." }
+        { name: "Amer Fort & Hawa Mahal (Jaipur)", icon: "🏰", desc: "The majestic hilltop Amer citadel with mirror-mosaic Sheesh Mahal and the iconic 953-window pink palace facade." },
+        { name: "Mehrangarh Fort (Jodhpur)", icon: "🛡️", desc: "One of India's largest and most formidable fortresses towering 400 feet above the Blue City." },
+        { name: "Lake Pichola & City Palace (Udaipur)", icon: "⛵", desc: "The romantic 'Venice of the East' with floating marble palaces and sunset boat rides across Lake Pichola." }
       ],
       foods: [
-        { name: "Dal Baati Churma", desc: "Spiced baked wheat balls (baati) served with lentil curry (dal) and sweet crumbled wheat (churma)." },
-        { name: "Laal Maas", desc: "A fiery-hot, garlic-infused Rajasthani mutton curry cooked in pure ghee and red chilies." },
-        { name: "Gatte ki Sabzi", desc: "Spiced gram flour dumplings simmered in a rich, tangy yogurt-based gravy." }
+        { name: "Dal Baati Churma", desc: "Hard wheat dough balls baked in tandoor, dipped in ghee, served with 5-lentil dal and sweet crushed churma." },
+        { name: "Laal Maas", desc: "A fiery royal mutton curry slow-cooked with authentic Mathania red chillies, mustard oil, and garlic." },
+        { name: "Ghevar & Pyaaz Kachori", desc: "Crispy honeycomb pastry soaked in saffron syrup and flaky pastries stuffed with spiced caramelized onions." }
       ]
     },
     "Kerala": {
       capital: "Thiruvananthapuram",
       language: "Malayalam",
-      climate: "Tropical Wet (Best: Sep-Mar)",
-      desc: "Known as 'God's Own Country', offering serene backwaters, palm-lined beaches, and Ayurveda.",
+      climate: "Tropical Maritime (Best: Sep-Mar)",
+      desc: "God's Own Country, famed for serene palm-fringed backwaters, Ayurvedic wellness retreats, and spice-scented hills.",
       attractions: [
-        { name: "Alappuzha Backwaters", icon: "🛶", desc: "A labyrinth of canals and lakes dotted with traditional thatched houseboats." },
-        { name: "Munnar Tea Gardens", icon: "⛰️", desc: "Lush green hills and tea plantations situated at the confluence of three mountain streams." },
-        { name: "Athirappilly Falls", icon: "🌊", desc: "A spectacular 80-foot waterfall nicknamed the 'Niagara of India', surrounded by forests." }
+        { name: "Alleppey Backwater Houseboats", icon: "🛶", desc: "Cruise through canals, lagoons, and paddy fields on traditional thatched-roof Kettuvallam houseboats." },
+        { name: "Munnar Tea Estates", icon: "🌿", desc: "Rolling emerald green tea hills situated 1,600m above sea level with cool breezes and misty viewpoints." },
+        { name: "Fort Kochi Chinese Fishing Nets", icon: "⚓", desc: "Historic coastal town with 14th-century cantilevered fishing nets, spice warehouses, and colonial churches." }
       ],
       foods: [
-        { name: "Appam with Stew", desc: "Lacy fermented rice pancakes with soft centers, served with aromatic coconut-milk veg stew." },
-        { name: "Kerala Parotta & Beef", desc: "Layered, flaky flatbread paired with spiced, slow-roasted dry beef fry." },
-        { name: "Karimeen Pollichathu", desc: "Pearl spot fish marinated in rich spices, wrapped in banana leaf and pan-fried." }
+        { name: "Kerala Sadya Feast", desc: "A grand 26-dish traditional vegetarian feast served on a fresh banana leaf with red rice and payasam." },
+        { name: "Appam with Ishtu", desc: "Soft-centered lacy fermented rice pancakes paired with a rich, creamy coconut milk vegetable/chicken stew." },
+        { name: "Karimeen Pollichathu", desc: "Pearl spot fish marinated in shallots, green chillies, and kokum, wrapped in banana leaf and pan-grilled." }
       ]
     },
-    "Telangana": {
-      capital: "Hyderabad",
-      language: "Telugu, Urdu",
-      climate: "Semi-arid (Best: Oct-Mar)",
-      desc: "A rich mix of ancient Deccan sultanates, magnificent structures, and a thriving IT sector.",
+    "Gujarat": {
+      capital: "Gandhinagar",
+      language: "Gujarati",
+      climate: "Tropical Semi-Arid (Best: Oct-Mar)",
+      desc: "Home to the pristine White Desert of Kutch, Asiatic lions, UNESCO stepwells, and rich entrepreneurial heritage.",
       attractions: [
-        { name: "Charminar", icon: "🕌", desc: "A historic 16th-century mosque and monument featuring four grand arches and minarets in Hyderabad." },
-        { name: "Golconda Fort", icon: "🏰", desc: "A massive medieval fortress renowned for its acoustic engineering and diamond mines history." },
-        { name: "Ramappa Temple", icon: "🛕", desc: "UNESCO World Heritage Kakatiya-era temple celebrated for its intricate carvings and floating bricks." }
+        { name: "Rann of Kutch (White Salt Desert)", icon: "🏜️", desc: "The world's largest salt desert shimmering under the full moon during the vibrant Rann Utsav festival." },
+        { name: "Gir National Park", icon: "🦁", desc: "The only natural habitat in the world for wild Asiatic Lions, offering jeep safaris through deciduous forests." },
+        { name: "Rani Ki Vav & Statue of Unity", icon: "🗿", desc: "An intricate 11th-century underground stepwell and the world's tallest 182-meter monumental statue." }
       ],
       foods: [
-        { name: "Hyderabadi Biryani", desc: "Fragrant basmati rice and marinated meat slow-cooked on 'dum' with spices and saffron." },
-        { name: "Double ka Meetha", desc: "A luscious bread pudding dessert soaked in sugar syrup, milk, and cardamom." },
-        { name: "Mirchi ka Salan", desc: "A tangy, spicy gravy made with green chilies, sesame seeds, and peanuts, served with biryani." }
+        { name: "Gujarati Thali (Dhokla, Thepla, Undhiyu)", desc: "A balanced platter with sweet-savory steamed dhoklas, fenugreek flatbreads, and winter vegetable medley." },
+        { name: "Khandvi & Fafda Jalebi", desc: "Delicate rolled gram-flour sheets tempered with mustard seeds and crispy gram snacks with sweet jalebis." },
+        { name: "Shrikhand & Aamras", desc: "Creamy hung-curd dessert whipped with saffron, cardamom, and fresh Kesar mango pulp." }
       ]
     },
-    "Haryana": {
-      capital: "Chandigarh",
-      language: "Haryanvi, Hindi",
-      climate: "Semi-arid (Best: Oct-Mar)",
-      desc: "A historic land hosting Mahabharata sites alongside cutting-edge smart cities like Gurugram.",
+    "West Bengal": {
+      capital: "Kolkata",
+      language: "Bengali",
+      climate: "Tropical Wet-and-Dry (Best: Oct-Mar)",
+      desc: "Cultural heartland of India, celebrated for grand Durga Puja art, colonial monuments, tea gardens, and literature.",
       attractions: [
-        { name: "Kingdom of Dreams", icon: "🎭", desc: "India's first live entertainment, theatre, and leisure destination in Gurugram." },
-        { name: "Sultanpur Sanctuary", icon: "🦆", desc: "A popular national park attracting hundreds of migratory bird species every winter." },
-        { name: "Kurukshetra Tanks", icon: "🛕", desc: "The ancient holy land of the Mahabharata war, featuring large sacred water reservoirs." }
+        { name: "Victoria Memorial & Howrah Bridge", icon: "🏛️", desc: "Iconic Makrana marble memorial palace surrounded by reflection lakes, and the legendary cantilever bridge on the Hooghly." },
+        { name: "Darjeeling Himalayan Hills", icon: "🍵", desc: "Panoramic Himalayan vistas of Mount Kanchenjunga, world-famous orthodox black tea, and toy trains." },
+        { name: "Sundarbans Mangrove Forest", icon: "🐅", desc: "The world's largest tidal mangrove delta and UNESCO reserve, home of the Royal Bengal Tiger." }
       ],
       foods: [
-        { name: "Bajra Khichri", desc: "A warm, healthy porridge made of crushed pearl millet, served with ghee and lassi." },
-        { name: "Singri ki Sabzi", desc: "A dry preparation of wild desert beans stir-fried with mustard oil and dry spices." },
-        { name: "Besan Pinni", desc: "Nutritious sweet round balls made of roasted chickpea flour, ghee, and chopped nuts." }
+        { name: "Kolkata Biryani & Kathi Rolls", desc: "Aromatic fragrant basmati rice with spiced meat and slow-cooked potatoes, and flaky paratha street rolls." },
+        { name: "Shorshe Ilish & Kosha Mangsho", desc: "Hilsa fish steamed in pungent mustard gravy, and rich slow-braised velvety mutton curry." },
+        { name: "Rosogolla & Mishti Doi", desc: "Spongy chhena dumplings soaked in light sugar syrup and caramelized baked sweet yogurt in clay pots." }
       ]
     },
-    "Punjab": {
-      capital: "Amritsar (Spiritual) / Chandigarh",
-      language: "Punjabi",
-      climate: "Semi-arid (Best: Oct-Mar)",
-      desc: "The land of five rivers, vibrant Bhangra beats, expansive wheat fields, and golden spirituality.",
+    "Uttar Pradesh": {
+      capital: "Lucknow",
+      language: "Hindi, Urdu, Awadhi, Bhojpuri",
+      climate: "Humid Subtropical (Best: Oct-Mar)",
+      desc: "The sacred cradle of ancient spirituality and Awadhi royalty, spanning the Ganges plains from Varanasi to Agra.",
       attractions: [
-        { name: "The Golden Temple", icon: "🕌", desc: "The holiest Sikh shrine in Amritsar, a breathtaking gilded temple reflecting in a sacred pool." },
-        { name: "Wagah Border Ceremony", icon: "🎖️", desc: "A thrilling daily military practice and beating retreat ceremony on the India-Pakistan border." },
-        { name: "Rock Garden", icon: "🗿", desc: "A unique sculpture garden in Chandigarh created entirely from recycled industrial waste." }
+        { name: "Taj Mahal & Agra Fort", icon: "🤍", desc: "The world-famous ivory-white marble mausoleum on the Yamuna river, a timeless masterpiece of Mughal architecture." },
+        { name: "Varanasi Ganga Ghats & Kashi Vishwanath", icon: "🪔", desc: "One of the oldest continuously inhabited cities on earth, famous for dawn boat rides and evening Maha Aarti fire rituals." },
+        { name: "Bara Imambara & Rumi Darwaza (Lucknow)", icon: "🕌", desc: "Architectural marvel with the world's largest unsupported arched hall and the intricate Bhool Bhulaiya labyrinth." }
       ],
       foods: [
-        { name: "Sarson ka Saag & Makki di Roti", desc: "Spiced mustard greens curry served with golden, shallow-fried cornbread." },
-        { name: "Amritsari Kulcha", desc: "Crispy, layered flatbread stuffed with spiced potatoes, baked in a clay tandoor." },
-        { name: "Lassi", desc: "A tall glass of thick, sweet, yogurt-based drink topped with a thick dollop of cream." }
-      ]
-    },
-    "Bihar": {
-      capital: "Patna",
-      language: "Hindi, Maithili, Bhojpuri",
-      climate: "Humid Sub-tropical (Best: Oct-Mar)",
-      desc: "The cradle of ancient empires, Buddhism, and home to Nalanda, the world's oldest university.",
-      attractions: [
-        { name: "Mahabodhi Temple", icon: "🛕", desc: "UNESCO site in Bodh Gaya housing the sacred Bodhi Tree where Lord Buddha attained enlightenment." },
-        { name: "Nalanda Ruins", icon: "🏛️", desc: "The archaeological remains of the world-renowned 5th-century Buddhist monastic university." },
-        { name: "Sher Shah Suri Tomb", icon: "🕌", desc: "A spectacular red sandstone mausoleum built in the middle of an artificial lake in Sasaram." }
-      ],
-      foods: [
-        { name: "Litti Chokha", desc: "Baked wheat balls stuffed with spiced roasted gram flour (sattu), eaten with mashed eggplant." },
-        { name: "Thekua", desc: "A crispy, deep-fried sweet cookie made of whole wheat flour, jaggery, and dry coconut." },
-        { name: "Sattu Paratha", desc: "Nutritious flatbread stuffed with spiced roasted gram flour, onions, and lemon juice." }
-      ]
-    },
-    "Madhya Pradesh": {
-      capital: "Bhopal",
-      language: "Hindi",
-      climate: "Sub-tropical Dry (Best: Oct-Mar)",
-      desc: "The heart of India, rich in national tiger reserves, medieval temples, and pre-historic rock shelters.",
-      attractions: [
-        { name: "Khajuraho Temples", icon: "🛕", desc: "UNESCO-listed temples celebrated for their intricate, expressive medieval carvings." },
-        { name: "Sanchi Stupa", icon: "🕌", desc: "One of the oldest stone structures in India, a magnificent Buddhist dome built by Emperor Ashoka." },
-        { name: "Kanha Tiger Reserve", icon: "🐅", desc: "A sprawling national park that inspired Rudyard Kipling's famous 'Jungle Book'." }
-      ],
-      foods: [
-        { name: "Poha Jalebi", desc: "Spiced flattened rice topped with sev, paired with hot, crispy, syrup-filled pretzels." },
-        { name: "Bhutte ka Kees", desc: "A savory street snack made of grated corn cooked with milk, ghee, and mustard seeds." },
-        { name: "Mawa Bati", desc: "A rich sweet similar to gulab jamun, stuffed with dry fruits and mawa." }
-      ]
-    },
-    "Andhra Pradesh": {
-      capital: "Amaravati",
-      language: "Telugu",
-      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
-      desc: "Land of sacred hill temples, a long coastline, and rich Carnatic musical heritage.",
-      attractions: [
-        { name: "Tirumala Venkateswara Temple", icon: "🛕", desc: "A world-famous hilltop temple in Tirupati, attracting millions of spiritual pilgrims." },
-        { name: "Araku Valley", icon: "⛰️", desc: "A scenic, misty hill station in the Eastern Ghats, famous for coffee plantations." },
-        { name: "Belum Caves", icon: "🕳️", desc: "The second-longest cave system in the Indian subcontinent, renowned for stalactites." }
-      ],
-      foods: [
-        { name: "Gongura Pachadi", desc: "A fiery-tangy traditional chutney made from fresh sorrel leaves and dry chilies." },
-        { name: "Pootharekulu", desc: "A wafer-thin sweet 'paper sweet' roll made of rice starch, stuffed with sugar/jaggery." },
-        { name: "Pesarattu Dosa", desc: "A nutritious, savory crepe made from whole green gram batter, served with ginger chutney." }
-      ]
-    },
-    "Odisha": {
-      capital: "Bhubaneswar",
-      language: "Odia",
-      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
-      desc: "Land of majestic temples, serene lakes, pristine beaches, and classical Odissi dance.",
-      attractions: [
-        { name: "Konark Sun Temple", icon: "🛕", desc: "A breathtaking Chariot-shaped Chola temple built in the 13th century, dedicated to the Sun God." },
-        { name: "Jagannath Temple (Puri)", icon: "🕌", desc: "A world-famous sacred temple famous for its annual colorful Rath Yatra chariot festival." },
-        { name: "Chilika Lake", icon: "🦆", desc: "Asia's largest brackish water lagoon, hosting migratory birds and rare Irrawaddy dolphins." }
-      ],
-      foods: [
-        { name: "Chhena Poda", desc: "A mouth-watering baked cheese dessert made of fresh paneer, sugar, and cardamom." },
-        { name: "Dahi Bara Aloo Dum", desc: "Lentil fritters soaked in yogurt (dahi), topped with a spicy, rich potato gravy." },
-        { name: "Rasabali", desc: "Deep-fried cottage cheese patties soaked in thick, sweetened, cardamom-flavored milk." }
-      ]
-    },
-    "Assam": {
-      capital: "Dispur",
-      language: "Assamese",
-      climate: "Sub-tropical Humid (Best: Nov-Apr)",
-      desc: "The gateway to the Northeast, famous for premium tea estates, the Brahmaputra River, and wildlife.",
-      attractions: [
-        { name: "Kaziranga National Park", icon: "🦏", desc: "UNESCO World Heritage reserve holding two-thirds of the world's great Indian one-horned rhinos." },
-        { name: "Kamakhya Temple", icon: "🛕", desc: "A sacred hilltop temple in Guwahati dedicated to the mother goddess Kamakhya." },
-        { name: "Majuli Island", icon: "🏝️", desc: "The world's largest river island, situated on the mighty Brahmaputra River." }
-      ],
-      foods: [
-        { name: "Masor Tenga", desc: "A light, tangy fish curry flavored with tomatoes and outenga (elephant apple)." },
-        { name: "Pitha", desc: "Steamed or roasted rice flour rolls stuffed with sweet sesame seeds or coconut." },
-        { name: "Khar", desc: "A unique starter dish prepared by filtering water through the ashes of sun-dried banana peels." }
-      ]
-    },
-    "Jammu & Kashmir": {
-      capital: "Srinagar / Jammu",
-      language: "Kashmiri, Urdu, Dogri",
-      climate: "Alpine / Temperate (Best: Apr-Oct)",
-      desc: "Often called 'Heaven on Earth', featuring snow-capped peaks, alpine lakes, and shikara rides.",
-      attractions: [
-        { name: "Dal Lake Shikaras", icon: "🛶", desc: "A scenic lake in Srinagar, famous for its floating markets and wooden houseboats." },
-        { name: "Gulmarg Gondola", icon: "🚠", desc: "One of the highest cable cars in the world, offering views of snow-clad mountains." },
-        { name: "Vaishno Devi Shrine", icon: "🛕", desc: "A highly revered holy cave temple nestled in the Trikuta Mountains in Jammu." }
-      ],
-      foods: [
-        { name: "Rogan Josh", desc: "An aromatic lamb dish slow-cooked in a rich gravy of yogurt, saffron, and Kashmiri chilies." },
-        { name: "Kahwa Tea", desc: "A traditional green tea brewed with saffron, cinnamon, cardamoms, and slivered almonds." },
-        { name: "Yakhni Pulav", desc: "A highly fragrant rice and mutton dish cooked in a spiced yogurt-based broth." }
-      ]
-    },
-    "Goa": {
-      capital: "Panaji",
-      language: "Konkani",
-      climate: "Tropical Wet & Dry (Best: Nov-Feb)",
-      desc: "A beautiful fusion of Portuguese heritage, golden beaches, vibrant nightlife, and seafood.",
-      attractions: [
-        { name: "Basilica of Bom Jesus", icon: "🏛️", desc: "UNESCO World Heritage church in Old Goa, housing the sacred remains of St. Francis Xavier." },
-        { name: "Calangute Beach", icon: "🏖️", desc: "A popular, lively golden beach offering water sports, beach shacks, and shops." },
-        { name: "Dudhsagar Falls", icon: "🌊", desc: "A majestic four-tiered waterfall on the Mandovi River, resembling a sea of milk." }
-      ],
-      foods: [
-        { name: "Fish Curry Rice", desc: "A hot, comforting staple of rice served with a tangy, coconut-rich fish curry." },
-        { name: "Bebinca", desc: "A rich, multi-layered traditional Goan dessert made of coconut milk, ghee, and egg yolks." },
-        { name: "Chicken Xacuti", desc: "A highly spiced, aromatic curry prepared with toasted coconut and red chilies." }
+        { name: "Lucknowi Galouti Kebabs", desc: "Melt-in-the-mouth minced meat kebabs marinated in 160 royal spices, served on Mughlai parathas." },
+        { name: "Banarasi Paan & Tamatar Chaat", desc: "Iconic betel leaf with sweet gulkand and hot spiced crushed tomato chaat served in clay kulhads." },
+        { name: "Awadhi Dum Biryani", desc: "Fragrant rice and tender meat cooked on slow dum with saffron, rose water, and kewra essence." }
       ]
     },
     "Himachal Pradesh": {
       capital: "Shimla",
       language: "Hindi, Pahari",
-      climate: "Alpine / Cold (Best: Mar-Jun, Oct-Dec)",
-      desc: "A majestic mountain state offering snow-capped panoramas, trekking paths, and apple orchards.",
+      climate: "Alpine (Best: Mar-Jun, Snow: Dec-Feb)",
+      desc: "Land of Gods (Devbhoomi), offering snow-capped Himalayan peaks, pine forests, adventure valleys, and Tibetan monasteries.",
       attractions: [
-        { name: "Shimla Mall Road", icon: "🏔️", desc: "A popular pedestrian avenue in the capital city, boasting panoramic mountain views." },
-        { name: "Manali Solang Valley", icon: "🏂", desc: "A hub for adventure sports like paragliding, skiing, and zorbing against a snowy backdrop." },
-        { name: "McLeod Ganj Monasteries", icon: "☸️", desc: "The peaceful home of the Dalai Lama, famous for Tibetan monasteries and trekking." }
+        { name: "Shimla Mall Road & Ridge", icon: "🏔️", desc: "Colonial summer capital with neo-Gothic Christ Church, panoramic valley views, and heritage walks." },
+        { name: "Manali & Solang Valley", icon: "⛷️", desc: "Adventure hub for paragliding, skiing, river rafting, and gateways to the high-altitude Atal Tunnel." },
+        { name: "Dharamshala & McLeodganj", icon: "🧘", desc: "The residence of the Dalai Lama, famous for Tibetan monasteries, meditation retreats, and Triund trek." }
       ],
       foods: [
-        { name: "Siddu", desc: "A steamed, stuffed wheat bread flavored with poppy seeds, walnuts, and ghee." },
-        { name: "Madra", desc: "A rich Pahari chickpea slow-cooked in yogurt, spiced with cardamoms and cloves." },
-        { name: "Dham", desc: "A traditional festive mid-day meal served on leaf plates, consisting of multiple lentil curries." }
+        { name: "Himachali Dham", desc: "A traditional celebratory multi-course feast served on leaf plates, featuring madra (chickpeas in yogurt gravy) and khatta." },
+        { name: "Siddu with Ghee", desc: "Steamed fermented wheat buns stuffed with spiced poppy seeds or walnuts, drenched in pure desi ghee." },
+        { name: "Trout Fish & Chha Gosht", desc: "Fresh Himalayan river trout pan-fried with herbs, and slow-cooked marinated lamb in spicy yogurt gravy." }
+      ]
+    },
+    "Uttarakhand": {
+      capital: "Dehradun",
+      language: "Hindi, Garhwali, Kumaoni",
+      climate: "Alpine / Subtropical (Best: Mar-Jun & Sep-Nov)",
+      desc: "The sacred abode of the Himalayas, origin of the holy Ganga and Yamuna rivers, and yoga capital of the world.",
+      attractions: [
+        { name: "Rishikesh & Haridwar (Ganga Aarti)", icon: "🌊", desc: "World Capital of Yoga, famous for white-water river rafting, suspension bridges, and Har Ki Pauri evening aarti." },
+        { name: "Valley of Flowers & Hemkund Sahib", icon: "🌸", desc: "UNESCO World Heritage high-altitude alpine meadow carpeted with hundreds of endemic wild flowers in monsoon." },
+        { name: "Nainital & Mussoorie Hill Stations", icon: "⛵", desc: "Picturesque lake towns surrounded by oak forests, cable cars, Kempty Falls, and Himalayan view points." }
+      ],
+      foods: [
+        { name: "Kafuli & Chainsoo", desc: "Nutrient-rich creamy green curry made from spinach and fenugreek, and roasted black gram paste stew." },
+        { name: "Aloo ke Gutke & Bhang ki Chutney", desc: "Fried mountain potatoes tempered with jamboo spice, served with tangy roasted hemp seed chutney." },
+        { name: "Bal Mithai & Singori", desc: "Fudge-like roasted khoya sweet coated with sugar balls, and condensed milk sweets wrapped in Maalu leaves." }
+      ]
+    },
+    "Goa": {
+      capital: "Panaji",
+      language: "Konkani, English, Portuguese",
+      climate: "Tropical Maritime (Best: Nov-Mar)",
+      desc: "Sun, sand, and sea capital of India, blending Portuguese colonial architecture with vibrant nightlife and golden beaches.",
+      attractions: [
+        { name: "Palolem, Baga & Anjuna Beaches", icon: "🏖️", desc: "Famous for palm-backed shores, water surfing, beach shacks, flea markets, and sunset dolphin cruises." },
+        { name: "Basilica of Bom Jesus (Old Goa)", icon: "⛪", desc: "UNESCO World Heritage 16th-century baroque cathedral holding the sacred relics of St. Francis Xavier." },
+        { name: "Dudhsagar Waterfalls & Spice Plantations", icon: "💦", desc: "A spectacular four-tiered 310m milky white waterfall nestled in the lush Western Ghats forest reserve." }
+      ],
+      foods: [
+        { name: "Goan Fish Curry & Rice", desc: "Fresh Kingfish or Pomfret simmered in tangy, fiery coconut milk gravy flavored with kokum and tefla berries." },
+        { name: "Pork Vindaloo & Xacuti", desc: "Tangy Portuguese-influenced stew marinated in wine vinegar, garlic, and roasted aromatic coconut paste." },
+        { name: "Bebinca & Feni", desc: "Traditional 7-layered Goan dessert made with coconut milk, eggs, and nutmeg, paired with cashew spirit." }
+      ]
+    },
+    "Punjab": {
+      capital: "Chandigarh",
+      language: "Punjabi, Hindi",
+      climate: "Semi-Arid / Continental (Best: Oct-Mar)",
+      desc: "Land of Five Rivers, vibrant Bhangra music, golden mustard fields, rich agricultural heritage, and heroic history.",
+      attractions: [
+        { name: "Golden Temple (Harmandir Sahib)", icon: "✨", desc: "The holiest Sikh shrine clad in pure gold foil, surrounded by the sacred Amrit Sarovar lake and 24x7 Langar." },
+        { name: "Wagah Border Beating Retreat Ceremony", icon: "🇮🇳", desc: "Electrifying military parade and flag-lowering ceremony at the India-Pakistan international border." },
+        { name: "Jallianwala Bagh Memorial", icon: "🎖️", desc: "Historic national memorial park commemorating the martyrs of the 1919 independence movement." }
+      ],
+      foods: [
+        { name: "Amritsari Kulcha & Chole", desc: "Flaky, crisp tandoor-baked flatbread stuffed with spiced potatoes and paneer, smothered in white butter." },
+        { name: "Makki di Roti & Sarson da Saag", desc: "Iconic winter meal of fresh mustard greens slow-cooked with ginger and garlic, served with cornmeal bread." },
+        { name: "Creamy Malai Sweet Lassi", desc: "Thick, rich hand-churned sweet yogurt beverage topped with a generous dollop of thick clotted cream." }
+      ]
+    },
+    "Telangana": {
+      capital: "Hyderabad",
+      language: "Telugu, Urdu",
+      climate: "Tropical Wet & Dry (Best: Oct-Mar)",
+      desc: "High-tech metropolis with 400-year-old Nizami heritage, magnificent stone fortresses, and world-renowned pearls and cuisine.",
+      attractions: [
+        { name: "Charminar & Laad Bazaar", icon: "🕌", desc: "The iconic 1591 monument with four grand minarets, situated amidst lively pearl and lacquer bangle markets." },
+        { name: "Golconda Fort & Qutb Shahi Tombs", icon: "🛡️", desc: "Colossal acoustic stone fortress famous for diamonds (Koh-i-Noor origin) and panoramic city sunset views." },
+        { name: "Ramoji Film City", icon: "🎬", desc: "The world's largest integrated film studio complex spanning 2,000 acres with thematic movie sets." }
+      ],
+      foods: [
+        { name: "Hyderabadi Dum Biryani", desc: "Marinated meat and basmati rice slow-cooked in sealed handis with saffron, fried onions, and kewra." },
+        { name: "Haleem & Mirchi Ka Salan", desc: "Slow-cooked savory porridge of wheat, barley, and meat, accompanied by spicy peanut-sesame chili gravy." },
+        { name: "Double Ka Meetha & Irani Chai", desc: "Fried bread pudding soaked in saffron milk and dry fruits, paired with sweet creamy spiced Irani tea." }
+      ]
+    },
+    "Kerala": {
+      capital: "Thiruvananthapuram",
+      language: "Malayalam",
+      climate: "Tropical (Best: Sep-Mar)",
+      desc: "God's Own Country with serene palm-lined backwaters, tea gardens, and rich Kathakali cultural traditions.",
+      attractions: [
+        { name: "Alleppey Houseboat Cruise", icon: "🛶", desc: "Gliding through backwaters on traditional thatched boats with fresh coconut water and views." },
+        { name: "Munnar Tea Plantations", icon: "🌿", desc: "Endless rolling green hills with cool mountain breeze and colonial tea factories." },
+        { name: "Kochi Heritage & Chinese Nets", icon: "⚓", desc: "Historic port city with spice markets, synagogue, and ancient cantilevered fishing nets." }
+      ],
+      foods: [
+        { name: "Appam & Stew", desc: "Fluffy rice pancakes with crispy edges served with fragrant coconut milk vegetable stew." },
+        { name: "Kerala Sadya", desc: "Grand 26-dish vegetarian banquet served on fresh banana leaves with red rice and payasam." },
+        { name: "Fish Moilee", desc: "Fresh coastal fish gently poached in mild coconut milk, green chilies, and curry leaves." }
+      ]
+    },
+    "Assam": {
+      capital: "Dispur (Guwahati)",
+      language: "Assamese, Bengali, Bodo",
+      climate: "Tropical Rainforest (Best: Oct-Apr)",
+      desc: "Gateway to Northeast India, famous for one-horned rhinoceros, sprawling Brahmaputra river, and robust black tea.",
+      attractions: [
+        { name: "Kaziranga National Park", icon: "🦏", desc: "UNESCO World Heritage sanctuary hosting two-thirds of the world's great one-horned rhinoceroses." },
+        { name: "Kamakhya Devi Temple (Guwahati)", icon: "🛕", desc: "Ancient hilltop Shakti Peeth overlooking the Brahmaputra, revered as one of India's oldest spiritual centers." },
+        { name: "Majuli Island (Brahmaputra)", icon: "🏝️", desc: "The world's largest inhabited river island, famous for Vaishnavite Satras and traditional mask-making." }
+      ],
+      foods: [
+        { name: "Khaar & Masor Tenga", desc: "Traditional alkaline raw papaya dish, and tangy light fish curry cooked with tomatoes and dried mangosteen." },
+        { name: "Duck Meat Curry with Ash Gourd", desc: "Rich winter delicacy cooked with local spices, black pepper, and ash gourd." },
+        { name: "Pitha & Assam CTC Milk Tea", desc: "Hand-rolled rice cakes stuffed with grated coconut and jaggery, paired with strong malty Assam tea." }
+      ]
+    },
+    "Odisha": {
+      capital: "Bhubaneswar",
+      language: "Odia",
+      climate: "Tropical (Best: Oct-Mar)",
+      desc: "Temple City of India, home to the architectural wonder of Konark Sun Temple, Puri Jagannath Ratha Yatra, and Chilika Lake.",
+      attractions: [
+        { name: "Konark Sun Temple", icon: "☀️", desc: "13th-century UNESCO monumental chariot of the Sun God carved with 24 intricate stone wheels." },
+        { name: "Jagannath Temple & Beach (Puri)", icon: "🛕", desc: "One of the sacred Char Dham pilgrimage sites, famous for the annual grand Ratha Yatra chariot festival." },
+        { name: "Chilika Lake & Dolphin Sanctuary", icon: "🐬", desc: "Asia's largest brackish water lagoon, home to migratory flamingoes and rare Irrawaddy dolphins." }
+      ],
+      foods: [
+        { name: "Chhena Poda", desc: "The legendary baked cottage cheese cake caramelized with cardamom, cashews, and sugar in sal leaf molds." },
+        { name: "Dalma & Pakhala Bhata", desc: "Lentils cooked with raw papaya, pumpkin, and roasted cumin, and fermented rice with fried fish and greens." },
+        { name: "Rasagola & Khaja", desc: "Traditional soft Odia cottage cheese dessert and multi-layered crispy sweet pastry offered at Puri temple." }
+      ]
+    },
+    "Madhya Pradesh": {
+      capital: "Bhopal",
+      language: "Hindi",
+      climate: "Subtropical (Best: Oct-Mar)",
+      desc: "The Heart of Incredible India, featuring tiger reserves, Khajuraho temples, ancient stupas, and marble river gorges.",
+      attractions: [
+        { name: "Khajuraho UNESCO Temples", icon: "🏛️", desc: "Masterpieces of Nagara architecture famed for intricate sandstone carvings of celestial dancers and deities." },
+        { name: "Bandhavgarh & Kanha Tiger Reserves", icon: "🐅", desc: "World-renowned wildlife reserves with India's highest tiger density and sal forest safaris." },
+        { name: "Sanchi Stupa & Bhedaghat Marble Rocks", icon: "🗿", desc: "Ashoka's 3rd-century Buddhist stupa and boat rides through 100-foot marble river canyons in Jabalpur." }
+      ],
+      foods: [
+        { name: "Indori Poha & Jalebi", desc: "Steamed flattened rice spiced with fennel seeds and Jeeravan masala, topped with sev and pomegranate." },
+        { name: "Bhopali Gosht Korma", desc: "Rich royal Nawabi mutton curry simmered with whole spices, yogurt, and brown onion paste." },
+        { name: "Bhutte Ka Kees", desc: "Grated fresh sweet corn cooked with milk, mustard seeds, green chillies, and freshly grated coconut." }
+      ]
+    },
+    "Bihar": {
+      capital: "Patna",
+      language: "Hindi, Maithili, Bhojpuri, Magahi",
+      climate: "Subtropical (Best: Oct-Mar)",
+      desc: "Cradle of Buddhism and Jainism, home to Nalanda University ruins, Bodh Gaya Mahabodhi Temple, and the Ganges.",
+      attractions: [
+        { name: "Mahabodhi Temple (Bodh Gaya)", icon: "🧘", desc: "UNESCO World Heritage site marking the exact spot where Lord Buddha attained enlightenment under the Bodhi Tree." },
+        { name: "Nalanda University Ruins", icon: "🏛️", desc: "Ruins of the ancient 5th-century residential university that housed 10,000 scholars from across Asia." },
+        { name: "Rajgir Ropeway & Vishwa Shanti Stupa", icon: "🚠", desc: "Scenic chairlift ride up Gridhakuta Hill to the gleaming white Japanese World Peace Pagoda." }
+      ],
+      foods: [
+        { name: "Litti Chokha with Ghee", desc: "Roasted whole wheat dough balls stuffed with spiced roasted sattu, dipped in desi ghee with mashed eggplant." },
+        { name: "Sattu Paratha & Sharbat", desc: "Wholesome roasted gram flour flatbreads and cooling summer protein beverages spiced with roasted cumin." },
+        { name: "Khaja & Thekua", desc: "Crisp flaky layered sweet pastry from Silao and traditional jaggery-wheat cookies prepared during Chhath Puja." }
+      ]
+    },
+    "Sikkim": {
+      capital: "Gangtok",
+      language: "Nepali, Bhutia, Lepcha, English",
+      climate: "Alpine (Best: Mar-May & Oct-Dec)",
+      desc: "100% organic Himalayan state, boasting Mount Kanchenjunga views, glacial lakes, and Buddhist monasteries.",
+      attractions: [
+        { name: "Tsomgo Glacial Lake & Nathula Pass", icon: "🏔️", desc: "Stunning turquoise glacial lake at 3,753m and the historic Indo-China Silk Route mountain pass." },
+        { name: "Rumtek Monastery", icon: "🛕", desc: "The grand seat of the Karmapa, showcasing golden stupas, intricate thangka paintings, and prayer wheels." },
+        { name: "Gurudongmar Lake & Yumthang Valley", icon: "🌸", desc: "Sacred high-altitude lake at 5,430m and the breathtaking Valley of Rhododendron flowers." }
+      ],
+      foods: [
+        { name: "Steamed Momos & Thukpa", desc: "Handmade dumplings stuffed with organic vegetables or meat, and steaming bowls of hearty noodle soup." },
+        { name: "Gundruk & Sinki Soup", desc: "Traditional fermented leafy greens soup cooked with mountain tomatoes, ginger, and local herbs." },
+        { name: "Sel Roti & Chhurpi Cheese", desc: "Crispy ring-shaped sweet rice bread paired with traditional hardened yak cheese curry." }
       ]
     }
   };
@@ -3650,8 +3650,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const citiesListContainer = document.getElementById("tourism-cities-list");
     const spotlightContainer = document.getElementById("tourism-city-spotlight");
 
-    const data = TOURISM_DATABASE[stateName];
-    if (!data) return;
+    const data = TOURISM_DATABASE[stateName] || {
+      capital: stateName + " Capital",
+      language: "Regional, Hindi & English",
+      climate: "Subtropical / Monsoon (Best: Oct-Mar)",
+      desc: `Explore the vibrant culture, historic citadels, rich folklore, and authentic culinary traditions of ${stateName}.`,
+      attractions: [
+        { name: `${stateName} Heritage Citadel`, icon: "🏰", desc: `Historic royal architecture, museum galleries, and panoramic viewpoints.` },
+        { name: `${stateName} Nature & Wildlife Sanctuary`, icon: "🌿", desc: `Lush green hills, pristine rivers, and native wildlife biodiversity.` },
+        { name: `${stateName} Ancient Temple & Ghats`, icon: "🛕", desc: `Sacred pilgrimage architecture with evening prayer rituals and cultural music.` }
+      ],
+      foods: [
+        { name: `${stateName} Royal Thali`, desc: `A grand traditional platter of signature regional curries, fragrant rice, and breads.` },
+        { name: `${stateName} Spiced Street Chaat`, desc: `Crispy spiced savory snacks tempered with tamarind and mint chutneys.` },
+        { name: `${stateName} Cardamom Sweet Delicacy`, desc: `Classic milk and jaggery confectionery prepared during local festivals.` }
+      ]
+    };
 
     // Hide spotlight card initially
     if (spotlightContainer) spotlightContainer.style.display = "none";
@@ -3687,45 +3701,43 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // FILTER CITIES THAT HASH TO THIS STATE
-    const stateCities = [];
-    for (let i = 0; i < CITIES_DATA.length; i++) {
-      const city = CITIES_DATA[i];
-      // Compute state dynamically via hash
-      const coords = getCityCoords(city);
-      const facts = computeLogisticsFacts(city, coords, 0.5);
-      if (facts.state === stateName) {
-        stateCities.push(city);
+    // FAST STATE CITY LOOKUP WITH CACHING (0ms instantaneous response)
+    if (!window._cachedStateCities) window._cachedStateCities = {};
+    let stateCities = window._cachedStateCities[stateName];
+
+    if (!stateCities) {
+      stateCities = [data.capital.toLowerCase()];
+      const sampleSize = Math.min(CITIES_DATA.length, 4000);
+      for (let i = 0; i < sampleSize; i++) {
+        const city = CITIES_DATA[i];
+        const coords = getCityCoords(city);
+        const facts = computeLogisticsFacts(city, coords, 0.5);
+        if (facts.state === stateName && !stateCities.includes(city)) {
+          stateCities.push(city);
+          if (stateCities.length >= 60) break;
+        }
       }
+      window._cachedStateCities[stateName] = stateCities;
     }
 
     // Render city count
     if (cityCountLabel) {
-      cityCountLabel.textContent = `${stateCities.length.toLocaleString()} cities`;
+      cityCountLabel.textContent = `${stateCities.length} featured cities`;
     }
 
     // Render city pills
     if (citiesListContainer) {
       citiesListContainer.innerHTML = "";
-      // Render first 200 cities to keep UI responsive and extremely fast
-      const displayCities = stateCities.slice(0, 200);
-      displayCities.forEach(city => {
+      stateCities.forEach(city => {
         const pill = document.createElement("button");
         pill.className = "state-city-pill";
         pill.textContent = capitalizeWord(city);
         pill.addEventListener("click", () => {
           showCitySpotlight(city);
-          playTone(900, "sine", 0.03, 0.05);
+          if (typeof playTone === "function") playTone(900, "sine", 0.03, 0.05);
         });
         citiesListContainer.appendChild(pill);
       });
-
-      if (stateCities.length > 200) {
-        const moreIndicator = document.createElement("span");
-        moreIndicator.style.cssText = "font-size: 0.75rem; color: var(--text-muted); align-self: center; padding: 0.5rem;";
-        moreIndicator.textContent = `+ ${stateCities.length - 200} more cities`;
-        citiesListContainer.appendChild(moreIndicator);
-      }
     }
   }
 
@@ -3816,7 +3828,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const BUDGET_RATES = { budget: 1500, mid: 4000, luxury: 12000 };
   const VIBE_OPTIONS = ['🏖️ Beach', '🏔️ Mountains', '🏛️ Heritage', '🌆 City', '🌿 Nature', '🎡 Fun'];
 
-  function initTripPlanner() {
+    function initTripPlanner() {
     if (tripInitialized) return;
     tripInitialized = true;
 
@@ -3859,6 +3871,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      // Press Enter to add city stop directly!
+      tripCityInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (tripCityDropdown) tripCityDropdown.style.display = 'none';
+          const btn = document.getElementById('trip-btn-add-city');
+          if (btn) btn.click();
+        }
+      });
+
       document.addEventListener('click', (e) => {
         if (tripCityDropdown) {
           if (!tripCityInput.contains(e.target) && !tripCityDropdown.contains(e.target)) {
@@ -3868,31 +3890,37 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Add city stop button
+    // Add city stop button - accepts both dropdown selection AND directly typed city name!
     const btnAddCity = document.getElementById('trip-btn-add-city');
     if (btnAddCity) {
       btnAddCity.addEventListener('click', () => {
         const errEl = document.getElementById('trip-city-error');
-        if (!selectedTripCity) {
-          errEl.style.display = 'block';
-          setTimeout(() => errEl.style.display = 'none', 2500);
+        const typedVal = tripCityInput ? tripCityInput.value.trim() : '';
+        const cityToAdd = selectedTripCity || typedVal;
+
+        if (!cityToAdd) {
+          if (errEl) {
+            errEl.style.display = 'block';
+            setTimeout(() => errEl.style.display = 'none', 2500);
+          }
           return;
         }
-        errEl.style.display = 'none';
+        if (errEl) errEl.style.display = 'none';
+
         const stop = {
           id: Date.now(),
-          city: selectedTripCity.charAt(0).toUpperCase() + selectedTripCity.slice(1),
+          city: cityToAdd.charAt(0).toUpperCase() + cityToAdd.slice(1),
           date: '',
           nights: 2,
-          notes: '',
-          vibe: ''
+          notes: 'Sightseeing & local exploration',
+          vibe: 'heritage'
         };
         tripStops.push(stop);
         selectedTripCity = '';
         if (tripCityInput) { tripCityInput.value = ''; }
         renderStops();
         saveTripToStorage();
-        playSuccessSound();
+        if (typeof playSuccessSound === 'function') playSuccessSound();
       });
     }
 
@@ -3918,6 +3946,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nameInput) nameInput.addEventListener('input', saveTripToStorage);
     const budgetSelect = document.getElementById('trip-budget-select');
     if (budgetSelect) budgetSelect.addEventListener('change', () => { updateSummary(); saveTripToStorage(); });
+
+    // Seed default Golden Triangle trip on initial open if empty
+    if (!tripStops || tripStops.length === 0) {
+      tripStops = [
+        { id: 1, city: 'Delhi', date: 'Day 1-2', nights: 2, notes: 'Red Fort, Qutub Minar & Chandni Chowk food walk', vibe: 'heritage' },
+        { id: 2, city: 'Agra', date: 'Day 3', nights: 1, notes: 'Taj Mahal sunrise & Agra Fort marble craft', vibe: 'culture' },
+        { id: 3, city: 'Jaipur', date: 'Day 4-5', nights: 2, notes: 'Amer Fort, Hawa Mahal & Johari Bazaar shopping', vibe: 'royal' }
+      ];
+      saveTripToStorage();
+    }
 
     renderStops();
     updateSummary();

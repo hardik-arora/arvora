@@ -1054,7 +1054,90 @@ document.addEventListener("DOMContentLoaded", () => {
     setupGameListeners();
   }
 
-    function switchTab(tabId) {
+      // --- DYNAMIC ISLAND FEATURE TITLE UPDATER ---
+  function updateDynamicIslandTitle(tabId) {
+    const label = document.getElementById("island-compact-label");
+    if (!label) return;
+
+    // Direct lookup map for instant resolution
+    const FEATURE_NAMES_MAP = {
+      engine: "Autocomplete 🔍",
+      routes: "Database Seed Exporter 💻",
+      game: "Geoguess Spelling Game 🎮",
+      pattern: "Pattern Search 🔠",
+      analytics: "City Analytics 📊",
+      scanner: "Text Scanner 📋",
+      travel: "Travel Hub 🚗",
+      tourism: "State Showcase 🏛️",
+      trip: "Trip Planner 🧭",
+      discovery: "City Discovery 🏙️",
+      festivals: "Festival Radar 🎆",
+      compare: "City Compare ⚖️",
+      budget: "Budget Estimator 💰",
+      routesolver: "Route Solver 📍",
+      culinary: "Culinary Highlights 🍲",
+      weather: "Weather Advisor 🌦️",
+      emergency: "Emergency Contacts 🚨",
+      splitter: "Expense Splitter 💸",
+      landmarks: "Landmark Explorer 🏛️",
+      tracker: "Travel Tracker 🗺️",
+      notes: "Travel Journal 📒",
+      baggage: "Baggage Calculator 🧳",
+      transitbooking: "Transit Booking Hub 🎫",
+      health: "Health & Vaccines 🏥",
+      evrouter: "EV Green Router ⚡",
+      localizer: "Local Dialects 🗣️",
+      photohub: "Photo Spots 📸",
+      shopping: "Bazaar Shopping 🛍️",
+      foodsafety: "Food Safety 🛡️",
+      smartpacker: "Smart Packer 🎒",
+      simadvisor: "SIM Advisor 📱",
+      visa: "Visa Advisor 🛂",
+      socket: "Power Adapter 🔌",
+      atm: "ATM Cash Finder 🏧",
+      voice: "Voice Translator 🎙️",
+      sleep: "Sleep Transit 💤",
+      pnrpredict: "PNR Predictor 🎟️",
+      stomach: "Stomach Guard 🍵",
+      solosafety: "Solo Safety 🚨",
+      vault: "Document Vault 📲",
+      currency: "Currency Converter 💱",
+      rickshaw: "Auto Rickshaw Fare 🛺",
+      simguide: "SIM & 5G Guide 📶",
+      sunclock: "Sunrise & Sunset Clock 🌅",
+      bagcalc: "Airline Baggage Calc ✈️",
+      livetrain: "Live Train Tracker 🚆",
+      tatkalhelper: "Tatkal Railway Helper ⏰",
+      fastagcalc: "FASTag Toll Calculator 🛣️",
+      cabestimator: "Cab & Taxi Estimator 🚕",
+      unesco: "UNESCO World Heritage 🏛️",
+      ayurveda: "Ayurveda Wellness 🌿",
+      folkdance: "Folk Arts & Dance 💃",
+      chaiguide: "Chai Trail Guide ☕"
+    };
+
+    let title = FEATURE_NAMES_MAP[tabId];
+    
+    if (!title && typeof FEATURES !== 'undefined') {
+      for (const cat in FEATURES) {
+        const found = FEATURES[cat].find(f => f.id === tabId);
+        if (found) {
+          title = `${found.name} ${found.icon || ''}`.trim();
+          break;
+        }
+      }
+    }
+
+    if (!title) {
+      // Fallback clean title
+      title = tabId.split(/[-_]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    label.textContent = `Arvora · ${title}`;
+  }
+
+  window.switchTab = switchTab;
+  function switchTab(tabId) {
     const tabs = document.querySelectorAll(".tab-content");
     tabs.forEach(tab => {
       tab.classList.remove("active");
@@ -1078,6 +1161,9 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.remove("active");
       }
     });
+
+    // Dynamically update the floating taskbar (Dynamic Island) label with current feature name!
+    updateDynamicIslandTitle(tabId);
 
     try {
     if (tabId === 'adventuregenz') {

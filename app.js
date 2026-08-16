@@ -1056,13 +1056,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function switchTab(tabId) {
     const tabs = document.querySelectorAll(".tab-content");
-    tabs.forEach(tab => tab.classList.remove("active"));
+    tabs.forEach(tab => {
+      tab.classList.remove("active");
+      tab.style.display = "none";
+    });
+
     const activeTab = document.getElementById("tab-content-" + tabId);
     if (activeTab) {
       activeTab.classList.add("active");
+      activeTab.style.display = "block";
     } else {
       console.warn("Target tab content not found for id:", tabId);
     }
+
+    // Highlight active sidebar navigation item if drawer is present
+    document.querySelectorAll(".feature-card-compact, .tab-btn").forEach(btn => {
+      const target = btn.dataset.tab || btn.getAttribute("data-tab");
+      if (target === tabId) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
 
     try {
     if (tabId === 'adventuregenz') {

@@ -198,18 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Instant Bypass Button Handler
-    const bypassBtn = document.getElementById("site-lock-bypass-btn");
-    if (bypassBtn) {
-      const doBypass = (e) => {
-        e.preventDefault();
-        setSavedPassword(PASSCODE);
-        unlockVault();
-      };
-      bypassBtn.addEventListener("click", doBypass);
-      bypassBtn.addEventListener("touchend", doBypass);
-    }
-
     // Physical Keyboard Typing Support (0-9, Backspace, Enter)
     window.addEventListener("keydown", (e) => {
       if (lockModal && lockModal.style.display === "none") return;

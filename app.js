@@ -1138,6 +1138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.switchTab = switchTab;
   function switchTab(tabId) {
+    window._currentActiveTab = tabId;
     const tabs = document.querySelectorAll(".tab-content");
     tabs.forEach(tab => {
       tab.classList.remove("active");
@@ -3312,7 +3313,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (islandCompactLabel) {
       islandCompactLabel.textContent = `Arvora · ${themeName}`;
       setTimeout(() => {
-        if (islandCompactLabel) islandCompactLabel.textContent = "Arvora · Autocomplete 🔍";
+        if (typeof updateDynamicIslandTitle === "function") { updateDynamicIslandTitle(window._currentActiveTab || "engine"); }
       }, 2500);
     }
   }

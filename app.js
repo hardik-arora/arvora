@@ -5,6 +5,14 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // --- GLOBAL ALL-INDIA STATES LIST ---
+  const STATES_LIST = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Delhi", "Goa", "Gujarat",
+    "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra",
+    "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim",
+    "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  ];
+
   // --- HARD RESET & UNFREEZE RECOVERY ---
   function performHardReset() {
     try {
@@ -2228,12 +2236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     hash = Math.abs(hash);
 
-    const STATES_LIST = [
-      "Maharashtra", "Delhi", "Karnataka", "Tamil Nadu", "West Bengal",
-      "Uttar Pradesh", "Gujarat", "Rajasthan", "Kerala", "Telangana",
-      "Haryana", "Punjab", "Bihar", "Madhya Pradesh", "Andhra Pradesh",
-      "Odisha", "Assam", "Jammu & Kashmir", "Goa", "Himachal Pradesh"
-    ];
+    // (Using global STATES_LIST)
     const DISTRICTS_SUFFIX = ["District", "West District", "East District", "Central District", "Rural District"];
     
     const state = STATES_LIST[hash % STATES_LIST.length];
@@ -2853,12 +2856,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let quizCurrentAnswer = '';
   let quizInitialized = false;
 
-  const STATES_LIST = [
-    "Maharashtra", "Delhi", "Karnataka", "Tamil Nadu", "West Bengal",
-    "Uttar Pradesh", "Gujarat", "Rajasthan", "Kerala", "Telangana",
-    "Haryana", "Punjab", "Bihar", "Madhya Pradesh", "Andhra Pradesh",
-    "Odisha", "Assam", "Jammu & Kashmir", "Goa", "Himachal Pradesh"
-  ];
+  // (Using global STATES_LIST)
 
   function initQuiz() {
     if (quizInitialized) return;

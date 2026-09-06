@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARVORA — Fall into Reverie | Spatial Intelligence & Cultural Portal</title>
+  <meta name="description" content="ARVORA is an immersive spatial intelligence portal for authentic Indian heritage, UNESCO 3D monuments, GI craft marketplace, intercity route matrix, boutique stays, and eco trails.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Ambient Canvas for Floating Spores/Particles -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Top Quick-Access Taskbar -->
+  <nav class="quick-taskbar" aria-label="Feature Directory">
+    <a href="#" class="brand-logo" id="nav-brand-logo">
+      <span class="logo-spark">✦</span> ARVORA
+    </a>
+    
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="feature-search" class="search-input" placeholder="Search 180+ features, tools, states..." aria-label="Search tools and features" />
+    </div>
+
+    <div class="chips-scroll" id="chips-container">
+      <button class="feature-chip active-chip" data-tool-id="marketplace" data-title="GI Craft & Artisan Marketplace" data-desc="Discover verified local craft producers, master artisans, Bidriware, Tanjore, Pashmina, and authentic products with live craft calculator and order simulation.">GI Craft & Artisan Marketplace</button>
+      <button class="feature-chip" data-tool-id="heritage" data-title="UNESCO Monuments 3D Scanner" data-desc="Interactive digital twin tours of ancient temple complexes and forts with point-cloud rendering, architectural hot-spots, and audio guide.">UNESCO Monuments 3D Scanner</button>
+      <button class="feature-chip" data-tool-id="route-matrix" data-title="Smart Intercity Route Matrix" data-desc="Real-time multi-modal connectivity routing across Vande Bharat trains, flight express, highways, EV cabs, and eco carbon scores.">Smart Intercity Route Matrix</button>
+      <button class="feature-chip" data-tool-id="stays" data-title="Boutique Heritage Stays" data-desc="Handpicked Havelis, tea estate bungalows, and restored forest lodges with ambient atmospheric soundscapes.">Boutique Heritage Stays</button>
+      <button class="feature-chip" data-tool-id="bharat-travel" data-title="Bharat Travel Intelligence" data-desc="Complete spatial intelligence, AI itinerary engine, budget planner, weather forecast, and packing assistant.">Bharat Travel Intelligence</button>
+      <button class="feature-chip" data-tool-id="transport" data-title="5-Mode Transport & Fares" data-desc="Real-time unified price aggregator across bus, rail, cab, metro, and ferry with live timetables.">5-Mode Transport & Fares</button>
+      <button class="feature-chip" data-tool-id="showcase" data-title="36 States & UTs Showcase" data-desc="In-depth visual showcase of culture, sights, local cuisine, and hidden gems across all Indian states and UTs.">36 States & UTs Showcase</button>
+      <button class="feature-chip" data-tool-id="eco-trails" data-title="Sacred Groves & Eco Trails" data-desc="Curated off-grid trekking trails through biodiversity-rich protected forests with elevation profiles and permit guides.">Sacred Groves & Eco Trails</button>
+    </div>
+
+    <!-- Audio Atmosphere Controller Bar -->
+    <div class="taskbar-audio-ctrl" id="taskbar-audio-ctrl" title="Ambient Soundscape Toggle">
+      <button class="audio-toggle-btn" id="audio-toggle-btn">
+        <span class="sound-wave-icon">🎵</span>
+        <span class="audio-label" id="audio-label">Ambient Off</span>
+      </button>
+      <div class="audio-presets-dropdown" id="audio-presets-dropdown">
+        <button class="sound-option active" data-sound="rain">🌧️ Forest Canopy Rain</button>
+        <button class="sound-option" data-sound="chimes">🔔 Temple Chimes & Wind</button>
+        <button class="sound-option" data-sound="crickets">🌙 Night Grove Crickets</button>
+        <button class="sound-option" data-sound="waves">🌊 Ghat Waves & Water</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Viewport Stage Container -->
+  <main class="naturecore-viewport" id="naturecore-viewport">
+    <div class="viewport-artwork"></div>
+    <div class="portal-arch-center">
+      <svg class="arch-svg-graphic" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="archGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="rgba(140, 210, 160, 0.5)"/>
+            <stop offset="50%" stop-color="rgba(40, 100, 60, 0.3)"/>
+            <stop offset="100%" stop-color="rgba(8, 22, 14, 0.9)"/>
+          </linearGradient>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="12" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        <path d="M120 700 V 380 C 120 200, 480 200, 480 380 V 700 H 420 V 390 C 420 260, 180 260, 180 390 V 700 Z" fill="rgba(8, 22, 14, 0.85)" stroke="url(#archGrad)" stroke-width="4"/>
+        <path d="M150 700 V 385 C 150 220, 450 220, 450 385 V 700" stroke="rgba(180, 240, 190, 0.25)" stroke-width="2" stroke-dasharray="8 8"/>
+        <!-- Mystical Foliage / Stars Orbs -->
+        <circle cx="140" cy="270" r="18" fill="rgba(60, 130, 80, 0.7)" filter="url(#glow)"/>
+        <circle cx="160" cy="230" r="24" fill="rgba(40, 100, 60, 0.8)"/>
+        <circle cx="210" cy="180" r="30" fill="rgba(70, 150, 90, 0.6)"/>
+        <circle cx="300" cy="150" r="38" fill="rgba(140, 210, 160, 0.4)" filter="url(#glow)"/>
+        <circle cx="390" cy="175" r="28" fill="rgba(75, 160, 100, 0.65)"/>
+        <circle cx="440" cy="225" r="25" fill="rgba(45, 110, 70, 0.75)"/>
+        <circle cx="465" cy="285" r="20" fill="rgba(65, 140, 85, 0.7)"/>
+      </svg>
+    </div>
+
+    <!-- Mythic Navigation Header -->
+    <header class="mythic-nav">
+      <div class="nav-cluster">
+        <a href="#worlds" data-nav="worlds">WORLDS</a>
+        <a href="#atelier" data-nav="atelier">ATELIER</a>
+        <a href="#immersions" data-nav="immersions">IMMERSIONS</a>
+      </div>
+      <div class="nav-star" id="nav-star-toggle" title="Toggle Celestial Glow">✦</div>
+      <div class="nav-cluster">
+        <a href="#craft" data-nav="craft">CRAFT</a>
+        <a href="#codex" data-nav="codex">CODEX</a>
+        <a href="#connect" data-nav="connect">CONNECT</a>
+      </div>
+    </header>
+
+    <!-- Hero Title Lockup -->
+    <div class="hero-lockup" id="hero-lockup">
+      <div class="hero-kicker">✦ SPATIAL HERITAGE ENGINE</div>
+      <h1 class="hero-title">FALL INTO<br>REVERIE</h1>
+      <p class="hero-subtitle">
+        An immersive portal through ancient canopy, 3D monument digital twins &amp; spatial intelligence across Bharat.
+      </p>
+      <button class="hero-button" id="explore-btn">
+        <span>EXPLORE PORTAL</span>
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Reverie Right-Side Glass Tray -->
+    <div class="reverie-glass-tray" id="reverie-glass-tray">
+      <div class="tray-item" data-action="map">
+        <span>View Interactive Map</span>
+        <span class="tray-icon">↗</span>
+      </div>
+      <div class="tray-item" data-action="worlds">
+        <span>12 Mystic Worlds</span>
+        <span class="tray-icon">✦</span>
+      </div>
+      <div class="tray-item" data-action="reel">
+        <span>Ambient Sound Reel</span>
+        <span class="tray-icon">▶</span>
+      </div>
+    </div>
+
+    <!-- Glass Dashboard Active Tool Container (Inside Viewport Stage) -->
+    <div id="tool-viewport">
+      <div id="tool-header-bar">
+        <div class="tool-header-info">
+          <div class="modal-kicker" id="tool-header-kicker">ACTIVE SPATIAL ENGINE</div>
+          <h2 id="tool-header-title">Tool Name</h2>
+        </div>
+        <div class="tool-header-actions">
+          <div class="tool-quick-filters" id="tool-quick-filters"></div>
+          <button id="tool-back-btn">← Back to Portal</button>
+        </div>
+      </div>
+
+      <!-- Dynamic Tool Content Body -->
+      <div id="tool-content-body" class="tool-content-body">
+        <!-- Content will be injected dynamically by app.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Feature Preview Popup Modal -->
+  <div class="feature-modal" id="feature-modal">
+    <div class="modal-box">
+      <div class="modal-kicker" id="modal-kicker">FEATURE TOOL</div>
+      <h2 class="modal-title" id="modal-title">Feature Name</h2>
+      <p class="modal-desc" id="modal-desc">Feature details will appear here.</p>
+      <div class="modal-highlights" id="modal-highlights">
+        <div class="highlight-chip">⚡ Real-time Data</div>
+        <div class="highlight-chip">🎨 High Fidelity</div>
+        <div class="highlight-chip">🏛️ Verified Source</div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="modal-close">Close</button>
+        <button class="modal-btn primary" id="modal-launch">Access Feature Tool →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Feature Explorer Drawer -->
+  <div class="portal-drawer" id="portal-drawer">
+    <div class="drawer-header">
+      <div>
+        <span class="drawer-kicker">ARVORA DIRECTORY & SPATIAL CATALOG</span>
+        <h2>Explore Features & Tools</h2>
+      </div>
+      <button class="drawer-close" id="drawer-close" aria-label="Close directory drawer">✕</button>
+    </div>
+    <div class="drawer-search">
+      <input type="text" id="drawer-search-input" placeholder="Filter 180+ tools, routes, 36 states, sacred groves..." />
+    </div>
+    <div class="drawer-category-tabs" id="drawer-category-tabs">
+      <button class="tab-chip active" data-category="all">All Tools</button>
+      <button class="tab-chip" data-category="heritage">Heritage & 3D</button>
+      <button class="tab-chip" data-category="transit">Transport & Routes</button>
+      <button class="tab-chip" data-category="craft">Craft & Stays</button>
+      <button class="tab-chip" data-category="nature">Groves & Trails</button>
+    </div>
+    <div class="drawer-grid" id="drawer-grid"></div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

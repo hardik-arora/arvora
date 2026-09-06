@@ -130,22 +130,28 @@
       </div>
     </div>
 
-    <!-- Glass Dashboard Active Tool Container (Inside Viewport Stage) -->
+    <!-- Glass Dashboard Active Tool Container with Faded Location Background Layer -->
     <div id="tool-viewport">
-      <div id="tool-header-bar">
-        <div class="tool-header-info">
-          <div class="modal-kicker" id="tool-header-kicker">ACTIVE SPATIAL DOSSIER ENGINE</div>
-          <h2 id="tool-header-title">Tool Name</h2>
-        </div>
-        <div class="tool-header-actions">
-          <div class="tool-quick-filters" id="tool-quick-filters"></div>
-          <button id="tool-back-btn">← Back to Portal</button>
-        </div>
-      </div>
+      <!-- Dedicated FADED, blurred location background layer -->
+      <div id="tool-image-background"></div>
 
-      <!-- Dynamic Tool Content Body -->
-      <div id="tool-content-body" class="tool-content-body">
-        <!-- Content will be injected dynamically by app.js -->
+      <!-- Content Shell layer above background -->
+      <div id="tool-content-shell">
+        <div id="tool-header-bar">
+          <div class="tool-header-info">
+            <div class="modal-kicker" id="tool-header-kicker">SPATIAL DOSSIER ENGINE</div>
+            <h2 id="tool-header-title">Tool Name</h2>
+          </div>
+          <div class="tool-header-actions">
+            <div class="tool-quick-filters" id="tool-quick-filters"></div>
+            <button id="tool-back-btn">← Back to Portal</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Tool Content Body -->
+        <div id="tool-content-body" class="tool-content-body">
+          <!-- Content will be injected dynamically by app.js -->
+        </div>
       </div>
     </div>
   </main>

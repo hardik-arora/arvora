@@ -209,9 +209,326 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ========================================================
-  // 3. FEATURE DATA DEFINITIONS
+  // 3. DEEP LOCATION DATABASE FOR "36 STATES & UTS SHOWCASE"
+  // ========================================================
+  const destinationDossiers = {
+    "jaipur": {
+      name: "Jaipur, Rajasthan",
+      state: "Rajasthan",
+      essence: "The Pink City of Astronomical Forts, Regal Dynasties & Artisanal Alchemy",
+      overview: "Founded in 1727 by Maharaja Sawai Jai Singh II, Jaipur is India's first planned city, blending Vedic Vastu Shastra with Mughal and Rajput architectural grandeur.",
+      bestKnownFor: "Hawa Mahal, Amber Fort, Hand block-printing, Jaipur blue pottery, and royal diamond jewelry.",
+      sights: [
+        "Amber Fort & Sheesh Mahal (Mirror Palace)",
+        "Hawa Mahal (Palace of Winds)",
+        "Jantar Mantar (UNESCO Astronomical Observatory)",
+        "City Palace & Chandra Mahal",
+        "Nahargarh & Jaigarh Forts"
+      ],
+      foodDishes: [
+        "Dal Baati Churma (Baked wheat balls in pure ghee)",
+        "Laal Maas (Fiery Mathania chili mutton curry)",
+        "Pyaaz Kachori (Crispy spiced onion pastry)",
+        "Ghewar & Mawa Kachori (Sweet honeycombed disc)"
+      ],
+      foodShops: [
+        "Rawat Mishthan Bhandar (Legendary Pyaaz Kachori, Station Road)",
+        "LMB — Laxmi Mishthan Bhandar (Johari Bazaar)",
+        "1135 AD (Fine dining royal feast inside Amber Fort)",
+        "Lassiwala (Clay kulhad lassi since 1944, MI Road)"
+      ],
+      artefacts: [
+        "Jaipur Blue Pottery (Quartz clay without red mud)",
+        "Sanganeri & Bagru Hand Block-Printed Cottons",
+        "Kundan-Meenakari Enamel & Polki Jewelry",
+        "Mojari Leather Juttis & Handcrafted Camel-Leather Goods"
+      ],
+      craftShops: [
+        "Johari Bazaar (Precious gems, uncut emeralds & Kundan work)",
+        "Bapu Bazaar & Nehru Bazaar (Mojaris, block prints & textiles)",
+        "Kripal Kumbh (Authentic GI-tagged master blue pottery)",
+        "Anokhi Museum of Hand Printing Workshop (Amber)"
+      ],
+      culture: "Warm Marwari hospitality steeped in 'Padharo Mhare Des', Ghoomar folk dance, Kalbelia snake charmer rhythms, and royal Rajput chivalric heritage.",
+      festivals: [
+        "Jaipur Literature Festival (World's greatest literary festival, Jan)",
+        "Teej Festival (Procession of Goddess Parvati through Old City)",
+        "Gangaur Festival (Color, women devotees & folk music, March/April)",
+        "Elephant Festival & Kite Festival (Makar Sankranti, Jan)"
+      ]
+    },
+    "varanasi": {
+      name: "Varanasi (Kashi / Banaras), Uttar Pradesh",
+      state: "Uttar Pradesh",
+      essence: "The Eternal City of Light, Sacred Ghats & Moksha",
+      overview: "One of the oldest continuously inhabited cities on Earth, seated on the crescent bank of the holy Ganges river.",
+      bestKnownFor: "Ganga Aarti at Dashashwamedh Ghat, Banarasi pure silk sarees, classical Indian music, and spiritual liberation.",
+      sights: [
+        "Dashashwamedh Ghat & Evening Maha Aarti",
+        "Kashi Vishwanath Temple Corridor",
+        "Assi Ghat (Subah-e-Banaras sunrise rituals)",
+        "Manikarnika & Harishchandra Burning Ghats",
+        "Sarnath (Where Lord Buddha preached his first sermon)"
+      ],
+      foodDishes: [
+        "Banarasi Paan (Betel leaf with candied rose petals & spices)",
+        "Kachori Sabzi & Jalebi breakfast",
+        "Tamatar Chaat (Spiced tomato reduction with crisp namkeen)",
+        "Malaiyo / Nimish (Frothy winter milk foam saffron dessert)"
+      ],
+      foodShops: [
+        "Kashi Chaat Bhandar (Godowlia Chowk)",
+        "Deena Chaat Bhandar (Luxa Road)",
+        "Shreeji Sweets (Thatheri Bazaar for Malaiyo)",
+        "Keshav Tambool Bhandar (Centuries-old Banarasi Paan, Assi Ghat)"
+      ],
+      artefacts: [
+        "Banarasi Brocade & Zari Handwoven Silk Sarees (GI Tagged)",
+        "Pink Meenakari Enamelled Brassware",
+        "Wooden Lacquerware & Sacred Rudraksha Beads",
+        "Hand-beaten Silver & Copper Puja Utensils"
+      ],
+      craftShops: [
+        "Thatheri Bazaar (Traditional brass & copper metal craft)",
+        "Godowlia & Chowk Bazaars (Handloom Banarasi silks)",
+        "Bunkar Seva Kendra & Loom Clusters (Lallapura)",
+        "Vishwanath Gali (Spiritual relics, beads & wooden idols)"
+      ],
+      culture: "Heart of the Banaras Gharana of Indian classical music (Shehnai of Ustad Bismillah Khan), Sanskrit scholarship, and sacred Hindu philosophical traditions.",
+      festivals: [
+        "Dev Deepawali (Million earthen oil lamps on ghats, Kartik Purnima)",
+        "Maha Shivratri (Grand procession through Vishwanath temple)",
+        "Ganga Mahotsav (Music & boat races along the riverfront)"
+      ]
+    },
+    "kerala": {
+      name: "Kerala (God's Own Country)",
+      state: "Kerala",
+      essence: "Emerald Palm Backwaters, Ayurvedic Sanctuaries & Spice Coasts",
+      overview: "Tucked between the Arabian Sea and the Western Ghats, Kerala is famed for serene lagoons, spice hills, and high human development.",
+      bestKnownFor: "Alleppey houseboat cruises, Kathakali theatrical dances, authentic Ayurveda, and Munnar tea hills.",
+      sights: [
+        "Vembanad Lake & Alleppey Backwaters",
+        "Munnar & Wayanad Cloud Tea Plantations",
+        "Fort Kochi (Chinese Fishing Nets & Mattancherry)",
+        "Periyar Wildlife Sanctuary (Thekkady Elephants)",
+        "Athirappilly Waterfalls"
+      ],
+      foodDishes: [
+        "Kerala Sadya (24-dish vegetarian feast on banana leaf)",
+        "Appam with Stew (Fermented rice hopper with coconut milk)",
+        "Malabar Parotta with Pepper Chicken / Beef Roast",
+        "Karimeen Pollichathu (Pearl spot fish baked in banana leaves)"
+      ],
+      foodShops: [
+        "Paragon Restaurant (Legendary Malabar Biryani, Kozhikode)",
+        "Kayees Rahmathulla Hotel (Mattancherry, Kochi)",
+        "Grand Pavilion (Traditional Sadya, MG Road, Ernakulam)",
+        "Kashi Art Cafe (Fort Kochi heritage spot)"
+      ],
+      artefacts: [
+        "Aranmula Kannadi (Sacred handmade metal alloy mirrors, GI tagged)",
+        "Nettipattam (Elephant gold-plated caparisons)",
+        "Kathakali papier-mâché masks & Bell-metal lamps (Nilavilakku)",
+        "Coir floorings, coconut shell carvings & Spices"
+      ],
+      craftShops: [
+        "Jew Town & Antique District (Mattancherry, Fort Kochi)",
+        "Aranmula Heritage Craft Village (Pathanamthitta)",
+        "Connemara Spice Market (Palayam, Thiruvananthapuram)",
+        "Kairali Kerala State Handicrafts Emporium"
+      ],
+      culture: "Kalaripayattu (world's oldest martial art), Sopana Sangeetham temple music, and matrilineal communal traditions.",
+      festivals: [
+        "Onam (Grand harvest festival with Vallam Kali snake boat races)",
+        "Thrissur Pooram (Colossal temple festival with caparisoned elephants & Ilanjithara Melam percussion)",
+        "Theyyam Ritual Ceremonies (North Malabar temples)"
+      ]
+    },
+    "amritsar": {
+      name: "Amritsar, Punjab",
+      state: "Punjab",
+      essence: "Golden Spiritual Sanctuary, Gallantry & Warmhearted Punjabi Feasts",
+      overview: "Founded in 1577 by Guru Ram Das, the fourth Sikh Guru, Amritsar is the spiritual heart of Sikhism and a historic frontier of Indian patriotism.",
+      bestKnownFor: "Sri Harmandir Sahib (The Golden Temple), Langar community kitchen, Wagah Border retreat ceremony, and crisp Amritsari kulchas.",
+      sights: [
+        "Sri Harmandir Sahib (The Golden Temple)",
+        "Jallianwala Bagh Memorial & Flame of Liberty",
+        "Attari-Wagah Border Beating Retreat Ceremony",
+        "Gobindgarh Fort & Partition Museum"
+      ],
+      foodDishes: [
+        "Amritsari Kulcha (Clay-oven baked flaky stuffed bread with chole)",
+        "Maa ki Dal & Makki di Roti with Sarson ka Saag",
+        "Amritsari Macchi (Crispy batter-fried river sole fish)",
+        "Creamy Punjabi Lassi topped with malai lump"
+      ],
+      foodShops: [
+        "Kulcha Land & Bhai Kulwant Singh Kulchian (Ranjit Avenue / Golden Temple)",
+        "Kesar Da Dhaba (Iconic 100-year-old dal simmered for 12 hours)",
+        "Makhan Fish & Chicken Corner (Majitha Road)",
+        "Ahuja Lassi (Near Hindu College, Dhab Khatikan)"
+      ],
+      artefacts: [
+        "Phulkari Hand-Embroidered Shawls & Dupattas",
+        "Traditional Punjabi Tilla Juttis",
+        "Amritsari Papad & Wadian",
+        "Sikh Kirpans & Brass Karas"
+      ],
+      craftShops: [
+        "Hall Bazaar & Katra Jaimal Singh (Phulkari hub)",
+        "Guru Bazaar (Traditional gold & ceremonial swords)",
+        "Lahori Gate Market (Papad, Wadian & local pickle stalls)"
+      ],
+      culture: "Unmatched spirit of 'Seva' (selfless community service), vibrant Bhangra & Giddha folk dances, and fearless hospitality.",
+      festivals: [
+        "Baisakhi (Harvest celebration and founding of the Khalsa, April)",
+        "Guru Nanak Gurpurab (Grand illuminations across the Golden Temple pool)",
+        "Lohri (Winter bonfire celebrations)"
+      ]
+    },
+    "goa": {
+      name: "Goa (Konkan Coast)",
+      state: "Goa",
+      essence: "Indo-Portuguese Heritage, Sunlit Beaches & Susegad Lifestyle",
+      overview: "A coastal state shaped by 450 years of Portuguese influence and indigenous Konkani village traditions.",
+      bestKnownFor: "Churches of Old Goa, pristine beaches, spice plantations, and fresh seafood vindaloo.",
+      sights: [
+        "Basilica of Bom Jesus (UNESCO site housing St. Francis Xavier)",
+        "Fontainhas (Latin Quarter in Panaji with colorful villas)",
+        "Dudhsagar Waterfalls & Western Ghats",
+        "Fort Aguada & Chapora Fort (Vagator)",
+        "Anjuna & Palolem Beaches"
+      ],
+      foodDishes: [
+        "Goan Fish Curry with steamed red rice",
+        "Pork Vindaloo & Chicken Xacuti",
+        "Bebinca (Traditional 7-layer Indo-Portuguese pudding)",
+        "Feni (Cashew / Coconut distilled spirit)"
+      ],
+      foodShops: [
+        "Viva Panjim (Heritage home restaurant in Fontainhas)",
+        "Fisherman's Wharf (Cavelossim riverbank dining)",
+        "Ritz Classic (Authentic Goan Fish Thali in Panjim)",
+        "Martin's Corner (Betalbatim beach side)"
+      ],
+      artefacts: [
+        "Azulejos (Hand-painted Portuguese ceramic tiles)",
+        "Cashew Fenis & Feni decanter bottles",
+        "Kunbi Sarees (Traditional tribal weave)",
+        "Seashell handicrafts & terracotta pottery"
+      ],
+      craftShops: [
+        "Fontainhas Art Galleries (Panaji for Azulejos tiles)",
+        "Anjuna Flea Market (Wednesday bohemian fair)",
+        "Mapusa Friday Municipal Market (Spices, pottery & dried fish)"
+      ],
+      culture: "'Susegad' (unhurried contentment), Konkani Mando folk songs, brass band church carols, and fusion architecture.",
+      festivals: [
+        "Goa Carnival (Grand float parades before Lent, Feb)",
+        "Shigmo (Goan Hindu spring festival with elaborate mythological floats)",
+        "Feast of St. Francis Xavier (Dec 3 at Old Goa)"
+      ]
+    },
+    "ladakh": {
+      name: "Ladakh (Land of High Passes)",
+      state: "Ladakh (UT)",
+      essence: "Trans-Himalayan Monasteries, Glacial Passes & Tibetan Buddhism",
+      overview: "High-altitude desert bordered by the Karakoram and Great Himalaya ranges, known for stark moonscapes and ancient gompas.",
+      bestKnownFor: "Pangong Tso Lake, Khardung La pass, Hemis Monastery, and double-humped Bactrian camels.",
+      sights: [
+        "Pangong Tso & Tso Moriri High Altitude Lakes",
+        "Nubra Valley & Hunder Sand Dunes",
+        "Thiksey, Hemis & Diskit Monasteries",
+        "Magnetic Hill & Sangam (Indus-Zanskar Confluence)"
+      ],
+      foodDishes: [
+        "Thukpa & Mokmoks (Steamed dumplings in spicy broth)",
+        "Skyu (Traditional root vegetable and handmade dough stew)",
+        "Butter Tea (Gur Gur Cha made with yak butter and salt)",
+        "Tigmo (Steamed fermented bread roll with stew)"
+      ],
+      foodShops: [
+        "The Tibetan Kitchen (Fort Road, Leh)",
+        "Alchi Kitchen (Authentic traditional Ladakhi home recipes in Alchi)",
+        "Gesmo Restaurant & German Bakery (Leh Main Market)"
+      ],
+      artefacts: [
+        "Pashmina Shawls (From Changthangi mountain goats, GI tagged)",
+        "Thangka Buddhist Sacred Paintings on Silk",
+        "Tibetan Singing Bowls & Prayer Wheels",
+        "Silver & Raw Turquoise (Firoza) Himalayan Jewelry"
+      ],
+      craftShops: [
+        "Leh Main Bazaar & Tibetan Refugee Market",
+        "Ladakh Arts and Crafts House (Moti Market)",
+        "Choglamsar Handicraft Center"
+      ],
+      culture: "Spiritual harmony, eco-conservation, monastery Cham sacred masked dances, and deep reverence for mountains.",
+      festivals: [
+        "Hemis Festival (Guru Padmasambhava birthday with mask dances)",
+        "Losar (Ladakhi Tibetan New Year)",
+        "Ladakh Festival (September street processions and polo matches)"
+      ]
+    }
+  };
+
+  function generateDynamicDossier(query) {
+    const q = query.charAt(0).toUpperCase() + query.slice(1);
+    return {
+      name: `${q} Spatial Node`,
+      state: "India Regional Territory",
+      essence: `The Authentic Heritage, Sacred Landmarks & Cultural Tapestry of ${q}`,
+      overview: `${q} holds a distinct place in the spatial landscape of India, characterized by historical trade routes, regional folklore, indigenous artisans, and local culinary traditions.`,
+      bestKnownFor: `Local heritage monuments, regional cuisine, native craft clusters, and traditional festivals celebrated with community fervor.`,
+      sights: [
+        `Historic Old Quarter & Central Heritage Precinct of ${q}`,
+        `Ancient temples, shrines, and sacred riverbanks/forest groves`,
+        `Panoramic regional viewpoints and landmark architecture`,
+        `Local cultural museum, clock tower, and public bazaars`
+      ],
+      foodDishes: [
+        `Traditional ${q} thali with seasonal regional preparations`,
+        `Locally spiced breakfast kachori, street chaat, and crisps`,
+        `Authentic regional flatbreads with native lentils and gravies`,
+        `Specialty local milk-based sweet or jaggery confection`
+      ],
+      foodShops: [
+        `Old City Chowk sweet houses and decades-old breakfast spots`,
+        `Heritage thali restaurants along the main market road`,
+        `Famous sweet confectioners located near the main bus/rail station`
+      ],
+      artefacts: [
+        `Handloom textiles, regional weaving, and embroidered fabrics`,
+        `Traditional brassware, terracotta pottery, and clay idols`,
+        `Indigenous wood carvings, folk toys, and leather goods`,
+        `Local spices, herbal botanicals, and hand-rolled delicacies`
+      ],
+      craftShops: [
+        `Central Municipal Bazaar & artisan workshop lane`,
+        `Government Khadi Gramodyog & State Handloom Emporium`,
+        `Weekly haat (open-air village handicraft market)`
+      ],
+      culture: `Deeply rooted community traditions, traditional folk songs, classical story-telling, and celebratory seasonal harvests.`,
+      festivals: [
+        `Diwali & Holi community gatherings`,
+        `Regional harvest and temple processions with folk instrumentation`,
+        `Annual state cultural fair and handicraft expos`
+      ]
+    };
+  }
+
+  // ========================================================
+  // 4. FEATURE DATABASE CONFIGURATION
   // ========================================================
   const FEATURES_DATABASE = {
+    showcase: {
+      id: 'showcase',
+      title: '36 States & UTs Showcase',
+      category: 'heritage',
+      desc: 'Complete cultural & spatial dossier: sights, signature cuisine, heritage eateries, artisan bazaars, crafts, living festivals, and local traditions for any Indian city or state.',
+      highlights: ['36 States & UTs Database', 'Deep Spatial Dossier Search', 'Artisan & Culinary Codex']
+    },
     marketplace: {
       id: 'marketplace',
       title: 'GI Craft & Artisan Marketplace',
@@ -436,21 +753,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { mode: 'Inland Waterway Ferry', avgFare: '₹0.8 / km', speed: '25 km/h', greenRating: 'Ultra High', reliability: '95%' }
       ]
     },
-    showcase: {
-      id: 'showcase',
-      title: '36 States & UTs Showcase',
-      category: 'heritage',
-      desc: 'In-depth visual showcase of culture, sights, local cuisine, and hidden gems across all Indian states and UTs.',
-      highlights: ['28 States & 8 UTs Directory', 'Folk Art & Cuisine Codex', 'Virtual Postcard Generator'],
-      states: [
-        { name: 'Rajasthan', region: 'North', capital: 'Jaipur', sight: 'Amber Fort & Thar Desert', dish: 'Dal Baati Churma', art: 'Phad Painting & Ghoomar', img: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=600&q=80' },
-        { name: 'Kerala', region: 'South', capital: 'Thiruvananthapuram', sight: 'Alleppey Backwaters & Munnar', dish: 'Appam with Ishtu', art: 'Kathakali & Theyyam', img: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=80' },
-        { name: 'Meghalaya', region: 'North-East', capital: 'Shillong', sight: 'Cherrapunji Living Root Bridges', dish: 'Jadoh with Tungrymbai', art: 'Khasi Bamboo Craft', img: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80' },
-        { name: 'Ladakh', region: 'North', capital: 'Leh', sight: 'Pangong Tso & Hemis Monastery', dish: 'Thukpa & Skyu', art: 'Thangka Painting', img: 'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=600&q=80' },
-        { name: 'Odisha', region: 'East', capital: 'Bhubaneswar', sight: 'Konark & Chilika Lake', dish: 'Dalma & Chhena Poda', art: 'Pattachitra & Odissi', img: 'https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=600&q=80' },
-        { name: 'Gujarat', region: 'West', capital: 'Gandhinagar', sight: 'Rann of Kutch & Gir Forest', dish: 'Dhokla & Undhiyu', art: 'Rogan Art & Garba', img: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80' }
-      ]
-    },
     'eco-trails': {
       id: 'eco-trails',
       title: 'Sacred Groves & Eco Trails',
@@ -514,7 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // ========================================================
-  // 4. UI INTERACTION ENGINE & MODAL / DRAWER HANDLERS
+  // 5. UI INTERACTION ENGINE & MODAL / DRAWER HANDLERS
   // ========================================================
   const exploreBtn = document.getElementById('explore-btn');
   const drawer = document.getElementById('portal-drawer');
@@ -522,7 +824,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const drawerGrid = document.getElementById('drawer-grid');
   const drawerSearch = document.getElementById('drawer-search-input');
   const featureSearch = document.getElementById('feature-search');
-  const chipsContainer = document.getElementById('chips-container');
   const viewport = document.getElementById('naturecore-viewport');
   
   const modal = document.getElementById('feature-modal');
@@ -560,7 +861,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = FEATURES_DATABASE[toolId];
     if (!data) return;
     activeToolId = toolId;
-    modalKicker.textContent = `FEATURE ENGINE • ${data.category.toUpperCase()}`;
+    modalKicker.textContent = `FEATURE ENGINE • ${data.category ? data.category.toUpperCase() : 'PORTAL'}`;
     modalTitle.textContent = data.title;
     modalDesc.textContent = data.desc;
     
@@ -587,12 +888,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (drawer) drawer.classList.remove('active');
     if (viewport) viewport.classList.remove('entering');
 
-    const data = FEATURES_DATABASE[toolId] || FEATURES_DATABASE['marketplace'];
+    const data = FEATURES_DATABASE[toolId] || FEATURES_DATABASE['showcase'];
     activeToolId = data.id;
 
     // Update Header
     toolHeaderTitle.textContent = data.title;
-    toolHeaderKicker.textContent = `ACTIVE ENGINE • ${data.category ? data.category.toUpperCase() : 'PORTAL'}`;
+    toolHeaderKicker.textContent = `ACTIVE DOSSIER ENGINE • ${data.category ? data.category.toUpperCase() : 'PORTAL'}`;
     
     // Hide default hero/nav/tray
     const heroLockup = document.getElementById('hero-lockup');
@@ -742,13 +1043,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================================
-  // 5. ENGINE RENDERING ENGINE (TOOL VIEWS IMPLEMENTATION)
+  // 6. ENGINE RENDERING ENGINE (TOOL VIEWS IMPLEMENTATION)
   // ========================================================
   function renderToolContent(toolId) {
     toolContentBody.innerHTML = '';
     toolQuickFilters.innerHTML = '';
 
-    if (toolId === 'marketplace') {
+    if (toolId === 'showcase') {
+      renderShowcaseView();
+    } else if (toolId === 'marketplace') {
       renderMarketplaceView();
     } else if (toolId === 'heritage') {
       renderHeritage3DView();
@@ -760,8 +1063,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderBharatTravelView();
     } else if (toolId === 'transport') {
       renderTransportView();
-    } else if (toolId === 'showcase') {
-      renderShowcaseView();
     } else if (toolId === 'eco-trails') {
       renderEcoTrailsView();
     } else if (toolId === 'map') {
@@ -771,15 +1072,139 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (toolId === 'reel') {
       renderReelView();
     } else {
-      renderMarketplaceView();
+      renderShowcaseView();
     }
   }
 
-  // --- A. GI CRAFT & ARTISAN MARKETPLACE ---
+  // --- A. 36 STATES & UTs SHOWCASE DEEP DOSSIER ENGINE ---
+  function renderShowcaseView() {
+    toolContentBody.innerHTML = `
+      <p class="tool-subheading">Complete spatial & cultural dossier for any Indian state, city, or territory.</p>
+      
+      <div class="showcase-search-shell">
+        <input 
+          type="text" 
+          id="showcase-search-input" 
+          class="showcase-search-input" 
+          placeholder="Search any place: Jaipur, Varanasi, Kerala, Amritsar, Goa, Kashmir, Ladakh, Hampi..." 
+          value="Jaipur"
+        />
+      </div>
+
+      <div class="quick-regions" id="quick-regions">
+        <span class="region-chip active" data-dest="Jaipur">Jaipur (Rajasthan)</span>
+        <span class="region-chip" data-dest="Varanasi">Varanasi (UP)</span>
+        <span class="region-chip" data-dest="Kerala">Kerala (Backwaters)</span>
+        <span class="region-chip" data-dest="Amritsar">Amritsar (Punjab)</span>
+        <span class="region-chip" data-dest="Goa">Goa (Coastal)</span>
+        <span class="region-chip" data-dest="Ladakh">Ladakh (Highland)</span>
+      </div>
+
+      <div id="dossier-output" class="dossier-wrap"></div>
+    `;
+
+    const searchInput = document.getElementById('showcase-search-input');
+    const dossierOutput = document.getElementById('dossier-output');
+
+    function renderDossier(locationKey) {
+      const cleanKey = locationKey.toLowerCase().trim();
+      const data = destinationDossiers[cleanKey] || generateDynamicDossier(locationKey);
+
+      dossierOutput.innerHTML = `
+        <div class="dossier-hero-card">
+          <div class="dossier-headline">
+            <h3>${data.name}</h3>
+            <span class="dossier-essence">${data.essence}</span>
+          </div>
+          <p class="dossier-summary">${data.overview}</p>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--accent-sage);">
+            <strong>✨ Best Known For:</strong> <span style="color: var(--text-bright);">${data.bestKnownFor}</span>
+          </div>
+        </div>
+
+        <div class="dossier-grid">
+          <!-- Sights -->
+          <div class="dossier-block">
+            <div class="dossier-block-title">🏛️ Top Sights &amp; Landmarks</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.sights.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Signature Food Dishes -->
+          <div class="dossier-block">
+            <div class="dossier-block-title">🍲 Signature Food Dishes</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.foodDishes.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Famous Food Shops -->
+          <div class="dossier-block">
+            <div class="dossier-block-title">🍴 Famous Food Shops &amp; Eateries</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.foodShops.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Famous Artefacts & Handlooms -->
+          <div class="dossier-block">
+            <div class="dossier-block-title">🏺 Iconic Artefacts &amp; Crafts</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.artefacts.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Artisan Shops & Bazaars -->
+          <div class="dossier-block">
+            <div class="dossier-block-title">🛍️ Famous Bazaars for Buying Artefacts</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.craftShops.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Culture & Traditions -->
+          <div class="dossier-block">
+            <div class="dossier-block-title">🎭 Living Culture &amp; Heritage</div>
+            <p class="dossier-block-content">${data.culture}</p>
+          </div>
+
+          <!-- Unique Festivals -->
+          <div class="dossier-block" style="grid-column: 1 / -1;">
+            <div class="dossier-block-title">🎪 Unique Celebrated Festivals</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.festivals.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        if (val.length >= 2) renderDossier(val);
+      });
+    }
+
+    document.querySelectorAll('.region-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.region-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const dest = chip.dataset.dest;
+        searchInput.value = dest;
+        renderDossier(dest);
+      });
+    });
+
+    renderDossier("Jaipur");
+  }
+
+  // --- B. GI CRAFT & ARTISAN MARKETPLACE ---
   function renderMarketplaceView() {
     const data = FEATURES_DATABASE['marketplace'];
     toolContentBody.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; justify-space-between; align-items:center;">
         <p class="tool-subheading">${data.desc}</p>
         <button class="btn-tool-action" id="btn-craft-calc">🧮 Craft Order Calculator</button>
       </div>
@@ -825,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- B. UNESCO MONUMENTS 3D SCANNER ---
+  // --- C. UNESCO MONUMENTS 3D SCANNER ---
   function renderHeritage3DView() {
     const data = FEATURES_DATABASE['heritage'];
     toolContentBody.innerHTML = `
@@ -919,7 +1344,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Canvas 3D Pseudo Engine Rendering Loop
     function render3DCanvas() {
       if (!document.getElementById('monument-3d-canvas')) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -952,7 +1376,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // Point cloud vertices
       for (let r = 0; r < cutoff; r++) {
         const radius = (numRings - r) * 12;
         const y = cy + (r - numRings / 2) * 16;
@@ -973,7 +1396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render3DCanvas();
   }
 
-  // --- C. SMART INTERCITY ROUTE MATRIX ---
+  // --- D. SMART INTERCITY ROUTE MATRIX ---
   function renderRouteMatrixView() {
     const data = FEATURES_DATABASE['route-matrix'];
     toolContentBody.innerHTML = `
@@ -1046,7 +1469,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- D. BOUTIQUE HERITAGE STAYS ---
+  // --- E. BOUTIQUE HERITAGE STAYS ---
   function renderStaysView() {
     const data = FEATURES_DATABASE['stays'];
     toolContentBody.innerHTML = `
@@ -1082,7 +1505,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- E. BHARAT TRAVEL INTELLIGENCE ---
+  // --- F. BHARAT TRAVEL INTELLIGENCE ---
   function renderBharatTravelView() {
     const data = FEATURES_DATABASE['bharat-travel'];
     toolContentBody.innerHTML = `
@@ -1141,7 +1564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- F. 5-MODE TRANSPORT & FARES ---
+  // --- G. 5-MODE TRANSPORT & FARES ---
   function renderTransportView() {
     const data = FEATURES_DATABASE['transport'];
     toolContentBody.innerHTML = `
@@ -1171,42 +1594,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </table>
       </div>
     `;
-  }
-
-  // --- G. 36 STATES & UTs SHOWCASE ---
-  function renderShowcaseView() {
-    const data = FEATURES_DATABASE['showcase'];
-    toolContentBody.innerHTML = `
-      <p class="tool-subheading">${data.desc}</p>
-      <div class="grid-cards">
-        ${data.states.map(s => `
-          <div class="tool-card">
-            <div class="card-img-wrap">
-              <img src="${s.img}" alt="${s.name}" loading="lazy">
-              <span class="badge-tag">${s.region} India</span>
-            </div>
-            <div class="card-body">
-              <div>
-                <h3 class="card-title">${s.name}</h3>
-                <div style="font-size:11px; color:var(--accent-sage); margin-bottom:6px;">🏛️ Capital: ${s.capital}</div>
-                <p class="card-desc">
-                  <b>Must See:</b> ${s.sight}<br>
-                  <b>Culinary:</b> ${s.dish}<br>
-                  <b>Folk Art:</b> ${s.art}
-                </p>
-              </div>
-              <button class="btn-tool-action btn-postcard" data-state="${s.name}" style="margin-top:10px;">💌 Generate Virtual Postcard</button>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-
-    document.querySelectorAll('.btn-postcard').forEach(btn => {
-      btn.addEventListener('click', () => {
-        showToast(`Generated digital postcard for ${btn.dataset.state}! Saved to memory.`);
-      });
-    });
   }
 
   // --- H. SACRED GROVES & ECO TRAILS ---

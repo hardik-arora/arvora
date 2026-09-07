@@ -3,65 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARVORA — Fall into Reverie</title>
+  <title>ARVORA — Spatial Intelligence Portal</title>
   <link rel="icon" href="data:,">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #030805; color: #edf4ec; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+    body { background-color: #020603; color: #edf4ec; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
     
     /* Top Quick-Access Taskbar */
-    .quick-taskbar { position: fixed; top: 0; left: 0; right: 0; height: 58px; background: rgba(4, 10, 7, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(237, 244, 236, 0.12); display: flex; align-items: center; gap: 12px; padding: 0 20px; z-index: 1000; }
-    .brand-logo { font-weight: 700; letter-spacing: 0.15em; font-size: 14px; color: #edf4ec; white-space: nowrap; text-decoration: none; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .quick-taskbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: rgba(3, 10, 6, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(237, 244, 236, 0.12); display: flex; align-items: center; gap: 12px; padding: 0 24px; z-index: 1000; }
+    .brand-mini { font-weight: 800; letter-spacing: 0.22em; font-size: 13px; color: #9fe0b5; white-space: nowrap; text-decoration: none; display: flex; align-items: center; gap: 6px; cursor: pointer; text-shadow: 0 0 16px rgba(159, 224, 181, 0.4); }
     .search-wrap { position: relative; flex-shrink: 0; }
-    .search-input { background: rgba(237, 244, 236, 0.07); border: 1px solid rgba(237, 244, 236, 0.15); border-radius: 999px; padding: 6px 14px 6px 30px; color: #edf4ec; font-size: 12px; width: 170px; outline: none; transition: width 0.2s, border-color 0.2s; }
-    .search-input:focus { width: 220px; border-color: #8ca892; }
-    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #8ca892; pointer-events: none; }
+    .search-input { background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.16); border-radius: 999px; padding: 6px 14px 6px 32px; color: #edf4ec; font-size: 12px; width: 175px; outline: none; transition: width 0.25s, border-color 0.25s; }
+    .search-input:focus { width: 230px; border-color: #9fe0b5; background: rgba(237, 244, 236, 0.1); }
+    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #8ca892; pointer-events: none; }
     .chips-scroll { display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-right: 20px; }
     .chips-scroll::-webkit-scrollbar { display: none; }
-    .feature-chip { background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.14); color: #cad8cb; font-size: 12px; padding: 5px 14px; border-radius: 999px; text-decoration: none; cursor: pointer; transition: all 0.2s ease; user-select: none; }
-    .feature-chip:hover { background: rgba(237, 244, 236, 0.18); color: #edf4ec; border-color: rgba(237, 244, 236, 0.35); transform: translateY(-1px); }
-    .feature-chip.lead-chip { background: rgba(140, 210, 160, 0.25); border-color: rgba(140, 210, 160, 0.55); color: #edf4ec; font-weight: 600; }
+    .feature-chip { background: rgba(237, 244, 236, 0.05); border: 1px solid rgba(237, 244, 236, 0.12); color: #cad8cb; font-size: 12px; padding: 5px 14px; border-radius: 999px; text-decoration: none; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+    .feature-chip:hover { background: rgba(159, 224, 181, 0.18); color: #edf4ec; border-color: rgba(159, 224, 181, 0.4); transform: translateY(-1px); }
+    .feature-chip.lead-chip { background: rgba(159, 224, 181, 0.18); border-color: rgba(159, 224, 181, 0.45); color: #edf4ec; font-weight: 600; }
 
     /* Centered Floating Canvas Stage */
-    .naturecore-viewport { position: relative; margin-top: 80px; margin-bottom: 40px; width: min(94vw, 1420px); height: min(84vh, 840px); min-height: 600px; border-radius: 28px; border: 1px solid rgba(237, 244, 236, 0.12); box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 80px rgba(12, 36, 20, 0.3); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; z-index: 10; }
-    .viewport-artwork { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; background: radial-gradient(circle at 50% 30%, rgba(130, 220, 160, 0.2) 0%, transparent 60%), linear-gradient(180deg, rgba(3, 8, 5, 0.3) 0%, rgba(3, 8, 5, 0.85) 100%), url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat; }
+    .naturecore-viewport { 
+      position: relative; 
+      margin-top: 76px; 
+      margin-bottom: 36px; 
+      width: min(95vw, 1440px); 
+      height: min(86vh, 880px); 
+      min-height: 620px; 
+      border-radius: 32px; 
+      border: 1px solid rgba(237, 244, 236, 0.12); 
+      box-shadow: 0 35px 110px rgba(0, 0, 0, 0.95), 0 0 100px rgba(10, 36, 18, 0.45); 
+      overflow: hidden; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      z-index: 10; 
+      background: #030805; 
+    }
     
-    /* Central Arch Portal Stage */
-    .portal-arch-center { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(140deg, rgba(235, 255, 220, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(3, 8, 5, 0.75) 75%); z-index: 2; transition: opacity 0.3s ease; }
-    .arch-svg-graphic { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -46%); width: min(88vw, 680px); height: auto; z-index: 3; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.9)); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease; pointer-events: none; }
+    .viewport-artwork { 
+      position: absolute; 
+      inset: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 1; 
+      pointer-events: none; 
+      background: 
+        radial-gradient(ellipse at 50% 30%, rgba(130, 220, 160, 0.18) 0%, transparent 60%), 
+        linear-gradient(180deg, rgba(2, 6, 3, 0.4) 0%, rgba(2, 6, 3, 0.9) 100%), 
+        url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat; 
+      filter: contrast(1.1) brightness(0.9);
+    }
     
-    /* Portal Primary Layers */
-    .mythic-nav { position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 24px 36px; font-size: 11px; letter-spacing: 0.22em; }
-    .nav-cluster { display: flex; gap: 24px; }
-    .mythic-nav a { color: rgba(237, 244, 236, 0.7); text-decoration: none; transition: color 0.2s; cursor: pointer; }
-    .mythic-nav a:hover { color: #edf4ec; }
-    .nav-star { color: #edf4ec; font-size: 15px; opacity: 0.85; text-shadow: 0 0 12px rgba(255, 255, 255, 0.8); }
-    
-    .hero-lockup { position: relative; z-index: 10; padding: 0 44px 44px; max-width: 480px; }
-    .hero-title { font-family: "Georgia", "Times New Roman", serif; font-size: clamp(2.8rem, 5vw, 4.4rem); font-weight: 400; line-height: 0.95; letter-spacing: 0.08em; color: #edf4ec; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.9); margin-bottom: 18px; }
-    .hero-subtitle { font-size: 13px; line-height: 1.55; color: #8ca892; max-width: 320px; margin-bottom: 24px; }
-    .hero-button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px; background: rgba(237, 244, 236, 0.1); border: 1px solid rgba(237, 244, 236, 0.25); color: #edf4ec; font-size: 12px; letter-spacing: 0.12em; text-decoration: none; cursor: pointer; backdrop-filter: blur(10px); transition: background 0.2s, transform 0.2s; }
-    .hero-button:hover { background: rgba(237, 244, 236, 0.2); transform: translateY(-2px); }
-    
-    .reverie-glass-tray { position: absolute; right: 36px; bottom: 44px; z-index: 10; display: flex; flex-direction: column; gap: 10px; min-width: 260px; }
-    .tray-item { background: rgba(6, 16, 10, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(237, 244, 236, 0.12); border-radius: 14px; padding: 12px 18px; color: #cad8cb; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s ease; }
-    .tray-item:hover { background: rgba(14, 30, 20, 0.8); color: #edf4ec; border-color: rgba(237, 244, 236, 0.28); }
+    /* Central Volumetric God Rays */
+    .portal-lighting-aura {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(159, 224, 181, 0.22) 0%, rgba(50, 140, 90, 0.08) 45%, transparent 70%),
+        linear-gradient(135deg, rgba(235, 255, 220, 0.15) 0%, transparent 45%);
+      z-index: 2;
+      pointer-events: none;
+    }
 
-    /* =========================================================================
-       ACTIVE TOOL VIEWPORT & DENSE PHOTOGRAPHIC PRESENCE
-       ========================================================================= */
+    /* Complete Full-Height Overgrown Stone Arch Portal Architecture */
+    .portal-arch-center { 
+      position: absolute; 
+      inset: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 3; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      pointer-events: none;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    }
+    
+    .arch-svg-graphic { 
+      width: min(84vw, 640px); 
+      height: 90%; 
+      max-height: 720px;
+      filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)); 
+      transition: transform 0.3s ease-out;
+    }
+
+    /* Centerlock Stage between the Arch Doors */
+    .portal-centerlock {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -46%);
+      z-index: 8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      pointer-events: auto;
+      max-width: 440px;
+    }
+
+    .center-aura-glow {
+      position: absolute;
+      width: 320px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(159, 224, 181, 0.28) 0%, rgba(40, 110, 70, 0.1) 60%, transparent 80%);
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(28px);
+      pointer-events: none;
+      animation: pulseGlow 5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { transform: scale(0.92); opacity: 0.7; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+
+    .center-kicker {
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      color: #9fe0b5;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-shadow: 0 0 14px rgba(159, 224, 181, 0.6);
+    }
+
+    .center-brand-title {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(3.4rem, 6.2vw, 5.2rem);
+      font-weight: 400;
+      letter-spacing: 0.26em;
+      text-indent: 0.26em;
+      line-height: 1;
+      color: #f6fbf5;
+      text-shadow: 0 0 35px rgba(159, 224, 181, 0.4), 0 8px 30px rgba(0, 0, 0, 0.95);
+      margin-bottom: 12px;
+      user-select: none;
+    }
+
+    .center-brand-tagline {
+      font-size: 12.5px;
+      letter-spacing: 0.18em;
+      color: #cad8cb;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      max-width: 340px;
+      line-height: 1.5;
+    }
+
+    .center-explore-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 32px;
+      border-radius: 999px;
+      background: rgba(159, 224, 181, 0.16);
+      border: 1px solid rgba(159, 224, 181, 0.45);
+      color: #f6fbf5;
+      font-size: 12.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(159, 224, 181, 0.25);
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .center-explore-btn:hover {
+      background: rgba(159, 224, 181, 0.3);
+      border-color: #9fe0b5;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(159, 224, 181, 0.5);
+    }
+
+    /* Minimal Left & Right Information Pillars */
+    .portal-wing-info {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 7;
+      max-width: 250px;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .wing-left { left: 42px; text-align: left; }
+    .wing-right { right: 42px; text-align: right; }
+
+    .wing-card {
+      background: rgba(4, 14, 8, 0.62);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(237, 244, 236, 0.1);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .wing-card:hover {
+      border-color: rgba(159, 224, 181, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .wing-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #9fe0b5;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .wing-heading {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      color: #edf4ec;
+      margin-bottom: 6px;
+    }
+    .wing-desc {
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #a4b8a7;
+    }
+
+    /* Top Minimalist Portal Nav */
+    .mythic-nav { 
+      position: relative; 
+      z-index: 10; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 24px 40px; 
+      font-size: 11px; 
+      letter-spacing: 0.22em; 
+    }
+    .nav-cluster { display: flex; gap: 28px; }
+    .mythic-nav a { color: rgba(237, 244, 236, 0.65); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    .mythic-nav a:hover { color: #9fe0b5; }
+    .nav-star { color: #edf4ec; font-size: 16px; opacity: 0.85; text-shadow: 0 0 14px rgba(255, 255, 255, 0.8); }
+
+    /* Bottom Sub-Portal Bar */
+    .portal-foot-meta {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px 24px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: rgba(202, 216, 203, 0.65);
+      text-transform: uppercase;
+    }
+    .foot-status { display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #9fe0b5; box-shadow: 0 0 8px #9fe0b5; }
+
+    /* Active Tool Screen Inside Viewport (100% Covers Portal on Open) */
     #tool-viewport { 
       display: none; 
       position: absolute; 
       inset: 0; 
-      border-radius: 28px; 
-      background: #010402; 
+      border-radius: 32px; 
+      background: #020603; 
       z-index: 150; 
       flex-direction: column; 
       overflow: hidden; 
     }
     
-    /* High-density photographic presence (88% opacity) */
+    /* 85% Dense Photographic Background */
     #tool-image-background { 
       position: absolute; 
       inset: 0; 
@@ -70,19 +285,18 @@
       background-position: center center; 
       background-size: cover; 
       background-repeat: no-repeat; 
-      opacity: 0.88; 
-      filter: contrast(1.15) brightness(0.95); 
-      transition: opacity 0.3s ease; 
+      opacity: 0.85; 
+      filter: contrast(1.15) saturate(1.1); 
+      transition: background-image 0.2s ease-in-out; 
       z-index: 1; 
     }
 
-    /* Gradient Scrim for 100% Readability */
     #tool-image-scrim {
       position: absolute;
       inset: 0;
       background: 
-        radial-gradient(ellipse at 50% 12%, rgba(2, 6, 3, 0.25) 0%, rgba(2, 6, 3, 0.78) 75%),
-        linear-gradient(180deg, rgba(2, 6, 3, 0.3) 0%, rgba(2, 6, 3, 0.94) 95%);
+        radial-gradient(ellipse at 50% 15%, rgba(2, 6, 3, 0.35) 0%, rgba(2, 6, 3, 0.82) 80%),
+        linear-gradient(180deg, rgba(2, 6, 3, 0.3) 0%, rgba(2, 6, 3, 0.95) 95%);
       z-index: 2;
       pointer-events: none;
     }
@@ -93,14 +307,14 @@
       flex: 1; 
       display: flex; 
       flex-direction: column; 
-      padding: 24px 32px; 
+      padding: 24px 34px; 
       overflow-y: auto; 
     }
     
-    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.2); padding-bottom: 16px; margin-bottom: 16px; flex-shrink: 0; }
+    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.18); padding-bottom: 16px; margin-bottom: 16px; flex-shrink: 0; }
     #tool-header-title { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
-    #tool-back-btn { background: rgba(237, 244, 236, 0.15); border: 1px solid rgba(237, 244, 236, 0.3); color: #fff; padding: 7px 18px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all 0.2s; backdrop-filter: blur(10px); }
-    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.3); transform: translateY(-1px); }
+    #tool-back-btn { background: rgba(237, 244, 236, 0.14); border: 1px solid rgba(237, 244, 236, 0.3); color: #fff; padding: 7px 20px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all 0.2s; backdrop-filter: blur(10px); }
+    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.28); transform: translateY(-1px); }
     
     /* Search Bar with glowing borders */
     .showcase-search-shell { display: flex; gap: 10px; margin-bottom: 12px; flex-shrink: 0; }
@@ -124,9 +338,7 @@
     .region-chip { font-size: 11px; padding: 6px 14px; border-radius: 999px; background: rgba(3, 12, 7, 0.85); border: 1px solid rgba(237, 244, 236, 0.22); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; backdrop-filter: blur(14px); }
     .region-chip:hover { background: rgba(140, 210, 160, 0.28); border-color: rgba(140, 210, 160, 0.7); color: #edf4ec; transform: translateY(-1px); }
 
-    /* =========================================================================
-       HIGH-DENSITY EDITORIAL DOSSIER CARDS
-       ========================================================================= */
+    /* Editorial Dossier Cards */
     .dossier-wrap { display: flex; flex-direction: column; gap: 16px; }
     
     .dossier-hero-banner { 
@@ -221,13 +433,13 @@
 </head>
 <body>
 
-  <!-- Top Taskbar: "36 States & UTs Showcase" #1 Lead Position -->
+  <!-- Top Quick Taskbar -->
   <nav class="quick-taskbar" aria-label="Feature Directory">
-    <a href="#" class="brand-logo">ARVORA ✦</a>
+    <a href="#" class="brand-mini">ARVORA ✦</a>
     
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input type="search" id="feature-search" class="search-input" placeholder="Search 180+ features..." />
+      <input type="search" id="feature-search" class="search-input" placeholder="Search features & tools..." />
     </div>
 
     <div class="chips-scroll" id="chips-container">
@@ -245,66 +457,102 @@
   <!-- Viewport Stage -->
   <main class="naturecore-viewport">
     <div class="viewport-artwork" id="viewport-artwork"></div>
+    <div class="portal-lighting-aura" id="portal-lighting-aura"></div>
     
-    <!-- Arch Portal Container -->
+    <!-- Symmetrical Overgrown Stone Arch Portal Architecture -->
     <div class="portal-arch-center" id="portal-arch-center">
-      <svg class="arch-svg-graphic" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M120 700 V 380 C 120 200, 480 200, 480 380 V 700 H 420 V 390 C 420 260, 180 260, 180 390 V 700 Z" fill="rgba(8, 22, 14, 0.85)" stroke="rgba(140, 210, 160, 0.4)" stroke-width="4"/>
-        <path d="M150 700 V 385 C 150 220, 450 220, 450 385 V 700" stroke="rgba(180, 240, 190, 0.2)" stroke-width="2" stroke-dasharray="8 8"/>
-        <circle cx="140" cy="270" r="18" fill="rgba(60, 130, 80, 0.7)"/>
-        <circle cx="160" cy="230" r="24" fill="rgba(40, 100, 60, 0.8)"/>
-        <circle cx="210" cy="180" r="30" fill="rgba(70, 150, 90, 0.6)"/>
-        <circle cx="300" cy="150" r="38" fill="rgba(50, 120, 75, 0.7)"/>
-        <circle cx="390" cy="175" r="28" fill="rgba(75, 160, 100, 0.65)"/>
-        <circle cx="440" cy="225" r="25" fill="rgba(45, 110, 70, 0.75)"/>
-        <circle cx="465" cy="285" r="20" fill="rgba(65, 140, 85, 0.7)"/>
+      <svg class="arch-svg-graphic" viewBox="0 0 700 820" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="stoneGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#142c1c" />
+            <stop offset="50%" stop-color="#08160e" />
+            <stop offset="100%" stop-color="#030805" />
+          </linearGradient>
+          <linearGradient id="innerGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(159, 224, 181, 0.45)" />
+            <stop offset="100%" stop-color="rgba(10, 36, 18, 0)" />
+          </linearGradient>
+        </defs>
+
+        <!-- Outer Arch Pillar Frame -->
+        <path d="M100 820 V 380 C 100 160, 600 160, 600 380 V 820 H 520 V 380 C 520 220, 180 220, 180 380 V 820 Z" fill="url(#stoneGrad)" stroke="rgba(159, 224, 181, 0.45)" stroke-width="4"/>
+        
+        <!-- Recessed Inner Archway -->
+        <path d="M180 820 V 390 C 180 230, 520 230, 520 390 V 820 H 460 V 395 C 460 270, 240 270, 240 395 V 820 Z" fill="rgba(4, 12, 7, 0.75)" stroke="rgba(159, 224, 181, 0.28)" stroke-width="2.5"/>
+
+        <!-- Sacred Inner Portal Doorway Line -->
+        <path d="M240 820 V 400 C 240 280, 460 280, 460 400 V 820" stroke="url(#innerGlow)" stroke-width="3" stroke-dasharray="10 8"/>
+
+        <!-- Keystone Medallion -->
+        <circle cx="350" cy="180" r="32" fill="#0c2415" stroke="rgba(159, 224, 181, 0.6)" stroke-width="3"/>
+        <path d="M350 160 L360 180 L350 200 L340 180 Z" fill="#9fe0b5"/>
+
+        <!-- Overgrown Ivy Accents Left & Right -->
+        <circle cx="115" cy="300" r="16" fill="rgba(60, 140, 85, 0.8)"/>
+        <circle cx="140" cy="245" r="22" fill="rgba(45, 110, 65, 0.85)"/>
+        <circle cx="185" cy="190" r="28" fill="rgba(75, 160, 100, 0.7)"/>
+        <circle cx="260" cy="155" r="32" fill="rgba(55, 130, 80, 0.8)"/>
+        
+        <circle cx="440" cy="155" r="30" fill="rgba(55, 130, 80, 0.8)"/>
+        <circle cx="515" cy="190" r="26" fill="rgba(75, 160, 100, 0.7)"/>
+        <circle cx="560" cy="245" r="24" fill="rgba(45, 110, 65, 0.85)"/>
+        <circle cx="585" cy="300" r="16" fill="rgba(60, 140, 85, 0.8)"/>
       </svg>
     </div>
 
-    <!-- Top Minimalist Nav -->
-    <header class="mythic-nav">
-      <div class="nav-cluster">
-        <a href="#worlds">WORLDS</a>
-        <a href="#atelier">ATELIER</a>
-        <a href="#immersions">IMMERSIONS</a>
-      </div>
-      <div class="nav-star">✦</div>
-      <div class="nav-cluster">
-        <a href="#craft">CRAFT</a>
-        <a href="#codex">CODEX</a>
-        <a href="#connect">CONNECT</a>
-      </div>
-    </header>
-
-    <!-- Hero Lockup -->
-    <div class="hero-lockup">
-      <h1 class="hero-title">FALL INTO<br>REVERIE</h1>
-      <p class="hero-subtitle">
-        An immersive portal through ancient canopy &amp; spatial intelligence.
-      </p>
-      <button class="hero-button" id="explore-btn">
+    <!-- CENTERPIECE: ARVORA uniquely highlighted between the portal doors -->
+    <div class="portal-centerlock" id="portal-centerlock">
+      <div class="center-aura-glow"></div>
+      <div class="center-kicker">✦ THE LIVING THRESHOLD ✦</div>
+      <h1 class="center-brand-title">ARVORA</h1>
+      <p class="center-brand-tagline">Spatial Intelligence, Sacred Landscapes &amp; Living Heritage</p>
+      <button class="center-explore-btn" id="explore-btn">
         <span>EXPLORE PORTAL</span>
         <span>→</span>
       </button>
     </div>
 
-    <!-- Right Side Tray -->
-    <div class="reverie-glass-tray">
-      <div class="tray-item" data-action="map">
-        <span>View Map</span>
-        <span>↗</span>
+    <!-- LEFT WING: Balanced, minimal website insight -->
+    <aside class="portal-wing-info wing-left" id="wing-left">
+      <div class="wing-card">
+        <div class="wing-label">SPATIAL CARTOGRAPHY</div>
+        <div class="wing-heading">Naturecore Engine</div>
+        <p class="wing-desc">Synchronizing ecological corridors, intercity transport matrixes, and off-grid mountain trails across all territories.</p>
       </div>
-      <div class="tray-item" data-action="worlds">
-        <span>12 Worlds</span>
-        <span>✦</span>
-      </div>
-      <div class="tray-item" data-action="reel">
-        <span>View Reel</span>
-        <span>▶</span>
-      </div>
-    </div>
+    </aside>
 
-    <!-- Active Tool Screen Inside Viewport -->
+    <!-- RIGHT WING: Balanced, minimal website insight -->
+    <aside class="portal-wing-info wing-right" id="wing-right">
+      <div class="wing-card">
+        <div class="wing-label">LIVING CODEX</div>
+        <div class="wing-heading">36 States &amp; UTs</div>
+        <p class="wing-desc">Curating thousands of years of architectural physics, master artisan guilds, and regional culinary lore.</p>
+      </div>
+    </aside>
+
+    <!-- Top Minimalist Nav -->
+    <header class="mythic-nav" id="mythic-nav">
+      <div class="nav-cluster">
+        <a href="#worlds">WORLDS</a>
+        <a href="#atelier">ATELIER</a>
+      </div>
+      <div class="nav-star">✦</div>
+      <div class="nav-cluster">
+        <a href="#codex">CODEX</a>
+        <a href="#connect">CONNECT</a>
+      </div>
+    </header>
+
+    <!-- Bottom Portal Foot Meta -->
+    <footer class="portal-foot-meta" id="portal-foot-meta">
+      <div class="foot-status">
+        <span class="status-dot"></span>
+        <span>Portal Threshold Synchronized</span>
+      </div>
+      <div>V2.6 Spatial Bharat</div>
+    </footer>
+
+    <!-- Active Tool Screen Inside Viewport (Opens Cleanly Without Overlap) -->
     <div id="tool-viewport">
       <div id="tool-image-background"></div>
       <div id="tool-image-scrim"></div>
@@ -313,7 +561,7 @@
         <div id="tool-header-bar">
           <div>
             <h2 id="tool-header-title">36 States &amp; UTs Showcase</h2>
-            <div class="modal-kicker">LIVING CULTURAL DNA &amp; SPATIAL INTELLIGENCE</div>
+            <div style="font-size: 11px; letter-spacing: 0.18em; color: #8ca892; text-transform: uppercase;">LIVING CULTURAL DNA &amp; SPATIAL INTELLIGENCE</div>
           </div>
           <button id="tool-back-btn">← Back to Portal</button>
         </div>
@@ -381,7 +629,7 @@
 
   <script>
     // =========================================================================
-    // 1. RELIABLE DIRECT UNSPLASH & WIKIMEDIA CDN IMAGES
+    // 1. DIRECT-RENDER VERIFIED PHOTOGRAPHIC ASSETS (HIGH RES & DENSE)
     // =========================================================================
     const destinationDossiers = {
       "jaipur": {
@@ -996,6 +1244,93 @@
             secret: "Attend the evening light show at the Vittala Temple complex during Hampi Utsav to see the stone chariot glowing gold."
           }
         ]
+      },
+
+      "ladakh": {
+        name: "Ladakh: Land of High Mountain Passes & Monasteries",
+        state: "Ladakh (UT)",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Pangong_Lake%2C_Ladakh%2C_India_01.jpg/1280px-Pangong_Lake%2C_Ladakh%2C_India_01.jpg",
+        essence: "Stark high-altitude desert sanctuaries, cobalt lakes, ancient prayer flags, and centuries-old monastic chanting.",
+        bestKnownFor: "Pangong Tso Lake, Hemis Monastery, Khardung La Pass (17,982 ft), and double-humped Bactrian camels in Nubra Valley.",
+        cards: [
+          {
+            category: "🏔️ TOP SIGHTS & MONUMENTS",
+            badge: "HIGH-ALTITUDE SANCTUARY",
+            title: "Cobalt Alpine Lakes & Perched Cliffside Monasteries",
+            subtext: "The Roof of the World where ancient Himalayan trade routes cross.",
+            items: [
+              "Pangong Tso & Tso Moriri: Surreal high-altitude endorheic lakes changing colors from turquoise to deep indigo.",
+              "Hemis & Thiksey Monasteries: Multi-tiered cliffside gompas housing giant Maitreya Buddha statues and ancient thangkas.",
+              "Khardung La Pass: World-famous mountain pass at 17,982 feet connecting Leh to the remote Nubra Valley.",
+              "Nubra Valley & Hunder Sand Dunes: Cold desert valley famous for sand dunes and double-humped Bactrian camels."
+            ],
+            secret: "Attend the morning 6:30 AM prayer chanting ceremony at Thiksey Monastery for an unforgettable spiritual experience."
+          },
+          {
+            category: "🍲 SIGNATURE CUISINE",
+            badge: "MOUNTAIN SUSTENANCE",
+            title: "Warm Thukpa Noodle Soup & Butter Tea (Gur Gur)",
+            subtext: "Hearty Tibetan and Himalayan dishes engineered for sub-zero mountain winters.",
+            items: [
+              "Thukpa & Mokmok: Piping hot handmade wheat noodle soup with vegetables, paired with steamed Tibetan momos.",
+              "Gur Gur Cha: Salted yak butter tea churned with brick tea leaves and mountain salt to prevent chapped lips.",
+              "Tsampa: Roasted barley flour mixed with warm butter tea or yak milk, consumed daily by high-altitude nomads.",
+              "Skyu: Traditional Ladakhi thumb-pressed pasta stew simmered with root vegetables and dried yak meat."
+            ],
+            secret: "Try Skyu at a traditional homestay in Fiang or Stok village for authentic home-cooked flavor."
+          },
+          {
+            category: "🍴 FAMOUS FOOD SHOPS",
+            badge: "LEH TOWN INSTITUTIONS",
+            title: "Garden Cafes & Traditional Tibetan Kitchens",
+            subtext: "Cozy mountain eateries serving warm food to travelers.",
+            items: [
+              "The Tibetan Kitchen (Fort Road, Leh): Celebrated for authentic Shapta, Momos, and steaming bowls of Thukpa.",
+              "Bon Appetit (Changspa): Fine dining garden restaurant with panoramic views of the Stok Kangri mountain range.",
+              "Gesmo Restaurant: Historic Leh bakery famous for fresh yak-cheese pizzas, apple pie, and ginger lemon honey tea.",
+              "Lala's Art Cafe (Old Town Leh): Restored traditional mud-brick house serving freshly brewed espresso and local cakes."
+            ],
+            secret: "Order fresh Sea Buckthorn juice at Lala's Art Cafe—a vitamin C rich wild mountain berry local to Ladakh."
+          },
+          {
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
+            badge: "NOMADIC ARTS",
+            title: "Pashmina Weaves, Turquoise Jewelry & Thangka Paintings",
+            subtext: "Handcrafted by Changpa nomadic pastoralists of the Changthang plateau.",
+            items: [
+              "Ladakhi Pashmina: Raw wool harvested at 14,000+ feet, hand-spun on traditional charkha wheels in Leh.",
+              "Thangka Scrolls: Sacred Buddhist religious paintings on silk canvas created using powdered gold and minerals.",
+              "Silver & Turquoise Jewelry: Traditional Perak headgear and heavy silver amulets inlaid with raw natural turquoise.",
+              "Copper Singing Bowls: Hand-hammered metal alloys tuned to produce resonant therapeutic vibrations."
+            ],
+            secret: "Visit the Ladakh Arts & Media Organisation (LAMO) in Old Town Leh to view authentic restored heritage crafts."
+          },
+          {
+            category: "🛍️ FAMOUS BAZAARS & LANES",
+            badge: "MOUNTAIN MARKETS",
+            title: "Leh Main Bazaar & Nomad Trade Arcades",
+            subtext: "Pedestrian stone markets where Silk Road merchants once traded.",
+            items: [
+              "Leh Main Bazaar: Sprawling pedestrian market selling Ladakhi crafts, prayer wheels, and dried apricots.",
+              "Tibetan Refugee Market: Vibrant stalls specializing in prayer flags, singing bowls, woolens, and brass statues.",
+              "Moti Market: Historic lane known for genuine turquoise, lapis lazuli beads, and traditional silver artifacts.",
+              "Organic Farmers Market: Morning market where local women sell wild sea buckthorn, organic apples, and mountain garlic."
+            ],
+            secret: "Purchase sun-dried Ladakh sweet apricots and organic kernel oil directly from local women at the farmers market."
+          },
+          {
+            category: "🎪 LIVING CULTURE & FESTIVALS",
+            badge: "MONASTIC PAGEANTRY",
+            title: "Hemis Tsechu Masked Cham Dances",
+            subtext: "Centuries-old sacred rituals celebrating the victory of good over evil.",
+            items: [
+              "Hemis Tsechu: Colorful two-day monastic festival featuring sacred masked Cham dances accompanied by long horns and cymbals.",
+              "Ladakh Festival: Annual September carnival bringing together archers, folk dancers, and polo matches in Leh.",
+              "Losar: Ladakhi New Year celebrated with oil lamps lit on rooftops and family feasts across the snowbound valley."
+            ],
+            secret: "Watch traditional Ladakhi archery contests and high-altitude polo matches during the Ladakh Festival in September."
+          }
+        ]
       }
     };
 
@@ -1196,21 +1531,14 @@
       if (e.target === modal) modal.classList.remove('active');
     });
 
-    // Right-Side Glass Tray
-    document.querySelectorAll('.tray-item').forEach(item => {
-      item.addEventListener('click', () => {
-        openModal(item.textContent.trim(), "Curated environmental spatial layer.");
-      });
-    });
-
     // Parallax mouse motion
     const archGraphic = document.querySelector('.arch-svg-graphic');
     const viewport = document.querySelector('.naturecore-viewport');
     window.addEventListener('pointermove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 24;
       const y = (e.clientY / window.innerHeight - 0.5) * 16;
-      if (archGraphic && !viewport.classList.contains('entering') && toolViewport.style.display !== 'flex') {
-        archGraphic.style.transform = `translate(calc(-50% + ${x}px), calc(-46% + ${y}px))`;
+      if (archGraphic && toolViewport.style.display !== 'flex') {
+        archGraphic.style.transform = `translate(${x}px, ${y}px)`;
       }
     }, { passive: true });
 
@@ -1229,7 +1557,6 @@
         card.innerHTML = `<h4>${chip.dataset.title || chip.textContent}</h4><p>${chip.dataset.desc}</p>`;
         card.addEventListener('click', () => {
           drawer.classList.remove('active');
-          viewport.classList.remove('entering');
           openModal(chip.dataset.title || chip.textContent, chip.dataset.desc);
         });
         drawerGrid.appendChild(card);
@@ -1246,19 +1573,18 @@
 
     function openPortal() {
       populateDrawer();
-      viewport.classList.add('entering');
-      setTimeout(() => {
-        drawer.classList.add('active');
-        drawerSearch.focus();
-      }, 200);
+      drawer.classList.add('active');
+      drawerSearch.focus();
     }
 
     exploreBtn.addEventListener('click', openPortal);
     drawerClose.addEventListener('click', () => {
       drawer.classList.remove('active');
-      viewport.classList.remove('entering');
     });
-    document.querySelector('.brand-logo').addEventListener('click', (e) => { e.preventDefault(); openPortal(); });
+
+    document.querySelectorAll('.brand-mini, .brand-logo').forEach(brand => {
+      brand.addEventListener('click', (e) => { e.preventDefault(); openPortal(); });
+    });
 
     document.querySelectorAll('.mythic-nav a').forEach(link => {
       link.addEventListener('click', (e) => {
@@ -1272,20 +1598,12 @@
     // =========================================================================
     // 4. ACCESS FEATURE TOOL CLICK -> NATIVE IN-PAGE TOOL LAUNCH
     // =========================================================================
-    const mainViewportHero = document.querySelector('.hero-lockup');
-    const mainViewportNav = document.querySelector('.mythic-nav');
-    const mainViewportTray = document.querySelector('.reverie-glass-tray');
     const toolBackBtn = document.getElementById('tool-back-btn');
 
     modalLaunch.addEventListener('click', () => {
       modal.classList.remove('active');
 
-      // Hide default hero layers
-      mainViewportHero.style.display = 'none';
-      mainViewportNav.style.display = 'none';
-      mainViewportTray.style.display = 'none';
-
-      // Open in-viewport tool dashboard
+      // Open in-viewport tool dashboard (covers stage 100%)
       toolViewport.style.display = 'flex';
       toolHeaderTitle.textContent = modalTitle.textContent;
 
@@ -1303,9 +1621,6 @@
     // Back to portal view
     toolBackBtn.addEventListener('click', () => {
       toolViewport.style.display = 'none';
-      mainViewportHero.style.display = 'flex';
-      mainViewportNav.style.display = 'flex';
-      mainViewportTray.style.display = 'flex';
     });
   </script>
 </body>

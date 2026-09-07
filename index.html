@@ -1030,85 +1030,70 @@
       if (dwellEl) dwellEl.innerText = data.dwell;
       if (dwellSubEl) dwellSubEl.innerHTML = data.dwellSub;
 
-      // 3. Render Module 01: Cultural Inquiries Flip Deck (#inquiries-deck)
-      const inqDeck = document.getElementById("inquiries-deck");
+            // Target both inquiries and pillars containers with fallbacks
+      const inqDeck = document.getElementById("inquiries-deck") || document.getElementById("inquiries-root");
+      const pillarsDeck = document.getElementById("pillars-deck") || document.getElementById("dna-root");
+
       if (inqDeck && data.inquiries) {
         inqDeck.innerHTML = data.inquiries.map(item => `
           <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-inner">
               <div class="flip-front">
                 <div>
-                  <span class="telemetry" style="color:var(--accent-emerald); display:block; margin-bottom:8px;">${item.lens}</span>
-                  <h4 style="color:#fff; font-size:1.05rem; line-height:1.4;">${item.q}</h4>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span class="telemetry">● ${item.lens}</span>
+                    <span style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:#f59e0b; background:rgba(245,158,11,0.1); padding:2px 6px; border-radius:4px;">${item.metric || 'VERIFIED'}</span>
+                  </div>
+                  <h4 style="font-size:1.15rem; font-weight:700; color:#fff; line-height:1.4;">${item.q}</h4>
                 </div>
-                <div class="interactive-cue">
-                  <span>TAP TO DECRYPT INTEL</span>
-                  <span>↺</span>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#10b981;">
+                  HOVER OR TAP TO REVEAL ➔
                 </div>
               </div>
               <div class="flip-back">
                 <div>
-                  <span class="telemetry" style="color:var(--accent-amber); display:block; margin-bottom:8px;">DECRYPTED CODEX ANSWER</span>
-                  <p style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">${item.a}</p>
+                  <span class="telemetry" style="color:#10b981;">DECRYPTED CODEX</span>
+                  <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.6; margin-top:12px;">${item.a}</p>
                 </div>
-                <div style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--accent-emerald);">VERIFIED CULTURAL DATA ENGINE</div>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#64748b;">
+                  TAP TO RETURN
+                </div>
               </div>
             </div>
           </div>
         `).join("");
       }
 
-      // 4. Render Module 02: Living Cultural DNA & Engineering Secrets (#pillars-deck)
-      const pillarsDeck = document.getElementById("pillars-deck");
       if (pillarsDeck && data.pillars) {
         pillarsDeck.innerHTML = data.pillars.map(item => `
           <div class="flip-card" onclick="this.classList.toggle('flipped')">
             <div class="flip-inner">
               <div class="flip-front" style="background: rgba(10, 16, 24, 0.75);">
                 <div>
-                  <span class="telemetry" style="color:var(--accent-cyan); display:block; margin-bottom:8px;">${item.tag}</span>
-                  <h4 style="color:#fff; font-size:1.1rem; line-height:1.4;">${item.title}</h4>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span class="telemetry" style="color:#06b6d4;">● ${item.tag}</span>
+                    <span style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:#06b6d4; background:rgba(6,182,212,0.1); padding:2px 6px; border-radius:4px;">${item.metric || 'PHYSICS'}</span>
+                  </div>
+                  <h4 style="font-size:1.15rem; font-weight:700; color:#fff; line-height:1.4;">${item.title}</h4>
                 </div>
-                <div class="interactive-cue">
-                  <span>UN-SHROUD PHYSICS</span>
-                  <span>⚡</span>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#06b6d4;">
+                  UN-SHROUD PHYSICS ➔
                 </div>
               </div>
-              <div class="flip-back" style="border-color:var(--accent-cyan);">
+              <div class="flip-back" style="border-color:rgba(6,182,212,0.5);">
                 <div>
-                  <span class="telemetry" style="color:var(--accent-cyan); display:block; margin-bottom:8px;">ENGINEERING MECHANICS</span>
-                  <p style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">${item.desc}</p>
+                  <span class="telemetry" style="color:#06b6d4;">ENGINEERING MECHANICS</span>
+                  <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.6; margin-top:12px;">${item.desc}</p>
                 </div>
-                <div style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--accent-cyan);">VERNACULAR PHYSICS VERIFIED</div>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#64748b;">
+                  TAP TO RETURN
+                </div>
               </div>
             </div>
           </div>
         `).join("");
       }
     }
-
-    // Attach to window scope
-    window.loadLocation = loadLocation;
-
-    window.returnToGateway = function() {
-      const mainPage = document.getElementById("main-page");
-      const featuresPage = document.getElementById("features-page") || document.getElementById("dashboard-page");
-      
-      if (featuresPage) {
-        featuresPage.classList.remove("active");
-        setTimeout(() => {
-          featuresPage.style.display = "none";
-        }, 450);
-      }
-      
-      if (mainPage) {
-        mainPage.style.display = "flex";
-        void mainPage.offsetWidth;
-        mainPage.classList.remove("page-exit");
-      }
-      
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
 
     /* ====================================================================
        EXPLORE PLACES & HERITAGE COORDINATES REPOSITORY

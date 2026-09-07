@@ -1,96 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ARVORA — Spatial Intelligence Portal</title>
-  <link rel="icon" href="data:,">
+  <link rel="icon" href="data:," />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #020603; color: #edf4ec; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
-    
-    /* Top Quick-Access Taskbar */
-    .quick-taskbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: rgba(3, 10, 6, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(237, 244, 236, 0.12); display: flex; align-items: center; gap: 12px; padding: 0 24px; z-index: 1000; }
-    .brand-mini { font-weight: 800; letter-spacing: 0.22em; font-size: 13px; color: #9fe0b5; white-space: nowrap; text-decoration: none; display: flex; align-items: center; gap: 6px; cursor: pointer; text-shadow: 0 0 16px rgba(159, 224, 181, 0.4); }
-    .search-wrap { position: relative; flex-shrink: 0; }
-    .search-input { background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.16); border-radius: 999px; padding: 6px 14px 6px 32px; color: #edf4ec; font-size: 12px; width: 175px; outline: none; transition: width 0.25s, border-color 0.25s; }
-    .search-input:focus { width: 230px; border-color: #9fe0b5; background: rgba(237, 244, 236, 0.1); }
-    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #8ca892; pointer-events: none; }
-    .chips-scroll { display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-right: 20px; }
-    .chips-scroll::-webkit-scrollbar { display: none; }
-    .feature-chip { background: rgba(237, 244, 236, 0.05); border: 1px solid rgba(237, 244, 236, 0.12); color: #cad8cb; font-size: 12px; padding: 5px 14px; border-radius: 999px; text-decoration: none; cursor: pointer; transition: all 0.2s ease; user-select: none; }
-    .feature-chip:hover { background: rgba(159, 224, 181, 0.18); color: #edf4ec; border-color: rgba(159, 224, 181, 0.4); transform: translateY(-1px); }
-    .feature-chip.lead-chip { background: rgba(159, 224, 181, 0.18); border-color: rgba(159, 224, 181, 0.45); color: #edf4ec; font-weight: 600; }
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-    /* Centered Floating Canvas Stage */
-    .naturecore-viewport { 
-      position: relative; 
-      margin-top: 76px; 
-      margin-bottom: 36px; 
-      width: min(95vw, 1440px); 
-      height: min(86vh, 880px); 
-      min-height: 620px; 
-      border-radius: 32px; 
-      border: 1px solid rgba(237, 244, 236, 0.12); 
-      box-shadow: 0 35px 110px rgba(0, 0, 0, 0.95), 0 0 100px rgba(10, 36, 18, 0.45); 
-      overflow: hidden; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: space-between; 
-      z-index: 10; 
-      background: #030805; 
+    :root {
+      --bg-space: #020503;
+      --emerald-glow: #38ef7d;
+      --emerald-deep: #11998e;
+      --obsidian-surface: rgba(4, 14, 9, 0.72);
+      --gold-accent: #f2cf66;
+      --text-main: #edf6ee;
+      --text-muted: #8ba592;
+      --border-ethereal: rgba(159, 224, 181, 0.18);
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    .viewport-artwork { 
-      position: absolute; 
-      inset: 0; 
-      width: 100%; 
-      height: 100%; 
-      z-index: 1; 
-      pointer-events: none; 
+    body {
+      background-color: var(--bg-space);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(17, 153, 142, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 100%, rgba(4, 18, 10, 0.9) 0%, transparent 60%);
+    }
+
+    /* Top Quick-Access Taskbar */
+    .quick-taskbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(2, 6, 3, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-ethereal);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 28px;
+      z-index: 1000;
+    }
+
+    .brand-mini {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      font-size: 13px;
+      color: #bbf7d0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-shadow: 0 0 16px rgba(159, 224, 181, 0.5);
+      cursor: pointer;
+    }
+
+    .search-wrap { position: relative; flex-shrink: 0; }
+    .search-input {
+      background: rgba(237, 244, 236, 0.05);
+      border: 1px solid var(--border-ethereal);
+      border-radius: 999px;
+      padding: 6px 14px 6px 34px;
+      color: var(--text-main);
+      font-size: 12px;
+      width: 180px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .search-input:focus {
+      width: 240px;
+      border-color: var(--emerald-glow);
+      background: rgba(237, 244, 236, 0.09);
+      box-shadow: 0 0 16px rgba(56, 239, 125, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .chips-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+      padding-right: 20px;
+    }
+    .chips-scroll::-webkit-scrollbar { display: none; }
+
+    .feature-chip {
+      background: rgba(237, 244, 236, 0.04);
+      border: 1px solid rgba(237, 244, 236, 0.1);
+      color: #cad8cb;
+      font-size: 12px;
+      padding: 5px 15px;
+      border-radius: 999px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      user-select: none;
+    }
+    .feature-chip:hover {
+      background: rgba(56, 239, 125, 0.15);
+      border-color: rgba(56, 239, 125, 0.45);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .feature-chip.lead-chip {
+      background: linear-gradient(135deg, rgba(17, 153, 142, 0.3) 0%, rgba(56, 239, 125, 0.18) 100%);
+      border-color: rgba(56, 239, 125, 0.5);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* =========================================================================
+       MAIN HERO CANVASES & CINEMATIC PORTAL MONOLITH
+       ========================================================================= */
+    .naturecore-viewport {
+      position: relative;
+      margin-top: 76px;
+      margin-bottom: 30px;
+      width: min(96vw, 1460px);
+      height: min(87vh, 890px);
+      min-height: 640px;
+      border-radius: 36px;
+      border: 1px solid rgba(159, 224, 181, 0.16);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.95), 0 0 100px rgba(10, 36, 18, 0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 10;
+      background: #020603;
+    }
+
+    .viewport-artwork {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
       background: 
-        radial-gradient(ellipse at 50% 30%, rgba(130, 220, 160, 0.18) 0%, transparent 60%), 
-        linear-gradient(180deg, rgba(2, 6, 3, 0.4) 0%, rgba(2, 6, 3, 0.9) 100%), 
-        url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat; 
-      filter: contrast(1.1) brightness(0.9);
+        radial-gradient(circle at 50% 30%, rgba(56, 239, 125, 0.12) 0%, transparent 55%),
+        linear-gradient(180deg, rgba(2, 6, 3, 0.4) 0%, rgba(2, 6, 3, 0.95) 90%),
+        url("https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+      filter: contrast(1.1) brightness(0.85);
     }
-    
-    /* Central Volumetric God Rays */
+
+    /* Volumetric Ethereal Corridor */
     .portal-lighting-aura {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 50% 50%, rgba(159, 224, 181, 0.22) 0%, rgba(50, 140, 90, 0.08) 45%, transparent 70%),
-        linear-gradient(135deg, rgba(235, 255, 220, 0.15) 0%, transparent 45%);
       z-index: 2;
       pointer-events: none;
+      background: 
+        radial-gradient(ellipse at 50% 50%, rgba(56, 239, 125, 0.18) 0%, rgba(17, 153, 142, 0.08) 40%, transparent 70%),
+        linear-gradient(135deg, rgba(240, 255, 235, 0.12) 0%, transparent 45%);
     }
 
-    /* Complete Full-Height Overgrown Stone Arch Portal Architecture */
-    .portal-arch-center { 
-      position: absolute; 
-      inset: 0; 
-      width: 100%; 
-      height: 100%; 
-      z-index: 3; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
+    /* Multi-layered Portal Arch Framework */
+    .portal-arch-center {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       pointer-events: none;
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
     }
-    
-    .arch-svg-graphic { 
-      width: min(84vw, 640px); 
-      height: 90%; 
-      max-height: 720px;
-      filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)); 
+
+    .arch-svg-graphic {
+      width: min(88vw, 680px);
+      height: 94%;
+      max-height: 760px;
+      filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95));
       transition: transform 0.3s ease-out;
     }
 
-    /* Centerlock Stage between the Arch Doors */
+    /* =========================================================================
+       HERO CENTERPIECE: ARVORA IN PORTAL DOORS
+       ========================================================================= */
     .portal-centerlock {
       position: absolute;
       top: 50%;
@@ -102,181 +208,202 @@
       align-items: center;
       text-align: center;
       pointer-events: auto;
-      max-width: 440px;
+      max-width: 480px;
     }
 
     .center-aura-glow {
       position: absolute;
-      width: 320px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(159, 224, 181, 0.28) 0%, rgba(40, 110, 70, 0.1) 60%, transparent 80%);
+      width: 360px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(56, 239, 125, 0.32) 0%, rgba(17, 153, 142, 0.14) 55%, transparent 75%);
       border-radius: 50%;
       z-index: -1;
-      filter: blur(28px);
+      filter: blur(34px);
       pointer-events: none;
-      animation: pulseGlow 5s ease-in-out infinite alternate;
+      animation: pulseAura 6s ease-in-out infinite alternate;
     }
-    @keyframes pulseGlow {
-      0% { transform: scale(0.92); opacity: 0.7; }
-      100% { transform: scale(1.15); opacity: 1; }
+    @keyframes pulseAura {
+      0% { transform: scale(0.92); opacity: 0.65; }
+      100% { transform: scale(1.18); opacity: 1; }
     }
 
     .center-kicker {
       font-size: 11px;
-      letter-spacing: 0.32em;
-      color: #9fe0b5;
+      letter-spacing: 0.38em;
+      color: var(--emerald-glow);
       text-transform: uppercase;
       font-weight: 700;
-      margin-bottom: 8px;
-      text-shadow: 0 0 14px rgba(159, 224, 181, 0.6);
+      margin-bottom: 12px;
+      text-shadow: 0 0 16px rgba(56, 239, 125, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .center-kicker::before, .center-kicker::after {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--emerald-glow));
+    }
+    .center-kicker::after {
+      background: linear-gradient(90deg, var(--emerald-glow), transparent);
     }
 
     .center-brand-title {
-      font-family: "Georgia", "Times New Roman", serif;
-      font-size: clamp(3.4rem, 6.2vw, 5.2rem);
-      font-weight: 400;
-      letter-spacing: 0.26em;
-      text-indent: 0.26em;
-      line-height: 1;
-      color: #f6fbf5;
-      text-shadow: 0 0 35px rgba(159, 224, 181, 0.4), 0 8px 30px rgba(0, 0, 0, 0.95);
-      margin-bottom: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(3.8rem, 7vw, 5.8rem);
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      text-indent: 0.32em;
+      line-height: 0.95;
+      color: #ffffff;
+      text-shadow: 
+        0 0 40px rgba(56, 239, 125, 0.45),
+        0 10px 35px rgba(0, 0, 0, 0.95);
+      margin-bottom: 16px;
       user-select: none;
     }
 
     .center-brand-tagline {
-      font-size: 12.5px;
-      letter-spacing: 0.18em;
+      font-size: 13px;
+      letter-spacing: 0.22em;
       color: #cad8cb;
       text-transform: uppercase;
-      margin-bottom: 24px;
-      max-width: 340px;
-      line-height: 1.5;
+      margin-bottom: 28px;
+      max-width: 380px;
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
 
     .center-explore-btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 13px 32px;
+      gap: 14px;
+      padding: 14px 38px;
       border-radius: 999px;
-      background: rgba(159, 224, 181, 0.16);
-      border: 1px solid rgba(159, 224, 181, 0.45);
-      color: #f6fbf5;
+      background: linear-gradient(135deg, rgba(56, 239, 125, 0.22) 0%, rgba(17, 153, 142, 0.3) 100%);
+      border: 1px solid rgba(159, 224, 181, 0.6);
+      color: #ffffff;
       font-size: 12.5px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      font-weight: 600;
-      text-decoration: none;
+      font-weight: 700;
       cursor: pointer;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(159, 224, 181, 0.25);
-      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.8),
+        0 0 28px rgba(56, 239, 125, 0.3);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .center-explore-btn:hover {
-      background: rgba(159, 224, 181, 0.3);
-      border-color: #9fe0b5;
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 35px rgba(159, 224, 181, 0.5);
+      background: linear-gradient(135deg, rgba(56, 239, 125, 0.38) 0%, rgba(17, 153, 142, 0.48) 100%);
+      border-color: #fff;
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 
+        0 16px 45px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(56, 239, 125, 0.6);
     }
 
-    /* Minimal Left & Right Information Pillars */
+    /* =========================================================================
+       BALANCED SYMMETRICAL WING PILLARS (LEFT & RIGHT)
+       ========================================================================= */
     .portal-wing-info {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       z-index: 7;
-      max-width: 250px;
+      max-width: 270px;
       pointer-events: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
     }
-    .wing-left { left: 42px; text-align: left; }
-    .wing-right { right: 42px; text-align: right; }
+    .wing-left { left: 48px; text-align: left; }
+    .wing-right { right: 48px; text-align: right; }
 
     .wing-card {
-      background: rgba(4, 14, 8, 0.62);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(237, 244, 236, 0.1);
-      border-radius: 16px;
-      padding: 16px 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      transition: border-color 0.2s, transform 0.2s;
+      background: var(--obsidian-surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-ethereal);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+      transition: all 0.25s ease;
     }
     .wing-card:hover {
-      border-color: rgba(159, 224, 181, 0.35);
+      border-color: rgba(56, 239, 125, 0.4);
       transform: translateY(-2px);
     }
 
     .wing-label {
       font-size: 10px;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: #9fe0b5;
+      color: var(--emerald-glow);
       font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .wing-heading {
-      font-family: Georgia, serif;
-      font-size: 16px;
-      color: #edf4ec;
       margin-bottom: 6px;
     }
+    .wing-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 17px;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
     .wing-desc {
-      font-size: 11.5px;
-      line-height: 1.5;
-      color: #a4b8a7;
+      font-size: 12px;
+      line-height: 1.55;
+      color: #9cb3a2;
     }
 
-    /* Top Minimalist Portal Nav */
+    /* Header Nav & Bottom Bar */
     .mythic-nav { 
       position: relative; 
       z-index: 10; 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      padding: 24px 40px; 
+      padding: 24px 44px; 
       font-size: 11px; 
-      letter-spacing: 0.22em; 
+      letter-spacing: 0.24em; 
     }
-    .nav-cluster { display: flex; gap: 28px; }
-    .mythic-nav a { color: rgba(237, 244, 236, 0.65); text-decoration: none; transition: color 0.2s; cursor: pointer; }
-    .mythic-nav a:hover { color: #9fe0b5; }
-    .nav-star { color: #edf4ec; font-size: 16px; opacity: 0.85; text-shadow: 0 0 14px rgba(255, 255, 255, 0.8); }
+    .nav-cluster { display: flex; gap: 32px; }
+    .mythic-nav a { color: rgba(237, 244, 236, 0.65); text-decoration: none; transition: all 0.2s; cursor: pointer; }
+    .mythic-nav a:hover { color: var(--emerald-glow); text-shadow: 0 0 12px rgba(56, 239, 125, 0.5); }
+    .nav-star { color: #fff; font-size: 16px; opacity: 0.9; text-shadow: 0 0 16px rgba(255, 255, 255, 0.9); }
 
-    /* Bottom Sub-Portal Bar */
     .portal-foot-meta {
       position: relative;
       z-index: 10;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 40px 24px;
+      padding: 16px 44px 24px;
       font-size: 11px;
-      letter-spacing: 0.16em;
-      color: rgba(202, 216, 203, 0.65);
+      letter-spacing: 0.18em;
+      color: rgba(202, 216, 203, 0.6);
       text-transform: uppercase;
     }
-    .foot-status { display: flex; align-items: center; gap: 6px; }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #9fe0b5; box-shadow: 0 0 8px #9fe0b5; }
+    .foot-status { display: flex; align-items: center; gap: 8px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--emerald-glow); box-shadow: 0 0 10px var(--emerald-glow); }
 
-    /* Active Tool Screen Inside Viewport (100% Covers Portal on Open) */
+    /* =========================================================================
+       ACTIVE TOOL SCREEN & 6-CARD DOSSIER INTERFACE
+       ========================================================================= */
     #tool-viewport { 
       display: none; 
       position: absolute; 
       inset: 0; 
-      border-radius: 32px; 
+      border-radius: 36px; 
       background: #020603; 
       z-index: 150; 
       flex-direction: column; 
       overflow: hidden; 
     }
     
-    /* 85% Dense Photographic Background */
     #tool-image-background { 
       position: absolute; 
       inset: 0; 
@@ -287,7 +414,7 @@
       background-repeat: no-repeat; 
       opacity: 0.85; 
       filter: contrast(1.15) saturate(1.1); 
-      transition: background-image 0.2s ease-in-out; 
+      transition: background-image 0.25s ease-in-out; 
       z-index: 1; 
     }
 
@@ -307,16 +434,15 @@
       flex: 1; 
       display: flex; 
       flex-direction: column; 
-      padding: 24px 34px; 
+      padding: 26px 36px; 
       overflow-y: auto; 
     }
     
     #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.18); padding-bottom: 16px; margin-bottom: 16px; flex-shrink: 0; }
-    #tool-header-title { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
+    #tool-header-title { font-family: 'Cinzel', serif; font-size: 26px; color: #edf4ec; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
     #tool-back-btn { background: rgba(237, 244, 236, 0.14); border: 1px solid rgba(237, 244, 236, 0.3); color: #fff; padding: 7px 20px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all 0.2s; backdrop-filter: blur(10px); }
     #tool-back-btn:hover { background: rgba(237, 244, 236, 0.28); transform: translateY(-1px); }
     
-    /* Search Bar with glowing borders */
     .showcase-search-shell { display: flex; gap: 10px; margin-bottom: 12px; flex-shrink: 0; }
     .showcase-search-input { 
       flex: 1; 
@@ -331,30 +457,29 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.8); 
       transition: all 0.2s; 
     }
-    .showcase-search-input:focus { border-color: #9fe0b5; background: rgba(5, 18, 10, 0.96); box-shadow: 0 0 30px rgba(140, 210, 160, 0.4); }
+    .showcase-search-input:focus { border-color: var(--emerald-glow); background: rgba(5, 18, 10, 0.96); box-shadow: 0 0 30px rgba(56, 239, 125, 0.35); }
     
     .quick-regions { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 14px; scrollbar-width: none; flex-shrink: 0; }
     .quick-regions::-webkit-scrollbar { display: none; }
     .region-chip { font-size: 11px; padding: 6px 14px; border-radius: 999px; background: rgba(3, 12, 7, 0.85); border: 1px solid rgba(237, 244, 236, 0.22); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; backdrop-filter: blur(14px); }
-    .region-chip:hover { background: rgba(140, 210, 160, 0.28); border-color: rgba(140, 210, 160, 0.7); color: #edf4ec; transform: translateY(-1px); }
+    .region-chip:hover { background: rgba(56, 239, 125, 0.25); border-color: var(--emerald-glow); color: #edf4ec; transform: translateY(-1px); }
 
-    /* Editorial Dossier Cards */
+    /* Editorial Magazine Grid */
     .dossier-wrap { display: flex; flex-direction: column; gap: 16px; }
     
     .dossier-hero-banner { 
       background: rgba(3, 12, 7, 0.88); 
       backdrop-filter: blur(26px); 
-      -webkit-backdrop-filter: blur(26px); 
       border: 1px solid rgba(140, 210, 160, 0.45); 
       border-radius: 18px; 
       padding: 24px 28px; 
       box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
     }
-    .hero-banner-kicker { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #9fe0b5; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 700; }
-    .hero-banner-title { font-family: Georgia, serif; font-size: 30px; color: #edf4ec; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.9); }
+    .hero-banner-kicker { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--emerald-glow); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 700; }
+    .hero-banner-title { font-family: 'Cinzel', serif; font-size: 30px; color: #edf4ec; margin-bottom: 8px; }
     .hero-banner-desc { font-size: 14px; line-height: 1.6; color: #cad8cb; max-width: 980px; }
     .hero-banner-highlight { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(237,244,236,0.14); font-size: 13px; color: #edf4ec; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .highlight-pill { background: rgba(140, 210, 160, 0.26); border: 1px solid rgba(140, 210, 160, 0.55); color: #a4e2b8; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+    .highlight-pill { background: rgba(56, 239, 125, 0.22); border: 1px solid var(--emerald-glow); color: #bbf7d0; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; }
 
     .dossier-cards-grid { 
       display: grid; 
@@ -365,7 +490,6 @@
     .story-card { 
       background: rgba(3, 12, 7, 0.88); 
       backdrop-filter: blur(22px); 
-      -webkit-backdrop-filter: blur(22px); 
       border: 1px solid rgba(237, 244, 236, 0.18); 
       border-radius: 16px; 
       padding: 20px; 
@@ -376,57 +500,56 @@
       transition: all 0.25s ease; 
     }
     .story-card:hover { 
-      border-color: rgba(140, 210, 160, 0.65); 
+      border-color: var(--emerald-glow); 
       transform: translateY(-3px); 
       box-shadow: 0 16px 45px rgba(0,0,0,0.9); 
     }
     
     .card-top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .card-category-tag { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9fe0b5; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .card-category-tag { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--emerald-glow); font-weight: 700; display: flex; align-items: center; gap: 6px; }
     .card-stat-badge { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(237, 244, 236, 0.12); border: 1px solid rgba(237, 244, 236, 0.22); color: #edf4ec; font-weight: 600; }
 
-    .card-headline { font-size: 18px; font-weight: 600; color: #edf4ec; margin-bottom: 6px; line-height: 1.35; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
-    .card-subtext { font-size: 12px; color: #8ca892; font-style: italic; margin-bottom: 14px; line-height: 1.45; }
+    .card-headline { font-size: 18px; font-weight: 600; color: #edf4ec; margin-bottom: 6px; line-height: 1.35; }
+    .card-subtext { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 14px; line-height: 1.45; }
     
     .card-body-items { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
     .card-body-items li { font-size: 12.5px; line-height: 1.55; color: #d6e2d7; position: relative; padding-left: 16px; }
-    .card-body-items li::before { content: "✦"; position: absolute; left: 0; color: #9fe0b5; font-size: 10px; top: 2px; }
+    .card-body-items li::before { content: "✦"; position: absolute; left: 0; color: var(--emerald-glow); font-size: 10px; top: 2px; }
 
     .insider-secret-box { 
       background: rgba(36, 30, 12, 0.85); 
-      border-left: 3px solid #f2cf66; 
+      border-left: 3px solid var(--gold-accent); 
       border-radius: 8px; 
       padding: 11px 13px; 
       margin-top: auto; 
     }
-    .insider-secret-label { font-size: 10px; letter-spacing: 0.14em; color: #f2cf66; font-weight: 800; text-transform: uppercase; display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+    .insider-secret-label { font-size: 10px; letter-spacing: 0.14em; color: var(--gold-accent); font-weight: 800; text-transform: uppercase; display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
     .insider-secret-text { font-size: 11.5px; line-height: 1.48; color: #f7f2dd; }
 
-    /* Feature Popup Modal */
-    .feature-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
+    /* Modals & Slide-out Drawer */
+    .feature-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center; }
     .feature-modal.active { display: flex; }
-    .modal-box { background: #08140c; border: 1px solid rgba(237, 244, 236, 0.2); border-radius: 20px; padding: 32px; width: min(90vw, 440px); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9); text-align: left; }
-    .modal-kicker { font-size: 11px; letter-spacing: 0.18em; color: #8ca892; text-transform: uppercase; margin-bottom: 8px; }
-    .modal-title { font-size: 20px; color: #edf4ec; margin-bottom: 12px; }
-    .modal-desc { font-size: 14px; color: #9eb5a3; line-height: 1.5; margin-bottom: 24px; }
+    .modal-box { background: #06110a; border: 1px solid var(--border-ethereal); border-radius: 22px; padding: 32px; width: min(90vw, 440px); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95); text-align: left; }
+    .modal-kicker { font-size: 11px; letter-spacing: 0.2em; color: var(--emerald-glow); text-transform: uppercase; margin-bottom: 8px; }
+    .modal-title { font-family: 'Cinzel', serif; font-size: 20px; color: #edf4ec; margin-bottom: 12px; }
+    .modal-desc { font-size: 14px; color: #9eb5a3; line-height: 1.55; margin-bottom: 24px; }
     .modal-actions { display: flex; gap: 12px; }
     .modal-btn { flex: 1; padding: 10px 16px; border-radius: 10px; font-size: 13px; cursor: pointer; text-align: center; text-decoration: none; border: none; }
-    .modal-btn.primary { background: #8ca892; color: #040a06; font-weight: 600; }
+    .modal-btn.primary { background: var(--emerald-glow); color: #020603; font-weight: 700; }
     .modal-btn.secondary { background: rgba(255, 255, 255, 0.08); color: #edf4ec; }
 
-    /* Slide-in Feature Directory Drawer */
-    .portal-drawer { position: fixed; top: 0; right: -100%; width: min(580px, 92vw); height: 100vh; background: rgba(4, 12, 8, 0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-left: 1px solid rgba(237, 244, 236, 0.15); box-shadow: -20px 0 60px rgba(0, 0, 0, 0.85); z-index: 3000; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; padding: 32px; }
+    .portal-drawer { position: fixed; top: 0; right: -100%; width: min(580px, 92vw); height: 100vh; background: rgba(3, 10, 6, 0.97); backdrop-filter: blur(24px); border-left: 1px solid var(--border-ethereal); box-shadow: -20px 0 60px rgba(0, 0, 0, 0.9); z-index: 3000; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; padding: 32px; }
     .portal-drawer.active { right: 0; }
     .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-    .drawer-kicker { font-size: 11px; letter-spacing: 0.2em; color: #8ca892; text-transform: uppercase; }
-    .drawer-header h2 { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; margin-top: 4px; }
+    .drawer-kicker { font-size: 11px; letter-spacing: 0.24em; color: var(--emerald-glow); text-transform: uppercase; }
+    .drawer-header h2 { font-family: 'Cinzel', serif; font-size: 26px; color: #edf4ec; margin-top: 4px; }
     .drawer-close { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #edf4ec; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
     .drawer-close:hover { background: rgba(255, 255, 255, 0.2); }
     .drawer-search input { width: 100%; padding: 12px 18px; background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.15); border-radius: 12px; color: #edf4ec; outline: none; font-size: 14px; margin-bottom: 20px; }
-    .drawer-search input:focus { border-color: #8ca892; }
+    .drawer-search input:focus { border-color: var(--emerald-glow); }
     .drawer-grid { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 6px; }
-    .drawer-card { background: rgba(237, 244, 236, 0.04); border: 1px solid rgba(237, 244, 236, 0.1); padding: 16px; border-radius: 14px; cursor: pointer; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
-    .drawer-card:hover { background: rgba(237, 244, 236, 0.1); border-color: rgba(140, 210, 160, 0.4); transform: translateX(4px); }
+    .drawer-card { background: rgba(237, 244, 236, 0.04); border: 1px solid rgba(237, 244, 236, 0.1); padding: 16px; border-radius: 14px; cursor: pointer; transition: all 0.2s; }
+    .drawer-card:hover { background: rgba(56, 239, 125, 0.1); border-color: var(--emerald-glow); transform: translateX(4px); }
     .drawer-card h4 { font-size: 15px; color: #edf4ec; margin-bottom: 4px; }
     .drawer-card p { font-size: 12px; color: #9eb5a3; line-height: 1.4; }
   </style>
@@ -435,7 +558,7 @@
 
   <!-- Top Quick Taskbar -->
   <nav class="quick-taskbar" aria-label="Feature Directory">
-    <a href="#" class="brand-mini">ARVORA ✦</a>
+    <a href="#" class="brand-mini">✦ ARVORA</a>
     
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
@@ -459,74 +582,75 @@
     <div class="viewport-artwork" id="viewport-artwork"></div>
     <div class="portal-lighting-aura" id="portal-lighting-aura"></div>
     
-    <!-- Symmetrical Overgrown Stone Arch Portal Architecture -->
+    <!-- Full-Height Monolithic Temple Gateway -->
     <div class="portal-arch-center" id="portal-arch-center">
-      <svg class="arch-svg-graphic" viewBox="0 0 700 820" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="arch-svg-graphic" viewBox="0 0 760 840" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="stoneGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#142c1c" />
-            <stop offset="50%" stop-color="#08160e" />
-            <stop offset="100%" stop-color="#030805" />
+          <linearGradient id="monolithFrame" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#193826" />
+            <stop offset="45%" stop-color="#0b1e13" />
+            <stop offset="100%" stop-color="#020704" />
           </linearGradient>
-          <linearGradient id="innerGlow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="rgba(159, 224, 181, 0.45)" />
-            <stop offset="100%" stop-color="rgba(10, 36, 18, 0)" />
+          <linearGradient id="innerThresholdGlow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(56, 239, 125, 0.6)" />
+            <stop offset="75%" stop-color="rgba(17, 153, 142, 0.25)" />
+            <stop offset="100%" stop-color="rgba(2, 6, 3, 0)" />
           </linearGradient>
         </defs>
 
-        <!-- Outer Arch Pillar Frame -->
-        <path d="M100 820 V 380 C 100 160, 600 160, 600 380 V 820 H 520 V 380 C 520 220, 180 220, 180 380 V 820 Z" fill="url(#stoneGrad)" stroke="rgba(159, 224, 181, 0.45)" stroke-width="4"/>
+        <!-- Outer Symmetrical Monolith -->
+        <path d="M80 840 V 380 C 80 120, 680 120, 680 380 V 840 H 600 V 380 C 600 190, 160 190, 160 380 V 840 Z" fill="url(#monolithFrame)" stroke="rgba(56, 239, 125, 0.45)" stroke-width="3.5"/>
         
-        <!-- Recessed Inner Archway -->
-        <path d="M180 820 V 390 C 180 230, 520 230, 520 390 V 820 H 460 V 395 C 460 270, 240 270, 240 395 V 820 Z" fill="rgba(4, 12, 7, 0.75)" stroke="rgba(159, 224, 181, 0.28)" stroke-width="2.5"/>
+        <!-- Deep Recessed Inner Corridor -->
+        <path d="M160 840 V 385 C 160 210, 600 210, 600 385 V 840 H 530 V 390 C 530 250, 230 250, 230 390 V 840 Z" fill="rgba(3, 10, 6, 0.85)" stroke="rgba(159, 224, 181, 0.25)" stroke-width="2"/>
 
-        <!-- Sacred Inner Portal Doorway Line -->
-        <path d="M240 820 V 400 C 240 280, 460 280, 460 400 V 820" stroke="url(#innerGlow)" stroke-width="3" stroke-dasharray="10 8"/>
+        <!-- Doorway Portal Halo -->
+        <path d="M230 840 V 400 C 230 270, 530 270, 530 400 V 840" stroke="url(#innerThresholdGlow)" stroke-width="3" stroke-dasharray="12 8"/>
 
-        <!-- Keystone Medallion -->
-        <circle cx="350" cy="180" r="32" fill="#0c2415" stroke="rgba(159, 224, 181, 0.6)" stroke-width="3"/>
-        <path d="M350 160 L360 180 L350 200 L340 180 Z" fill="#9fe0b5"/>
+        <!-- Sacred Keystone Emblem -->
+        <polygon points="380,140 405,175 380,210 355,175" fill="#0b2416" stroke="rgba(56, 239, 125, 0.75)" stroke-width="2.5"/>
+        <circle cx="380" cy="175" r="8" fill="#38ef7d"/>
 
-        <!-- Overgrown Ivy Accents Left & Right -->
-        <circle cx="115" cy="300" r="16" fill="rgba(60, 140, 85, 0.8)"/>
-        <circle cx="140" cy="245" r="22" fill="rgba(45, 110, 65, 0.85)"/>
-        <circle cx="185" cy="190" r="28" fill="rgba(75, 160, 100, 0.7)"/>
-        <circle cx="260" cy="155" r="32" fill="rgba(55, 130, 80, 0.8)"/>
+        <!-- Overgrown Living Canopy Accents -->
+        <circle cx="95" cy="290" r="18" fill="rgba(45, 125, 75, 0.8)"/>
+        <circle cx="120" cy="230" r="24" fill="rgba(35, 100, 60, 0.85)"/>
+        <circle cx="170" cy="170" r="30" fill="rgba(60, 150, 90, 0.7)"/>
+        <circle cx="250" cy="130" r="36" fill="rgba(45, 120, 75, 0.8)"/>
         
-        <circle cx="440" cy="155" r="30" fill="rgba(55, 130, 80, 0.8)"/>
-        <circle cx="515" cy="190" r="26" fill="rgba(75, 160, 100, 0.7)"/>
-        <circle cx="560" cy="245" r="24" fill="rgba(45, 110, 65, 0.85)"/>
-        <circle cx="585" cy="300" r="16" fill="rgba(60, 140, 85, 0.8)"/>
+        <circle cx="510" cy="130" r="36" fill="rgba(45, 120, 75, 0.8)"/>
+        <circle cx="590" cy="170" r="30" fill="rgba(60, 150, 90, 0.7)"/>
+        <circle cx="640" cy="230" r="24" fill="rgba(35, 100, 60, 0.85)"/>
+        <circle cx="665" cy="290" r="18" fill="rgba(45, 125, 75, 0.8)"/>
       </svg>
     </div>
 
-    <!-- CENTERPIECE: ARVORA uniquely highlighted between the portal doors -->
+    <!-- CENTERPIECE: ARVORA in the Portal Doorway -->
     <div class="portal-centerlock" id="portal-centerlock">
       <div class="center-aura-glow"></div>
-      <div class="center-kicker">✦ THE LIVING THRESHOLD ✦</div>
+      <div class="center-kicker">LIVING THRESHOLD</div>
       <h1 class="center-brand-title">ARVORA</h1>
       <p class="center-brand-tagline">Spatial Intelligence, Sacred Landscapes &amp; Living Heritage</p>
       <button class="center-explore-btn" id="explore-btn">
-        <span>EXPLORE PORTAL</span>
+        <span>STEP THROUGH THE GATEWAY</span>
         <span>→</span>
       </button>
     </div>
 
-    <!-- LEFT WING: Balanced, minimal website insight -->
+    <!-- LEFT WING: Balanced, Editorial Insight -->
     <aside class="portal-wing-info wing-left" id="wing-left">
       <div class="wing-card">
-        <div class="wing-label">SPATIAL CARTOGRAPHY</div>
-        <div class="wing-heading">Naturecore Engine</div>
-        <p class="wing-desc">Synchronizing ecological corridors, intercity transport matrixes, and off-grid mountain trails across all territories.</p>
+        <div class="wing-label">TERRITORIAL NODES</div>
+        <div class="wing-heading">Spatial Intelligence</div>
+        <p class="wing-desc">Synchronizing multi-modal transit networks, sacred groves, and ancient cartographic layers in one unified ecosystem.</p>
       </div>
     </aside>
 
-    <!-- RIGHT WING: Balanced, minimal website insight -->
+    <!-- RIGHT WING: Balanced, Editorial Insight -->
     <aside class="portal-wing-info wing-right" id="wing-right">
       <div class="wing-card">
-        <div class="wing-label">LIVING CODEX</div>
-        <div class="wing-heading">36 States &amp; UTs</div>
-        <p class="wing-desc">Curating thousands of years of architectural physics, master artisan guilds, and regional culinary lore.</p>
+        <div class="wing-label">CULTURAL CODEX</div>
+        <div class="wing-heading">Living Heritage</div>
+        <p class="wing-desc">Preserving millennia of architectural physics, GI craft guilds, and regional culinary lore across 36 States &amp; UTs.</p>
       </div>
     </aside>
 
@@ -547,12 +671,12 @@
     <footer class="portal-foot-meta" id="portal-foot-meta">
       <div class="foot-status">
         <span class="status-dot"></span>
-        <span>Portal Threshold Synchronized</span>
+        <span>Gateway Synchronized &bull; Deep Canopy Active</span>
       </div>
-      <div>V2.6 Spatial Bharat</div>
+      <div>V2.8 Spatial Core</div>
     </footer>
 
-    <!-- Active Tool Screen Inside Viewport (Opens Cleanly Without Overlap) -->
+    <!-- Active Tool Screen Inside Viewport (100% Covers Portal on Open) -->
     <div id="tool-viewport">
       <div id="tool-image-background"></div>
       <div id="tool-image-scrim"></div>
@@ -561,7 +685,7 @@
         <div id="tool-header-bar">
           <div>
             <h2 id="tool-header-title">36 States &amp; UTs Showcase</h2>
-            <div style="font-size: 11px; letter-spacing: 0.18em; color: #8ca892; text-transform: uppercase;">LIVING CULTURAL DNA &amp; SPATIAL INTELLIGENCE</div>
+            <div style="font-size: 11px; letter-spacing: 0.18em; color: var(--emerald-glow); text-transform: uppercase;">LIVING CULTURAL DNA &amp; SPATIAL INTELLIGENCE</div>
           </div>
           <button id="tool-back-btn">← Back to Portal</button>
         </div>
@@ -588,7 +712,6 @@
             <span class="region-chip" data-dest="Ladakh">Ladakh (Highland)</span>
           </div>
 
-          <!-- Magazine-style output container -->
           <div id="dossier-output" class="dossier-wrap"></div>
         </div>
 
@@ -629,7 +752,7 @@
 
   <script>
     // =========================================================================
-    // 1. DIRECT-RENDER VERIFIED PHOTOGRAPHIC ASSETS (HIGH RES & DENSE)
+    // 1. VERIFIED HIGH-RES PHOTOGRAPHIC ASSETS FOR DOSSIERS
     // =========================================================================
     const destinationDossiers = {
       "jaipur": {
@@ -723,8 +846,8 @@
       "varanasi": {
         name: "Varanasi: The Luminous City of Light & Moksha",
         state: "Uttar Pradesh",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Aarti%2C_Ganga_Aarti_at_Dashashwamedh_Ghat%2C_Varanasi.jpg/1280px-Aarti%2C_Ganga_Aarti_at_Dashashwamedh_Ghat%2C_Varanasi.jpg",
-        essence: "The eternal spiritual crossing where life, death, classical ragas, and cosmic liberation intersect on river stone ghats.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Varanasi_Ghats_panorama.jpg/1280px-Varanasi_Ghats_panorama.jpg",
+        essence: "The eternal spiritual crossing where life, death, classical ragas, and Sanskrit scholarship converge upon stone ghats.",
         bestKnownFor: "Maha Ganga Aarti at Dashashwamedh, Kashi Vishwanath temple, pure zari Banarasi silks, and saffron Malaiyo.",
         cards: [
           {
@@ -1399,7 +1522,7 @@
     }
 
     // =========================================================================
-    // 2. RENDER THE EYE-CATCHY EDITORIAL MAGAZINE CARDS & ASYNC IMAGE PRELOADER
+    // 2. RENDER EDITORIAL DOSSIERS & ASYNC PRELOADER
     // =========================================================================
     const dossierOutput = document.getElementById('dossier-output');
     const showcaseSearchInput = document.getElementById('showcase-search-input');
@@ -1440,7 +1563,7 @@
           </div>
         </div>
 
-        <!-- Multi-Card Eye-Catchy Magazine Grid -->
+        <!-- Multi-Card Magazine Grid -->
         <div class="dossier-cards-grid">
           ${data.cards.map(card => `
             <div class="story-card">
@@ -1533,10 +1656,9 @@
 
     // Parallax mouse motion
     const archGraphic = document.querySelector('.arch-svg-graphic');
-    const viewport = document.querySelector('.naturecore-viewport');
     window.addEventListener('pointermove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 24;
-      const y = (e.clientY / window.innerHeight - 0.5) * 16;
+      const x = (e.clientX / window.innerWidth - 0.5) * 26;
+      const y = (e.clientY / window.innerHeight - 0.5) * 18;
       if (archGraphic && toolViewport.style.display !== 'flex') {
         archGraphic.style.transform = `translate(${x}px, ${y}px)`;
       }

@@ -826,6 +826,33 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+        /* ====================================================================
+       UNIVERSAL SEARCH BRIDGE ENGINE
+    ==================================================================== */
+    function executeSearch() {
+      const queryInput = document.getElementById("query-input") || document.getElementById("destination-query");
+      const query = queryInput ? queryInput.value.trim() : "Delhi";
+      
+      if (query) {
+        if (typeof loadLocation === "function") {
+          loadLocation(query);
+        }
+        if (typeof loadCityHeritageCoordinates === "function") {
+          loadCityHeritageCoordinates(query);
+        }
+      }
+    }
+
+    // Ensure global scope availability to eliminate ReferenceError
+    window.executeSearch = executeSearch;
+    window.triggerSearch = executeSearch;
+    window.executeLiveSearch = executeSearch;
+    window.loadCityHeritageCoordinates = function(city) {
+      if (typeof loadLocation === "function") {
+        loadLocation(city);
+      }
+    };
+
     /* ====================================================================
        PAGE NAVIGATION & GATEWAY ROUTING ENGINE
     ==================================================================== */

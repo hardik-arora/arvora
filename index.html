@@ -658,6 +658,77 @@
       padding: 32px;
       margin-bottom: 48px;
     }
+  
+    /* Search Autocomplete & Skeleton Shimmer Architecture */
+    .search-input-box { position: relative; }
+    .autocomplete-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #080d16;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(24px);
+      z-index: 1000;
+      max-height: 320px;
+      overflow-y: auto;
+      display: none;
+    }
+    .autocomplete-dropdown.active { display: block; }
+    .autocomplete-item {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .autocomplete-item:last-child { border-bottom: none; }
+    .autocomplete-item:hover, .autocomplete-item.selected {
+      background: rgba(16, 185, 129, 0.15);
+    }
+    .autocomplete-title {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    .autocomplete-sub {
+      color: #94a3b8;
+      font-size: 0.78rem;
+      margin-top: 2px;
+    }
+    .autocomplete-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .skeleton-card {
+      background: rgba(15, 21, 30, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      height: 290px;
+      position: relative;
+      overflow: hidden;
+    }
+    .skeleton-shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      transform: translateX(-100%);
+      animation: skeletonShimmer 1.5s infinite;
+    }
+    @keyframes skeletonShimmer {
+      100% { transform: translateX(100%); }
+    }
+
   </style>
 </head>
 <body>
@@ -701,7 +772,8 @@
 
       <div class="search-input-box">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="query-input" placeholder="Scan any Indian village, city, district, or state (e.g. Ziro, Hampi, Orchha, Dehradun, Varanasi, Malana)..." onkeydown="if(event.key==='Enter') executeSearch()">
+        <input type="text" id="query-input" placeholder="Scan any Indian village, city, district, or state (e.g. Ziro, Hampi, Orchha, Dehradun, Varanasi, Malana)..." autocomplete="off" onkeydown="if(event.key==='Enter') executeSearch()">
+        <div id="search-autocomplete-results" class="autocomplete-dropdown"></div>
       </div>
 
       <button class="btn btn-emerald" onclick="executeSearch()">RESOLVE CODEX</button>
@@ -826,20 +898,260 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
-        /* ====================================================================
+            /* ====================================================================
+       CENTRALIZED LOCATION STATE STORE & SYNCHRONIZATION ENGINE
+       Stores: placeId, name, coordinates (lat, lng), region, bounds, details
+       Features: Observer Pattern, Deep Linking URL Sync, Skeleton States
+    ==================================================================== */
+    const ArvoraState = {
+      currentLocation: {
+        placeId: "delhi",
+        name: "Delhi",
+        region: "National Capital Territory",
+        coordinates: { lat: 28.6139, lng: 77.2090 },
+        coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+        boundingBox: null,
+        placeDetails: null
+      },
+      subscribers: [],
+
+      subscribe(fn) {
+        if (typeof fn === "function") {
+          this.subscribers.push(fn);
+          // Immediately notify subscriber with current state
+          try { fn(this.currentLocation); } catch(e) { console.error(e); }
+        }
+        return () => {
+          this.subscribers = this.subscribers.filter(s => s !== fn);
+        };
+      },
+
+      notify() {
+        this.subscribers.forEach(fn => {
+          try { fn(this.currentLocation); } catch(e) { console.error(e); }
+        });
+      },
+
+      setPlace(locationData) {
+        this.currentLocation = { ...this.currentLocation, ...locationData };
+        this.syncURL();
+        this.notify();
+      },
+
+      syncURL() {
+        if (window.history && window.history.replaceState) {
+          const url = new URL(window.location);
+          if (this.currentLocation.name) {
+            url.searchParams.set("q", this.currentLocation.name.toLowerCase());
+          }
+          if (this.currentLocation.coordinates) {
+            url.searchParams.set("lat", this.currentLocation.coordinates.lat);
+            url.searchParams.set("lng", this.currentLocation.coordinates.lng);
+          }
+          window.history.replaceState({}, "", url);
+        }
+      },
+
+      initFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get("q") || params.get("place") || params.get("location");
+        if (query) {
+          this.selectPlace(query);
+        } else {
+          this.selectPlace("Delhi");
+        }
+      },
+
+      async selectPlace(queryOrName) {
+        if (!queryOrName) return;
+        const normalized = queryOrName.trim();
+        showLoadingSkeletons();
+
+        // 1. Check local CITY_CODEX / CITY_HERITAGE_REGISTRY dictionary
+        const cityKey = normalized.toLowerCase();
+        let locationObj = null;
+
+        if (typeof CITY_CODEX !== "undefined" && CITY_CODEX[normalized]) {
+          const cData = CITY_CODEX[normalized];
+          const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
+          locationObj = {
+            placeId: cityKey,
+            name: normalized,
+            region: cData.tag || "VERIFIED REGION",
+            coordinates: coordsMatch ? { lat: parseFloat(coordsMatch[1]), lng: parseFloat(coordsMatch[2]) } : { lat: 28.6139, lng: 77.2090 },
+            coordsFormatted: cData.coords,
+            placeDetails: cData
+          };
+        } else {
+          // Check case-insensitive match in CITY_CODEX keys
+          const matchedKey = typeof CITY_CODEX !== "undefined" ? Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey) : null;
+          if (matchedKey) {
+            const cData = CITY_CODEX[matchedKey];
+            const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
+            locationObj = {
+              placeId: matchedKey.toLowerCase(),
+              name: matchedKey,
+              region: cData.tag || "VERIFIED REGION",
+              coordinates: coordsMatch ? { lat: parseFloat(coordsMatch[1]), lng: parseFloat(coordsMatch[2]) } : { lat: 28.6139, lng: 77.2090 },
+              coordsFormatted: cData.coords,
+              placeDetails: cData
+            };
+          }
+        }
+
+        // 2. If missing in local dict, fetch Wikipedia REST API Place Details
+        if (!locationObj) {
+          try {
+            const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(normalized)}`);
+            if (res.ok) {
+              const wiki = await res.json();
+              const lat = wiki.coordinates ? wiki.coordinates.lat : 20.5937;
+              const lng = wiki.coordinates ? wiki.coordinates.lon : 78.9629;
+              locationObj = {
+                placeId: wiki.pageid ? wiki.pageid.toString() : normalized.toLowerCase(),
+                name: wiki.title || normalized,
+                region: wiki.description || "SPATIAL COORDINATE",
+                coordinates: { lat, lng },
+                coordsFormatted: `LAT ${lat.toFixed(4)}° N // LON ${lng.toFixed(4)}° E`,
+                placeDetails: {
+                  summary: wiki.extract,
+                  thumbnail: wiki.thumbnail ? wiki.thumbnail.source : null,
+                  coords: `LAT ${lat.toFixed(4)}° N // LON ${lng.toFixed(4)}° E`
+                }
+              };
+            }
+          } catch(err) {
+            console.warn("Wikipedia API fetch fallback:", err);
+          }
+        }
+
+        // Fallback if network or resolution fails
+        if (!locationObj) {
+          locationObj = {
+            placeId: cityKey,
+            name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
+            region: "INDIAN SPATIAL NODE",
+            coordinates: { lat: 28.6139, lng: 77.2090 },
+            coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+            placeDetails: null
+          };
+        }
+
+        this.setPlace(locationObj);
+        hideLoadingSkeletons();
+      }
+    };
+
+    // Attach to global window
+    window.ArvoraState = ArvoraState;
+
+    /* SKELETON UI LOADING CONTROL */
+    function showLoadingSkeletons() {
+      const inqDeck = document.getElementById("inquiries-deck") || document.getElementById("inquiries-root");
+      const pillarsDeck = document.getElementById("pillars-deck") || document.getElementById("dna-root");
+      const grid = document.getElementById("places-grid");
+
+      const skeletonHTML = Array(3).fill(`
+        <div class="skeleton-card">
+          <div class="skeleton-shimmer"></div>
+        </div>
+      `).join("");
+
+      if (inqDeck) inqDeck.innerHTML = skeletonHTML;
+      if (pillarsDeck) pillarsDeck.innerHTML = skeletonHTML;
+      if (grid) grid.innerHTML = Array(6).fill(`
+        <div class="skeleton-card" style="height: 320px;">
+          <div class="skeleton-shimmer"></div>
+        </div>
+      `).join("");
+    }
+
+    function hideLoadingSkeletons() {
+      // Skeletons are automatically replaced by subscriber render calls
+    }
+
+    /* AUTOCOMPLETE DROPDOWN CONTROLLER */
+    function setupSearchAutocomplete() {
+      const input = document.getElementById("query-input");
+      const dropdown = document.getElementById("search-autocomplete-results");
+      if (!input || !dropdown) return;
+
+      const SUGGESTIONS = [
+        { name: "Delhi", sub: "National Capital Territory", tag: "DL-01" },
+        { name: "Dehradun", sub: "Garhwal Valley, Uttarakhand", tag: "UK-01" },
+        { name: "Varanasi", sub: "Gangetic Sacred Waterfront, UP", tag: "UP-01" },
+        { name: "Hampi", sub: "Vijayanagara Ruins, Karnataka", tag: "KA-01" },
+        { name: "Agra", sub: "Taj Mahal & Red Fort, UP", tag: "UP-02" },
+        { name: "Kashmir", sub: "High Alpine Basin, J&K", tag: "JK-01" },
+        { name: "Goa", sub: "Konkan Maritime Coast", tag: "GA-01" },
+        { name: "Amritsar", sub: "Golden Temple Sanctum, Punjab", tag: "PB-01" },
+        { name: "Jaipur", sub: "Aravalli Pink City, Rajasthan", tag: "RJ-01" },
+        { name: "Ladakh", sub: "Trans-Himalayan Plateau", tag: "LA-01" },
+        { name: "Kerala", sub: "Malabar Backwaters Delta", tag: "KL-01" },
+        { name: "Ziro", sub: "Apatani Plateau, Arunachal", tag: "AR-01" },
+        { name: "Orchha", sub: "Betwa River Forts, MP", tag: "MP-01" },
+        { name: "Malana", sub: "Parvati Himalayan Valley, HP", tag: "HP-01" }
+      ];
+
+      input.addEventListener("input", () => {
+        const val = input.value.trim().toLowerCase();
+        if (!val) {
+          dropdown.classList.remove("active");
+          dropdown.innerHTML = "";
+          return;
+        }
+
+        const matches = SUGGESTIONS.filter(s => s.name.toLowerCase().includes(val) || s.sub.toLowerCase().includes(val));
+        if (matches.length === 0) {
+          dropdown.classList.remove("active");
+          dropdown.innerHTML = "";
+          return;
+        }
+
+        dropdown.innerHTML = matches.map(m => `
+          <div class="autocomplete-item" onclick="selectAutocompleteSuggestion('${m.name}')">
+            <div>
+              <div class="autocomplete-title">${m.name}</div>
+              <div class="autocomplete-sub">${m.sub}</div>
+            </div>
+            <span class="autocomplete-badge">${m.tag}</span>
+          </div>
+        `).join("");
+
+        dropdown.classList.add("active");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+    }
+
+    function selectAutocompleteSuggestion(name) {
+      const input = document.getElementById("query-input");
+      const dropdown = document.getElementById("search-autocomplete-results");
+      if (input) input.value = name;
+      if (dropdown) {
+        dropdown.classList.remove("active");
+        dropdown.innerHTML = "";
+      }
+      ArvoraState.selectPlace(name);
+    }
+    window.selectAutocompleteSuggestion = selectAutocompleteSuggestion;
+
+    /* ====================================================================
        UNIVERSAL SEARCH BRIDGE ENGINE
     ==================================================================== */
     function executeSearch() {
       const queryInput = document.getElementById("query-input") || document.getElementById("destination-query");
       const query = queryInput ? queryInput.value.trim() : "Delhi";
+      const dropdown = document.getElementById("search-autocomplete-results");
+      if (dropdown) dropdown.classList.remove("active");
       
       if (query) {
-        if (typeof loadLocation === "function") {
-          loadLocation(query);
-        }
-        if (typeof loadCityHeritageCoordinates === "function") {
-          loadCityHeritageCoordinates(query);
-        }
+        ArvoraState.selectPlace(query);
       }
     }
 
@@ -2054,6 +2366,29 @@
       loadLocation("Delhi");
       renderPlaces("all");
     });
+  
+    // Register subscribers to synchronize all modules on location update
+    ArvoraState.subscribe((location) => {
+      if (!location || !location.name) return;
+      currentCityKey = location.name.toLowerCase();
+
+      // 1. Update loadLocation UI (HUD, Micro-Telemetry & Flip Cards)
+      if (typeof loadLocation === "function") {
+        loadLocation(location.name);
+      }
+
+      // 2. Synchronize Explore Places & Heritage Coordinates Grid
+      if (typeof renderPlaces === "function") {
+        renderPlaces(currentCategoryFilter || "all");
+      }
+    });
+
+    // Initialize Autocomplete & State from URL on DOM Ready
+    document.addEventListener("DOMContentLoaded", () => {
+      setupSearchAutocomplete();
+      ArvoraState.initFromURL();
+    });
+
   </script>
 </body>
 </html>

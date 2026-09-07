@@ -1051,6 +1051,165 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+    /* ====================================================================
+       CENTRALIZED LOCATION STATE STORE & SYNCHRONIZATION ENGINE
+       Stores: placeId, name, coordinates (lat, lng), region, bounds, details
+       Features: Observer Pattern, Deep Linking URL Sync, Skeleton States
+    ==================================================================== */
+    const ArvoraState = {
+      currentLocation: {
+        placeId: "delhi",
+        name: "Delhi",
+        region: "National Capital Territory",
+        coordinates: { lat: 28.6139, lng: 77.2090 },
+        coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+        boundingBox: null,
+        placeDetails: null
+      },
+      subscribers: [],
+
+      subscribe(fn) {
+        if (typeof fn === "function") {
+          this.subscribers.push(fn);
+          // Immediately notify subscriber with current state
+          try { fn(this.currentLocation); } catch(e) { console.error(e); }
+        }
+        return () => {
+          this.subscribers = this.subscribers.filter(s => s !== fn);
+        };
+      },
+
+      notify() {
+        this.subscribers.forEach(fn => {
+          try { fn(this.currentLocation); } catch(e) { console.error(e); }
+        });
+      },
+
+      setPlace(locationData) {
+        this.currentLocation = { ...this.currentLocation, ...locationData };
+        this.syncURL();
+        this.notify();
+      },
+
+      syncURL() {
+        if (window.history && window.history.replaceState) {
+          const url = new URL(window.location);
+          if (this.currentLocation.name) {
+            url.searchParams.set("q", this.currentLocation.name.toLowerCase());
+          }
+          if (this.currentLocation.coordinates) {
+            url.searchParams.set("lat", this.currentLocation.coordinates.lat);
+            url.searchParams.set("lng", this.currentLocation.coordinates.lng);
+          }
+          window.history.replaceState({}, "", url);
+        }
+      },
+
+      initFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get("q") || params.get("place") || params.get("location");
+        if (query) {
+          this.selectPlace(query);
+        } else {
+          this.selectPlace("Delhi");
+        }
+      },
+
+      async selectPlace(queryOrName) {
+        if (!queryOrName) return;
+        const normalized = queryOrName.trim();
+        if (typeof showLoadingSkeletons === "function") showLoadingSkeletons();
+
+        let locationObj = null;
+
+        // 1. Query OpenStreetMap Nominatim Free Geocoding API with User-Agent & Accept headers
+        try {
+          const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalized)}&limit=1`;
+          const res = await fetch(nominatimUrl, {
+            headers: {
+              "Accept": "application/json"
+            }
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.length > 0) {
+              const item = data[0];
+              const lat = parseFloat(item.lat);
+              const lng = parseFloat(item.lon);
+              const bbox = item.boundingbox; // [south, north, west, east]
+
+              locationObj = {
+                placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
+                name: item.name || normalized,
+                region: item.display_name ? item.display_name.split(',').slice(1, 3).join(',').trim() : "Verified Spatial Node",
+                categoryType: `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase(),
+                coordinates: { lat, lng },
+                coordsFormatted: `LAT ${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'} // LON ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}`,
+                boundingBox: bbox ? [parseFloat(bbox[0]), parseFloat(bbox[1]), parseFloat(bbox[2]), parseFloat(bbox[3])] : null,
+                osmDisplayName: item.display_name,
+                placeDetails: null
+              };
+
+              if (bbox) {
+                locationObj.leafletBounds = [
+                  [parseFloat(bbox[0]), parseFloat(bbox[2])],
+                  [parseFloat(bbox[1]), parseFloat(bbox[3])]
+                ];
+              }
+            }
+          }
+        } catch(err) {
+          console.warn("Nominatim API fetch warning:", err);
+        }
+
+        // 2. Check local dictionary as backup or detail enhancement
+        const cityKey = normalized.toLowerCase();
+        if (typeof CITY_CODEX !== "undefined") {
+          const matchedKey = Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey);
+          if (matchedKey && CITY_CODEX[matchedKey]) {
+            const cData = CITY_CODEX[matchedKey];
+            if (!locationObj) {
+              const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
+              const lat = coordsMatch ? parseFloat(coordsMatch[1]) : 28.6139;
+              const lng = coordsMatch ? parseFloat(coordsMatch[2]) : 77.2090;
+              locationObj = {
+                placeId: matchedKey.toLowerCase(),
+                name: matchedKey,
+                region: cData.tag || "VERIFIED REGION",
+                categoryType: "CITY / ADMINISTRATIVE",
+                coordinates: { lat, lng },
+                coordsFormatted: cData.coords,
+                boundingBox: null,
+                placeDetails: cData
+              };
+            } else {
+              locationObj.placeDetails = cData;
+            }
+          }
+        }
+
+        // Fallback object if all calls fail
+        if (!locationObj) {
+          locationObj = {
+            placeId: cityKey,
+            name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
+            region: "INDIAN SPATIAL NODE",
+            categoryType: "CITY / ADMINISTRATIVE",
+            coordinates: { lat: 28.6139, lng: 77.2090 },
+            coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+            boundingBox: null,
+            placeDetails: null
+          };
+        }
+
+        this.setPlace(locationObj);
+        if (typeof hideLoadingSkeletons === "function") hideLoadingSkeletons();
+      }
+    };
+
+    window.ArvoraState = ArvoraState;
+
             
     
     
@@ -1270,100 +1429,6 @@
       `).join("");
     }
 
-    /* REFACTORED ARVORA STATE NOMINATIM GEOCODING HANDSHAKE */
-    ArvoraState.selectPlace = async function(queryOrName) {
-      if (!queryOrName) return;
-      const normalized = queryOrName.trim();
-      showLoadingSkeletons();
-
-      let locationObj = null;
-
-      // 1. Query OpenStreetMap Nominatim Free Geocoding API with User-Agent & Accept headers
-      try {
-        const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalized)}&limit=1`;
-        const res = await fetch(nominatimUrl, {
-          headers: {
-            "Accept": "application/json"
-          }
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.length > 0) {
-            const item = data[0];
-            const lat = parseFloat(item.lat);
-            const lng = parseFloat(item.lon);
-            const bbox = item.boundingbox; // [south, north, west, east]
-
-            locationObj = {
-              placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
-              name: item.name || normalized,
-              region: item.display_name ? item.display_name.split(',').slice(1, 3).join(',').trim() : "Verified Spatial Node",
-              categoryType: `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase(),
-              coordinates: { lat, lng },
-              coordsFormatted: `LAT ${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'} // LON ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}`,
-              boundingBox: bbox ? [parseFloat(bbox[0]), parseFloat(bbox[1]), parseFloat(bbox[2]), parseFloat(bbox[3])] : null,
-              osmDisplayName: item.display_name,
-              placeDetails: null
-            };
-
-            // Calculate Leaflet bounds if boundingbox exists: [[south, west], [north, east]]
-            if (bbox) {
-              locationObj.leafletBounds = [
-                [parseFloat(bbox[0]), parseFloat(bbox[2])],
-                [parseFloat(bbox[1]), parseFloat(bbox[3])]
-              ];
-            }
-          }
-        }
-      } catch(err) {
-        console.warn("Nominatim API fetch warning:", err);
-      }
-
-      // 2. Check local dictionary as backup or detail enhancement
-      const cityKey = normalized.toLowerCase();
-      if (typeof CITY_CODEX !== "undefined") {
-        const matchedKey = Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey);
-        if (matchedKey && CITY_CODEX[matchedKey]) {
-          const cData = CITY_CODEX[matchedKey];
-          if (!locationObj) {
-            const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
-            const lat = coordsMatch ? parseFloat(coordsMatch[1]) : 28.6139;
-            const lng = coordsMatch ? parseFloat(coordsMatch[2]) : 77.2090;
-            locationObj = {
-              placeId: matchedKey.toLowerCase(),
-              name: matchedKey,
-              region: cData.tag || "VERIFIED REGION",
-              categoryType: "CITY / ADMINISTRATIVE",
-              coordinates: { lat, lng },
-              coordsFormatted: cData.coords,
-              boundingBox: null,
-              placeDetails: cData
-            };
-          } else {
-            locationObj.placeDetails = cData;
-          }
-        }
-      }
-
-      // Fallback object if all calls fail
-      if (!locationObj) {
-        locationObj = {
-          placeId: cityKey,
-          name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
-          region: "INDIAN SPATIAL NODE",
-          categoryType: "CITY / ADMINISTRATIVE",
-          coordinates: { lat: 28.6139, lng: 77.2090 },
-          coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
-          boundingBox: null,
-          placeDetails: null
-        };
-      }
-
-      this.setPlace(locationObj);
-      hideLoadingSkeletons();
-    };
-
     /* REFACTORED LEAFLET MAP CONTROLLER */
     function updateMapToLocation(location) {
       if (typeof L === "undefined") return;
@@ -1425,153 +1490,6 @@
       setTimeout(() => { if (arvoraMap) arvoraMap.invalidateSize(); }, 300);
     }
 
-
-    /* ====================================================================
-       CENTRALIZED LOCATION STATE STORE & SYNCHRONIZATION ENGINE
-       Stores: placeId, name, coordinates (lat, lng), region, bounds, details
-       Features: Observer Pattern, Deep Linking URL Sync, Skeleton States
-    ==================================================================== */
-    const ArvoraState = {
-      currentLocation: {
-        placeId: "delhi",
-        name: "Delhi",
-        region: "National Capital Territory",
-        coordinates: { lat: 28.6139, lng: 77.2090 },
-        coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
-        boundingBox: null,
-        placeDetails: null
-      },
-      subscribers: [],
-
-      subscribe(fn) {
-        if (typeof fn === "function") {
-          this.subscribers.push(fn);
-          // Immediately notify subscriber with current state
-          try { fn(this.currentLocation); } catch(e) { console.error(e); }
-        }
-        return () => {
-          this.subscribers = this.subscribers.filter(s => s !== fn);
-        };
-      },
-
-      notify() {
-        this.subscribers.forEach(fn => {
-          try { fn(this.currentLocation); } catch(e) { console.error(e); }
-        });
-      },
-
-      setPlace(locationData) {
-        this.currentLocation = { ...this.currentLocation, ...locationData };
-        this.syncURL();
-        this.notify();
-      },
-
-      syncURL() {
-        if (window.history && window.history.replaceState) {
-          const url = new URL(window.location);
-          if (this.currentLocation.name) {
-            url.searchParams.set("q", this.currentLocation.name.toLowerCase());
-          }
-          if (this.currentLocation.coordinates) {
-            url.searchParams.set("lat", this.currentLocation.coordinates.lat);
-            url.searchParams.set("lng", this.currentLocation.coordinates.lng);
-          }
-          window.history.replaceState({}, "", url);
-        }
-      },
-
-      initFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get("q") || params.get("place") || params.get("location");
-        if (query) {
-          this.selectPlace(query);
-        } else {
-          this.selectPlace("Delhi");
-        }
-      },
-
-      async selectPlace(queryOrName) {
-        if (!queryOrName) return;
-        const normalized = queryOrName.trim();
-        showLoadingSkeletons();
-
-        // 1. Check local CITY_CODEX / CITY_HERITAGE_REGISTRY dictionary
-        const cityKey = normalized.toLowerCase();
-        let locationObj = null;
-
-        if (typeof CITY_CODEX !== "undefined" && CITY_CODEX[normalized]) {
-          const cData = CITY_CODEX[normalized];
-          const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
-          locationObj = {
-            placeId: cityKey,
-            name: normalized,
-            region: cData.tag || "VERIFIED REGION",
-            coordinates: coordsMatch ? { lat: parseFloat(coordsMatch[1]), lng: parseFloat(coordsMatch[2]) } : { lat: 28.6139, lng: 77.2090 },
-            coordsFormatted: cData.coords,
-            placeDetails: cData
-          };
-        } else {
-          // Check case-insensitive match in CITY_CODEX keys
-          const matchedKey = typeof CITY_CODEX !== "undefined" ? Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey) : null;
-          if (matchedKey) {
-            const cData = CITY_CODEX[matchedKey];
-            const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
-            locationObj = {
-              placeId: matchedKey.toLowerCase(),
-              name: matchedKey,
-              region: cData.tag || "VERIFIED REGION",
-              coordinates: coordsMatch ? { lat: parseFloat(coordsMatch[1]), lng: parseFloat(coordsMatch[2]) } : { lat: 28.6139, lng: 77.2090 },
-              coordsFormatted: cData.coords,
-              placeDetails: cData
-            };
-          }
-        }
-
-        // 2. If missing in local dict, fetch Wikipedia REST API Place Details
-        if (!locationObj) {
-          try {
-            const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(normalized)}`);
-            if (res.ok) {
-              const wiki = await res.json();
-              const lat = wiki.coordinates ? wiki.coordinates.lat : 20.5937;
-              const lng = wiki.coordinates ? wiki.coordinates.lon : 78.9629;
-              locationObj = {
-                placeId: wiki.pageid ? wiki.pageid.toString() : normalized.toLowerCase(),
-                name: wiki.title || normalized,
-                region: wiki.description || "SPATIAL COORDINATE",
-                coordinates: { lat, lng },
-                coordsFormatted: `LAT ${lat.toFixed(4)}° N // LON ${lng.toFixed(4)}° E`,
-                placeDetails: {
-                  summary: wiki.extract,
-                  thumbnail: wiki.thumbnail ? wiki.thumbnail.source : null,
-                  coords: `LAT ${lat.toFixed(4)}° N // LON ${lng.toFixed(4)}° E`
-                }
-              };
-            }
-          } catch(err) {
-            console.warn("Wikipedia API fetch fallback:", err);
-          }
-        }
-
-        // Fallback if network or resolution fails
-        if (!locationObj) {
-          locationObj = {
-            placeId: cityKey,
-            name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
-            region: "INDIAN SPATIAL NODE",
-            coordinates: { lat: 28.6139, lng: 77.2090 },
-            coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
-            placeDetails: null
-          };
-        }
-
-        this.setPlace(locationObj);
-        hideLoadingSkeletons();
-      }
-    };
-
-    // Attach to global window
-    window.ArvoraState = ArvoraState;
 
     /* SKELETON UI LOADING CONTROL */
     function showLoadingSkeletons() {

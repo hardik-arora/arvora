@@ -34,7 +34,7 @@
     .viewport-artwork { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; background: radial-gradient(circle at 50% 30%, rgba(130, 220, 160, 0.2) 0%, transparent 60%), linear-gradient(180deg, rgba(3, 8, 5, 0.3) 0%, rgba(3, 8, 5, 0.85) 100%), url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat; }
     .portal-arch-center { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(140deg, rgba(235, 255, 220, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(3, 8, 5, 0.75) 75%); z-index: 2; }
     .arch-svg-graphic { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -46%); width: min(88vw, 680px); height: auto; z-index: 3; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.9)); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease; pointer-events: none; }
-    .naturecore-viewport.entering .arch-svg-graphic { transform: translate(-50%, -46%) scale(1.45); filter: blur(2px) drop-shadow(0 0 50px rgba(140, 210, 160, 0.7)); }
+    .naturecore-viewport.entering .arch-svg-graphic { transform: translate(-50%, -46%) scale(1.45); filter: blur(2px) drop-shadow(0 0 50px rgba(140, 220, 160, 0.7)); }
     
     /* Portal content layers (we will display: none; these in JS when tool launches) */
     .mythic-nav { position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 24px 36px; font-size: 11px; letter-spacing: 0.22em; }
@@ -164,7 +164,7 @@
       </svg>
     </div>
 
-    <!-- Portal content layers (we will display: none; these in JS when tool launches) -->
+    <!-- Portal content layers (we will hide these in JS when tool launches) -->
     <header class="mythic-nav">
       <div class="nav-cluster">
         <a href="#worlds">WORLDS</a>

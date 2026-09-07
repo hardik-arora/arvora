@@ -1125,35 +1125,35 @@
     // Fast, verified Wikipedia Taj Mahal CDN fallback
     const fallbackImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Taj_Mahal%2C_Agra%2C_India_edit3.jpg/1280px-Taj_Mahal%2C_Agra%2C_India_edit3.jpg";
 
-    function generateDynamicDossier(placeName) {
+        function generateDynamicDossier(placeName) {
       const p = placeName.charAt(0).toUpperCase() + placeName.slice(1);
       const pUpper = p.toUpperCase();
       return {
-        name: `${p}: Cultural Intelligence & Untold Stories`,
-        stateName: p,
-        imageUrl: fallbackImage,
-        essence: `Unpacking generational guilds, sacred geography, and living heritage across ${p}.`,
-        bestKnownFor: `Regional architecture, seasonal food traditions, indigenous craft guilds, and living community fairs.`,
-        signature_cultural_inquiries: {
-          title: `DON'T JUST VISIT ${pUpper}. UNDERSTAND IT.`,
-          subtitle: `6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.`,
-          items: [
-            { lens: "WHY THIS EXISTS", question: `Why did the settlement of ${p} form at its specific geographical crossroads?`, answer: `Positioned along ancient trade and river routes, ${p} developed as a vital sanctuary where natural topography and defensive barriers allowed a distinct regional trade guild and agricultural hub to flourish.` },
-            { lens: "WHY LOCALS DO THIS", question: `What daily morning ritual or wellness rhythm defines community life in ${p}?`, answer: `Locals maintain an unbroken tradition of sunrise river dips, Ayurvedic herbal decoctions, and communal market gatherings designed to harmonize body humors with seasonal climatic transitions.` },
-            { lens: "WHAT TOURISTS MISS", question: `What hidden architectural precinct or quiet alleyway remains overlooked in ${p}?`, answer: `Beyond major ticketed monuments lie historic old-town residential quarters featuring centuries-old stepwells, courtyard mansions, and artisan lofts operating far from standard tourist itineraries.` },
-            { lens: "THE STORY BEHIND THIS CRAFT", question: `How do local master artisans in ${p} handcraft native textiles and metalwork?`, answer: `Artisans employ generational techniques passed down through family guilds—manipulating handloom warp threads, natural botanical dyes, and hand-hammered metal alloys over months of skilled labor.` },
-            { lens: "WHAT THIS FOOD MEANS", question: `What micro-technique and seasonal window shape the signature dish of ${p}?`, answer: `Rooted in local soil and climate, recipes feature slow-simmered regional grains, native spices, and clarified ghee prepared according to traditional Ayurvedic digestion principles.` },
-            { lens: "WHO KEEPS THIS TRADITION ALIVE", question: `Which hereditary communities and artisan guilds safeguard the living traditions of ${p}?`, answer: `Hereditary weaver families, temple song keepers, and artisan cooperatives active across ${p}'s historic bazaars safeguard non-material oral heritage and craft secrets today.` }
+        "name": `${p}: Cultural Intelligence & Untold Stories`,
+        "stateName": p,
+        "imageUrl": fallbackImage,
+        "essence": `Unpacking generational guilds, sacred geography, and living heritage across ${p}.`,
+        "bestKnownFor": `Regional architecture, seasonal food traditions, indigenous craft guilds, and living community fairs.`,
+        "signature_cultural_inquiries": {
+          "title": `DON'T JUST VISIT ${pUpper}. UNDERSTAND IT.`,
+          "subtitle": `6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.`,
+          "items": [
+            { "lens": "WHY THIS EXISTS", "question": `Why did the settlement of ${p} form at its specific geographical crossroads?`, "answer": `Positioned along ancient trade and river routes, ${p} developed as a vital sanctuary where natural topography and defensive barriers allowed a distinct regional trade guild and agricultural hub to flourish.` },
+            { "lens": "WHY LOCALS DO THIS", "question": `What daily morning ritual or wellness rhythm defines community life in ${p}?`, "answer": `Locals maintain an unbroken tradition of sunrise river dips, Ayurvedic herbal decoctions, and communal market gatherings designed to harmonize body humors with seasonal climatic transitions.` },
+            { "lens": "WHAT TOURISTS MISS", "question": `What hidden architectural precinct or quiet alleyway remains overlooked in ${p}?`, "answer": `Beyond major ticketed monuments lie historic old-town residential quarters featuring centuries-old stepwells, courtyard mansions, and artisan lofts operating far from standard tourist itineraries.` },
+            { "lens": "THE STORY BEHIND THIS CRAFT", "question": `How do local master artisans in ${p} handcraft native textiles and metalwork?`, "answer": `Artisans employ generational techniques passed down through family guilds—manipulating handloom warp threads, natural botanical dyes, and hand-hammered metal alloys over months of skilled labor.` },
+            { "lens": "WHAT THIS FOOD MEANS", "question": `What micro-technique and seasonal window shape the signature dish of ${p}?`, "answer": `Rooted in local soil and climate, recipes feature slow-simmered regional grains, native spices, and clarified ghee prepared according to traditional Ayurvedic digestion principles.` },
+            { "lens": "WHO KEEPS THIS TRADITION ALIVE", "question": `Which hereditary communities and artisan guilds safeguard the living traditions of ${p}?`, "answer": `Hereditary weaver families, temple song keepers, and artisan cooperatives active across ${p}'s historic bazaars safeguard non-material oral heritage and craft secrets today.` }
           ]
         },
-        living_cultural_dna: {
-          title: `${pUpper}: Untold Stories & Architectural Secrets`,
-          subtitle: `Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.`,
-          pillars: [
-            { category_badge: "SACRED ANTIQUITY", highlight_tag: "HISTORIC PRECINCT", title: `Sacred Shrines & Fortified Gates of ${p}`, sub_tagline: `Centuries of localized craftsmanship built to withstand regional topography.`, description: `Ancient stone ramparts, courtyard shrines, and subterranean water catchments in ${p} reflect centuries of astronomical and hydraulic planning.`, insider_secret: `💡 INSIDER SECRET: Explore the central old bazaar at dawn before commercial vehicle traffic opens.` },
-            { category_badge: "CULINARY ALCHEMY", highlight_tag: "REGIONAL FLAVORS", title: `Traditional Thalis & Decades-Old Sweet Houses`, sub_tagline: `Native ingredients cooked according to seasonal Ayurvedic guidelines.`, description: `${p}'s culinary tradition relies on slow-braised pulses, stone-milled wheat flatbreads, and reduced-milk sweets fried in pure village ghee.`, insider_secret: `💡 INSIDER SECRET: Look for century-old sweet confectionery stalls near the historic town clock tower.` },
-            { category_badge: "MATERIAL ALCHEMY", highlight_tag: "INDIGENOUS ARTISANS", title: `Handloom Weaves, Bell-Metal & Local Pottery`, sub_tagline: `Generational skills passed down within family artisan clusters.`, description: `Master weavers and metal sculptors in ${p} create intricate patterns without modern machinery using natural indigo dyes and bronze alloys.`, insider_secret: `💡 INSIDER SECRET: Visit state government handicraft emporiums to ensure fair trade and authentic artisan wages.` },
-            { category_badge: "COMMUNITY CELEBRATION", highlight_tag: "TEMPLE FAIR", title: `Harvest Processions & Folk Ballad Fairs`, sub_tagline: `Celebrations that unite entire agricultural communities through folk music.`, description: `Seasonal festivals in ${p} feature vibrant masked dances, temple horn symphonies, and nocturnal poetry recitals celebrating agricultural abundance.`, insider_secret: `💡 INSIDER SECRET: Ask local elders about village mela dates that coincide with seasonal full moons.` }
+        "living_cultural_dna": {
+          "title": `${pUpper}: Untold Stories & Architectural Secrets`,
+          "subtitle": `Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.`,
+          "pillars": [
+            { "category_badge": "SACRED ANTIQUITY", "highlight_tag": "HISTORIC PRECINCT", "title": `Sacred Shrines & Fortified Gates of ${p}`, "sub_tagline": `Centuries of localized craftsmanship built to withstand regional topography.`, "description": `Ancient stone ramparts, courtyard shrines, and subterranean water catchments in ${p} reflect centuries of astronomical and hydraulic planning.`, "insider_secret": `💡 INSIDER SECRET: Explore the central old bazaar at dawn before commercial vehicle traffic opens.` },
+            { "category_badge": "CULINARY ALCHEMY", "highlight_tag": "REGIONAL FLAVORS", "title": `Traditional Thalis & Decades-Old Sweet Houses`, "sub_tagline": `Native ingredients cooked according to seasonal Ayurvedic guidelines.`, "description": `${p}'s culinary tradition relies on slow-braised pulses, stone-milled wheat flatbreads, and reduced-milk sweets fried in pure village ghee.`, "insider_secret": `💡 INSIDER SECRET: Look for century-old sweet confectionery stalls near the historic town clock tower.` },
+            { "category_badge": "MATERIAL ALCHEMY", "highlight_tag": "INDIGENOUS ARTISANS", "title": `Handloom Weaves, Bell-Metal & Local Pottery`, "sub_tagline": `Generational skills passed down within family artisan clusters.`, "description": `Master weavers and metal sculptors in ${p} create intricate patterns without modern machinery using natural indigo dyes and bronze alloys.`, "insider_secret": `💡 INSIDER SECRET: Visit state government handicraft emporiums to ensure fair trade and authentic artisan wages.` },
+            { "category_badge": "COMMUNITY CELEBRATION", "highlight_tag": "TEMPLE FAIR", "title": `Harvest Processions & Folk Ballad Fairs`, "sub_tagline": `Celebrations that unite entire agricultural communities through folk music.`, "description": `Seasonal festivals in ${p} feature vibrant masked dances, temple horn symphonies, and nocturnal poetry recitals celebrating agricultural abundance.`, "insider_secret": `💡 INSIDER SECRET: Ask local elders about village mela dates that coincide with seasonal full moons.` }
           ]
         }
       };

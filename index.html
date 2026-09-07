@@ -1052,11 +1052,16 @@
     <!-- SYSTEM JAVASCRIPT -->
   <script>
     /* ====================================================================
-       CENTRALIZED LOCATION STATE STORE & SYNCHRONIZATION ENGINE
-       Stores: placeId, name, coordinates (lat, lng), region, bounds, details
-       Features: Observer Pattern, Deep Linking URL Sync, Skeleton States
-    ==================================================================== */
-    const ArvoraState = {
+       1. GLOBAL STATE DEFINITION (Must be first)
+       ==================================================================== */
+    window.ArvoraState = window.ArvoraState || {
+      query: 'Delhi',
+      lat: 28.6139,
+      lon: 77.2090,
+      displayName: 'Delhi, National Capital Territory, India',
+      mapInstance: null,
+      activeMarker: null,
+      subscribers: [],
       currentLocation: {
         placeId: "delhi",
         name: "Delhi",
@@ -1066,27 +1071,54 @@
         boundingBox: null,
         placeDetails: null
       },
-      subscribers: [],
 
+      // Register listener callbacks for when state changes
       subscribe(fn) {
-        if (typeof fn === "function") {
+        if (typeof fn === 'function') {
           this.subscribers.push(fn);
-          // Immediately notify subscriber with current state
-          try { fn(this.currentLocation); } catch(e) { console.error(e); }
+          try { fn(this); } catch(e) { console.error(e); }
         }
         return () => {
           this.subscribers = this.subscribers.filter(s => s !== fn);
         };
       },
 
+      // Notify all components (Map, Weather, POIs, Telemetry)
       notify() {
-        this.subscribers.forEach(fn => {
-          try { fn(this.currentLocation); } catch(e) { console.error(e); }
+        this.subscribers.forEach(cb => {
+          try { cb(this); } catch(e) { console.error(e); }
         });
       },
 
+      // Central method to update state from Search or Map clicks
+      setLocation(lat, lon, displayName) {
+        this.lat = parseFloat(lat);
+        this.lon = parseFloat(lon);
+        this.displayName = displayName || '';
+        this.currentLocation = {
+          ...this.currentLocation,
+          name: displayName ? displayName.split(',')[0].trim() : this.currentLocation.name,
+          coordinates: { lat: this.lat, lng: this.lon },
+          coordsFormatted: `LAT ${this.lat >= 0 ? this.lat.toFixed(4) + '° N' : Math.abs(this.lat).toFixed(4) + '° S'} // LON ${this.lon >= 0 ? this.lon.toFixed(4) + '° E' : Math.abs(this.lon).toFixed(4) + '° W'}`,
+          osmDisplayName: displayName
+        };
+        this.syncURL();
+        this.notify();
+      },
+
       setPlace(locationData) {
+        if (!locationData) return;
         this.currentLocation = { ...this.currentLocation, ...locationData };
+        if (locationData.coordinates) {
+          this.lat = locationData.coordinates.lat;
+          this.lon = locationData.coordinates.lng;
+        }
+        if (locationData.name) {
+          this.query = locationData.name;
+        }
+        if (locationData.osmDisplayName) {
+          this.displayName = locationData.osmDisplayName;
+        }
         this.syncURL();
         this.notify();
       },
@@ -1094,12 +1126,12 @@
       syncURL() {
         if (window.history && window.history.replaceState) {
           const url = new URL(window.location);
-          if (this.currentLocation.name) {
+          if (this.currentLocation && this.currentLocation.name) {
             url.searchParams.set("q", this.currentLocation.name.toLowerCase());
           }
-          if (this.currentLocation.coordinates) {
-            url.searchParams.set("lat", this.currentLocation.coordinates.lat);
-            url.searchParams.set("lng", this.currentLocation.coordinates.lng);
+          if (this.lat && this.lon) {
+            url.searchParams.set("lat", this.lat);
+            url.searchParams.set("lng", this.lon);
           }
           window.history.replaceState({}, "", url);
         }
@@ -1122,14 +1154,9 @@
 
         let locationObj = null;
 
-        // 1. Query OpenStreetMap Nominatim Free Geocoding API with User-Agent & Accept headers
         try {
           const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalized)}&limit=1`;
-          const res = await fetch(nominatimUrl, {
-            headers: {
-              "Accept": "application/json"
-            }
-          });
+          const res = await fetch(nominatimUrl, { headers: { "Accept": "application/json" } });
 
           if (res.ok) {
             const data = await res.json();
@@ -1137,7 +1164,7 @@
               const item = data[0];
               const lat = parseFloat(item.lat);
               const lng = parseFloat(item.lon);
-              const bbox = item.boundingbox; // [south, north, west, east]
+              const bbox = item.boundingbox;
 
               locationObj = {
                 placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
@@ -1163,13 +1190,12 @@
           console.warn("Nominatim API fetch warning:", err);
         }
 
-        // 2. Check local dictionary as backup or detail enhancement
-        const cityKey = normalized.toLowerCase();
-        if (typeof CITY_CODEX !== "undefined") {
-          const matchedKey = Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey);
-          if (matchedKey && CITY_CODEX[matchedKey]) {
-            const cData = CITY_CODEX[matchedKey];
-            if (!locationObj) {
+        if (!locationObj) {
+          const cityKey = normalized.toLowerCase();
+          if (typeof CITY_CODEX !== "undefined") {
+            const matchedKey = Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey);
+            if (matchedKey && CITY_CODEX[matchedKey]) {
+              const cData = CITY_CODEX[matchedKey];
               const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
               const lat = coordsMatch ? parseFloat(coordsMatch[1]) : 28.6139;
               const lng = coordsMatch ? parseFloat(coordsMatch[2]) : 77.2090;
@@ -1183,16 +1209,13 @@
                 boundingBox: null,
                 placeDetails: cData
               };
-            } else {
-              locationObj.placeDetails = cData;
             }
           }
         }
 
-        // Fallback object if all calls fail
         if (!locationObj) {
           locationObj = {
-            placeId: cityKey,
+            placeId: normalized.toLowerCase(),
             name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
             region: "INDIAN SPATIAL NODE",
             categoryType: "CITY / ADMINISTRATIVE",
@@ -1208,11 +1231,98 @@
       }
     };
 
-    window.ArvoraState = ArvoraState;
+    // Aliased local constant (now safe to reference anywhere below)
+    const ArvoraState = window.ArvoraState;
 
-            
-    
-    
+    /* ==========================================
+       2. FEATURE INTEGRATIONS & LISTENERS
+       ========================================== */
+
+    // Subscribe Leaflet Map
+    ArvoraState.subscribe((state) => {
+      const mapInst = state.mapInstance || window.arvoraMap || window.map;
+      if (mapInst && state.lat && state.lon) {
+        try {
+          mapInst.flyTo([state.lat, state.lon], 13, { duration: 1.5 });
+          
+          let marker = state.activeMarker || window.activeLocationMarker || window.activeMarker;
+          if (marker) {
+            marker.setLatLng([state.lat, state.lon]);
+          } else if (typeof L !== 'undefined') {
+            marker = L.marker([state.lat, state.lon]).addTo(mapInst);
+            state.activeMarker = marker;
+            window.activeLocationMarker = marker;
+            window.activeMarker = marker;
+          }
+          
+          if (marker && state.displayName) {
+            marker.bindPopup(`<b>${state.displayName}</b>`).openPopup();
+          }
+        } catch(e) {
+          console.warn("Leaflet state subscriber update warning:", e);
+        }
+      }
+    });
+
+    // Subscribe Feature Cards (Telemetry, Atmosphere, Wiki)
+    ArvoraState.subscribe((state) => {
+      const coordEl = document.querySelector('#feature-coordinates, .telemetry-coords, [data-coord]');
+      if (coordEl && state.lat && state.lon) {
+        const latStr = state.lat >= 0 ? `${state.lat.toFixed(4)}° N` : `${Math.abs(state.lat).toFixed(4)}° S`;
+        const lonStr = state.lon >= 0 ? `${state.lon.toFixed(4)}° E` : `${Math.abs(state.lon).toFixed(4)}° W`;
+        coordEl.textContent = `📍 ${latStr}, ${lonStr}`;
+      }
+    });
+
+    /* =========================================================
+       3. EXECUTION & INITIALIZATION (Defer until DOM is ready)
+       ========================================================= */
+    function initializeArvoraApp() {
+      if (typeof initArvoraMap === "function") {
+        initArvoraMap();
+      }
+
+      const searchForm = document.querySelector('#search-form, .search-container form, input[type="search"], #query-input');
+      if (searchForm) {
+        const searchInput = document.querySelector('input[type="search"], #search-input, .search-input, #query-input');
+        
+        const runSearch = async (e) => {
+          if (e) e.preventDefault();
+          const query = searchInput ? searchInput.value.trim() : '';
+          if (!query) return;
+
+          if (typeof syncLocationData === "function") {
+            await syncLocationData(query);
+          } else {
+            try {
+              const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`, { headers: { "Accept": "application/json" } });
+              const data = await res.json();
+              if (data && data.length > 0) {
+                ArvoraState.setLocation(data[0].lat, data[0].lon, data[0].display_name);
+              }
+            } catch (err) {
+              console.error("Geocoding lookup error:", err);
+            }
+          }
+        };
+
+        if (searchForm.tagName === 'FORM') {
+          searchForm.addEventListener('submit', runSearch);
+        } else {
+          searchForm.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') runSearch(e);
+          });
+        }
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeArvoraApp);
+    } else {
+      initializeArvoraApp();
+    }
+
+
     /* ====================================================================
        100% KEYLESS PUBLIC API ENGINE: NOMINATIM, OPEN-METEO & WIKIPEDIA
        - Nominatim: https://nominatim.openstreetmap.org/search

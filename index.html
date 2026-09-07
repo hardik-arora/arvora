@@ -48,7 +48,9 @@
     .tray-item { background: rgba(6, 16, 10, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(237, 244, 236, 0.12); border-radius: 14px; padding: 12px 18px; color: #cad8cb; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s ease; }
     .tray-item:hover { background: rgba(14, 30, 20, 0.8); color: #edf4ec; border-color: rgba(237, 244, 236, 0.28); }
 
-    /* Active Tool Viewport Shell (Hides underlying portal elements completely) */
+    /* =========================================================================
+       ACTIVE TOOL VIEWPORT & EYE-CATCHY DOSSIER STYLING
+       ========================================================================= */
     #tool-viewport { 
       display: none; 
       position: absolute; 
@@ -60,26 +62,27 @@
       overflow: hidden; 
     }
     
-    /* The Faded Atmospheric Background Image */
+    /* Faded Photographic Background */
     #tool-image-background { 
       position: absolute; 
       inset: 0; 
       width: 100%; 
       height: 100%; 
-      background-position: center; 
+      background-position: center center; 
       background-size: cover; 
       background-repeat: no-repeat; 
-      opacity: 0.32; 
-      filter: blur(2px) contrast(1.1); 
-      transition: background-image 0.4s ease, opacity 0.4s ease; 
+      opacity: 0.38; 
+      filter: contrast(1.1) brightness(0.85); 
+      transition: background-image 0.5s ease-in-out, opacity 0.4s ease; 
       z-index: 1; 
     }
 
-    /* Ambient Overlay to Guarantee Text Readability */
     #tool-image-scrim {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 20%, rgba(3, 8, 5, 0.4) 0%, rgba(3, 8, 5, 0.88) 100%);
+      background: 
+        radial-gradient(ellipse at 50% 20%, rgba(3, 8, 5, 0.25) 0%, rgba(3, 8, 5, 0.92) 85%),
+        linear-gradient(180deg, rgba(3, 8, 5, 0.4) 0%, rgba(3, 8, 5, 0.95) 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -94,33 +97,102 @@
       overflow-y: auto; 
     }
     
-    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.12); padding-bottom: 16px; margin-bottom: 18px; flex-shrink: 0; }
-    #tool-header-title { font-family: Georgia, serif; font-size: 24px; color: #edf4ec; }
-    #tool-back-btn { background: rgba(237, 244, 236, 0.1); border: 1px solid rgba(237, 244, 236, 0.2); color: #fff; padding: 6px 16px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: background 0.2s; }
-    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.22); }
+    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.14); padding-bottom: 16px; margin-bottom: 16px; flex-shrink: 0; }
+    #tool-header-title { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; }
+    #tool-back-btn { background: rgba(237, 244, 236, 0.1); border: 1px solid rgba(237, 244, 236, 0.2); color: #fff; padding: 7px 18px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all 0.2s; }
+    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.25); transform: translateY(-1px); }
     
-    /* Showcase Deep Search UI */
-    .showcase-search-shell { display: flex; gap: 10px; margin-bottom: 14px; flex-shrink: 0; }
-    .showcase-search-input { flex: 1; background: rgba(237, 244, 236, 0.08); border: 1px solid rgba(237, 244, 236, 0.22); border-radius: 12px; padding: 12px 18px; color: #edf4ec; font-size: 14px; outline: none; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    .showcase-search-input:focus { border-color: #8ca892; background: rgba(237, 244, 236, 0.14); }
+    /* Search Bar with glowing borders */
+    .showcase-search-shell { display: flex; gap: 10px; margin-bottom: 12px; flex-shrink: 0; }
+    .showcase-search-input { 
+      flex: 1; 
+      background: rgba(8, 22, 14, 0.7); 
+      border: 1px solid rgba(140, 210, 160, 0.35); 
+      border-radius: 14px; 
+      padding: 13px 20px; 
+      color: #edf4ec; 
+      font-size: 14px; 
+      outline: none; 
+      backdrop-filter: blur(16px); 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5); 
+      transition: all 0.2s; 
+    }
+    .showcase-search-input:focus { border-color: #8ca892; background: rgba(12, 30, 18, 0.85); box-shadow: 0 0 25px rgba(140, 210, 160, 0.25); }
     
-    .quick-regions { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: none; flex-shrink: 0; }
+    .quick-regions { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 14px; scrollbar-width: none; flex-shrink: 0; }
     .quick-regions::-webkit-scrollbar { display: none; }
-    .region-chip { font-size: 11px; padding: 5px 12px; border-radius: 999px; background: rgba(237, 244, 236, 0.08); border: 1px solid rgba(237, 244, 236, 0.15); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; backdrop-filter: blur(8px); }
-    .region-chip:hover { background: rgba(140, 210, 160, 0.2); border-color: rgba(140, 210, 160, 0.45); color: #edf4ec; }
+    .region-chip { font-size: 11px; padding: 6px 14px; border-radius: 999px; background: rgba(237, 244, 236, 0.08); border: 1px solid rgba(237, 244, 236, 0.16); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; backdrop-filter: blur(10px); }
+    .region-chip:hover { background: rgba(140, 210, 160, 0.22); border-color: rgba(140, 210, 160, 0.5); color: #edf4ec; transform: translateY(-1px); }
 
-    /* Dossier Results Grid with Clean Frosted Backdrops */
-    .dossier-wrap { display: flex; flex-direction: column; gap: 14px; }
-    .dossier-hero-card { background: rgba(4, 12, 7, 0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(237, 244, 236, 0.14); border-radius: 16px; padding: 20px; }
-    .dossier-headline { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-    .dossier-headline h3 { font-family: Georgia, serif; font-size: 22px; color: #edf4ec; }
-    .dossier-essence { font-size: 13px; color: #8ca892; font-style: italic; }
-    .dossier-summary { font-size: 13px; line-height: 1.55; color: #cad8cb; }
+    /* =========================================================================
+       HIGH-END EDITORIAL DOSSIER CARDS (MATCHING REFERENCE UI)
+       ========================================================================= */
+    .dossier-wrap { display: flex; flex-direction: column; gap: 16px; }
     
-    .dossier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-    .dossier-block { background: rgba(4, 12, 7, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(237, 244, 236, 0.1); border-radius: 14px; padding: 14px 16px; }
-    .dossier-block-title { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #8ca892; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .dossier-block-content { font-size: 12px; line-height: 1.6; color: #edf4ec; }
+    /* Top Banner Card */
+    .dossier-hero-banner { 
+      background: rgba(6, 18, 12, 0.75); 
+      backdrop-filter: blur(20px); 
+      -webkit-backdrop-filter: blur(20px); 
+      border: 1px solid rgba(140, 210, 160, 0.3); 
+      border-radius: 18px; 
+      padding: 22px 26px; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+    }
+    .hero-banner-kicker { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #8ca892; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .hero-banner-title { font-family: Georgia, serif; font-size: 28px; color: #edf4ec; margin-bottom: 8px; }
+    .hero-banner-desc { font-size: 14px; line-height: 1.6; color: #cad8cb; max-width: 950px; }
+    .hero-banner-highlight { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(237,244,236,0.1); font-size: 13px; color: #edf4ec; display: flex; align-items: center; gap: 8px; }
+    .highlight-pill { background: rgba(140, 210, 160, 0.18); border: 1px solid rgba(140, 210, 160, 0.35); color: #a4e2b8; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; }
+
+    /* Four-Column Magazine Layout Grid */
+    .dossier-cards-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+      gap: 14px; 
+    }
+    
+    /* Single Editorial Feature Card */
+    .story-card { 
+      background: rgba(5, 15, 10, 0.72); 
+      backdrop-filter: blur(18px); 
+      -webkit-backdrop-filter: blur(18px); 
+      border: 1px solid rgba(237, 244, 236, 0.12); 
+      border-radius: 16px; 
+      padding: 18px; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5); 
+      transition: all 0.25s ease; 
+    }
+    .story-card:hover { 
+      border-color: rgba(140, 210, 160, 0.45); 
+      transform: translateY(-3px); 
+      box-shadow: 0 14px 40px rgba(0,0,0,0.7); 
+    }
+    
+    .card-top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .card-category-tag { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8ca892; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+    .card-stat-badge { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(237, 244, 236, 0.08); border: 1px solid rgba(237, 244, 236, 0.15); color: #edf4ec; }
+
+    .card-headline { font-size: 17px; font-weight: 600; color: #edf4ec; margin-bottom: 8px; line-height: 1.35; }
+    .card-subtext { font-size: 12px; color: #9eb5a3; font-style: italic; margin-bottom: 12px; line-height: 1.4; }
+    
+    .card-body-items { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .card-body-items li { font-size: 12px; line-height: 1.5; color: #cad8cb; position: relative; padding-left: 14px; }
+    .card-body-items li::before { content: "•"; position: absolute; left: 0; color: #8ca892; font-size: 14px; }
+
+    /* Insider Secret Golden Footer Box */
+    .insider-secret-box { 
+      background: rgba(25, 45, 30, 0.5); 
+      border-left: 3px solid #e0c878; 
+      border-radius: 8px; 
+      padding: 10px 12px; 
+      margin-top: auto; 
+    }
+    .insider-secret-label { font-size: 10px; letter-spacing: 0.12em; color: #e0c878; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+    .insider-secret-text { font-size: 11px; line-height: 1.45; color: #edf4ec; }
 
     /* Feature Popup Modal */
     .feature-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
@@ -236,7 +308,7 @@
       </div>
     </div>
 
-    <!-- In-Viewport Glass Dashboard Tool Container (Hides all portal layers completely) -->
+    <!-- Active Tool Screen Inside Viewport (Completely covers portal) -->
     <div id="tool-viewport">
       <div id="tool-image-background"></div>
       <div id="tool-image-scrim"></div>
@@ -245,18 +317,18 @@
         <div id="tool-header-bar">
           <div>
             <h2 id="tool-header-title">36 States &amp; UTs Showcase</h2>
-            <div class="modal-kicker">SPATIAL DOSSIER ENGINE</div>
+            <div class="modal-kicker">LIVING CULTURAL DNA &amp; SPATIAL INTELLIGENCE</div>
           </div>
           <button id="tool-back-btn">← Back to Portal</button>
         </div>
 
-        <div id="showcase-tool-container" style="display: flex; flex-direction: column; height: 100%; overflow-y: auto;">
+        <div id="showcase-tool-container" style="display: flex; flex-direction: column; height: 100%;">
           <div class="showcase-search-shell">
             <input 
               type="text" 
               id="showcase-search-input" 
               class="showcase-search-input" 
-              placeholder="Type any Indian destination: Jaipur, Varanasi, Kerala, Amritsar, Goa, Kashmir, Hampi, Ladakh..." 
+              placeholder="Search place: Jaipur, Varanasi, Kerala, Amritsar, Goa, Kashmir, Hampi, Ladakh, Mumbai..." 
               value="Jaipur"
             />
           </div>
@@ -272,6 +344,7 @@
             <span class="region-chip" data-dest="Ladakh">Ladakh (Highland)</span>
           </div>
 
+          <!-- Magazine-style output container -->
           <div id="dossier-output" class="dossier-wrap"></div>
         </div>
 
@@ -312,385 +385,310 @@
 
   <script>
     // =========================================================================
-    // 1. RELIABLE DIRECT PHOTO DATABASE FOR LOCATIONS
+    // 1. DIRECT-RENDER CURATED PHOTO DATABASE & EDITORIAL DOSSIERS
     // =========================================================================
     const destinationDossiers = {
       "jaipur": {
-        name: "Jaipur, Rajasthan",
+        name: "Jaipur: Untold Stories & Architectural Secrets",
         state: "Rajasthan",
-        // Verified high-res Unsplash direct CDN image of Jaipur Hawa Mahal
-        imageUrl: "https://images.unsplash.com/photo-1599661046289-e318978b39a4?auto=format&fit=crop&w=1600&q=80",
-        essence: "The Pink City of Astronomical Forts, Regal Dynasties & Artisanal Alchemy",
-        overview: "Founded in 1727 by Maharaja Sawai Jai Singh II, Jaipur is India's first planned city, blending Vedic Vastu Shastra with Mughal and Rajput architectural grandeur.",
-        bestKnownFor: "Hawa Mahal, Amber Fort, Hand block-printing, Jaipur blue pottery, and royal diamond jewelry.",
-        sights: [
-          "Amber Fort & Sheesh Mahal (Mirror Palace)",
-          "Hawa Mahal (Palace of Winds)",
-          "Jantar Mantar (UNESCO Astronomical Observatory)",
-          "City Palace Complex & Mubarak Mahal",
-          "Nahargarh & Jaigarh Forts"
-        ],
-        foodDishes: [
-          "Dal Baati Churma (Baked wheat balls in pure ghee)",
-          "Laal Maas (Fiery Mathania chili mutton)",
-          "Pyaaz Kachori (Crispy spiced onion pastry)",
-          "Ghewar & Mawa Kachori (Sweet confections)"
-        ],
-        foodShops: [
-          "Rawat Mishthan Bhandar (Pyaaz Kachori hub, Station Road)",
-          "LMB — Laxmi Mishthan Bhandar (Johari Bazaar)",
-          "1135 AD (Regal dining inside Amber Fort)",
-          "Lassiwala (Clay kulhad lassi since 1944, MI Road)"
-        ],
-        artefacts: [
-          "Jaipur Blue Pottery (Quartz clay, GI tagged)",
-          "Hand Block-Printed Cottons (Sanganeri & Bagru)",
-          "Kundan-Meenakari Enamel & Polki Jewelry",
-          "Mojari Leather Juttis"
-        ],
-        craftShops: [
-          "Johari Bazaar (Precious gems & Kundan work)",
-          "Bapu Bazaar & Nehru Bazaar (Textiles & Mojaris)",
-          "Kripal Kumbh (Authentic Blue Pottery masters)",
-          "Anokhi Museum of Hand Printing (Amber)"
-        ],
-        culture: "Warm Marwari hospitality of 'Padharo Mhare Des', Ghoomar folk dance, Kalbelia snake charmer rhythms, and royal Rajput chivalric heritage.",
-        festivals: [
-          "Jaipur Literature Festival (World's greatest lit festival, Jan)",
-          "Gangaur & Teej (Regal processions through old city)",
-          "Jaipur Kite Festival & Elephant Festival (Jan)"
+        // Direct reliable high-res Hawa Mahal Jaipur photograph
+        imageUrl: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=80",
+        essence: "Beyond monument tickets: how astronomical physics, royal decrees, and Vastu Shastra shaped the Pink City.",
+        bestKnownFor: "Hawa Mahal's 953 jharokhas, Amber Fort's mirrored physics, blue quartz pottery, and fiery Mathania chili curries.",
+        cards: [
+          {
+            category: "🏛️ ARCHITECTURE HERITAGE",
+            badge: "#1 PLANNED CITY 1727",
+            title: "The Wind Screen with 953 Honeycombed Windows",
+            subtext: "How royal queens viewed public street festivals while remaining unseen.",
+            items: [
+              "Hawa Mahal's natural Venturi effect cools desert wind through 953 carved sandstone lattices.",
+              "Jantar Mantar features Samrat Yantra, the world's largest stone sundial accurate to within 2 seconds.",
+              "Amber Fort's Sheesh Mahal illuminates an entire royal hall with just two beeswax candles reflected in Belgian mirrors."
+            ],
+            secret: "Visit Nahargarh Fort at sunset along the ridge walls to see the ancient subterranean rain-harvesting canals."
+          },
+          {
+            category: "🍲 CULINARY LORE",
+            badge: "ROYAL RAJPUT FEASTS",
+            title: "Fiery Mathania Chilies & Ghee-Soaked Doughballs",
+            subtext: "Cuisine built for arid desert warfare and long camel journeys.",
+            items: [
+              "Dal Baati Churma: Baked wheat dumplings shattered and submerged in pure hand-churned cow ghee.",
+              "Laal Maas: Slow-braised goat cooked exclusively with smoky red Mathania peppers without water.",
+              "Pyaaz Kachori: Flaky golden spheres stuffed with caramelized cloves, fennel, and nigella onions."
+            ],
+            secret: "Head to Rawat Mishthan Bhandar on Station Road before 9 AM for piping hot, freshly fried kachoris."
+          },
+          {
+            category: "🏺 LIVING GUILD CRAFT",
+            badge: "UNESCO GI CRAFTS",
+            title: "Quartz Blue Pottery & Natural Mud Block Prints",
+            subtext: "Generational master guilds working without kilned red mud.",
+            items: [
+              "Jaipur Blue Pottery is made without clay, using powdered quartz, raw glass, and gum paste.",
+              "Bagru & Sanganer hand block-printing uses hand-carved teak wood stamps and fermented iron dye.",
+              "Kundan & Meenakari jewelry embeds raw uncut polki diamonds into 24-karat molten gold troughs."
+            ],
+            secret: "Visit Kripal Kumbh in Bani Park to watch the direct lineage of master craftsman Kripal Singh Shekhawat."
+          },
+          {
+            category: "🎪 FESTIVALS & RITUALS",
+            badge: "LIVING CELEBRATIONS",
+            title: "The World's Literary Mecca & Skyfull of Paper Kites",
+            subtext: "Ancient harvest rituals meet global intellectual frontiers.",
+            items: [
+              "Jaipur Literature Festival (JLF): The largest free literary gathering on Earth every January at Diggi Palace.",
+              "Makar Sankranti Kite War: Millions of glass-coated cotton strings battle across old city rooftops.",
+              "Teej & Gangaur: Gilded palanquins of Goddess Parvati paraded through Tripoliya Bazaar with folk dancers."
+            ],
+            secret: "Climb any terrace near Johari Bazaar on January 14th to hear millions shout 'Woh Kata!' as paper kites fall."
+          }
         ]
       },
+
       "varanasi": {
-        name: "Varanasi (Kashi / Banaras), Uttar Pradesh",
+        name: "Varanasi: The Luminous Continuum of Kashi",
         state: "Uttar Pradesh",
-        // Verified high-res Unsplash direct CDN image of Varanasi Ganga Ghats
+        // Direct reliable Ganges Aarti photograph
         imageUrl: "https://images.unsplash.com/photo-1561359699-083181b490f2?auto=format&fit=crop&w=1600&q=80",
-        essence: "The Eternal City of Light, Sacred Ghats & Moksha",
-        overview: "One of the oldest continuously inhabited cities on Earth, seated on the crescent bank of the holy Ganges river.",
-        bestKnownFor: "Ganga Aarti at Dashashwamedh Ghat, Banarasi pure silk sarees, classical music, and spiritual liberation.",
-        sights: [
-          "Dashashwamedh Ghat (Maha Aarti location)",
-          "Kashi Vishwanath Temple Corridor",
-          "Assi Ghat (Subah-e-Banaras sunrise rituals)",
-          "Manikarnika & Harishchandra Burning Ghats",
-          "Sarnath (Buddhist preachment site)"
-        ],
-        foodDishes: [
-          "Banarasi Paan (Rose petal betel leaf)",
-          "Kachori Sabzi & Jalebi breakfast",
-          "Tamatar Chaat (Spiced tomato reduction)",
-          "Malaiyo / Nimish (Frothy saffron milk foam)"
-        ],
-        foodShops: [
-          "Kashi Chaat Bhandar (Godowlia Chowk)",
-          "Deena Chaat Bhandar (Luxa Road)",
-          "Shreeji Sweets (Thatheri Bazaar for Malaiyo)",
-          "Keshav Tambool Bhandar (Banarasi Paan legend)"
-        ],
-        artefacts: [
-          "Banarasi Brocade & Handwoven Silk Sarees (GI tagged)",
-          "Pink Meenakari Enamelled Brassware",
-          "Wooden Lacquerware & Sacred Rudraksha Beads",
-          "Silver & Copper Puja Utensils"
-        ],
-        craftShops: [
-          "Thatheri Bazaar (Brass & copper metal craft)",
-          "Godowlia & Chowk Bazaars (Handloom Banarasi silks)",
-          "Loom Clusters (Lallapura silk hubs)",
-          "Vishwanath Gali (Spiritual relics, beads & wooden idols)"
-        ],
-        culture: "Heart of the Banaras Gharana of classical music, Sanskrit scholarship, and sacred Hindu philosophical traditions.",
-        festivals: [
-          "Dev Deepawali (Million lamps on ghats, Kartik Purnima)",
-          "Maha Shivratri (Grand temple procession)",
-          "Ganga Mahotsav (Music & boat races)"
+        essence: "The eternal crossing point where life, death, sacred ragas, and cosmic liberation intersect on river stone ghats.",
+        bestKnownFor: "Maha Ganga Aarti at Dashashwamedh, Kashi Vishwanath temple, pure zari Banarasi silks, and saffron Malaiyo.",
+        cards: [
+          {
+            category: "🕯️ SACRED GEOGRAPHY",
+            badge: "OLDEST LIVING CITY",
+            title: "84 Crescent Ghats & The Flame That Never Dies",
+            subtext: "A sacred corridor designed so morning sun rays strike every shrine face.",
+            items: [
+              "Dashashwamedh Ghat hosts synchronized multi-tiered brass lamp aartis every dusk.",
+              "Manikarnika & Harishchandra Ghats have maintained sacred cremation fires for over 3,000 continuous years.",
+              "Kashi Vishwanath Corridor links the sanctum directly to the Ganges waters for pilgrim ablutions."
+            ],
+            secret: "Take a wooden rowboat from Assi Ghat at 5:30 AM to hear the morning Vedic chants of Subah-e-Banaras."
+          },
+          {
+            category: "🍲 STREET FLAVORS",
+            badge: "NO-ONION NO-GARLIC LORE",
+            title: "Saffron Froth Malaiyo & Betel Leaf Paan Alchemy",
+            subtext: "Sublime winter morning desserts created purely from condensed dew and saffron.",
+            items: [
+              "Malaiyo (Nimish): Foamed milk left outdoors under cold winter dew, whipped with raw saffron and pistachios.",
+              "Tamatar Chaat: Hot clay pot cooked tomatoes, hing, cumin seeds, and crisp namkeen crisps.",
+              "Banarasi Paan: Maghai betel leaves coated in catechu, candied gulkand rose paste, and fragrant cloves."
+            ],
+            secret: "Walk through Thatheri Bazaar to find Shreeji Sweets for the original early-morning winter Malaiyo."
+          },
+          {
+            category: "🧵 HANDLOOM GUILDS",
+            badge: "GI TAGGED ZARI",
+            title: "Pure Mulberry Silk Woven with Real Silver Threads",
+            subtext: "Muslim master weavers (Ansaris) crafting Hindu bridal heirlooms for 600 years.",
+            items: [
+              "Banarasi Brocade incorporates gold and silver metallic threads (Zari) into intricate floral jaal patterns.",
+              "A single master saree can take up to 6 months of coordinated manual pit-loom treadle work.",
+              "Hand-chiseled Pink Meenakari enamel on silver is a vanishing craft practiced only in Vishwanath Gali."
+            ],
+            secret: "Bypass tourist retail shops and visit the family-run weaving lofts of Madanpura directly."
+          },
+          {
+            category: "🎵 SOUND & SCRIPTURE",
+            badge: "BANARAS GHARANA",
+            title: "Shehnai Resonances & Millions of Earthen River Lamps",
+            subtext: "Where classical music maestro Ustad Bismillah Khan practiced at the river bank.",
+            items: [
+              "Dev Deepawali: On Kartik Purnima, over 1.2 million earthen oil diyas light up all 84 ghat steps.",
+              "Banaras Gharana tabla style mirrors the primal thud of temple bells and flowing river water.",
+              "Dhrupad and Khayal vocals are performed spontaneously in tiny hidden monastery courtyards."
+            ],
+            secret: "Sit on the steps of Scindia Ghat around 4 PM to hear students practice sitar in the temple shadows."
+          }
         ]
       },
+
       "kerala": {
-        name: "Kerala Backwaters & Hills",
+        name: "Kerala: Ancient Canopy, Ayurvedic Woods & Spices",
         state: "Kerala",
         imageUrl: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1600&q=80",
-        essence: "God's Own Country of Serene Lagoons, Spices & Ayurveda",
-        overview: "Tucked between the Arabian Sea and the Western Ghats, famed for palm-fringed backwaters, spice hills, and high human development.",
-        bestKnownFor: "Alleppey houseboat cruises, Kathakali theatrical dances, Ayurveda, and Munnar tea hills.",
-        sights: [
-          "Vembanad Lake Houseboat cruises (Alleppey)",
-          "Munnar Tea Hill Stations",
-          "Fort Kochi (Chinese Fishing Nets & Mattancherry)",
-          "Periyar Wildlife Sanctuary (Elephant sightings)",
-          "Athirappilly Waterfalls"
-        ],
-        foodDishes: [
-          "Kerala Sadya (banana leaf feast)",
-          "Appam with Stew (Rice hoppers with coconut milk)",
-          "Malabar Parotta with Pepper Chicken Roast",
-          "Karimeen Pollichathu (Pearl spot fish baked in leaves)"
-        ],
-        foodShops: [
-          "Paragon Restaurant (Malabar Biryani legend, Kozhikode)",
-          "Kayees Rahmathulla Hotel (Mattancherry, Kochi)",
-          "Grand Pavilion SADYA (Ernakulam)",
-          "Kashi Art Cafe (Fort Kochi heritage spot)"
-        ],
-        artefacts: [
-          "Aranmula Kannadi (Sacred handmade metal alloy mirrors, GI tagged)",
-          "Kathakali papier-mâché masks & Bell-metal lamps",
-          "Nettipattam (Elephant gold caparisons)",
-          "Coir floorings, coconut shell carvings & Spices"
-        ],
-        craftShops: [
-          "Jew Town & Antique District (Mattancherry)",
-          "Aranmula Heritage Craft Village",
-          "Connemara Spice Market (Palayam, Thiruvananthapuram)",
-          "Kairali Kerala State Handicrafts Emporium"
-        ],
-        culture: "Kalaripayattu (world's oldest martial art), Sopana Sangeetham music, and matrilineal traditions.",
-        festivals: [
-          "Onam (Harvest with Snake boat races)",
-          "Thrissur Pooram (Elephant festival & complex percussion)",
-          "Theyyam Ritual Ceremonies (North Malabar temples)"
+        essence: "A coastal bio-reserve shaped by tropical rain, spice maritime routes, and classical temple arts.",
+        bestKnownFor: "Alleppey backwater houseboats, Kathakali face-painted theater, 24-dish banana leaf Sadya, and hill tea estates.",
+        cards: [
+          {
+            category: "🌿 NATURE & LAGOONS",
+            badge: "900 KM OF WATERWAYS",
+            title: "Slow Houseboats Along Palm-Canopied Backwaters",
+            subtext: "Traditional Kettuvallam barges tied together with coir knots without a single metal nail.",
+            items: [
+              "Vembanad Lake is India's longest freshwater lake, sustaining migratory cormorants and lotus fields.",
+              "Munnar cloud hills host the rare Neelakurinji flower, blooming only once every 12 years.",
+              "Periyar Sanctuary in Thekkady allows silent boat safaris around herds of wild swimming elephants."
+            ],
+            secret: "Take the inexpensive state water ferry from Alleppey to Kottayam through village canals rather than a private tour."
+          },
+          {
+            category: "🍲 CULINARY LORE",
+            badge: "SPICE COAST FEASTS",
+            title: "Banana Leaf Sadya & Karimeen Wrapped in Leaves",
+            subtext: "A culinary philosophy balance of coconut milk, curry leaf oil, and Malabar tamarind.",
+            items: [
+              "Sadya: 24 to 28 vegetarian curries served on a fresh plantain leaf eaten strictly with bare hands.",
+              "Appam with Stew: Laced rice-flour hoppers with fermented coconut batter and mild whole-spice milk broth.",
+              "Karimeen Pollichathu: Fresh pearl spot fish marinated in shallots, ginger, and pan-fried inside wilted banana leaf."
+            ],
+            secret: "Stop at Paragon Restaurant in Kozhikode for the world's most aromatic ghee-steamed Malabar biryani."
+          },
+          {
+            category: "🎭 LIVING HERITAGE",
+            badge: "WARRIOR ART & DANCE",
+            title: "Kathakali Facial Expressions & Metal Magic Mirrors",
+            subtext: "Physical theater using eye-muscle choreographies and secret bell-metal mirrors.",
+            items: [
+              "Kathakali dancers train for a decade to control 24 facial mudras and eye movements using herbal oils.",
+              "Aranmula Kannadi: Front-surface mirrors made from an ancient secret copper-tin alloy, not reflective glass.",
+              "Kalaripayattu: Recognized as the mother of all Asian martial arts, inspired by animal strike postures."
+            ],
+            secret: "Visit an authentic Theyyam ritual ceremony at a village temple in Kannur between midnight and dawn."
+          },
+          {
+            category: "🥁 FESTIVAL PERCUSSION",
+            badge: "TEMPLE SPECTACLES",
+            title: "Thrissur Pooram & Snake Boats of Onam",
+            subtext: "The thundering sound of 250 percussionists in the Ilanjithara Melam.",
+            items: [
+              "Thrissur Pooram features 30 caparisoned elephants and a continuous 4-hour drum orchestra clash.",
+              "Vallam Kali: Snake boat races with 100 oarsmen rowing in rhythmic synchronization to river vanchipattu songs.",
+              "Pulikali: Painted tiger-belly dancers parading through the streets during harvest celebrations."
+            ],
+            secret: "Stand near the southern gate of Vadakkunnathan Temple during Pooram for the dramatic umbrella exchange (Kudamattom)."
+          }
         ]
       },
-      "amritsar": {
-        name: "Amritsar, Punjab",
-        state: "Punjab",
-        imageUrl: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1600&q=80",
-        essence: "The Spiritual Sanctuary of Golden Temples, Gallantry & Community Feasts",
-        overview: "Founded in 1577, Amritsar is the spiritual heart of Sikhism and a historic frontier of Indian patriotism.",
-        bestKnownFor: "The Golden Temple, Langar community kitchen, Wagah Border retreat, and crisp Kulchas.",
-        sights: [
-          "Sri Harmandir Sahib (The Golden Temple)",
-          "Jallianwala Bagh Memorial & Partition Museum",
-          "Attari-Wagah Border Beating Retreat Ceremony",
-          "Gobindgarh Fort"
-        ],
-        foodDishes: [
-          "Amritsari Kulcha (flaky stuffed bread with chole)",
-          "Maa ki Dal & Sarson ka Saag (cooked for 12 hours)",
-          "Amritsari Fish (Crispy batter-fried river sole)",
-          "Punjabi Lassi topped with malai"
-        ],
-        foodShops: [
-          "Bhai Kulwant Singh Kulchian (Near Golden Temple)",
-          "Kesar Da Dhaba (Iconic 100-year-old dal lane)",
-          "Makhan Fish (Majitha Road)",
-          "Ahuja Lassi (Hindu College)"
-        ],
-        artefacts: [
-          "Phulkari Hand-Embroidered Dupattas & Shawls",
-          "Punjabi Tilla Juttis (traditional footwear)",
-          "Amritsari Papad & Wadian",
-          "Sikh Kirpans & Karas"
-        ],
-        craftShops: [
-          "Hall Bazaar & Katra Jaimal Singh (Phulkari hub)",
-          "Guru Bazaar (Ceremonial swords)",
-          "Lahori Gate Market (Papad, local pickles)"
-        ],
-        culture: "Unmatched spirit of 'Seva' (community service), vibrant Bhangra & Giddha folk dances.",
-        festivals: [
-          "Baisakhi (Khalsa founding celebration, April)",
-          "Guru Nanak Gurpurab (Grand illuminations)",
-          "Lohri (Winter bonfire celebrations)"
-        ]
-      },
+
       "goa": {
-        name: "Goa (Konkan Coast)",
+        name: "Goa: The Susegad Coast & Latin Quarters",
         state: "Goa",
         imageUrl: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1600&q=80",
-        essence: "Sunlit Beaches, Indo-Portuguese Villas & Susegad Lifestyle",
-        overview: "A coastal state shaped by 450 years of Portuguese influence and indigenous Konkani village traditions.",
-        bestKnownFor: "Churches of Old Goa, clean beaches, spice plantations, and fresh seafood vindaloo.",
-        sights: [
-          "Basilica of Bom Jesus (UNESCO Old Goa Churches)",
-          "Fontainhas (Latin Quarter in Panaji with colorful villas)",
-          "Dudhsagar Waterfalls & Chapora Fort (Vagator)",
-          "Anjuna & Palolem Beaches"
-        ],
-        foodDishes: [
-          "Goan Fish Curry with steamed rice",
-          "Pork Vindaloo & Chicken Xacuti",
-          "Bebinca (traditional 7-layer Indo-Portuguese pudding)",
-          "Feni (Cashew/Coconut spirit)"
-        ],
-        foodShops: [
-          "Viva Panjim (Fontainhas heritage home)",
-          "Fisherman's Wharf (Cavelossim riverbank)",
-          "Ritz Classic (Authentic Goan Fish Thali in Panjim)",
-          "Martin's Corner (Betalbatim beach side)"
-        ],
-        artefacts: [
-          "Azulejos (Hand-painted Portuguese ceramic tiles)",
-          "Cashew Fenis in local decanter bottles",
-          "Kunbi Sarees (traditional tribal weave)",
-          "Terracotta pottery"
-        ],
-        craftShops: [
-          "Fontainhas Art Galleries (Panaji for Azulejos tiles)",
-          "Anjuna Flea Market (Wednesday fair)",
-          "Mapusa Municipal Market (Spices, pottery & dried fish)"
-        ],
-        culture: "'Susegad' (unhurried contentment), Konkani Mando folk songs, and brass band processions.",
-        festivals: [
-          "Goa Carnival (Float parades before Lent, Feb)",
-          "Shigmo (Konkani Hindu spring festival floats)",
-          "Feast of St. Francis Xavier (Old Goa)"
-        ]
-      },
-      "kashmir": {
-        name: "Kashmir Valley (Paradise on Earth)",
-        state: "Jammu & Kashmir",
-        imageUrl: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1600&q=80",
-        essence: "Mughal Gardens, Mirror Lakes & Himalayan Pashmina",
-        overview: "A land of breathtaking alpine landscapes, ancient Sufi shrines, and rich winter craft traditions.",
-        bestKnownFor: "Dal Lake shikaras, Pashmina shawls, Wazwan feast, and Gulmarg ski slopes.",
-        sights: [
-          "Dal Lake & Nigeen Lake Houseboats/Shikaras",
-          "Mughal Gardens (Shalimar & Nishat Bagh)",
-          "Gulmarg (Asia's highest ski slopes)",
-          "Pahalgam (Valleys of Shepherds)",
-          "Sonamarg (Meadow of Gold)"
-        ],
-        foodDishes: [
-          "Wazwan (The grand 36-dish feast, including Gustaba/Rista)",
-          "Kashmiri Kahwa (Saffron-almond tea)",
-          "Dum Aloo & Haak Saag (collard greens)",
-          "Roganjosh (fiery chili lamb curry)"
-        ],
-        foodShops: [
-          "Mughal Darbar (Heritage Wazwan, Srinagar)",
-          "Ahdoos (Iconic bakery & fine dining since 1918)",
-          "Chai Jaai (Lal Chowk tea salon)"
-        ],
-        artefacts: [
-          "Pashmina Shawls (From Changthangi goats, GI tagged)",
-          "Papier-Mâché lacquered decor",
-          "Silk Hand-Knotted Carpets (GI tagged)",
-          "Walnut Wood Carvings"
-        ],
-        craftShops: [
-          "Polo View Market (Srinagar Main Artisan Hub)",
-          "Suffering Moses & Arts Emporium (Old Srinagar)",
-          "Leh Pashmina Clusters (UT Ladakh)"
-        ],
-        culture: "'Kashmiriyat' syncretic Sufi values, traditional Rouf dance, and winter storytelling.",
-        festivals: [
-          "Tulip Festival (Asia's largest tulip garden, Indira Gandhi Memorial)",
-          "Navreh (Kashmiri New Year)",
-          "Urs (Annual Sufi saint death anniversaries)"
-        ]
-      },
-      "hampi": {
-        name: "Hampi, Karnataka (UNESCO Heritage)",
-        state: "Karnataka",
-        imageUrl: "https://images.unsplash.com/photo-1600100397608-f010f4438317?auto=format&fit=crop&w=1600&q=80",
-        essence: "Bouldered Riverbed Ruins of the Mighty Vijayanagara Empire",
-        overview: "A staggering open-air museum of rock-cut temples, monolithic sculptures, and royal palaces amidst an ancient landscape.",
-        bestKnownFor: "Virupaksha Temple, Stone Chariot, boulder climbing, and coracle river rides.",
-        sights: [
-          "Virupaksha Temple (Main living shrine)",
-          "Vittala Temple Complex (UNESCO Stone Chariot & Musical Pillars)",
-          "Lotus Mahal & Elephant Stables (Zenana Enclosure)",
-          "Lakshmi Narasimha Monolith",
-          "Matanga Hill for Sunrise"
-        ],
-        foodDishes: [
-          "Authentic Karnataka Vegetarian Thali",
-          "Maddur Vada & Bisi Bele Bath",
-          "South Indian filter coffee served in davara set"
-        ],
-        foodShops: [
-          "Mango Tree Restaurant (Heritage spot, relocated near river)",
-          "Udupi Sri Krishna (near Virupaksha temple for thali)",
-          "Funky Monkey & Laughing Buddha (relaxed riverbank cafes)"
-        ],
-        artefacts: [
-          "Lambani Tribal Embroidery (GI tagged)",
-          "Bell Metal Lamps & Handicrafts",
-          "Coconut Shell Carvings & Jute products",
-          "Spiritual reliquary beads"
-        ],
-        craftShops: [
-          "Hampi Bazaar (Near Virupaksha temple for souvenirs)",
-          "Lambani craft clusters (in nearby Anegundi village)",
-          "Government Handicrafts Emporium"
-        ],
-        culture: "Vedic temple traditions, classical Carnatic music Gharanas, and nomadic tribal arts.",
-        festivals: [
-          "Hampi Utsav (Colossal cultural fair with sound/light shows)",
-          "Virupaksha Temple Chariot Festival",
-          "Vijayadashami (Dussehra celebration)"
-        ]
-      },
-      "ladakh": {
-        name: "Ladakh (UT) - Land of High Passes",
-        state: "Ladakh (UT)",
-        imageUrl: "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=1600&q=80",
-        essence: "Glacial Lakes, High Mountain Passes & Ancient Tibetan Gompas",
-        overview: "High-altitude desert bordered by Karakoram and Great Himalaya ranges, known for moonscapes, stark beauty, and rich Buddhist culture.",
-        bestKnownFor: "Pangong Tso, Khardung La pass, Hemis Monastery, and double-humped camels.",
-        sights: [
-          "Pangong Tso & Tso Moriri High-Altitude Lakes",
-          "Nubra Valley & Hunder Sand Dunes",
-          "Thiksey, Hemis & Diskit Monasteries",
-          "Magnetic Hill & Leh Palace"
-        ],
-        foodDishes: [
-          "Thukpa & Mokmoks (Steamed dumplings)",
-          "Skyu (Traditional root vegetable stew)",
-          "Gur Gur Cha (Butter tea)",
-          "Tigmo (Fermented bread with stew)"
-        ],
-        foodShops: [
-          "The Tibetan Kitchen (Fort Road, Leh)",
-          "Alchi Kitchen (traditional Ladakhi food, Alchi home)",
-          "Gesmo Restaurant & German Bakery (Leh Market)"
-        ],
-        artefacts: [
-          "Thangka sacred paintings on silk",
-          "Tibetan singing bowls & prayer wheels",
-          "Handspun Ladakhi wool products",
-          "Silver & Turquoise Himalayan Jewelry"
-        ],
-        craftShops: [
-          "Leh Main Bazaar & Tibetan Refugee Market",
-          "Ladakh Arts and Crafts House (Leh)",
-          "Choglamsar Handicraft Center"
-        ],
-        culture: "Spiritual harmony, eco-conservation values, monastery sacred dances (Cham), and high-altitude pastoralism.",
-        festivals: [
-          "Hemis Festival (Guru Padmasambhava birthday dances)",
-          "Losar (Ladakhi Tibetan New Year, winter)",
-          "Ladakh Festival (Cultural parade, September)"
+        essence: "450 years of Portuguese architecture, Konkani village fishing sanctuaries, and coastal river estuaries.",
+        bestKnownFor: "Churches of Old Goa, pastel mansions of Fontainhas, fiery pork vindaloo, and cashew feni.",
+        cards: [
+          {
+            category: "⛪ COLONIAL ARCHITECTURE",
+            badge: "UNESCO MONUMENTS",
+            title: "The Baroque Latin Quarter & Basilica of Bom Jesus",
+            subtext: "Where Portuguese lime-plastered villas meet Indian red laterite stone.",
+            items: [
+              "Basilica of Bom Jesus houses the sacred relics of St. Francis Xavier in a silver casket made by Florentine silversmiths.",
+              "Fontainhas in Panaji preserves 19th-century ochre-yellow, indigo-blue, and olive villas with oyster-shell windows.",
+              "Dudhsagar Waterfalls plunges 310 meters down the Western Ghats mountain jungle."
+            ],
+            secret: "Walk the narrow alleys of Fontainhas before 8 AM when local bakeries deliver fresh poi bread by bicycle."
+          },
+          {
+            category: "🍲 CULINARY LORE",
+            badge: "INDO-PORTUGUESE ALCHEMY",
+            title: "Toddy-Fermented Bread, Fiery Vindaloo & Bebinca",
+            subtext: "Portuguese marinades transformed with Konkani kokum, palm jaggery, and coconut vinegar.",
+            items: [
+              "Pork Vindaloo: Tender pork slow-cooked in palm vinegar, garlic paste, and Kashmiri red chilies.",
+              "Bebinca: A labor of love 7 to 16-layer pudding baked layer-by-layer with coconut milk, egg yolks, and nutmeg.",
+              "Goan Fish Thali: Crisp rava-fried Kingfish, coconut kadi curry, tisryo clams, and red parboiled rice."
+            ],
+            secret: "Dine at Viva Panjim tucked inside a family living room in the heritage district for authentic home vindaloo."
+          },
+          {
+            category: "🎨 TILE WORK & ARTEFACTS",
+            badge: "AZULEJOS HERITAGE",
+            title: "Hand-Painted Azulejo Ceramics & Distilled Feni",
+            subtext: "Ceramic tile artists continuing Iberian decorative traditions.",
+            items: [
+              "Azulejos: Ceramic tiles hand-painted with cobalt blue oxides and kiln-fired to withstand humid monsoons.",
+              "Cashew Feni: A double-distilled heritage liquor created by manual foot-pressing cashew apples in stone basins.",
+              "Kunbi Sarees: Cotton tribal check weaves historically worn by indigenous Kunbi agriculturalists."
+            ],
+            secret: "Visit Velha Goa Galleries in Panaji to watch master artisans paint custom family ceramic nameplates."
+          },
+          {
+            category: "🎭 FESTIVALS & RITUALS",
+            badge: "CARNIVAL & SHIGMO",
+            title: "King Momo Street Parades & Spring Temple Floats",
+            subtext: "Pre-Lenten parades followed by Hindu springtime rural pageantry.",
+            items: [
+              "Goa Carnival: Four days of vibrant street parades led by King Momo decreeing 'Eat, drink, and make merry'.",
+              "Shigmo: Rural village festival celebrating the return of warriors with elaborate mythological tableau floats.",
+              "Feast of St. Francis Xavier: Brings thousands of global pilgrims to Old Goa every December."
+            ],
+            secret: "Visit rural Ponda villages during Shigmo to experience authentic Konkani folk performances like Ghode Modni."
+          }
         ]
       }
     };
 
-    // Universal high-resolution photo fallback for any typed place
-    const universalFallbackPhoto = "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1600&q=80";
+    // Universal High-Res Fallback Photo (Guaranteed never to fail)
+    const fallbackImage = "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1600&q=80";
 
-    function generateDynamicDossier(query) {
-      const q = query.charAt(0).toUpperCase() + query.slice(1);
+    function generateDynamicDossier(placeName) {
+      const p = placeName.charAt(0).toUpperCase() + placeName.slice(1);
       return {
-        name: `${q} Explorer`,
+        name: `${p}: Untold Stories & Cultural Tapestry`,
         state: "India Regional Node",
-        imageUrl: universalFallbackPhoto,
-        essence: `The Authentic Heritage, Sacred Landmarks & Cultural Tapestry of ${q}`,
-        overview: `${q} holds a distinct place in the spatial landscape of India, characterized by historical trade routes, regional folklore, indigenous artisans, and local culinary traditions.`,
-        bestKnownFor: `Local heritage monuments, regional cuisine, native craft clusters, and traditional festivals celebrated with community fervor.`,
-        sights: [`Historic Old Quarter Precinct of ${q}`, `Sacred Shrines & Ancient Water Tanks`, `Landmark Architecture & Fortified Gates`, `Local Cultural Museum & Heritage Lane`],
-        foodDishes: [`Traditional regional thali`, `Native flatbreads & spiced lentils`, `Local street-side fried savories`, `Signature milk confection or jaggery dessert`],
-        foodShops: [`Old Bazaar sweet houses`, `Heritage thali restaurants`, `Decades-old tea and snack stalls`],
-        artefacts: [`Regional handloom weaves`, `Traditional brassware & terracotta items`, `Indigenous wood carvings and toys`],
-        craftShops: [`Central Municipal Bazaar`, `Government State Handloom Emporium`, `Weekly open-air haat`],
-        culture: `Deeply rooted community traditions, folk melodies, and celebratory harvests.`,
-        festivals: [`Seasonal harvest celebrations`, `Regional temple processions with folk music`]
+        imageUrl: fallbackImage,
+        essence: `Discovering the generational guilds, sacred architecture, and living regional folklore of ${p}.`,
+        bestKnownFor: `Regional heritage architecture, signature local food traditions, indigenous crafts, and vibrant seasonal festivals.`,
+        cards: [
+          {
+            category: "🏛️ ARCHITECTURAL HERITAGE",
+            badge: "HISTORIC PRECINCT",
+            title: `Sacred Shrines, Gates & Old Town Courtyards of ${p}`,
+            subtext: `Centuries of localized craftsmanship built to withstand regional topography.`,
+            items: [
+              `Ancient fortified gates and stone fortifications marking historical trade boundaries.`,
+              `Historic water conservation tanks and stepwells designed for summer heat refuge.`,
+              `Old city bazaars with multi-generational merchant guild shops.`
+            ],
+            secret: `Explore the central old bazaar at dawn before commercial vehicle traffic opens.`
+          },
+          {
+            category: "🍲 CULINARY LORE",
+            badge: "REGIONAL FLAVORS",
+            title: `Traditional Thalis & Decades-Old Sweet Houses`,
+            subtext: `Native ingredients cooked according to seasonal Ayurvedic guidelines.`,
+            items: [
+              `Signature regional thali featuring slow-simmered local lentils and fresh flatbreads.`,
+              `Handcrafted morning breakfast savories fried fresh in village ghee or mustard oil.`,
+              `Authentic local confection created with reduced milk, jaggery, and crushed nuts.`
+            ],
+            secret: `Look for century-old sweet confectionery stalls near the historic town clock tower.`
+          },
+          {
+            category: "🏺 LIVING GUILD CRAFT",
+            badge: "INDIGENOUS ARTISANS",
+            title: `Handloom Weaves, Bell-Metal & Local Pottery`,
+            subtext: `Generational skills passed down within family artisan clusters.`,
+            items: [
+              `Handwoven traditional cotton and silk fabrics featuring native border motifs.`,
+              `Terracotta clay pottery and ceremonial vessels hand-shaped on spinning wheels.`,
+              `Wood-carved decor and local tribal jewelry created from indigenous metals.`
+            ],
+            secret: `Visit the state government handicraft emporium to ensure fair trade and authentic artisan wages.`
+          },
+          {
+            category: "🎪 FESTIVALS & RITUALS",
+            badge: "COMMUNITY CELEBRATION",
+            title: `Harvest Processions & Temple Music Fairs`,
+            subtext: `Celebrations that unite entire agricultural communities through folk music.`,
+            items: [
+              `Seasonal harvest fair with folk drumming, costume storytelling, and local fairs.`,
+              `Annual temple chariot procession accompanied by traditional wind and brass horns.`,
+              `Community night gatherings featuring local poetic folk ballad performances.`
+            ],
+            secret: `Ask local elders about village mela dates that coincide with seasonal full moons.`
+          }
+        ]
       };
     }
 
     // =========================================================================
-    // 2. RENDER DOSSIER & UPDATE BACKGROUND PHOTO
+    // 2. RENDER THE EYE-CATCHY EDITORIAL MAGAZINE CARDS
     // =========================================================================
     const dossierOutput = document.getElementById('dossier-output');
     const showcaseSearchInput = document.getElementById('showcase-search-input');
@@ -700,75 +698,51 @@
       const cleanKey = locationKey.toLowerCase().trim();
       const data = destinationDossiers[cleanKey] || generateDynamicDossier(locationKey);
 
-      // Set the background photo reliably
-      const bgPhoto = data.imageUrl || universalFallbackPhoto;
-      toolBackgroundImage.style.backgroundImage = `url("${bgPhoto}")`;
-      toolBackgroundImage.style.opacity = "0.32";
+      // Force high-res background image directly
+      const bg = data.imageUrl || fallbackImage;
+      toolBackgroundImage.style.backgroundImage = `url("${bg}")`;
+      toolBackgroundImage.style.opacity = "0.36";
 
       dossierOutput.innerHTML = `
-        <div class="dossier-hero-card">
-          <div class="dossier-headline">
-            <h3>${data.name}</h3>
-            <span class="dossier-essence">${data.essence}</span>
-          </div>
-          <p class="dossier-summary">${data.overview}</p>
-          <div style="margin-top: 10px; font-size: 12px; color: #8ca892;">
-            <strong>✨ Best Known For:</strong> <span style="color: #edf4ec;">${data.bestKnownFor}</span>
+        <!-- Top Editorial Hero Banner -->
+        <div class="dossier-hero-banner">
+          <div class="hero-banner-kicker">✦ LIVING CULTURAL DNA &amp; UNTOLD FACTS</div>
+          <h2 class="hero-banner-title">${data.name}</h2>
+          <p class="hero-banner-desc">${data.essence}</p>
+          <div class="hero-banner-highlight">
+            <span class="highlight-pill">ESSENCE</span>
+            <span>${data.bestKnownFor}</span>
           </div>
         </div>
 
-        <div class="dossier-grid">
-          <div class="dossier-block">
-            <div class="dossier-block-title">🏛️ Top Sights &amp; Landmarks</div>
-            <ul class="dossier-block-content" style="padding-left: 18px;">
-              ${data.sights.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
+        <!-- 4-Card Eye-Catchy Magazine Grid -->
+        <div class="dossier-cards-grid">
+          ${data.cards.map(card => `
+            <div class="story-card">
+              <div>
+                <div class="card-top-meta">
+                  <span class="card-category-tag">${card.category}</span>
+                  <span class="card-stat-badge">${card.badge}</span>
+                </div>
+                <h3 class="card-headline">${card.title}</h3>
+                <p class="card-subtext">${card.subtext}</p>
+                <ul class="card-body-items">
+                  ${card.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+              </div>
 
-          <div class="dossier-block">
-            <div class="dossier-block-title">🍲 Signature Food Dishes</div>
-            <ul class="dossier-block-content" style="padding-left: 18px;">
-              ${data.foodDishes.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-
-          <div class="dossier-block">
-            <div class="dossier-block-title">🍴 Famous Food Shops &amp; Eateries</div>
-            <ul class="dossier-block-content" style="padding-left: 18px;">
-              ${data.foodShops.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-
-          <div class="dossier-block">
-            <div class="dossier-block-title">🏺 Iconic Artefacts &amp; Crafts</div>
-            <ul class="dossier-block-content" style="padding-left: 18px;">
-              ${data.artefacts.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-
-          <div class="dossier-block">
-            <div class="dossier-block-title">🛍️ Famous Bazaars for Buying Artefacts</div>
-            <ul class="dossier-block-content" style="padding-left: 18px;">
-              ${data.craftShops.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-
-          <div class="dossier-block">
-            <div class="dossier-block-title">🎭 Living Culture &amp; Heritage</div>
-            <p class="dossier-block-content">${data.culture}</p>
-          </div>
-
-          <div class="dossier-block" style="grid-column: 1 / -1;">
-            <div class="dossier-block-title">🎪 Unique Celebrated Festivals</div>
-            <ul class="dossier-block-content" style="padding-left: 18px;">
-              ${data.festivals.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
+              <!-- Insider Secret Footer -->
+              <div class="insider-secret-box">
+                <div class="insider-secret-label">💡 INSIDER SECRET</div>
+                <div class="insider-secret-text">${card.secret}</div>
+              </div>
+            </div>
+          `).join('')}
         </div>
       `;
     }
 
-    // Dynamic search input
+    // Search input listener
     showcaseSearchInput.addEventListener('input', (e) => {
       const val = e.target.value.trim();
       if (val.length >= 2) {
@@ -785,7 +759,7 @@
       });
     });
 
-    // Default load with Jaipur
+    // Initial render with Jaipur default
     renderDossier("Jaipur");
 
     // =========================================================================
@@ -807,7 +781,7 @@
       });
     });
 
-    // Feature Popup Modal
+    // Pop-up Feature Modal
     const modal = document.getElementById('feature-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');

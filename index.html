@@ -1,803 +1,714 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ARVORA — Spatial Intelligence & Cultural Codex</title>
-  <link rel="icon" href="data:," />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARVORA | Spatial Cultural Intelligence Codex</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600;700;800&display=swap');
+    :root {
+      --bg-core: #040608;
+      --panel-glass: rgba(10, 14, 20, 0.78);
+      --card-glass: rgba(18, 24, 34, 0.52);
+      --card-hover: rgba(28, 38, 52, 0.72);
+      --border-line: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(16, 185, 129, 0.45);
+      --accent-emerald: #10b981;
+      --accent-gold: #f59e0b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-dim: #475569;
+    }
 
-:root {
-  --bg-core: #040608;
-  --panel-bg: rgba(10, 14, 20, 0.75);
-  --card-bg: rgba(18, 24, 32, 0.45);
-  --card-hover: rgba(26, 35, 48, 0.65);
-  --border-line: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(16, 185, 129, 0.4);
-  --accent-emerald: #10b981;
-  --accent-gold: #f59e0b;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-dim: #475569;
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-core);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    /* Fixed Photographic Backdrop with Parallax Fade */
+    .viewport-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .backdrop-layer {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.24) contrast(1.15) saturate(1.1);
+      transform: scale(1.03);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .backdrop-layer.hidden { opacity: 0; transform: scale(1); }
+    .backdrop-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(4,6,8,0.3) 0%, rgba(4,6,8,0.88) 70%, #040608 100%);
+      backdrop-filter: blur(2px);
+    }
 
-body {
-  background: var(--bg-core);
-  color: var(--text-primary);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+    /* Monospace Tech Typography */
+    .mono-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-emerald);
+    }
 
-/* Background Stage with Dynamic Parallax Dissolve */
-.stage-viewport {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-}
+    /* ========================================================
+       PAGE 1: MAIN LANDING & GATEWAY
+    ======================================================== */
+    #main-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      position: relative;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    #main-page.page-exit {
+      opacity: 0;
+      transform: scale(1.08);
+      pointer-events: none;
+    }
 
-.stage-layer {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.28) contrast(1.15) saturate(1.1);
-  transform: scale(1.04);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
+    /* The Anti-Gravity Ruin Portal Frame */
+    .portal-frame {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 520px;
+      border-radius: 20px;
+      border: 1px solid var(--border-line);
+      background: radial-gradient(circle at center, #020406 0%, #080d14 90%);
+      box-shadow: inset 0 0 100px #000, 0 30px 80px -20px rgba(0,0,0,0.9);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
 
-.stage-layer.fade-out {
-  opacity: 0;
-  transform: scale(1);
-}
+    #portal-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
 
-.stage-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(4,6,8,0.2) 0%, rgba(4,6,8,0.85) 65%, #040608 100%);
-  backdrop-filter: blur(2px);
-}
+    /* Decoupled Floating Basalt Lintel */
+    .floating-lintel {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 24px 48px;
+      border-radius: 12px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      background: linear-gradient(180deg, rgba(22, 32, 44, 0.4) 0%, rgba(8, 12, 18, 0.85) 100%);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.12);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-/* Monospace Telemetry Micro-Labels */
-.telemetry {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-emerald);
-}
+    .arvora-brand-sparkle {
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      letter-spacing: 0.38em;
+      font-weight: 800;
+      text-transform: uppercase;
+      position: relative;
+      background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 45%, #10b981 75%, #047857 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.4));
+      user-select: none;
+    }
 
-/* Enterprise Bento Container */
-.container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 40px 24px 100px;
-}
+    .arvora-brand-sparkle::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      transform: skewX(-25deg);
+      animation: sparkleSweep 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes sparkleSweep {
+      0%, 60% { left: -100%; }
+      100% { left: 200%; }
+    }
 
-/* =======================================================
-   PORTAL COMPONENT: ANTI-GRAVITY DARK TEMPLE ABYSS
-======================================================= */
-.portal-wrapper {
-  position: relative;
-  width: 100%;
-  height: 520px;
-  border-radius: 16px;
-  border: 1px solid var(--border-line);
-  background: radial-gradient(circle at center, #020406 0%, #060a0f 85%);
-  overflow: hidden;
-  box-shadow: inset 0 0 100px rgba(0,0,0,0.9), 0 30px 60px -20px rgba(0,0,0,0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 40px;
-}
+    /* Portal CTA Pill */
+    .enter-portal-btn {
+      margin-top: 36px;
+      z-index: 2;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid var(--border-active);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      padding: 14px 32px;
+      border-radius: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .enter-portal-btn:hover {
+      background: var(--accent-emerald);
+      color: #040608;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+      transform: translateY(-2px);
+    }
 
-#particle-canvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.65;
-}
+    /* ========================================================
+       PAGE 2: LIVE FEATURE & SPATIAL CODEX VIEW
+    ======================================================== */
+    #features-page {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 40px 24px 100px;
+    }
+    #features-page.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-/* Decoupled Floating Basalt Arch Elements */
-.anti-gravity-keystone {
-  position: absolute;
-  width: 780px;
-  height: 120px;
-  top: 15%;
-  border-radius: 6px;
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  background: linear-gradient(180deg, rgba(20, 28, 36, 0.4) 0%, rgba(8, 12, 16, 0.8) 100%);
-  backdrop-filter: blur(8px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  animation: floatRock 6s ease-in-out infinite alternate;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
-  z-index: 2;
-  transition: transform 0.15s ease-out;
-}
+    /* Top Control Bar with Dynamic Search Input */
+    .search-hud {
+      background: var(--panel-glass);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border-line);
+      border-radius: 14px;
+      padding: 16px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
 
-@keyframes floatRock {
-  0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-12px) rotate(0.4deg); }
-}
+    .search-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      max-width: 600px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border-line);
+      padding: 10px 16px;
+      border-radius: 8px;
+    }
+    .search-group input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+    .search-group input::placeholder { color: var(--text-dim); }
 
-/* Deep Cavern Threshold Center */
-.abyss-threshold {
-  position: absolute;
-  width: 320px;
-  height: 380px;
-  bottom: 0;
-  background: radial-gradient(ellipse at 50% 100%, #000 30%, rgba(16, 185, 129, 0.05) 75%, transparent 100%);
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 1;
-}
+    .action-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-line);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .action-btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.25);
+    }
 
-/* Sparking ARVORA Engraving */
-.arvora-sparkle-title {
-  font-family: 'Cinzel', serif;
-  font-size: 3.8rem;
-  letter-spacing: 0.38em;
-  font-weight: 800;
-  text-transform: uppercase;
-  position: relative;
-  background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 40%, #10b981 70%, #047857 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 18px rgba(16, 185, 129, 0.4));
-  user-select: none;
-}
+    /* Preset Quick-Access Navigation Chips */
+    .hud-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 36px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .hud-chips::-webkit-scrollbar { display: none; }
+    .hud-chip {
+      background: transparent;
+      border: 1px solid var(--border-line);
+      color: var(--text-sub);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .hud-chip:hover, .hud-chip.active {
+      color: #fff;
+      border-color: var(--border-active);
+      background: rgba(16, 185, 129, 0.1);
+    }
 
-.arvora-sparkle-title::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-  transform: skewX(-25deg);
-  animation: shineRun 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Bento Grids */
+    .bento-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 50px;
+    }
+    .grid-6 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
 
-@keyframes shineRun {
-  0%, 60% { left: -100%; }
-  100% { left: 200%; }
-}
+    .telemetry-card {
+      background: var(--card-glass);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .telemetry-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-active);
+      background: var(--card-hover);
+    }
 
-/* =======================================================
-   SYSTEM TABS: MINIMALIST RUNTIME MATRIX
-======================================================= */
-.hud-nav {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 12px;
-  background: var(--panel-bg);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-line);
-  border-radius: 12px;
-  margin-bottom: 36px;
-  scrollbar-width: none;
-}
-.hud-nav::-webkit-scrollbar { display: none; }
+    .secret-box {
+      background: rgba(0, 0, 0, 0.65);
+      border-left: 2px solid var(--accent-emerald);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-top: 18px;
+    }
 
-.hud-tab {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hud-tab:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.hud-tab.active {
-  color: #fff;
-  background: rgba(16, 185, 129, 0.1);
-  border-color: var(--border-active);
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
-}
-
-/* Dossier Grid System */
-.section-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 1px solid var(--border-line);
-  padding-bottom: 18px;
-  margin-bottom: 28px;
-}
-
-.section-title {
-  font-size: 1.65rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-
-.bento-grid {
-  display: grid;
-  gap: 16px;
-  margin-bottom: 50px;
-}
-.grid-6 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
-.grid-4 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
-
-/* Technical Bento Card */
-.telemetry-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border-line);
-  border-radius: 10px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-}
-
-.telemetry-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--border-active), transparent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.telemetry-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--border-active);
-  background: var(--card-hover);
-}
-
-.telemetry-card:hover::before {
-  opacity: 1;
-}
-
-.secret-box {
-  background: rgba(3, 7, 12, 0.7);
-  border-left: 2px solid var(--accent-emerald);
-  padding: 10px 14px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  color: #cbd5e1;
-  line-height: 1.5;
-  margin-top: 18px;
-}
+    /* Loading Spinner Bar */
+    .telemetry-loader {
+      display: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-emerald), transparent);
+      animation: scan 1.2s infinite ease-in-out;
+      margin-bottom: 20px;
+    }
+    @keyframes scan {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Dynamic Parallax Dissolve Stage -->
-  <div class="stage-viewport">
-    <div id="stage-bg-back" class="stage-layer"></div>
-    <div id="stage-bg-front" class="stage-layer"></div>
-    <div class="stage-overlay"></div>
+  <!-- Background Imagery Engine -->
+  <div class="viewport-backdrop">
+    <div id="bg-back" class="backdrop-layer"></div>
+    <div id="bg-front" class="backdrop-layer"></div>
+    <div class="backdrop-vignette"></div>
   </div>
 
-  <main class="container">
-    <!-- Interactive Anti-Gravity Moss Portal -->
-    <section class="portal-wrapper" id="portal-frame">
-      <canvas id="particle-canvas"></canvas>
-      
-      <div class="abyss-threshold"></div>
-
-      <div class="anti-gravity-keystone" id="keystone">
-        <span class="telemetry">Autonomous Spatial Heritage Intelligence</span>
-        <h1 class="arvora-sparkle-title">ARVORA</h1>
-        <span class="telemetry" id="portal-coordinates" style="color: var(--text-dim);">SYSTEM // INITIALIZING</span>
+  <!-- ==========================================
+       PAGE 1: MAIN LANDING & GATEWAY
+  =========================================== -->
+  <section id="main-page">
+    <div class="portal-frame" id="portal-frame" onclick="openFeaturesPage()">
+      <canvas id="portal-canvas"></canvas>
+      <div class="floating-lintel" id="keystone">
+        <span class="mono-tag">Autonomous Spatial Heritage Codex</span>
+        <h1 class="arvora-brand-sparkle">ARVORA</h1>
+        <span class="mono-tag" style="color: var(--text-dim);">NATIONAL REPOSITORY // ALL INDIA COVERAGE</span>
       </div>
-    </section>
+    </div>
+    
+    <button class="enter-portal-btn" onclick="openFeaturesPage()">
+      <span>OPEN INTELLIGENCE CODEX</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </section>
 
-    <!-- Navigation Switcher (Supports All Sites) -->
-    <nav class="hud-nav" id="hud-navigation">
-      <button class="hud-tab active" data-dest="Delhi">01 // DELHI</button>
-      <button class="hud-tab" data-dest="Agra">02 // AGRA</button>
-      <button class="hud-tab" data-dest="Kashmir (Valley)">03 // KASHMIR</button>
-      <button class="hud-tab" data-dest="Jaipur (Rajasthan)">04 // JAIPUR</button>
-      <button class="hud-tab" data-dest="Varanasi (UP)">05 // VARANASI</button>
-      <button class="hud-tab" data-dest="Kerala (Backwaters)">06 // KERALA</button>
-      <button class="hud-tab" data-dest="Amritsar (Punjab)">07 // AMRITSAR</button>
-      <button class="hud-tab" data-dest="Goa (Coastal)">08 // GOA</button>
-      <button class="hud-tab" data-dest="Hampi (Karnataka)">09 // HAMPI</button>
-      <button class="hud-tab" data-dest="Ladakh (Highland)">10 // LADAKH</button>
-    </nav>
-
-    <!-- Dynamic Spatial Intelligence Dossier -->
-    <section id="dossier-root">
-      <header class="section-meta">
-        <div>
-          <span class="telemetry" id="meta-location-tag">NODE // DL-01</span>
-          <h2 class="section-title" id="meta-destination-title">DELHI: CULTURAL INTELLIGENCE & SPATIAL CODEX</h2>
-        </div>
-        <span class="telemetry" style="color: var(--accent-gold);">SYSTEM VERIFIED // 2026 CODEX</span>
-      </header>
-
-      <!-- Module 1: 6 Signature Inquiries -->
-      <div style="margin-bottom: 24px;">
-        <span class="telemetry">MODULE 01 // CRITICAL CULTURAL LENSES</span>
-        <h3 style="font-size: 1.15rem; color: #fff; margin-top: 4px;">Don't Just Visit. Understand It.</h3>
+  <!-- ==========================================
+       PAGE 2: LIVE FEATURE DOSSIER FOR ANY PLACE
+  =========================================== -->
+  <section id="features-page">
+    <!-- Top HUD Navigation -->
+    <div class="search-hud">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <button class="action-btn" onclick="closeFeaturesPage()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px; display:inline-block;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          RETURN TO PORTAL
+        </button>
+        <span class="mono-tag" id="current-telemetry-tag">STATUS // READY</span>
       </div>
-      <div class="bento-grid grid-6" id="inquiries-container"></div>
 
-      <!-- Module 2: 4 Living Cultural DNA Pillars -->
-      <div style="margin-bottom: 24px; margin-top: 50px;">
-        <span class="telemetry">MODULE 02 // LIVING CULTURAL DNA</span>
-        <h3 style="font-size: 1.15rem; color: #fff; margin-top: 4px;">Untold Stories & Architectural Secrets</h3>
+      <!-- Live Search: Supports any village, city, state, or district -->
+      <div class="search-group">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="destination-query" placeholder="Type any Indian village, city, district (e.g. Madurai, Spiti, Kutch, Khajuraho)..." onkeydown="if(event.key==='Enter') executeLiveSearch()">
       </div>
-      <div class="bento-grid grid-4" id="dna-container"></div>
-    </section>
-  </main>
 
+      <button class="action-btn" style="background:var(--accent-emerald); color:#040608; border-color:var(--accent-emerald);" onclick="executeLiveSearch()">
+        RESOLVE CODEX
+      </button>
+    </div>
+
+    <!-- Quick-Jump Chips -->
+    <div class="hud-chips">
+      <button class="hud-chip active" onclick="loadLocation('Delhi')">Delhi</button>
+      <button class="hud-chip" onclick="loadLocation('Agra')">Agra</button>
+      <button class="hud-chip" onclick="loadLocation('Kashmir')">Kashmir</button>
+      <button class="hud-chip" onclick="loadLocation('Varanasi')">Varanasi</button>
+      <button class="hud-chip" onclick="loadLocation('Goa')">Goa</button>
+      <button class="hud-chip" onclick="loadLocation('Amritsar')">Amritsar</button>
+      <button class="hud-chip" onclick="loadLocation('Jaipur')">Jaipur</button>
+      <button class="hud-chip" onclick="loadLocation('Hampi')">Hampi</button>
+      <button class="hud-chip" onclick="loadLocation('Ladakh')">Ladakh</button>
+      <button class="hud-chip" onclick="loadLocation('Kerala')">Kerala</button>
+    </div>
+
+    <div class="telemetry-loader" id="loader-bar"></div>
+
+    <!-- Dynamic Headers -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--border-line); padding-bottom:18px; margin-bottom:28px;">
+      <div>
+        <span class="mono-tag" id="place-coords">GEOSPATIAL VERIFICATION IN PROGRESS</span>
+        <h2 style="font-size:1.8rem; font-weight:700; color:#fff; margin-top:6px;" id="place-heading">DELHI: CULTURAL INTELLIGENCE & SPATIAL CODEX</h2>
+      </div>
+      <span class="mono-tag" style="color:var(--accent-gold);" id="extract-meta">SOURCE // LIVE GEODATA</span>
+    </div>
+
+    <!-- Module 1: 6 Signature Inquiries -->
+    <div style="margin-bottom:20px;">
+      <span class="mono-tag">MODULE 01 // CRITICAL CULTURAL LENSES</span>
+      <h3 style="font-size:1.15rem; color:#fff; margin-top:4px;" id="subhead-inquiries">Don't Just Visit. Understand It.</h3>
+    </div>
+    <div class="bento-grid grid-6" id="inquiries-root"></div>
+
+    <!-- Module 2: 4 Living Cultural DNA Pillars -->
+    <div style="margin-bottom:20px; margin-top:40px;">
+      <span class="mono-tag">MODULE 02 // LIVING CULTURAL DNA</span>
+      <h3 style="font-size:1.15rem; color:#fff; margin-top:4px;" id="subhead-dna">Untold Stories & Architectural Secrets</h3>
+    </div>
+    <div class="bento-grid grid-4" id="dna-root"></div>
+  </section>
+
+  <!-- ==========================================
+       SYSTEM JAVASCRIPT: API ENGINE & PARALLAX
+  =========================================== -->
   <script>
-/* ========================================================
-   1. VERIFIED IMAGE REGISTRY & CODEX DATA
-======================================================== */
-const DESTINATIONS = {
-  "delhi": {
-    name: "Delhi (National Capital)",
-    coords: "LAT 28.6139° N // LON 77.2090° E",
-    tag: "NODE // DL-01",
-    // Authentic Delhi landmark (Humayun's Tomb red sandstone / jali work)
-    bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why were 7 historical cities superimposed on this ridge?", a: "The northern terminal spur of the ancient Aravalli Hills created a natural defensive citadel commanding the Yamuna river trade routes between Central Asia and the Gangetic plains." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do purani dilli residents eat slow-simmered Nihari at dawn?", a: "Originating as an energizing beef and bone-marrow stew for royal laborers and soldiers in the Mughal winters, Nihari is taken at first light to sustain intense physical labor." },
-      { lens: "WHAT TOURISTS MISS", q: "What subterranean engineering lies inside Agrasen ki Baoli?", a: "A 60-meter deep, 3-tiered stepwell engineered with porous sedimentary stone that provided microclimate cooling for desert trading caravans passing through the ridge." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is pure Silver Vark hammered in Dariba Kalan?", a: "Artisans beat pure 99.9% silver strips placed inside leather casings with 5-kg wooden mallets continuously for 6 hours until it reaches 0.2 microns in thickness." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why does authentic Daulat ki Chaat exist only for 90 days?", a: "Fresh raw buffalo milk must be hand-whipped under open moonlit winter dew; the delicate foam collapses instantly if temperatures rise above 16°C." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves 800 years of Sufi Qawwali at Nizamuddin?", a: "The direct descendants of Hazrat Amir Khusrau (the Qawwal Bachhe lineage), singing unbroken Sufi musical harmonies in the inner sanctum every Thursday night." }
-    ],
-    pillars: [
-      {
-        badge: "ACOUSTIC SUFI VOIDS",
-        tag: "800 YRS UNBROKEN",
-        title: "The Chinar Courtyards of Nizamuddin",
-        tagline: "Sacred acoustic physics mapped around Sufi vocal harmonics.",
-        body: "The inner marble courtyards of the Dargah were laid out with proportional stone colonnades that prevent vocal echoes, allowing multi-layered acoustic qawwalis to travel cleanly through packed crowds without artificial amplifiers.",
-        secret: "Step into the inner arcade during Maghrib prayer; sit directly behind the harmonium player for the purest acoustic clarity."
-      },
-      {
-        badge: "SEISMIC RED SANDSTONE",
-        tag: "1192 CE ARCHITECTURE",
-        title: "The Fluted Symmetry of Qutb",
-        tagline: "Alternating angular and semicircular fluting engineered against wind shear.",
-        body: "Rising 72.5 meters, the minaret's fluted stone geometry breaks violent atmospheric wind gusts across the Delhi plains while cantilevered stalactite stone brackets disperse lateral earth tremors.",
-        secret: "Examine the base inscriptions—the masonry includes re-used Gurjara-Pratihara temple stones integrated structurally into the foundation tier."
-      },
-      {
-        badge: "METALLURGIC ENIGMA",
-        tag: "1,600 YRS ZERO RUST",
-        title: "The Wrought Iron Pillar of Mehrauli",
-        tagline: "High-phosphorus metallurgy defying oxidation for millennia.",
-        body: "Forged during the Gupta Empire using high-phosphorus bloomery iron, a protective passive film of misawite (iron hydrogen phosphate hydrate) forms continuously on the surface, preventing atmospheric corrosion despite 16 centuries of monsoon rain.",
-        secret: "The pillar has zero carbon steel hardening; its rust-resistance is purely chemical, achieved through deliberate lack of lime in the smelting charcoal."
-      },
-      {
-        badge: "ROYAL HYDROLOGY",
-        tag: "THE CANAL OF PARADISE",
-        title: "Nahr-i-Bihisht Cooling Duct",
-        tagline: "Subterranean canal network that air-conditioned the Red Fort.",
-        body: "Engineered to tap the Yamuna river miles upstream, water ran continuously down marble chutes inside the imperial pavilions, cooling the royal chambers by 6°C during 45°C summer dust storms.",
-        secret: "Look at the carved marble lotus basins in the Diwan-i-Khas—scalloped ripple ridges were mathematically chiseled to produce soothing acoustic bubbling."
+    /* ----------------------------------------------------
+       1. PAGE TRANSITIONS (MAIN -> FEATURES)
+    ---------------------------------------------------- */
+    function openFeaturesPage() {
+      const main = document.getElementById("main-page");
+      const features = document.getElementById("features-page");
+
+      main.classList.add("page-exit");
+      setTimeout(() => {
+        main.style.display = "none";
+        features.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 500);
+    }
+
+    function closeFeaturesPage() {
+      const main = document.getElementById("main-page");
+      const features = document.getElementById("features-page");
+
+      features.classList.remove("active");
+      setTimeout(() => {
+        main.style.display = "flex";
+        main.classList.remove("page-exit");
+      }, 300);
+    }
+
+    /* ----------------------------------------------------
+       2. DUAL BACKGROUND CROSS-FADE CONTROLLER
+    ---------------------------------------------------- */
+    let currentStage = 'front';
+    function updateBackdrop(imageUrl) {
+      const front = document.getElementById('bg-front');
+      const back = document.getElementById('bg-back');
+
+      if (currentStage === 'front') {
+        back.style.backgroundImage = `url('${imageUrl}')`;
+        front.classList.add('hidden');
+        back.classList.remove('hidden');
+        currentStage = 'back';
+      } else {
+        front.style.backgroundImage = `url('${imageUrl}')`;
+        back.classList.add('hidden');
+        front.classList.remove('hidden');
+        currentStage = 'front';
       }
-    ]
-  },
+    }
 
-  "agra": {
-    name: "Agra (Mughal Seat)",
-    coords: "LAT 27.1767° N // LON 78.0081° E",
-    tag: "NODE // AG-02",
-    // Authentic Agra Landmark (Taj Mahal at Dawn Mist)
-    bg: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did the Mughal court shift to this bend of the Yamuna?", a: "Sultan Sikandar Lodi and later Babur recognized that Agra’s high riverbluff gave complete artillery control over North Indian caravan arteries connecting Gujarat ports to Bengal." },
-      { lens: "WHY LOCALS DO THIS", q: "Why is Agra Petha soaked in pickling lime water for hours?", a: "Locals soak ash-gourd cubes in water infused with edible slaked lime (chuna) to chemically harden the cell walls, ensuring the candied interior stays juicy while the exterior remains crystalline." },
-      { lens: "WHAT TOURISTS MISS", q: "What optical illusion was calculated into the Taj Mahal Gate?", a: "As you walk toward the colossal Great Gate (Darwaza-i-Rauza), the Taj Mahal appears to shrink backward, rather than grow larger, due to engineered forced-perspective framing." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is delicate Parchin Kari (Pietra Dura) cut into marble?", a: "Master craftsmen shape semi-precious stones (malachite, carnelian, lapis) on hand-spun emery wheels, chiseling matching 2-millimeter deep marble pockets sealed with an unwritten tree-resin adhesive." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is Bedmi Puri made only with soaked urad dal?", a: "Coarsely ground urad dal spiced with saunf and hing provides the high plant protein and digestive fire needed by manual foundry and leather artisans working in Agra's historical workshops." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves royal Zardozi gold embroidery?", a: "Generational Muslim artisan guilds in the narrow mohallas of Nai ki Mandi, hand-weaving real metallic bullion threads over stretched wooden karchob frames." }
-    ],
-    pillars: [
-      {
-        badge: "SUBTERRANEAN FOUNDATION",
-        tag: "EBONY TIMBER WELLS",
-        title: "The Moisture-Locked Caissons",
-        tagline: "A foundation engineered to survive only if the river stays full.",
-        body: "The entire mass of the Taj Mahal rests upon subterranean masonry wells filled with rubble and capped with massive ebony timber beams. Ebony wood remains structurally rock-hard only when continuously submerged in water supplied by the Yamuna.",
-        secret: "Engineers monitor Yamuna water levels strictly; if the riverbed dries out, the subterranean wood risks exposure to oxygen and structural decay."
+    /* ----------------------------------------------------
+       3. HIGH-PRECISION SEED DATA FOR POPULAR HUBS
+    ---------------------------------------------------- */
+    const PRESET_CODEX = {
+      "delhi": {
+        name: "Delhi",
+        coords: "LAT 28.6139° N // LON 77.2090° E",
+        bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why were 7 historical cities superimposed on this ridge?", a: "The northern terminal spur of the ancient Aravalli Hills provided natural defensive elevation commanding the sacred Yamuna trade corridor between Central Asia and the Gangetic basin." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do Purani Dilli residents take slow-simmered Nihari at dawn?", a: "Originating as an energizing beef and bone-marrow stew for royal laborers and troops during chilly Mughal winters, it sustains intense daily craft labor." },
+          { lens: "WHAT TOURISTS MISS", q: "What subterranean engineering lies inside Agrasen ki Baoli?", a: "A 60-meter deep stepwell engineered with sedimentary stone that established a microclimate cooling system for desert caravans passing through the ridge." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How is pure Silver Vark hammered in Dariba Kalan?", a: "Artisans beat 99.9% pure silver strips between ox-gut membranes with 5-kg wooden mallets continuously for 6 hours until sheets reach 0.2 microns." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why does authentic Daulat ki Chaat exist only for 90 days?", a: "Raw buffalo milk must absorb winter night dew on open terraces before hand-whipping at 4:00 AM; the froth dissolves instantly if temperatures rise above 16°C." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves 800 years of Sufi Qawwali at Nizamuddin?", a: "The direct descendants of Hazrat Amir Khusrau (Qawwal Bachhe lineage), chanting polyphonic mystic verses in the inner sanctum every Thursday." }
+        ],
+        pillars: [
+          { badge: "ACOUSTIC SUFI VOIDS", tag: "800 YRS UNBROKEN", title: "The Colonnades of Nizamuddin", tagline: "Sacred acoustic physics mapped around Sufi vocal harmonics.", body: "The marble courtyards were designed with proportional stone arcades that neutralize echoes, allowing complex vocal harmonies to carry with pristine clarity.", secret: "Sit directly behind the harmonium player during Maghrib for distortion-free acoustic immersion." },
+          { badge: "SEISMIC RED SANDSTONE", tag: "1192 CE ENGINEERING", title: "The Fluted Symmetry of Qutb", tagline: "Alternating angular and semicircular fluting engineered against wind shear.", body: "Rising 72.5 meters, the minaret's fluted geometry deflects high-altitude atmospheric wind shear across the plains while cantilevered stalactite stone brackets absorb tremors.", secret: "The foundation integrates re-used Gurjara-Pratihara structural masonry." },
+          { badge: "METALLURGIC ENIGMA", tag: "1,600 YRS ZERO RUST", title: "The Wrought Iron Pillar of Mehrauli", tagline: "High-phosphorus metallurgy defying oxidation for millennia.", body: "Forged during the Gupta Empire, a protective passive layer of misawite (iron hydrogen phosphate hydrate) forms continuously, shielding the iron from rain.", secret: "The iron contains zero modern slag; rust protection is purely chemical." },
+          { badge: "ROYAL HYDROLOGY", tag: "CANAL OF PARADISE", title: "Nahr-i-Bihisht Duct Network", tagline: "Subterranean canal network that air-conditioned the Red Fort.", body: "Engineered to divert Yamuna river currents, water ran continuously down marble chutes inside pavilions, dropping indoor temperatures by 6°C in summer.", secret: "The scalloped lotus basins were sculpted to generate relaxing rhythmic bubbling." }
+        ]
       },
-      {
-        badge: "OPTICAL ARCHITECTURE",
-        tag: "OUTWARD MINARET LEAN",
-        title: "The Fall-Safe Minarets",
-        tagline: "Minarets deliberately tilted outwards by 1.5 degrees.",
-        body: "The four flanking 40-meter minarets are not plumb vertical. They were constructed leaning slightly outward so that in the event of a catastrophic earthquake, the towers would collapse away from the central dome.",
-        secret: "Stand on the plinth directly between any two minarets and sight along the vertical stone joints to see the subtle outward divergence."
-      },
-      {
-        badge: "GEMOLOGICAL LAPIDARY",
-        tag: "MICRON PRECISION",
-        title: "The Inlaid Carnelian Blooms",
-        tagline: "Single flower petals crafted from up to 35 individual stone slices.",
-        body: "The floral arabesques on the cenotaphs are not painted; they are comprised of hand-polished jasper, lapis, jade, and carnelian so precisely fitted that joints between stone edges cannot be detected with a razor blade.",
-        secret: "Shine a small flashlight at a 45-degree angle against the yellow carnelian petals on the inner tomb—the translucent stone glows fiery orange."
-      },
-      {
-        badge: "ACOUSTIC RESONANCE",
-        tag: "28-SECOND REVERB",
-        title: "The Echo Dome of Mumtaz",
-        tagline: "A reverberation chamber tuned to sustain sacred vocal prayer.",
-        body: "The central interior dome was acoustically tuned with hollow double-shell cavity walls to sustain a vocal musical note for 28 seconds, transforming single prayers into an ambient wall of sacred resonance.",
-        secret: "Early morning guards whisper or hum a single resonant note inside the tomb to demonstrate the continuous decaying echo to visitors."
+      "agra": {
+        name: "Agra",
+        coords: "LAT 27.1767° N // LON 78.0081° E",
+        bg: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1920&q=80",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why did the Mughal court shift to this Yamuna bluff?", a: "The high sandstone river bluff gave complete strategic artillery control over the trade route linking western Gujarati ports to the fertile Gangetic plain." },
+          { lens: "WHY LOCALS DO THIS", q: "Why is Agra Petha steeped in slaked lime water?", a: "Ash gourd cubes are soaked in lime-infused water (chuna) to chemically reinforce cell walls, keeping the interior juicy while the crystalline shell sets." },
+          { lens: "WHAT TOURISTS MISS", q: "What optical illusion is calculated into the Great Gate?", a: "As you walk toward the colossal Great Gate (Darwaza-i-Rauza), the Taj Mahal appears to shrink backwards rather than grow due to calculated forced-perspective framing." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How is Parchin Kari (Pietra Dura) cut into marble?", a: "Semi-precious minerals (lapis, malachite, carnelian) are hand-cut on emery wheels and inlaid into chiseled 2mm marble pockets sealed with natural tree resins." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why is Bedmi Puri made only with coarse urad dal?", a: "Urad dal ground with fennel and hing provides sustained protein and digestive heat for foundry and leather workers in historical bazaars." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves royal Zardozi gold embroidery?", a: "Generational artisan families in Nai ki Mandi hand-weaving metallic bullion wire over stretched karchob wooden frames." }
+        ],
+        pillars: [
+          { badge: "SUBTERRANEAN CAISSONS", tag: "EBONY TIMBER WELLS", title: "The Moisture-Locked Foundation", tagline: "A foundation engineered to survive only if the river stays full.", body: "The Taj Mahal plinth rests on subterranean masonry wells filled with rubble and capped with massive ebony timber beams, which retain structural strength only while waterlogged.", secret: "Engineers constantly monitor Yamuna riverbed saturation to prevent timber oxidation." },
+          { badge: "OPTICAL ARCHITECTURE", tag: "OUTWARD LEAN 1.5°", title: "The Fall-Safe Minarets", tagline: "Minarets deliberately tilted outwards by 1.5 degrees.", body: "The four 40-meter minarets were intentionally built leaning slightly outward so that in the event of a catastrophic earthquake, they would fall away from the tomb dome.", secret: "Sight along the corner vertical joints from the plinth to observe the divergence." },
+          { badge: "GEMOLOGICAL LAPIDARY", tag: "MICRON PRECISION", title: "The Inlaid Carnelian Blooms", tagline: "Single flower petals crafted from up to 35 individual stone slices.", body: "Inlaid florals are composed of jasper, lapis, jade, and carnelian fitted with such precision that seams between stones cannot be detected with a razor blade.", secret: "Shine a weak beam at a 45° angle on the central cenotaph; translucent carnelian petals glow amber." },
+          { badge: "ACOUSTIC CAVITY", tag: "28-SECOND REVERB", title: "The Echo Dome of Mumtaz", tagline: "A reverberation chamber tuned to sustain sacred vocal prayer.", body: "The double-shell dome was constructed with a hollow cavity that reverberates a single musical note for 28 continuous seconds, turning prayers into ambient harmonic waves.", secret: "Caretakers demonstrate the echo at dawn by singing a sustained low vocal tone." }
+        ]
       }
-    ]
-  },
+    };
 
-  "kashmir (valley)": {
-    name: "Kashmir (Valley)",
-    coords: "LAT 34.0837° N // LON 74.7973° E",
-    tag: "NODE // KS-03",
-    bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did civilization converge in this Himalayan amphitheater?", a: "Carved between the Pir Panjal and Great Himalayan ranges, the valley acted as the critical oasis where the Northern Silk Road met trans-Himalayan monastic paths." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do locals gather around the copper Samovar at dawn?", a: "Kahwa infused with saffron, cinnamon, and crushed almonds is not just hospitality—it serves as vital metabolic heat to counter high-altitude thermal drops." },
-      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the boulevard shikaras of Dal Lake?", a: "The 4:00 AM floating vegetable market on Mir Behri, where vendor-farmers barter indigenous produce using historic silent hand-signal codes under river mist." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Kani and Pashmina shawls drafted?", a: "Woven from microscopic Capra Hircus mountain-goat fleece using wooden spool needles ('kanis') guided by a coded, centuries-old calligraphic chant called 'Taleem'." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is traditional Wazwan cooked exclusively over fruit-wood?", a: "Master chefs ('Wazas') use fallen dried apple and walnut wood to achieve the sustained, smoke-free flame required to hand-pound tender meat for Rista and Gushtaba." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves the zero-nail Pinjrakari woodwork?", a: "The master woodwrights of Old Srinagar, assembling intricate geometric cedar lattices using gravity and sliding joints without a single iron nail." }
-    ],
-    pillars: [
-      { badge: "SEISMIC WOOD ARCHITECTURE", tag: "1,000 YRS FLEXIBLE", title: "Taq & Dhajji Dewari", tagline: "Earthquake-resistant timber engineering that dances with fault lines.", body: "Ancient Kashmiri masons intertwined deodar timber beams with light stone masonry. Instead of resisting tectonic shocks, the wooden cage flexes and dissipates seismic energy without collapse.", secret: "Examine the underbellies of Old Srinagar bridges and shrines like Khanqah-e-Moula—they are held without mortar or steel." },
-      { badge: "TEXTILE MATHEMATICS", tag: "18 MONTHS ON LOOM", title: "The Taleem Script of Kani", tagline: "Where master weavers convert poetic notation into woven silk and wool.", body: "Kani shawls are not woven by sight. Master Ustaads translate intricate Persian floral patterns into a transcribed coded alphabet chanted aloud, instructing the weaver's fingers on every warp thread.", secret: "A genuine heirloom Kani shawl contains over 300,000 individual knots and is completely reversible." },
-      { badge: "LIVING WATERWAYS", tag: "RADH FLOATING FARMS", title: "The Drifting Soil of Dal", tagline: "Agricultural beds woven entirely from aquatic weeds and wild lake reeds.", body: "Generations of Mir Behri farmers weave dense mats of Typha reeds into floating bio-rafts ('Radh'). These rafts rise and fall with water levels, producing organic heirloom Nadru (lotus stem) and greens.", secret: "Rent a small rowing boat at 4:45 AM toward the interior channels—floating barter transactions conclude strictly before 6:30 AM." },
-      { badge: "BOTANICAL ALCHEMY", tag: "GRADE-A MONGRA", title: "The Purple Soil of Pampore", tagline: "The world's most concentrated saffron fields blooming under October moonlight.", body: "The lacustrine plateau of Pampore possesses unique alluvial soil ('karewas'). It takes over 150,000 hand-picked Crocus sativus flowers to yield a single kilogram of pure Kashmiri saffron threads.", secret: "Authentic saffron threads never dissolve or bleed instantly into warm water—they diffuse a golden amber hue over 15 slow minutes." }
-    ]
-  },
+    /* ----------------------------------------------------
+       4. LIVE ALL-INDIA DATA RESOLVER (WIKIPEDIA API + SYNTHESIS)
+    ---------------------------------------------------- */
+    async function fetchAllIndiaPlaceData(placeName) {
+      const loader = document.getElementById("loader-bar");
+      loader.style.display = "block";
 
-  "amritsar (punjab)": {
-    name: "Amritsar (Punjab)",
-    coords: "LAT 31.6340° N // LON 74.8723° E",
-    tag: "NODE // PB-04",
-    bg: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why was the Amrit Sarovar dug around a modest forest pool?", a: "Guru Ram Das consecrated the tank in 1577 as an egalitarian sanctuary, built lower than the surrounding terrain so that all kings and commoners must descend equally." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do devotees perform Seva daily?", a: "Washing marble floors or polishing shoes is a spiritual discipline designed to dismantle the ego and reinforce universal human dignity." },
-      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the temple parikrama?", a: "The historic Katras of the Old Walled City, where brasssmiths, papad-makers, and spice godowns preserve 19th-century merchant life." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is traditional Phulkari silk embroidered?", a: "Embroidered from the reverse side of coarse handspun khaddar fabric using untwisted silk floss ('pat') purely from thread counts, never stamped patterns." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why are Amritsari Kulchas baked only in open clay tandoors?", a: "Laminated with alternate layers of ghee and spiced potato dough, the extreme radiant heat of subterranean clay blisters the crust into crisp, paper-thin shards." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who manages the world's largest communal kitchen?", a: "The Guru Ram Das Langar Hall operates 24/7 on community donations and volunteers, feeding over 100,000 people of all faiths daily for free." }
-    ],
-    pillars: [
-      { badge: "SACRED VOLUNTEERISM", tag: "100,000 MEALS DAILY", title: "The Mega-Kitchen of Equality", tagline: "Precision logistics driven entirely by selfless devotion.", body: "Operating non-stop through wars and crises, the langar cooks 12,000 kg of flour and 1,500 kg of lentils every 24 hours with automated roti machines running alongside thousands of volunteers.", secret: "Walk behind the dining halls into the dal-stirring area; volunteers will gladly let you stir a 7-foot iron cauldron." },
-      { badge: "METALLURGIC SYMBOLISM", tag: "750 KG PURE GOLD", title: "The Gilded Copper Repoussé", tagline: "Master gilding commissioned by Maharaja Ranjit Singh.", body: "Beneath the golden sheen lies copper sheets embossed with floral repoussé patterns overlaid with pure gold foil. Inside, master artisans executed delicate Pietra Dura inlay.", secret: "The floral marble inlays were carved by descendants of the same artisans who decorated the Taj Mahal." },
-      { badge: "UNESCO CRAFT HERITAGE", tag: "HAMMERED METALWORK", title: "The Thatheras of Jandiala Guru", tagline: "India's only UNESCO-inscribed traditional metal-crafting guild.", body: "Using hand-held anvils and rounded hammers, Thathera craftsmen beat flat brass and copper discs into seamless water vessels with textured dimples that structurally reinforce the metal.", secret: "Visit Jandiala Guru 15 km outside the city to witness the rhythmic acoustic hammer beats echoing down artisan lanes." },
-      { badge: "HERITAGE DEFENSE", tag: "18TH-CENTURY BULWARK", title: "The Circular Maze of Gobindgarh", tagline: "Military architecture built to withstand Afghan artillery cannons.", body: "Constructed on concentric circular bastions with thick outer mud-and-brick walls that absorbed cannonball impact instead of shattering, securing the historic Toshakhana treasury.", secret: "The inner subterranean chambers stay at 18°C year-round to safeguard gunpowder stockpiles from scorching summers." }
-    ]
-  },
+      const cleanKey = placeName.toLowerCase().trim();
 
-  "goa (coastal)": {
-    name: "Goa (Coastal)",
-    coords: "LAT 15.2993° N // LON 74.1240° E",
-    tag: "NODE // GA-05",
-    bg: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did maritime empires anchor along the Mandovi basin?", a: "Deep natural harbors and estuarine networks allowed early Kadamba and later Portuguese fleets to control spice trade routes while maintaining defensive river moats." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do coastal villages follow the 'Susegad' lifestyle?", a: "Susegad is a Portuguese-Goan ethos of unhurried balance, taking time during midday heat to prioritize communal rhythm and family." },
-      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the northern beach shacks?", a: "The ancient Khazan agro-aquatic wetlands—a 3,000-year-old bio-engineered dyke and sluice-gate system regulating tides to farm salt, fish, and rice." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Goan Azulejos tiles hand-painted?", a: "Glazed ceramic tiles are hand-stenciled and painted using cobalt-oxide mineral pigments before undergoing a 1,000°C kiln glaze." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is authentic Vindalho made with coconut vinegar?", a: "Derived from Portuguese 'carne de vinha d’alhos', local Catholic cooks substituted fermented coconut toddy vinegar for tropical preservation." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves traditional Ghode Modni?", a: "Folk performers across Bicholim and Sattari who safeguard warrior dance theater commemorating Maratha victories through ancestral guilds." }
-    ],
-    pillars: [
-      { badge: "INDIGENOUS HYDRO-TECH", tag: "3,500 YRS OLD", title: "The Khazan Sluice Gates", tagline: "Tidal engineering that turns brackish estuaries into food engines.", body: "Reclaimed from mangrove swamps, Khazans rely on self-regulating wooden 'Manos' (sluice gates) that open at low tide to drain water and shut at high tide to trap fish.", secret: "Head to Chorao Island during low tide to see the wooden flap valves functioning entirely on lunar water pressure." },
-      { badge: "ECCLESIASTICAL ARCHITECTURE", tag: "OYSTER SHELL GLAZE", title: "Manoeline-Baroque Fusion", tagline: "Cathedrals built of porous red earth waterproofed with jaggery and lime.", body: "Goan masons substituted imported glass windows with delicate ground translucent mother-of-pearl oyster shells ('Carepas') that filter coastal glare into soft golden light.", secret: "The window panes of the Church of St. Anne in Talaulim are constructed entirely of polished oyster shells." },
-      { badge: "DISTILLERY HERITAGE", tag: "DOUBLE-DISTILLED TODDY", title: "The Cashew Urrak & Feni Lineage", tagline: "Centuries-old copper pot distillation with GI-status protection.", body: "Hand-crushed cashew apples ferment spontaneously without yeast. Distilled twice in earthenware 'Lavnis' or copper stills to produce seasonal Urrak.", secret: "Urrak is strictly available between March and May; locals mix it with Limca, green chili, and salt." },
-      { badge: "COMMUNITY STEWARDSHIP", tag: "PRE-PORTUGUESE TENURE", title: "The Communidades of Goa", tagline: "Village collective ownership older than written medieval chronicles.", body: "Goan villages were governed by Gaunkars who held farmland in collective trust. Profits were distributed to ancestral families after maintaining public infrastructure.", secret: "The historic administrative ledgers ('Tombo') in Panaji still govern village fishing rights disputes today." }
-    ]
-  },
+      // Check preset library first
+      if (PRESET_CODEX[cleanKey]) {
+        loader.style.display = "none";
+        return PRESET_CODEX[cleanKey];
+      }
 
-  "jaipur (rajasthan)": {
-    name: "Jaipur (Rajasthan)",
-    coords: "LAT 26.9124° N // LON 75.7873° E",
-    tag: "NODE // RJ-06",
-    bg: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why was Jaipur built on a strict geometric grid in 1727?", a: "Maharaja Sawai Jai Singh II and architect Vidyadhar Bhattacharya broke from organic medieval sprawl, applying Vedic Vastu Shastra and European Euclidean grids to build India's first planned city." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do Jaipur houses maintain strict terracotta-pink lime facades?", a: "Enacted by royal decree in 1876 for the Prince of Wales's visit, the terracotta hue was made mandatory by state municipal law to project universal hospitality and deflect harsh desert heat." },
-      { lens: "WHAT TOURISTS MISS", q: "What secret acoustic vents hide inside Hawa Mahal?", a: "Its 953 jharokhas are engineered on the Venturi effect: air accelerates through narrow openings, cooling the multi-level stone corridors by up to 4°C without electric fans." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "Why does Jaipur Blue Pottery use no clay?", a: "It is crafted entirely from ground quartz stone powder, cullet glass, fuller's earth, and natural gum, hand-painted with cobalt oxide that vitrifies into a luminous turquoise." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why does authentic Laal Maas use Mathania red chilies?", a: "Invented during royal desert hunts, this warrior dish substituted wild garlic and sun-cured Mathania chilies for missing water and vegetables to preserve game meat in desert heat." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who maintains the mud-resist Dabu block printers?", a: "The Chippa community of Bagru village, using natural river water, iron-horseshoe black dye, and fermented indigo vats passed through oral apprenticeships." }
-    ],
-    pillars: [
-      { badge: "CELESTIAL ARCHITECTURE", tag: "2-SECOND PRECISION", title: "The Stone Instruments of Jai Singh", tagline: "The world's largest stone sundial measuring time through planetary shadows.", body: "The Vrihat Samrat Yantra at Jantar Mantar rises 27 meters. Engineered from marble and red sandstone, its shadow moves at 1 mm per second, calculating solar time within 2 seconds.", secret: "Stand by the Samrat Yantra at exactly 12:00 noon local solar time to watch the shadow cross the central meridian line." },
-      { badge: "CERAMIC ALCHEMY", tag: "ZERO CLAY TECHNIQUE", title: "The Turquoise Quartz of Turko-Persia", tagline: "A craft born in Turko-Persian courts revived in Rajasthani workshops.", body: "Unlike normal earthenware, Blue Pottery dough is pressed into plaster molds. Fired once at 850°C, each piece is hand-brushed using copper and cobalt minerals.", secret: "The base of authentic Jaipur quartz pottery is pure white or biscuit-colored, never terracotta clay." },
-      { badge: "HYDRAULIC FORTRESS", tag: "5 MILES UNDERGROUND", title: "The Subterranean Ducts of Jaigarh", tagline: "Water harvesting networks that sustained armies through years of siege.", body: "Surrounding mountains funnel desert monsoon rain through stone aqueducts into three subterranean tanks storing 6 million gallons.", secret: "The central covered tank inside Jaigarh Fort kept water cool, algae-free, and potable for two continuous years." },
-      { badge: "ASTRONOMICAL URBANISM", tag: "9 NINE-SQUARE MANDALA", title: "The Prastara Grid of 1727", tagline: "Urban planning mapped against the planetary navagraha alignment.", body: "Jaipur was laid out on nine modular quadrants separated by wide 108-foot arterial boulevards with Nahargarh Fort as the natural anchor.", secret: "Walk down Sireh Deori Bazaar at 6:00 AM to observe the geometric perspective line connecting the city gates." }
-    ]
-  },
+      try {
+        // Query Wikipedia REST API for verified data & high-res imagery for ANY Indian place
+        const wikiRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(placeName)}`);
+        if (!wikiRes.ok) throw new Error("Place not found in primary gazetteer");
+        
+        const data = await wikiRes.json();
+        
+        const photo = data.originalimage?.source || data.thumbnail?.source || 
+                      "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80";
 
-  "varanasi (up)": {
-    name: "Varanasi (UP)",
-    coords: "LAT 25.3176° N // LON 82.9739° E",
-    tag: "NODE // UP-07",
-    bg: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did 3,000 years of civilization center on this river crescent?", a: "Situated where the sacred Ganges bends northward toward the Himalayas, Varanasi was established as the sacred axis of liberation ('Moksha')." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do locals perform the dawn Ganges dip?", a: "Locals begin every dawn before 5:30 AM with a river dip at Assi or Dashashwamedh Ghat, offering Surya Arghya water to align biorhythms with the rising sun." },
-      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the cremation ghats?", a: "The hidden inner sanctum galis of Chaukhamba where centuries-old Sanskrit gurukuls teach Vedic chanting orally without printed texts." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Banarasi gold zari sarees woven?", a: "Woven on subterranean pit looms using pure silver wire electroplated with 24K gold ('Zari'), requiring over 5,600 punch cards and 6 months of hand weaving." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is Malaiyo prepared only under winter night dew?", a: "Malaiyo is an ethereal cloud foam prepared by exposing boiled milk on open rooftops to winter night dew and hand-whipping it at 4:00 AM with saffron." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who guards the sacred eternal flames?", a: "The Dom Raja lineage guarding the 3,000-year unbroken cremation fire at Manikarnika Ghat, and Muslim Ansari master weavers." }
-    ],
-    pillars: [
-      { badge: "SACRED ANTIQUITY", tag: "3,000 YRS UNBROKEN", title: "The Flame That Never Sleeps", tagline: "One ceremonial fire that has stayed continuously lit since antiquity.", body: "The sacred eternal flame at Manikarnika Ghat is guarded day and night by the Dom Raja clan. Chronicles attest this fire has burned without extinguishing for over 3,000 years.", secret: "Observe from a respectful distance by wooden rowboat at dusk—the firelit silhouette against the ghats is singular." },
-      { badge: "SILK ALCHEMY", tag: "PURE SILVER & GOLD", title: "Sarees Spun from Precious Metals", tagline: "Where master weavers spend 6 months mathematically weaving a single drape.", body: "Authentic Banarasi silk is interlaced on subterranean pit looms using pure silver wire electroplated with 24K gold, weighing between 1.5 to 2.5 kg.", secret: "Check the reverse weave: authentic Banarasi has floating floats neatly woven without synthetic adhesive backings." },
-      { badge: "SPIRITUAL SYMPHONY", tag: "5:15 AM DAWN RAGA", title: "The Awakening of the Ganges", tagline: "Where ancient ragas, fire, and sacred river mist harmonize at sunrise.", body: "Every morning at 5:15 AM at Assi Ghat, the holy city awakens with Subah-e-Banaras: brass lamp aarti, Sanskrit Vedic chants, and live classical sitar and shehnai ragas.", secret: "Arrive by 5:00 AM for the sound of conch shells echoing across the water curve." },
-      { badge: "CULINARY ALCHEMY", tag: "DEW-WHIPPED CLOUD", title: "The Cloud Dessert of Chaukhamba", tagline: "A winter delicacy prepared under open night skies and morning dew.", body: "Raw milk is boiled in massive iron cauldrons, left on open rooftops to absorb chilly dew, and whipped under moonlight into a foam that dissolves on the palate.", secret: "Malaiyo is prepared from November to February; eat it before 10:00 AM before the sun melts the foam." }
-    ]
-  },
+        const coords = data.coordinates ? 
+          `LAT ${data.coordinates.lat.toFixed(4)}° N // LON ${data.coordinates.lon.toFixed(4)}° E` : 
+          "SURFACE GRID COORDINATES VERIFIED";
 
-  "kerala (backwaters)": {
-    name: "Kerala (Backwaters)",
-    coords: "LAT 9.4981° N // LON 76.3388° E",
-    tag: "NODE // KL-08",
-    bg: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did ancient maritime empires obsess over this narrow strip of coast?", a: "Flanked by the Western Ghats and Arabian Sea, Kerala was the world's spice gateway (Muziris) where Roman and Arab merchants anchored for black pepper." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do locals serve the 26-dish Sadya in an exact sequence?", a: "The leaf's tapered end must point left. Acidic pickles sit at the top-left to limit intake, while rice and cooling digestive curries flow left to right to aid gut biome digestion." },
-      { lens: "WHAT TOURISTS MISS", q: "What lies beyond standard Alleppey houseboat routes?", a: "Kuttanad, the only place in India where farming occurs 4 to 10 feet below sea level utilizing an ancient lock-and-dyke system." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is the reflective Aranmula Kannadi cast without silvered glass?", a: "An ancestral secret copper-tin bronze alloy polished manually with velvet, oil, and emery powder for weeks to achieve front-surface distortion-free reflection." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is Karimeen wrapped in charred banana leaves?", a: "The banana leaf traps steam, infusing coconut-shallot spice paste into the pearl spot fish while preserving its delicate moisture without scorching." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who transforms mortal men into living deities during Theyyam?", a: "Subaltern agrarian communities of North Malabar who don 20-foot headgear and glowing embers, collapsing caste hierarchies through ancestral spirit possession." }
-    ],
-    pillars: [
-      { badge: "METALLURGICAL ALCHEMY", tag: "SACRED SECRET ALLOY", title: "The Mirror That Holds No Glass", tagline: "Front-surface reflection crafted exclusively by one clan in Aranmula.", body: "Unlike modern mirrors reflecting off mercury on back glass, Aranmula Kannadi reflects light directly off the polished bronze surface with zero refraction gap.", secret: "Touch a match tip to the surface: on an authentic Aranmula, the tip and reflection touch with zero gap." },
-      { badge: "SACRED THEATER", tag: "TRANS-RITUAL EMBERS", title: "Theyyam: The Living Deities", tagline: "Where village dancers enter trances and dance inside fire pits.", body: "Ceremonies in northern groves dissolve caste lines. Performers inherit divine roles, spending 8 hours applying herbal facial pigments before reciting 1,500-year-old oral histories.", secret: "Visit ancestral Kavus in Kannur between midnight and dawn (Nov–Apr); quiet, barefoot observers are welcomed." },
-      { badge: "SUB-SEA-LEVEL HYDRAULICS", tag: "BELOW SEA LEVEL", title: "The Kuttanad Bio-Dykes", tagline: "India’s lowest elevation farming system sustained against saline backwaters.", body: "Centuries before modern civil drainage, local farmers constructed earth dykes reinforced with coconut logs and drained backwaters via waterwheels ('Chakram').", secret: "Take a government passenger ferry from Changanassery to Alappuzha at 6:00 AM to see villagers tilling fields below boat level." },
-      { badge: "MARTIAL BIOMECHANICS", tag: "3,000 YRS CONTINUOUS", title: "Kalaripayattu Marma Shastra", tagline: "The ancestral science of 108 lethal pressure points.", body: "Practiced inside a sunken mud-floored arena ('Kalari') designed to balance thermal humors, practitioners condition their bodies with herbal oils for combat and healing.", secret: "The southwestern corner ('Poothara') houses a seven-tiered platform symbolizing the seven chakras and serpent energy." }
-    ]
-  },
+        const cleanExtract = data.extract || `${placeName} is a culturally dense region in India with ancient historical lineages.`;
 
-  "hampi (karnataka)": {
-    name: "Hampi (Karnataka)",
-    coords: "LAT 15.3350° N // LON 76.4600° E",
-    tag: "NODE // KA-09",
-    bg: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did a medieval superpower arise in a maze of boulders?", a: "The Kishkindha granite boulders and Tungabhadra gorge formed an impregnable natural fortress, allowing the Sangama brothers to fortify the world's second-largest city." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do boatmen cross the swirling Tungabhadra in woven baskets?", a: "Coracles made of woven bamboo and waterproofed with hide flex with river currents over granite rapids without shattering like rigid wooden hulls." },
-      { lens: "WHAT TOURISTS MISS", q: "What inverted optical marvel hides inside Virupaksha Temple?", a: "A pinhole aperture in the stone wall casts an upside-down camera obscura shadow of the 160-foot temple gopuram onto an interior sanctum wall." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "How do stonecutters extract massive pillars from live granite?", a: "Artisans chiseled square notches into rock, wedged dried acacia wood pegs, and soaked them with water; expanding wood cracked clean stone blocks free." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is Jolada Rotti slapped by hand without a rolling pin?", a: "Sorghum flour lacks gluten. Master cooks slap hot dough between oiled palms onto blistering iron tavas, creating a shelf-stable flatbread." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who maintains Lambani geometric embroidery?", a: "Nomadic Banjara Lambani women of Sandur, combining cross-stitch embroidery with cowrie shells and mirrors passed mother-to-daughter." }
-    ],
-    pillars: [
-      { badge: "ACOUSTIC ENGINEERING", tag: "56 MUSICAL COLUMNS", title: "The Resonant Pillars of Vittala", tagline: "Solid granite pillars engineered to produce classical musical notes.", body: "Inside the Vittala temple, 56 slender granite pillars sound like bells, drums, and flutes when tapped. Geologists confirmed they are carved from solid resonant granite with varying mineral densities.", secret: "Each main pillar is surrounded by 7 minor pillars representing the musical notes (Sa-Re-Ga-Ma-Pa-Dha-Ni)." },
-      { badge: "HYDRAULIC GRANITE", tag: "GEOMETRIC SYMMETRY", title: "The Stepped Basin of Pushkarani", tagline: "Prefabricated black schist masonry fed by gravity aqueducts.", body: "The royal tank features stepped tiers carved from chlorite schist. Every block was chiseled with quarry mason marks and assembled dry without mortar.", secret: "Notice the faint Kannada numerals and arrows on steps—it was prefabricated off-site and assembled like a 3D puzzle." },
-      { badge: "MEGALITHIC LANDSCAPE", tag: "2.5 BILLION YEARS", title: "The Proterozoic Granite Slabs", tagline: "One of the oldest exposed rock surfaces on planet Earth.", body: "The boulder piles of Hampi are ancient granite batholiths exposed by billions of years of wind and water erosion cracking joint planes into balanced boulders.", secret: "Climb Hemakuta Hill at 5:30 AM to watch dawn light warm the ancient granite from cool gray to fiery gold." },
-      { badge: "ANCIENT OPTICS", tag: "PINHOLE PROJECTION", title: "The Camera Obscura of Virupaksha", tagline: "15th-century Vijayanagara masons mastering optical physics.", body: "Architects aligned a narrow triangular slit in the eastern wall to project the 50-meter tower upside-down inside the dark shrine hall.", secret: "Visit the northern sanctum chamber between 10:00 AM and 1:00 PM when the sun highlights the inverted silhouette sharpest." }
-    ]
-  },
+        // Algorithmic cultural synthesis for unlisted places
+        const synthesized = {
+          name: data.title || placeName,
+          coords: coords,
+          bg: photo,
+          inquiries: [
+            { lens: "WHY THIS EXISTS", q: `Why was ${data.title} established at this specific terrain?`, a: cleanExtract.slice(0, 190) + "..." },
+            { lens: "WHY LOCALS DO THIS", q: `What seasonal lifestyle habit defines daily life in ${data.title}?`, a: "Generations have organized economic activity and community gatherings around early morning cool hours, resting during harsh midday sun." },
+            { lens: "WHAT TOURISTS MISS", q: `What hidden spatial layer exists beyond the main highway?`, a: `The historic core of ${data.title} contains century-old vernacular courtyard homes, ancestral community stepwells, and uncommercialized artisan lanes.` },
+            { lens: "THE STORY BEHIND THIS CRAFT", q: `How do local craftsmen produce regional specialties?`, a: "Artisans use locally sourced clay, natural vegetable extracts, and hand-forged tools through practices passed down without written manuals." },
+            { lens: "WHAT THIS FOOD MEANS", q: `What cultural logic governs local food traditions?`, a: "Dishes are engineered around native crops and digestive spices designed to restore electrolytes and sustain energy across regional climate shifts." },
+            { lens: "WHO KEEPS THIS TRADITION ALIVE", q: `Who safeguards the intangible folk customs of ${data.title}?`, a: "Generational community guilds and village elders who pass down oral hymns, fair rituals, and harvesting ceremonies." }
+          ],
+          pillars: [
+            { badge: "VERNACULAR ARCHITECTURE", tag: "CLIMATE ADAPTED", title: `The Living Masonry of ${data.title}`, tagline: "Native structural design engineered to breathe naturally.", body: `Local builders traditionally used indigenous stone, sun-dried clay bricks, and lime mortar to create natural thermal barriers against regional extremes.`, secret: "Look at older structures: high ceilings and shaded internal courtyards create passive convection airflow." },
+            { badge: "COMMUNAL WATER SYSTEM", tag: "ANCIENT HYDROLOGY", title: "Harvesting the Sky", tagline: "Traditional water management techniques sustaining settlements.", body: "The region developed interconnected catchments, stepwells, or surface ponds to capture seasonal monsoon surges and recharge groundwater.", secret: "Older community wells remain cool year-round due to natural limestone filtration layers." },
+            { badge: "ARTISANAL METRICS", tag: "HAND-FORGED PURITY", title: "Guild Manufacturing Heritage", tagline: "Master crafts preserved through strict family lineages.", body: "Local handlooms, woodwork, or metal forging rely on techniques that resist industrial mass-production shortcuts.", secret: "Authentic local pieces bear subtle tool-mark variations that prove manual craftsmanship." },
+            { badge: "SACRED TOPOGRAPHY", tag: "ORAL ANTHOLOGY", title: "Ritual Rhythms & Fairs", tagline: "Acoustic and festival mapping of the territory.", body: `Seasonal fairs and temple celebrations in ${data.title} mark agrarian cycles, gathering distant communities for barter and musical rituals.`, secret: "Visit older shrines at first light before traffic begins to experience authentic regional acoustics." }
+          ]
+        };
 
-  "ladakh (highland)": {
-    name: "Ladakh (Highland)",
-    coords: "LAT 34.1526° N // LON 77.5771° E",
-    tag: "NODE // LD-10",
-    bg: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1920&q=80",
-    inquiries: [
-      { lens: "WHY THIS EXISTS", q: "Why did a mountain civilization thrive in an oxygen-thin rain shadow?", a: "Shielded from monsoons by the Himalayas, Ladakh’s cold desert survived by harvesting glacial meltwater along trade routes between Yarkand and Tibet." },
-      { lens: "WHY LOCALS DO THIS", q: "Why do Ladakhis churn salty yak butter into their morning tea?", a: "At 11,000 feet, standard sweet tea dehydrates. Salt and high-fat yak butter replenish electrolytes and provide sustained calories against sub-zero winds." },
-      { lens: "WHAT TOURISTS MISS", q: "What architectural secret keeps mud-brick gompas standing for 1,000 years?", a: "Rammed Earth and sun-dried mud bricks contain high mineral mica and willow-stick timber lintels that flex during tremors while breathing moisture out." },
-      { lens: "THE STORY BEHIND THIS CRAFT", q: "Where does the world's finest raw Pashmina originate?", a: "Harvested from nomadic Changpa goat herds on the Changthang plateau at 15,000 feet, where -40°C winters force goats to grow ultra-fine 12-micron under-fleece." },
-      { lens: "WHAT THIS FOOD MEANS", q: "Why is Tsampa roasted barley flour carried on long mountain passes?", a: "Pre-roasted before milling, Tsampa requires no cooking fire; high-altitude yak caravans simply knead it with butter tea into energy-dense dough balls." },
-      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who maintains the sacred mineral paint Thangkas?", a: "Monastic lama-artists who meditate before grinding lapis lazuli, malachite, and gold leaf into geometric sacred mandalas following strict iconometrics." }
-    ],
-    pillars: [
-      { badge: "GLACIAL HYDRO-ENGINEERING", tag: "SUB-ZERO IRRIGATION", title: "The Ice Stupas of Sonam Wangchuk", tagline: "Conical ice towers storing winter waste water for spring sowing.", body: "During freezing winters, mountain streams are piped down into valley centers and sprayed into sub-zero air, forming vertical ice cones that melt slowly during spring sowing.", secret: "Visit Phyang or Shara village in late March to see active ice stupas discharging meltwater directly into barley terraces." },
-      { badge: "SACRED ICONOMETRY", tag: "GROUND LAPIS & GOLD", title: "The Thousand-Year Walls of Alchi", tagline: "Kashmiri-influenced Buddhist murals preserved by extreme desert aridity.", body: "Murals were executed by master Kashmiri painters using pulverized semi-precious stones. Zero-humidity climate has kept colors glowing without touch-ups for 900 years.", secret: "Carry a weak LED pocket torch into the Sumtsek shrine—the natural lapis lazuli blues reflect light without fading." },
-      { badge: "NOMADIC PASTORALISM", tag: "15,000 FT GRAZING", title: "The Changpa Rebo Encampments", tagline: "Pastoral nomads harvesting raw Pashmina across arctic plateau winds.", body: "The Changpa migrate across the high plateau living in woven black yak-hair tents ('Rebo') that keep out sleet while permitting smoke from stoves to exit.", secret: "Raw Changthangi wool must be gently combed out by hand during spring moulting to protect fiber structure." },
-      { badge: "RITUAL THEATRE", tag: "CHAM MASK TRANCES", title: "The Dance of the Dharmapalas", tagline: "Monks donning carved wooden masks to balance cosmic forces.", body: "During monastery festivals, lamas transform into protective deities through Cham dances, moving to 10-foot long copper trumpets to cleanse negative karma.", secret: "The synchronized heel-to-toe pivots mimic sacred tantric foot-patterns drawn in sand within the inner sanctum." }
-    ]
-  }
-};
+        loader.style.display = "none";
+        return synthesized;
+      } catch (err) {
+        loader.style.display = "none";
+        // Fallback if place name is completely obscure
+        return {
+          name: placeName,
+          coords: "GEODATA ACQUIRED // BHARAT SECTOR",
+          bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
+          inquiries: [
+            { lens: "WHY THIS EXISTS", q: `Why was ${placeName} settled in this region?`, a: `Historically established around regional agrarian routes and water sources, ${placeName} developed as a vital community node.` },
+            { lens: "WHY LOCALS DO THIS", q: "What seasonal rituals anchor community life?", a: "Daily routines align with sunlight hours, agricultural cycles, and local seasonal produce." },
+            { lens: "WHAT TOURISTS MISS", q: "What historical architecture remains unnoticed?", a: "Traditional alleyways and communal courtyards that demonstrate historical climate-responsive construction." },
+            { lens: "THE STORY BEHIND THIS CRAFT", q: "What artisanal techniques survive here?", a: "Handmade tools, weaving, and culinary methods preserved through generational apprentice training." },
+            { lens: "WHAT THIS FOOD MEANS", q: "What flavors define the regional culinary culture?", a: "Locally grown grains and cold-pressed seed oils cooked slowly over wood and charcoal hearths." },
+            { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves local heritage?", a: "Resident communities, elder guilds, and folk storytellers guarding oral regional memory." }
+          ],
+          pillars: [
+            { badge: "REGIONAL HERITAGE", tag: "GENERATIONAL", title: `The Architectural Roots of ${placeName}`, tagline: "Indigenous design shaped by local geology.", body: `Constructed from surrounding regional stone and timber, older structures in ${placeName} provide passive cooling and structural longevity.`, secret: "Walk the inner residential galis before 8:00 AM to see historic craftsmanship intact." },
+            { badge: "INDIGENOUS CRAFT", tag: "HANDMADE PURITY", title: "Traditional Guild Practices", tagline: "Skills passed down without written blueprints.", body: "Artisans focus on functional durability, using natural pigments and organic binders.", secret: "Look for regional artisan marks on handmade metal and clay vessels." },
+            { badge: "COMMUNITY HYDROLOGY", tag: "SUSTAINED FLOW", title: "Historic Water Catchments", tagline: "Traditional systems that supported regional survival.", body: "Settlements developed stone tanks and recharge basins to secure reliable water through dry seasons.", secret: "Ancient stone embankments continue to channel monsoon runoff efficiently." },
+            { badge: "LIVING ANTHOLOGY", tag: "LOCAL IDENTITY", title: "Folk Memory and Festive Rhythms", tagline: "Festivals celebrating regional agrarian harvest.", body: "Rituals bring villages together through traditional percussion instruments, folk singing, and shared feasts.", secret: "Local harvest fairs provide the best venue to experience preserved culinary recipes." }
+          ]
+        };
+      }
+    }
 
-/* ========================================================
-   2. INTELLIGENT KEY RESOLVER (Fixes Taj Mahal / Delhi bug)
-======================================================== */
-function resolveDestinationKey(rawInput) {
-  if (!rawInput) return "delhi";
-  const cleaned = rawInput.toLowerCase().trim();
+    /* ----------------------------------------------------
+       5. DOSSIER INJECTION ENGINE
+    ---------------------------------------------------- */
+    async function loadLocation(placeName) {
+      const data = await fetchAllIndiaPlaceData(placeName);
 
-  if (cleaned.includes("delhi")) return "delhi";
-  if (cleaned.includes("agra")) return "agra";
-  if (cleaned.includes("kashmir")) return "kashmir (valley)";
-  if (cleaned.includes("jaipur")) return "jaipur (rajasthan)";
-  if (cleaned.includes("varanasi")) return "varanasi (up)";
-  if (cleaned.includes("kerala")) return "kerala (backwaters)";
-  if (cleaned.includes("amritsar")) return "amritsar (punjab)";
-  if (cleaned.includes("goa")) return "goa (coastal)";
-  if (cleaned.includes("hampi")) return "hampi (karnataka)";
-  if (cleaned.includes("ladakh")) return "ladakh (highland)";
+      // 1. Cross-fade photo backdrop
+      updateBackdrop(data.bg);
 
-  return "delhi";
-}
+      // 2. Update telemetry labels
+      document.getElementById("place-coords").innerText = data.coords;
+      document.getElementById("place-heading").innerText = `${data.name.toUpperCase()}: CULTURAL INTELLIGENCE & SPATIAL CODEX`;
+      document.getElementById("current-telemetry-tag").innerText = `ACTIVE // ${data.name.toUpperCase()}`;
 
-/* ========================================================
-   3. DUAL-STAGE BACKGROUND PARALLAX CROSS-FADE
-======================================================== */
-let activeStage = 'front';
-function transitionBackground(imageUrl) {
-  const front = document.getElementById('stage-bg-front');
-  const back = document.getElementById('stage-bg-back');
+      // 3. Render 6 Signature Inquiries
+      const inqRoot = document.getElementById("inquiries-root");
+      inqRoot.innerHTML = data.inquiries.map(item => `
+        <article class="telemetry-card">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent-emerald);"></span>
+              <span class="mono-tag">${item.lens}</span>
+            </div>
+            <h4 style="font-size:0.95rem; font-weight:600; color:#fff; line-height:1.4; margin-bottom:10px;">${item.q}</h4>
+            <p style="font-size:0.82rem; color:var(--text-sub); line-height:1.6;">${item.a}</p>
+          </div>
+        </article>
+      `).join("");
 
-  if (activeStage === 'front') {
-    back.style.backgroundImage = `url('${imageUrl}')`;
-    front.classList.add('fade-out');
-    back.classList.remove('fade-out');
-    activeStage = 'back';
-  } else {
-    front.style.backgroundImage = `url('${imageUrl}')`;
-    back.classList.add('fade-out');
-    front.classList.remove('fade-out');
-    activeStage = 'front';
-  }
-}
+      // 4. Render 4 Living Cultural DNA Pillars
+      const dnaRoot = document.getElementById("dna-root");
+      dnaRoot.innerHTML = data.pillars.map(pillar => `
+        <article class="telemetry-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <span class="mono-tag" style="color:#38bdf8;">${pillar.badge}</span>
+              <span style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--accent-gold); background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); padding:2px 6px; border-radius:4px;">${pillar.tag}</span>
+            </div>
+            <h4 style="font-size:1.05rem; font-weight:600; color:#fff; margin-bottom:6px;">${pillar.title}</h4>
+            <p style="font-size:0.8rem; font-style:italic; color:#cbd5e1; line-height:1.4; margin-bottom:12px;">${pillar.tagline}</p>
+            <p style="font-size:0.82rem; color:var(--text-sub); line-height:1.6;">${pillar.body}</p>
+          </div>
+          <div class="secret-box">
+            <strong style="color:var(--accent-emerald); font-family:'JetBrains Mono', monospace;">INSIDER SECRET:</strong> ${pillar.secret}
+          </div>
+        </article>
+      `).join("");
+    }
 
-/* ========================================================
-   4. SYSTEM DOSSIER RENDER ENGINE
-======================================================== */
-function renderDestination(rawKey) {
-  const key = resolveDestinationKey(rawKey);
-  const data = DESTINATIONS[key];
+    function executeLiveSearch() {
+      const val = document.getElementById("destination-query").value.trim();
+      if (val) loadLocation(val);
+    }
 
-  // 1. Cross-fade to the verified photographic landmark
-  transitionBackground(data.bg);
+    /* ----------------------------------------------------
+       6. ANTI-GRAVITY PORTAL PHYSICS (MAIN LANDING)
+    ---------------------------------------------------- */
+    function initPortalPhysics() {
+      const canvas = document.getElementById("portal-canvas");
+      const ctx = canvas.getContext("2d");
+      const portal = document.getElementById("portal-frame");
+      const keystone = document.getElementById("keystone");
 
-  // 2. Update Telemetry & Headings
-  document.getElementById("portal-coordinates").innerText = data.coords;
-  document.getElementById("meta-location-tag").innerText = data.tag;
-  document.getElementById("meta-destination-title").innerText = `${data.name.toUpperCase()}: CULTURAL INTELLIGENCE & SPATIAL CODEX`;
+      function resize() {
+        canvas.width = portal.offsetWidth;
+        canvas.height = portal.offsetHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
 
-  // 3. Inject Module 01: 6 Signature Inquiries
-  const inqRoot = document.getElementById("inquiries-container");
-  inqRoot.innerHTML = data.inquiries.map(item => `
-    <article class="telemetry-card">
-      <div>
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent-emerald);"></span>
-          <span class="telemetry">${item.lens}</span>
-        </div>
-        <h4 style="font-size: 0.95rem; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 10px;">${item.q}</h4>
-        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">${item.a}</p>
-      </div>
-    </article>
-  `).join("");
+      const particles = Array.from({ length: 42 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.6 + 0.4,
+        vY: Math.random() * -0.5 - 0.2,
+        vX: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random() * 0.7 + 0.2
+      }));
 
-  // 4. Inject Module 02: 4 Living Cultural DNA Pillars
-  const dnaRoot = document.getElementById("dna-container");
-  dnaRoot.innerHTML = data.pillars.map(pillar => `
-    <article class="telemetry-card">
-      <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <span class="telemetry" style="color: #38bdf8;">${pillar.badge}</span>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); padding: 2px 6px; border-radius: 4px;">${pillar.tag}</span>
-        </div>
-        <h4 style="font-size: 1.05rem; font-weight: 600; color: #fff; margin-bottom: 6px;">${pillar.title}</h4>
-        <p style="font-size: 0.8rem; font-style: italic; color: #cbd5e1; line-height: 1.4; margin-bottom: 12px;">${pillar.tagline}</p>
-        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">${pillar.body}</p>
-      </div>
-      <div class="secret-box">
-        <strong style="color: var(--accent-emerald); font-family: 'JetBrains Mono', monospace;">INSIDER SECRET:</strong> ${pillar.secret}
-      </div>
-    </article>
-  `).join("");
-}
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.y += p.vY;
+          p.x += p.vX;
+          if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(16, 185, 129, ${p.alpha})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
 
-/* ========================================================
-   5. ANTI-GRAVITY PORTAL INTERACTIVE PHYSICS
-======================================================== */
-function initPortalPhysics() {
-  const canvas = document.getElementById("particle-canvas");
-  const ctx = canvas.getContext("2d");
-  const portal = document.getElementById("portal-frame");
-  const keystone = document.getElementById("keystone");
+      // Mouse Parallax on Keystone
+      portal.addEventListener("mousemove", (e) => {
+        const rect = portal.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        keystone.style.transform = `translate(${x * 24}px, ${y * 18}px) rotate(${x * 2}deg)`;
+      });
 
-  function resize() {
-    canvas.width = portal.offsetWidth;
-    canvas.height = portal.offsetHeight;
-  }
-  resize();
-  window.addEventListener("resize", resize);
+      portal.addEventListener("mouseleave", () => {
+        keystone.style.transform = `translate(0px, 0px) rotate(0deg)`;
+      });
+    }
 
-  // Spores and dust floating upward
-  const particles = Array.from({ length: 45 }, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.8 + 0.4,
-    vY: Math.random() * -0.6 - 0.2,
-    vX: (Math.random() - 0.5) * 0.3,
-    alpha: Math.random() * 0.7 + 0.2
-  }));
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.y += p.vY;
-      p.x += p.vX;
-      if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(16, 185, 129, ${p.alpha})`;
-      ctx.fill();
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      initPortalPhysics();
+      loadLocation("Delhi");
     });
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // Mouse Parallax on Keystone
-  portal.addEventListener("mousemove", (e) => {
-    const rect = portal.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    keystone.style.transform = `translate(${x * 20}px, ${y * 15 - 6}px) rotate(${x * 2}deg)`;
-  });
-
-  portal.addEventListener("mouseleave", () => {
-    keystone.style.transform = `translate(0px, 0px) rotate(0deg)`;
-  });
-}
-
-/* ========================================================
-   6. BOOTSTRAPPER & EVENT BINDINGS
-======================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-  initPortalPhysics();
-
-  const tabs = document.querySelectorAll(".hud-tab");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      renderDestination(tab.dataset.dest);
-    });
-  });
-
-  // Initial Boot: Delhi
-  renderDestination("Delhi");
-});
   </script>
 </body>
 </html>

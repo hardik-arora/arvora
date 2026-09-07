@@ -1252,79 +1252,116 @@
 
     function generateDynamicDossier(placeName) {
       const p = placeName.charAt(0).toUpperCase() + placeName.slice(1);
+      const pUpper = p.toUpperCase();
       return {
         name: `${p}: Cultural Intelligence & Untold Stories`,
         stateName: p,
         imageUrl: fallbackImage,
         essence: `Unpacking generational guilds, sacred geography, and living heritage across ${p}.`,
         bestKnownFor: `Regional architecture, seasonal food traditions, indigenous craft guilds, and living community fairs.`,
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            question: `Why did the settlement of ${p} form at its specific geographical crossroads?`,
-            body: `Positioned along ancient trade and river routes, ${p} developed as a vital sanctuary where natural topography and defensive barriers allowed a distinct regional trade guild and agricultural hub to flourish.`
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            question: `What daily morning ritual or wellness rhythm defines community life in ${p}?`,
-            body: `Locals maintain an unbroken tradition of sunrise river dips, Ayurvedic herbal decoctions, and communal market gatherings designed to harmonize body humors with seasonal climatic transitions.`
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            question: `What hidden architectural precinct or quiet alleyway remains overlooked in ${p}?`,
-            body: `Beyond major ticketed monuments lie historic old-town residential quarters featuring centuries-old stepwells, courtyard mansions, and artisan lofts operating far from standard tourist itineraries.`
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            question: `How do local master artisans in ${p} handcraft native textiles and metalwork?`,
-            body: `Artisans employ generational techniques passed down through family guilds—manipulating handloom warp threads, natural botanical dyes, and hand-hammered metal alloys over months of skilled labor.`
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            question: `What micro-technique and seasonal window shape the signature dish of ${p}?`,
-            body: `Rooted in local soil and climate, recipes feature slow-simmered regional grains, native spices, and clarified ghee prepared according to traditional Ayurvedic digestion principles.`
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            question: `Which hereditary communities and artisan guilds safeguard the living traditions of ${p}?`,
-            body: `Hereditary weaver families, temple song keepers, and artisan cooperatives active across ${p}'s historic bazaars safeguard non-material oral heritage and craft secrets today.`
-          }
-        ],
-        cards: [
-          {
-            category: "SACRED ANTIQUITY",
-            badge: "HISTORIC PRECINCT",
-            title: `Sacred Shrines & Fortified Gates of ${p}`,
-            subtext: `Centuries of localized craftsmanship built to withstand regional topography.`,
-            body: `Ancient stone ramparts, courtyard shrines, and subterranean water catchments in ${p} reflect centuries of astronomical and hydraulic planning.`,
-            secret: `Explore the central old bazaar at dawn before commercial vehicle traffic opens.`
-          },
-          {
-            category: "CULINARY ALCHEMY",
-            badge: "REGIONAL FLAVORS",
-            title: `Traditional Thalis & Decades-Old Sweet Houses`,
-            subtext: `Native ingredients cooked according to seasonal Ayurvedic guidelines.`,
-            body: `${p}'s culinary tradition relies on slow-braised pulses, stone-milled wheat flatbreads, and reduced-milk sweets fried in pure village ghee.`,
-            secret: `Look for century-old sweet confectionery stalls near the historic town clock tower.`
-          },
-          {
-            category: "MATERIAL ALCHEMY",
-            badge: "INDIGENOUS ARTISANS",
-            title: `Handloom Weaves, Bell-Metal & Local Pottery`,
-            subtext: `Generational skills passed down within family artisan clusters.`,
-            body: `Master weavers and metal sculptors in ${p} create intricate patterns without modern machinery using natural indigo dyes and bronze alloys.`,
-            secret: `Visit state government handicraft emporiums to ensure fair trade and authentic artisan wages.`
-          },
-          {
-            category: "COMMUNITY CELEBRATION",
-            badge: "TEMPLE FAIR",
-            title: `Harvest Processions & Folk Ballad Fairs`,
-            subtext: `Celebrations that unite entire agricultural communities through folk music.`,
-            body: `Seasonal festivals in ${p} feature vibrant masked dances, temple horn symphonies, and nocturnal poetry recitals celebrating agricultural abundance.`,
-            secret: `Ask local elders about village mela dates that coincide with seasonal full moons.`
-          }
-        ]
+        signature_cultural_inquiries: {
+          title: `DON'T JUST VISIT ${pUpper}. UNDERSTAND IT.`,
+          subtitle: `6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.`,
+          items: [
+            { lens: "WHY THIS EXISTS", question: `Why did the settlement of ${p} form at its specific geographical crossroads?`, answer: `Positioned along ancient trade and river routes, ${p} developed as a vital sanctuary where natural topography and defensive barriers allowed a distinct regional trade guild and agricultural hub to flourish.` },
+            { lens: "WHY LOCALS DO THIS", question: `What daily morning ritual or wellness rhythm defines community life in ${p}?`, answer: `Locals maintain an unbroken tradition of sunrise river dips, Ayurvedic herbal decoctions, and communal market gatherings designed to harmonize body humors with seasonal climatic transitions.` },
+            { lens: "WHAT TOURISTS MISS", question: `What hidden architectural precinct or quiet alleyway remains overlooked in ${p}?`, answer: `Beyond major ticketed monuments lie historic old-town residential quarters featuring centuries-old stepwells, courtyard mansions, and artisan lofts operating far from standard tourist itineraries.` },
+            { lens: "THE STORY BEHIND THIS CRAFT", question: `How do local master artisans in ${p} handcraft native textiles and metalwork?`, answer: `Artisans employ generational techniques passed down through family guilds—manipulating handloom warp threads, natural botanical dyes, and hand-hammered metal alloys over months of skilled labor.` },
+            { lens: "WHAT THIS FOOD MEANS", question: `What micro-technique and seasonal window shape the signature dish of ${p}?`, answer: `Rooted in local soil and climate, recipes feature slow-simmered regional grains, native spices, and clarified ghee prepared according to traditional Ayurvedic digestion principles.` },
+            { lens: "WHO KEEPS THIS TRADITION ALIVE", question: `Which hereditary communities and artisan guilds safeguard the living traditions of ${p}?`, answer: `Hereditary weaver families, temple song keepers, and artisan cooperatives active across ${p}'s historic bazaars safeguard non-material oral heritage and craft secrets today.` }
+          ]
+        },
+        living_cultural_dna: {
+          title: `${pUpper}: Untold Stories & Architectural Secrets`,
+          subtitle: `Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.`,
+          pillars: [
+            { category_badge: "SACRED ANTIQUITY", highlight_tag: "HISTORIC PRECINCT", title: `Sacred Shrines & Fortified Gates of ${p}`, sub_tagline: `Centuries of localized craftsmanship built to withstand regional topography.`, description: `Ancient stone ramparts, courtyard shrines, and subterranean water catchments in ${p} reflect centuries of astronomical and hydraulic planning.`, insider_secret: `💡 INSIDER SECRET: Explore the central old bazaar at dawn before commercial vehicle traffic opens.` },
+            { category_badge: "CULINARY ALCHEMY", highlight_tag: "REGIONAL FLAVORS", title: `Traditional Thalis & Decades-Old Sweet Houses`, sub_tagline: `Native ingredients cooked according to seasonal Ayurvedic guidelines.`, description: `${p}'s culinary tradition relies on slow-braised pulses, stone-milled wheat flatbreads, and reduced-milk sweets fried in pure village ghee.`, insider_secret: `💡 INSIDER SECRET: Look for century-old sweet confectionery stalls near the historic town clock tower.` },
+            { category_badge: "MATERIAL ALCHEMY", highlight_tag: "INDIGENOUS ARTISANS", title: `Handloom Weaves, Bell-Metal & Local Pottery`, sub_tagline: `Generational skills passed down within family artisan clusters.`, description: `Master weavers and metal sculptors in ${p} create intricate patterns without modern machinery using natural indigo dyes and bronze alloys.`, insider_secret: `💡 INSIDER SECRET: Visit state government handicraft emporiums to ensure fair trade and authentic artisan wages.` },
+            { category_badge: "COMMUNITY CELEBRATION", highlight_tag: "TEMPLE FAIR", title: `Harvest Processions & Folk Ballad Fairs`, sub_tagline: `Celebrations that unite entire agricultural communities through folk music.`, description: `Seasonal festivals in ${p} feature vibrant masked dances, temple horn symphonies, and nocturnal poetry recitals celebrating agricultural abundance.`, insider_secret: `💡 INSIDER SECRET: Ask local elders about village mela dates that coincide with seasonal full moons.` }
+          ]
+        }
       };
+    }
+
+    function renderDossier(rawKey) {
+      const cleanKey = normalizeQuery(rawKey);
+      const data = destinationDossiers[cleanKey] || generateDynamicDossier(rawKey);
+      const inqData = data.signature_cultural_inquiries || {};
+      const dnaData = data.living_cultural_dna || {};
+
+      const targetBg = data.imageUrl || fallbackImage;
+
+      // Safe image preloading with fallback
+      const img = new Image();
+      img.onload = () => {
+        toolBackgroundImage.style.backgroundImage = `url("${targetBg}")`;
+        toolBackgroundImage.style.opacity = "0.85";
+      };
+      img.onerror = () => {
+        toolBackgroundImage.style.backgroundImage = `url("${fallbackImage}")`;
+        toolBackgroundImage.style.opacity = "0.85";
+      };
+      img.src = targetBg;
+
+      dossierOutput.innerHTML = `
+        <!-- Top Editorial Hero Banner -->
+        <div class="dossier-hero-banner">
+          <div class="hero-banner-kicker">✦ SPATIAL INTELLIGENCE & CULTURAL CODEX</div>
+          <h2 class="hero-banner-title">${data.name}</h2>
+          <p class="hero-banner-desc">${data.essence}</p>
+          <div class="hero-banner-highlight">
+            <span class="highlight-pill">ESSENCE</span>
+            <span>${data.bestKnownFor}</span>
+          </div>
+        </div>
+
+        <!-- MODULE 1: SIGNATURE CULTURAL INQUIRIES -->
+        <div class="module-header">
+          <span class="module-tag">SIGNATURE CULTURAL INQUIRIES</span>
+          <h3 class="module-heading">${inqData.title || "SIGNATURE CULTURAL INQUIRIES"}</h3>
+          <p class="module-subheading">${inqData.subtitle || ""}</p>
+        </div>
+
+        <div class="inquiry-grid">
+          ${(inqData.items || []).map(inq => `
+            <div class="inquiry-card">
+              <div class="inquiry-lens-tag">✦ ${inq.lens}</div>
+              <h4 class="inquiry-question">${inq.question}</h4>
+              <p class="inquiry-body">${inq.answer || inq.body}</p>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- MODULE 2: LIVING CULTURAL DNA & UNTOLD FACTS -->
+        <div class="module-header">
+          <span class="module-tag">LIVING CULTURAL DNA & UNTOLD FACTS</span>
+          <h3 class="module-heading">${dnaData.title || "LIVING CULTURAL DNA & UNTOLD FACTS"}</h3>
+          <p class="module-subheading">${dnaData.subtitle || ""}</p>
+        </div>
+
+        <div class="dna-pillars-grid">
+          ${(dnaData.pillars || []).map(card => `
+            <div class="story-card">
+              <div>
+                <div class="card-top-meta">
+                  <span class="card-category-tag">${card.category_badge || card.category}</span>
+                  <span class="card-stat-badge">${card.highlight_tag || card.badge}</span>
+                </div>
+                <h4 class="card-headline">${card.title}</h4>
+                <p class="card-subtext"><em>${card.sub_tagline || card.subtext}</em></p>
+                <p class="card-body-items" style="font-size:12.5px; line-height:1.6; color:#d6e2d7; margin-bottom:16px;">${card.description || card.body}</p>
+              </div>
+
+              <!-- Insider Secret Footer -->
+              <div class="insider-secret-box">
+                <div class="insider-secret-label">💡 INSIDER SECRET</div>
+                <div class="insider-secret-text">${card.insider_secret || card.secret}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
     }
 
     // =========================================================================

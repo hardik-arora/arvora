@@ -1647,8 +1647,88 @@
     }
 
     // 3. Render Function to inject full magazine dossier + both modules into the DOM
-    function selectDestination(destName) {
-      renderDestination(destName);
+    function renderUI(destKey) {
+      const data = getDestinationData(destKey);
+      if (!data) return;
+
+      const media = DESTINATION_MEDIA[destKey] || DESTINATION_MEDIA[destKey.split(" ")[0].toLowerCase()] || {
+        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80"
+      };
+
+      // 1. Update Headings & Background
+      const cleanName = destKey.split(" ")[0].toUpperCase();
+      const dossierTitleEl = document.getElementById("dossier-title");
+      if (dossierTitleEl) {
+        dossierTitleEl.innerText = `${cleanName}: CULTURAL INTELLIGENCE & UNTOLD STORIES`;
+      }
+
+      const telemetryBadge = document.getElementById("telemetry-badge");
+      if (telemetryBadge) {
+        telemetryBadge.innerText = `LOC // ${cleanName}_GRID_04`;
+      }
+
+      const portalHero = document.querySelector(".portal-hero");
+      if (portalHero) {
+        portalHero.style.backgroundImage = `url('${media.bg}')`;
+      }
+
+      const toolBackgroundImage = document.getElementById('tool-image-background');
+      if (toolBackgroundImage) {
+        toolBackgroundImage.style.backgroundImage = `url('${media.bg}')`;
+        toolBackgroundImage.style.opacity = "0.85";
+      }
+
+      // 2. Render Inquiries
+      const inqContainer = document.getElementById("inquiries-container");
+      if (inqContainer && data.inquiries) {
+        inqContainer.innerHTML = data.inquiries.map(item => `
+          <div class="bento-card">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <span style="display: inline-block; width: 5px; height: 5px; background: var(--accent-emerald); border-radius: 50%;"></span>
+                <span class="tech-label">${item.lens}</span>
+              </div>
+              <h4 style="font-size: 0.95rem; font-weight: 600; color: #fff; line-height: 1.4; margin: 0 0 8px 0;">${item.question || item.q}</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0;">${item.answer || item.a}</p>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // 3. Render Living Cultural DNA Pillars
+      const dnaContainer = document.getElementById("dna-container");
+      if (dnaContainer && data.pillars) {
+        dnaContainer.innerHTML = data.pillars.map(pillar => `
+          <div class="bento-card">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span class="tech-label" style="color: #60a5fa;">${pillar.badge}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent-emerald); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); padding: 2px 6px; border-radius: 4px;">${pillar.tag}</span>
+              </div>
+              <h4 style="font-size: 1.05rem; font-weight: 600; color: #fff; margin: 0 0 6px 0;">${pillar.title}</h4>
+              <p style="font-size: 0.78rem; font-style: italic; color: #cbd5e1; margin: 0 0 12px 0; line-height: 1.4;">${pillar.tagline}</p>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0 0 16px 0;">${pillar.body}</p>
+            </div>
+            <div style="background: rgba(0, 0, 0, 0.4); border-left: 2px solid var(--accent-emerald); padding: 8px 12px; border-radius: 4px;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #f3f4f6; display: block;">
+                <strong style="color: var(--accent-emerald);">SECRET:</strong> ${pillar.secret}
+              </span>
+            </div>
+          </div>
+        `).join("");
+      }
+    }
+
+    function selectDestination(name) {
+      // Update Tab States
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.innerText.includes(name.split(" ")[0].toUpperCase()));
+      });
+      renderUI(name);
+    }
+
+    function renderDestination(destinationName) {
+      selectDestination(destinationName);
     }
 
     function renderDestination(destinationName) {

@@ -819,6 +819,244 @@
     window.enterFeatures = window.enterDashboard;
     window.openFeaturesPage = window.enterDashboard;
 
+    
+    /* ====================================================================
+       DESTINATION CULTURAL INTELLIGENCE & FLIP DECK ENGINE
+    ==================================================================== */
+    const CITY_CODEX = {
+      "Delhi": {
+        coords: "LAT 28.6139° N // LON 77.2090° E",
+        tag: "NODE // DL-01",
+        bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
+        temp: "24°C Pleasant",
+        climateSub: "Plains Microclimate &bull; 58% RH",
+        season: "Oct – Mar",
+        seasonSub: "Clear Skies &bull; Ideal Festivals",
+        burn: "₹2,200 – ₹5,500",
+        burnSub: "Per Head INR (Stay + Meals)",
+        dwell: "2 – 4 Days",
+        dwellSub: "Recommended Codex Scope",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why were 7 historical cities superimposed on this ridge?", a: "The northern terminal spur of the ancient Aravalli Hills created a natural defensive citadel commanding the Yamuna river trade routes between Central Asia and the Gangetic plains." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do Purani Dilli residents eat slow-simmered Nihari at dawn?", a: "Originating as an energizing beef and bone-marrow stew for royal laborers and soldiers in Mughal winters, Nihari remains a sunrise ritual before morning market trade." },
+          { lens: "UNSPOKEN CODES", q: "How do you navigate the zero-margin rickshaw alleys of Dariba Kalan?", a: "Walk on the left masonry lip, never make abrupt directional stops, and let silver-vark beaters and porter handcarts establish alley priority." },
+          { lens: "SEASONAL PULSE", q: "What subterranean climate shift occurs at Nizamuddin Dargah in winter?", a: "Marble courtyards trap afternoon solar heat while surrounding high walls block icy northern winds, creating a warm microclimate for evening qawwali assemblies." },
+          { lens: "SECRET ARCHITECTURE", q: "Why does the Qutb Iron Pillar resist rust across 1,600 monsoons?", a: "A high-phosphorus iron alloy forged with a protective passive layer of misawite (iron hydrogen phosphate hydrate) shields the metal from moisture." },
+          { lens: "VERNACULAR CRAFT", q: "How is 99.9% pure silver beaten into 0.2-micron edible Vark foil?", a: "Artisans beat silver strips continuously for 6 hours using 5-kg wooden mallets inside ox-gut leather books until the foil is thinner than light wavelengths." }
+        ],
+        pillars: [
+          { title: "Mughal Double-Dome Acoustics", tag: "ACOUSTIC VECTOR", desc: "Humayun's Tomb pioneered the double-dome structure, isolating outer grand proportions from inner acoustic ceiling reverberations." },
+          { title: "Subterranean Baoli Hydraulics", tag: "HYDRO GEOLOGY", desc: "Agrasen ki Baoli channels groundwater through 108 stone steps, cooling surrounding subterranean chambers by up to 8°C." },
+          { title: "Iron Metallurgy Passivation", tag: "METALLURGY", desc: "Gupta-era forge welding produced a non-porous oxide skin that prevents atmospheric rust even in heavy monsoon humidity." }
+        ]
+      },
+      "Dehradun": {
+        coords: "LAT 30.3244° N // LON 78.0417° E",
+        tag: "NODE // UK-01",
+        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
+        temp: "18°C Alpine Mist",
+        climateSub: "Doon Valley Alpine &bull; 62% RH",
+        season: "Sep – May",
+        seasonSub: "Himalayan Foothills &bull; Pure Air",
+        burn: "₹1,800 – ₹4,200",
+        burnSub: "Per Head INR (Stay + Meals)",
+        dwell: "2 – 3 Days",
+        dwellSub: "Gateway to Garhwal Massif",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why was the Doon Valley chosen between the Shivaliks and Himalayas?", a: "Framed by the Ganga and Yamuna rivers, the fertile valley basin provided a temperate sanctuary and natural strategic transit node into High Garhwal." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do residents buy Stick Jaws and rusks from Clock Tower bakeries?", a: "Colonial British cantonment baking traditions blended with local Garhwali spring water to produce crisp bakery rusks that became a legendary tea-time staple." },
+          { lens: "UNSPOKEN CODES", q: "How to explore Robber's Cave (Guchhupani) like a mountain guide?", a: "Rent rubber wading boots at the entry gate, tread middle stream channels where water currents are lowest, and reach the inner cavern waterfall drop." },
+          { lens: "SEASONAL PULSE", q: "What causes Sahastradhara spring water to deposit white calc-tufa rock?", a: "Rainwater percolates through limestone bedrock rich in sulfur and calcium carbonate, petrifying leaves into natural travertine terraces." },
+          { lens: "SECRET ARCHITECTURE", q: "Why is the Forest Research Institute built with 2.5 miles of arched brick colonnades?", a: "Designed by Blomfield in 1929, Greco-Roman arched colonnades provide continuous passive shade and air circulation across 6 forestry museums." },
+          { lens: "VERNACULAR CRAFT", q: "Why is authentic Dehradun Basmati rice prized for extra-long grain aroma?", a: "Nurtured by mineral-rich glacial meltwater from the Mussoorie range and unique alluvial soil chemistry of the Song river basin." }
+        ],
+        pillars: [
+          { title: "Karst Subterranean Karst Spring", tag: "SPELEOLOGY", desc: "Guchhupani stream vanishes into subterranean rock fractures and reappears 50 meters ahead through natural pressure vents." },
+          { title: "Colonial Timber Roof Trusses", tag: "TIMBER PHYSICS", desc: "FRI main hall features massive mortarless deodar timber trusses spanning 100-foot arches without central pillars." },
+          { title: "Travertine Sulphur Filtration", tag: "HYDRO CHEMISTRY", desc: "Sahastradhara natural limestone pools filter groundwater through thermal sulfur strata, maintaining a steady 22°C year-round." }
+        ]
+      },
+      "Varanasi": {
+        coords: "LAT 25.3176° N // LON 83.0061° E",
+        tag: "NODE // UP-01",
+        bg: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=80",
+        temp: "26°C River Breeze",
+        climateSub: "Gangetic Plain &bull; 65% RH",
+        season: "Oct – Mar",
+        seasonSub: "Dev Deepawali &bull; Subah-e-Banaras",
+        burn: "₹1,500 – ₹3,800",
+        burnSub: "Per Head INR (Stay + Meals)",
+        dwell: "3 – 5 Days",
+        dwellSub: "Spiritual Codex Exploration",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why is the Ganga river riverfront crescent curved northward here?", a: "The Uttaravahini (north-flowing) river bend slows down current velocity, allowing 84 stone ghats to anchor into solid Gangetic kankar limestone." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do pilgrims drink Kulhad Chai sprinkled with Rabri at sunrise?", a: "Unbaked clay cups impart natural mineral earthiness while thick sweet milk cream provides caloric energy for early morning river rituals." },
+          { lens: "UNSPOKEN CODES", q: "What is the unwritten law of navigating Manikarnika Ghat?", a: "Step aside quietly for funeral processions carrying caskets, never photograph cremation pyres, and respect the eternal hearth of the Dom Raja." },
+          { lens: "SEASONAL PULSE", q: "What happens during Dev Deepawali on the 84 ghats?", a: "Over 1 million earthen diya lamps are lit along the stone steps at dusk, creating a glowing golden light reflection across the river." },
+          { lens: "SECRET ARCHITECTURE", q: "Why do Varanasi riverfront palaces tilt slightly toward the water?", a: "Massive stone bastions built on silty riverbanks settled slightly over centuries without structural collapse due to interlocking deep wooden pile foundations." },
+          { lens: "VERNACULAR CRAFT", q: "How do Banarasi weavers create gold zari silk brocades?", a: "Using subterranean pit looms and up to 5,600 Jacquard punch-cards to weave pure silver wire electroplated with 24K gold into heavy silk." }
+        ],
+        pillars: [
+          { title: "Unbroken 3,000-Yr Eternal Flame", tag: "PYRO DYNAMICS", desc: "The sacred hearth at Manikarnika draws its continuous fire from ancient Vedic altars, burning non-stop through millennia." },
+          { title: "Acoustic Shehnai Resonance", tag: "HARMONIC WAVE", desc: "Narrow high-walled alleyways amplify high-pitched Shehnai ragas, carrying acoustic tones clearly to rowboats on the river." },
+          { title: "Interlocking Ghat Masonry", tag: "RIVER HYDRAULICS", desc: "84 stepped ghats use heavy stepped granite and sandstone blocks designed to absorb intense monsoon river surges." }
+        ]
+      },
+      "Hampi": {
+        coords: "LAT 15.3350° N, LON 76.4600° E",
+        tag: "NODE // KA-01",
+        bg: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=1920&q=80",
+        temp: "29°C Arid Granite",
+        climateSub: "Deccan Plateau &bull; 42% RH",
+        season: "Nov – Feb",
+        seasonSub: "Cool Breeze &bull; Sunset Boulders",
+        burn: "₹1,600 – ₹3,500",
+        burnSub: "Per Head INR (Stay + Meals)",
+        dwell: "3 – 4 Days",
+        dwellSub: "Vijayanagara Empire Ruins",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why was Vijayanagara built in this boulder-strewn landscape?", a: "Surrounded by impenetrable 2.5-billion-year-old granite boulder hills and the swirling Tungabhadra River, it formed a natural military fortress." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do villagers cross the river in round bamboo coracles?", a: "Circular hulls woven from bamboo and coated in bitumen spin smoothly over rocky rapids without capsizing or catching on granite rocks." },
+          { lens: "UNSPOKEN CODES", q: "How to climb Matanga Hill for sunrise without losing the trail?", a: "Ascend via the eastern temple staircase with a headlamp before 5:15 AM to reach the highest granite peak before peak heat." },
+          { lens: "SEASONAL PULSE", q: "What visual shift occurs on Hemakuta Hill at dawn?", a: "Early morning light transforms grey granite boulders from deep purple to blazing amber-gold, illuminating 9th-century Shiva shrines." },
+          { lens: "SECRET ARCHITECTURE", q: "How does the inverted camera obscura in Virupaksha Temple work?", a: "A narrow pinhole slit in the dark rear sanctum wall projects an inverted 50-meter image of the eastern tower using natural sunlight." },
+          { lens: "VERNACULAR CRAFT", q: "How were 56 musical pillars carved at Vittala Temple?", a: "Sculpted from single solid granite monoliths tuned to specific Carnatic musical notes (Sa Re Ga Ma) when tapped with wood." }
+        ],
+        pillars: [
+          { title: "Pinhole Camera Obscura Sanctum", tag: "OPTICAL PHYSICS", desc: "Virupaksha rear wall slit acts as a natural lens, projecting an inverted real-time image of the 160-foot gopuram tower." },
+          { title: "Granite Musical Pillar Resonators", tag: "ACOUSTIC DENSITY", desc: "Solid granite columns vary in thickness and density to emit distinct musical frequencies when struck." },
+          { title: "Mortise & Tenon Stone Joinery", tag: "DRY MASONRY", desc: "The Stone Chariot and temples were assembled using dry interlocking joints without a single drop of mortar." }
+        ]
+      },
+      "Kashmir": {
+        coords: "LAT 34.0837° N // LON 74.7973° E",
+        tag: "NODE // JK-01",
+        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
+        temp: "14°C Alpine Valley",
+        climateSub: "High Altitude Basin &bull; 60% RH",
+        season: "Apr – Oct",
+        seasonSub: "Chinar Foliage &bull; Dal Lake Shikara",
+        burn: "₹2,500 – ₹6,000",
+        burnSub: "Per Head INR (Stay + Meals)",
+        dwell: "4 – 6 Days",
+        dwellSub: "Valley & High Alpine Pass Scope",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why is the Kashmir Valley an isolated high alpine basin?", a: "Enclosed by the Pir Panjal and Great Himalayan ranges, the lacustrine basin formed when an ancient lake drained through the Baramulla gorge." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do Dal Lake residents sip Kehwa from copper Samovars?", a: "Saffron, cardamom, cinnamon, and crushed almonds steeped in hot water inside charcoal-heated copper vessels keep body temperature warm in sub-zero winters." },
+          { lens: "UNSPOKEN CODES", q: "How to visit the floating dawn vegetable market on Dal Lake?", a: "Board a wooden Shikara at 5:00 AM, glide silently into the reeds near Mir Bahri, and watch farmers trade fresh produce boat-to-boat." },
+          { lens: "SEASONAL PULSE", q: "What transforms Nishat & Shalimar gardens in autumn?", a: "Chinar tree leaves shift into blazing crimson red, carpeting terraced Mughal water cascades framed by snow-capped Zabarwan peaks." },
+          { lens: "SECRET ARCHITECTURE", q: "Why is Pinjrakari lattice woodwork built without nails?", a: "Interlocking deodar wood joints flex during earthquakes, dampening seismic shockwaves while providing privacy and airflow." },
+          { lens: "VERNACULAR CRAFT", q: "How do Kani shawl weavers read coded 'Taleem' scripts?", a: "Weavers do not follow visual drawings; they read a calligraphic needle code chanted aloud by the master ustaad to interlock 300,000 knots." }
+        ],
+        pillars: [
+          { title: "Seismic Timber Lattice Flexure", tag: "SEISMIC STRUCTURAL", desc: "Taq and Dhajji Dewari timber-frame architecture absorbs earthquake energy without wall fracturing." },
+          { title: "Floating Raad Wetland Agriculture", tag: "AQUAPONICS", desc: "Farmers build floating vegetable gardens from lake reeds and mud that rise and fall naturally with water levels." },
+          { title: "Taleem Calligraphic Weaving Script", tag: "CRYPTOGRAPHIC CODE", desc: "Intricate floral shawl patterns are encoded into mathematical musical notations recited by master weavers." }
+        ]
+      }
+    };
+
+    // Generic fallback for cities not explicitly coded above
+    function getCityData(key) {
+      if (CITY_CODEX[key]) return CITY_CODEX[key];
+      return CITY_CODEX["Delhi"]; // Fallback to Delhi dataset
+    }
+
+    function loadLocation(cityKey) {
+      // 1. Update Active HUD Chip
+      document.querySelectorAll(".hud-chip").forEach(chip => {
+        if (chip.innerText.trim().toLowerCase() === cityKey.toLowerCase()) {
+          chip.classList.add("active");
+        } else {
+          chip.classList.remove("active");
+        }
+      });
+
+      const data = getCityData(cityKey);
+
+      // 2. Update Meta Banner & Micro-Telemetry
+      const titleEl = document.getElementById("destination-title");
+      const coordsEl = document.getElementById("geo-coords");
+      const tempEl = document.getElementById("hud-temp");
+      const climateSubEl = document.getElementById("hud-climate-sub");
+      const seasonEl = document.getElementById("hud-season");
+      const seasonSubEl = document.getElementById("hud-season-sub");
+      const burnEl = document.getElementById("hud-burn");
+      const burnSubEl = document.getElementById("hud-burn-sub");
+      const dwellEl = document.getElementById("hud-dwell");
+      const dwellSubEl = document.getElementById("hud-dwell-sub");
+
+      if (titleEl) titleEl.innerText = `${cityKey.toUpperCase()}: AUTONOMOUS CODEX`;
+      if (coordsEl) coordsEl.innerHTML = `<span class="telemetry-dot"></span> ${data.coords}`;
+      if (tempEl) tempEl.innerText = data.temp;
+      if (climateSubEl) climateSubEl.innerHTML = data.climateSub;
+      if (seasonEl) seasonEl.innerText = data.season;
+      if (seasonSubEl) seasonSubEl.innerHTML = data.seasonSub;
+      if (burnEl) burnEl.innerText = data.burn;
+      if (burnSubEl) burnSubEl.innerHTML = data.burnSub;
+      if (dwellEl) dwellEl.innerText = data.dwell;
+      if (dwellSubEl) dwellSubEl.innerHTML = data.dwellSub;
+
+      // 3. Render Module 01: Cultural Inquiries Flip Deck (#inquiries-deck)
+      const inqDeck = document.getElementById("inquiries-deck");
+      if (inqDeck && data.inquiries) {
+        inqDeck.innerHTML = data.inquiries.map(item => `
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front">
+                <div>
+                  <span class="telemetry" style="color:var(--accent-emerald); display:block; margin-bottom:8px;">${item.lens}</span>
+                  <h4 style="color:#fff; font-size:1.05rem; line-height:1.4;">${item.q}</h4>
+                </div>
+                <div class="interactive-cue">
+                  <span>TAP TO DECRYPT INTEL</span>
+                  <span>↺</span>
+                </div>
+              </div>
+              <div class="flip-back">
+                <div>
+                  <span class="telemetry" style="color:var(--accent-amber); display:block; margin-bottom:8px;">DECRYPTED CODEX ANSWER</span>
+                  <p style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">${item.a}</p>
+                </div>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--accent-emerald);">VERIFIED CULTURAL DATA ENGINE</div>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // 4. Render Module 02: Living Cultural DNA & Engineering Secrets (#pillars-deck)
+      const pillarsDeck = document.getElementById("pillars-deck");
+      if (pillarsDeck && data.pillars) {
+        pillarsDeck.innerHTML = data.pillars.map(item => `
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front" style="background: rgba(10, 16, 24, 0.75);">
+                <div>
+                  <span class="telemetry" style="color:var(--accent-cyan); display:block; margin-bottom:8px;">${item.tag}</span>
+                  <h4 style="color:#fff; font-size:1.1rem; line-height:1.4;">${item.title}</h4>
+                </div>
+                <div class="interactive-cue">
+                  <span>UN-SHROUD PHYSICS</span>
+                  <span>⚡</span>
+                </div>
+              </div>
+              <div class="flip-back" style="border-color:var(--accent-cyan);">
+                <div>
+                  <span class="telemetry" style="color:var(--accent-cyan); display:block; margin-bottom:8px;">ENGINEERING MECHANICS</span>
+                  <p style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">${item.desc}</p>
+                </div>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--accent-cyan);">VERNACULAR PHYSICS VERIFIED</div>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+    }
+
+    // Attach to window scope
+    window.loadLocation = loadLocation;
+
     window.returnToGateway = function() {
       const mainPage = document.getElementById("main-page");
       const featuresPage = document.getElementById("features-page") || document.getElementById("dashboard-page");
@@ -1735,6 +1973,7 @@
 
     // Initialize on page load
     document.addEventListener("DOMContentLoaded", () => {
+      loadLocation("Delhi");
       renderPlaces("all");
     });
   </script>

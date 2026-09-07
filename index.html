@@ -125,6 +125,7 @@ body {
   animation: floatRock 6s ease-in-out infinite alternate;
   box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
   z-index: 2;
+  transition: transform 0.15s ease-out;
 }
 
 @keyframes floatRock {
@@ -360,921 +361,443 @@ body {
   </main>
 
   <script>
-    // =========================================================================
-    // 1. EXACT IMAGE MAP PER DESTINATION
-    // =========================================================================
-    const DESTINATION_MEDIA = {
-      "Delhi": {
-        bg: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // DL-01",
-        coord: "LOC // DELHI_CAPITAL_GRID_01"
+/* ========================================================
+   1. VERIFIED IMAGE REGISTRY & CODEX DATA
+======================================================== */
+const DESTINATIONS = {
+  "delhi": {
+    name: "Delhi (National Capital)",
+    coords: "LAT 28.6139° N // LON 77.2090° E",
+    tag: "NODE // DL-01",
+    // Authentic Delhi landmark (Humayun's Tomb red sandstone / jali work)
+    bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why were 7 historical cities superimposed on this ridge?", a: "The northern terminal spur of the ancient Aravalli Hills created a natural defensive citadel commanding the Yamuna river trade routes between Central Asia and the Gangetic plains." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do purani dilli residents eat slow-simmered Nihari at dawn?", a: "Originating as an energizing beef and bone-marrow stew for royal laborers and soldiers in the Mughal winters, Nihari is taken at first light to sustain intense physical labor." },
+      { lens: "WHAT TOURISTS MISS", q: "What subterranean engineering lies inside Agrasen ki Baoli?", a: "A 60-meter deep, 3-tiered stepwell engineered with porous sedimentary stone that provided microclimate cooling for desert trading caravans passing through the ridge." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is pure Silver Vark hammered in Dariba Kalan?", a: "Artisans beat pure 99.9% silver strips placed inside leather casings with 5-kg wooden mallets continuously for 6 hours until it reaches 0.2 microns in thickness." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why does authentic Daulat ki Chaat exist only for 90 days?", a: "Fresh raw buffalo milk must be hand-whipped under open moonlit winter dew; the delicate foam collapses instantly if temperatures rise above 16°C." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves 800 years of Sufi Qawwali at Nizamuddin?", a: "The direct descendants of Hazrat Amir Khusrau (the Qawwal Bachhe lineage), singing unbroken Sufi musical harmonies in the inner sanctum every Thursday night." }
+    ],
+    pillars: [
+      {
+        badge: "ACOUSTIC SUFI VOIDS",
+        tag: "800 YRS UNBROKEN",
+        title: "The Chinar Courtyards of Nizamuddin",
+        tagline: "Sacred acoustic physics mapped around Sufi vocal harmonics.",
+        body: "The inner marble courtyards of the Dargah were laid out with proportional stone colonnades that prevent vocal echoes, allowing multi-layered acoustic qawwalis to travel cleanly through packed crowds without artificial amplifiers.",
+        secret: "Step into the inner arcade during Maghrib prayer; sit directly behind the harmonium player for the purest acoustic clarity."
       },
-      "Agra": {
-        bg: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // AG-02",
-        coord: "LOC // AGRA_MUGHAL_GRID_02"
+      {
+        badge: "SEISMIC RED SANDSTONE",
+        tag: "1192 CE ARCHITECTURE",
+        title: "The Fluted Symmetry of Qutb",
+        tagline: "Alternating angular and semicircular fluting engineered against wind shear.",
+        body: "Rising 72.5 meters, the minaret's fluted stone geometry breaks violent atmospheric wind gusts across the Delhi plains while cantilevered stalactite stone brackets disperse lateral earth tremors.",
+        secret: "Examine the base inscriptions—the masonry includes re-used Gurjara-Pratihara temple stones integrated structurally into the foundation tier."
       },
-      "Kashmir (Valley)": {
-        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // KS-03",
-        coord: "LOC // KASHMIR_VALLEY_GRID_03"
+      {
+        badge: "METALLURGIC ENIGMA",
+        tag: "1,600 YRS ZERO RUST",
+        title: "The Wrought Iron Pillar of Mehrauli",
+        tagline: "High-phosphorus metallurgy defying oxidation for millennia.",
+        body: "Forged during the Gupta Empire using high-phosphorus bloomery iron, a protective passive film of misawite (iron hydrogen phosphate hydrate) forms continuously on the surface, preventing atmospheric corrosion despite 16 centuries of monsoon rain.",
+        secret: "The pillar has zero carbon steel hardening; its rust-resistance is purely chemical, achieved through deliberate lack of lime in the smelting charcoal."
       },
-      "Jaipur (Rajasthan)": {
-        bg: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // RJ-04",
-        coord: "LOC // JAIPUR_GRID_04"
-      },
-      "Varanasi (UP)": {
-        bg: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // UP-05",
-        coord: "LOC // VARANASI_GHAT_GRID_05"
-      },
-      "Kerala (Backwaters)": {
-        bg: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // KL-06",
-        coord: "LOC // KERALA_COASTAL_GRID_06"
-      },
-      "Amritsar (Punjab)": {
-        bg: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // PB-07",
-        coord: "LOC // AMRITSAR_GRID_07"
-      },
-      "Goa (Coastal)": {
-        bg: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // GA-08",
-        coord: "LOC // GOA_COASTAL_GRID_08"
-      },
-      "Hampi (Karnataka)": {
-        bg: "https://images.unsplash.com/photo-1600100397608-f09074052f9c?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // KA-09",
-        coord: "LOC // HAMPI_MEGALITH_GRID_09"
-      },
-      "Ladakh (Highland)": {
-        bg: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1920&q=80",
-        nodeTag: "NODE // LA-10",
-        coord: "LOC // LADAKH_HIGHLAND_GRID_10"
+      {
+        badge: "ROYAL HYDROLOGY",
+        tag: "THE CANAL OF PARADISE",
+        title: "Nahr-i-Bihisht Cooling Duct",
+        tagline: "Subterranean canal network that air-conditioned the Red Fort.",
+        body: "Engineered to tap the Yamuna river miles upstream, water ran continuously down marble chutes inside the imperial pavilions, cooling the royal chambers by 6°C during 45°C summer dust storms.",
+        secret: "Look at the carved marble lotus basins in the Diwan-i-Khas—scalloped ripple ridges were mathematically chiseled to produce soothing acoustic bubbling."
       }
-    };
+    ]
+  },
 
-    // =========================================================================
-    // 2. ARVORA SPATIAL INTELLIGENCE DATASTORE (10 CORE SITES)
-    // =========================================================================
-    const ARVORA_DESTINATIONS = {
-      "Delhi": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why did 7 imperial capitals rise on this exact Aravalli ridge?",
-            a: "The narrow choke point between the ancient Aravalli rock ridge and the Yamuna River created an unassailable gateway controlling trade between Punjab plains and the fertile Gangetic basin."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do devotees gather at Sufi shrines before dawn in Nizamuddin?",
-            a: "Centuries-old Sufi traditions view early morning Qawwali as a cleansing of spiritual noise before urban activity begins, connecting directly to Nizamuddin Auliya's 14th-century sanctuary."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What optical acoustic feat lies inside Humayun's double dome?",
-            a: "The outer marble dome is separated by a 20-meter hollow air chamber from the inner vaulted ceiling, dampening summer heat and echoing acoustic chants with 4-second reverberation."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How did Zardozi gold embroidery survive 500 years in Chandni Chowk?",
-            a: "Royal court embroiderers settled in Dariba Kalan under Shah Jahan, passing down hand-sewn real silver wire ('Kalabattu') coated in pure gold foil to gild ceremonial royal robes."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Old Delhi Nihari stew cooked exclusively overnight in sealed deghs?",
-            a: "Nihari ('Nahar' meaning morning) was developed as an energy-dense dawn stew for Mughal labor guilds, simmered over slow charcoal embers in sealed copper pots so marrow melts into gravy."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains the 700-year-old Qawwali tradition at Nizamuddin Basti?",
-            a: "The Niyazi and Nizami Qawwal families, direct lineal descendants of Hazrat Amir Khusrau, who invented the Qawwali genre and classical Sitar."
-          }
-        ],
-        pillars: [
-          {
-            badge: "METALLURGICAL ENGINE",
-            tag: "1,600 YEARS RUST-FREE",
-            title: "The Mehrauli Iron Pillar Physics",
-            tagline: "High-phosphorus wrought iron forged without atmospheric corrosion.",
-            body: "Standing in the Qutub complex, this 4th-century Gupta pillar contains 98% pure wrought iron with high phosphorus and zero sulfur. A protective passive film of iron hydrogen phosphate hydrate continuously shields it from Delhi's humidity.",
-            secret: "Inspect the base: ancient forge welds are invisible because smiths hammer-welded white-hot iron bloom discs in a hydrogen-rich charcoal furnace."
-          },
-          {
-            badge: "HYDRAULIC STEPWELL",
-            tag: "108 STEPPED LEVELS",
-            title: "Agrasen ki Baoli Acoustics",
-            tagline: "Subterranean micro-climate reservoir carved into red sandstone.",
-            body: "Descending 60 meters through 108 steps, this 14th-century stepwell drops ambient temperatures by 8°C. The arched side niches trap cool moist air while acting as acoustic sound dampeners.",
-            secret: "Walk down to the 4th landing—the arched stone niches create a natural echo chamber where whisper frequencies echo up to the surface."
-          },
-          {
-            badge: "DOUBLE-DOME ARCHITECTURE",
-            tag: "MUGHAL PROTOTYPE",
-            title: "The Math Physics of Humayun's Tomb",
-            tagline: "The precursor to the Taj Mahal engineered by Persian master Mirak Mirza Ghiyas.",
-            body: "Built in 1572, it introduced the double dome and Charbagh grid to India. The high outer dome creates a imposing skyward silhouette, while the lower inner dome keeps room proportions intimate.",
-            secret: "Stand directly under the central cenotaph lattice: the geometric octagonal room mirrors the 8 levels of Islamic paradise ('Hasht Bihisht')."
-          },
-          {
-            badge: "EPHEMERAL CUISINE",
-            tag: "WINTER FOAM DESSERT",
-            title: "Daulat ki Chaat Physics",
-            tagline: "Milk foam whipped under cold winter night dew and saffron.",
-            body: "Old Delhi sweetmakers churn sweetened milk and cream for hours under open winter skies at 3:00 AM. The combination of dew, nitrogen aeration, and cool temperatures produces a cloud-like dessert that dissolves instantly on the tongue.",
-            secret: "It can only be served before 11:00 AM—once ambient sunlight warms the street air above 18°C, the foam collapses back into liquid."
-          }
-        ]
+  "agra": {
+    name: "Agra (Mughal Seat)",
+    coords: "LAT 27.1767° N // LON 78.0081° E",
+    tag: "NODE // AG-02",
+    // Authentic Agra Landmark (Taj Mahal at Dawn Mist)
+    bg: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did the Mughal court shift to this bend of the Yamuna?", a: "Sultan Sikandar Lodi and later Babur recognized that Agra’s high riverbluff gave complete artillery control over North Indian caravan arteries connecting Gujarat ports to Bengal." },
+      { lens: "WHY LOCALS DO THIS", q: "Why is Agra Petha soaked in pickling lime water for hours?", a: "Locals soak ash-gourd cubes in water infused with edible slaked lime (chuna) to chemically harden the cell walls, ensuring the candied interior stays juicy while the exterior remains crystalline." },
+      { lens: "WHAT TOURISTS MISS", q: "What optical illusion was calculated into the Taj Mahal Gate?", a: "As you walk toward the colossal Great Gate (Darwaza-i-Rauza), the Taj Mahal appears to shrink backward, rather than grow larger, due to engineered forced-perspective framing." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is delicate Parchin Kari (Pietra Dura) cut into marble?", a: "Master craftsmen shape semi-precious stones (malachite, carnelian, lapis) on hand-spun emery wheels, chiseling matching 2-millimeter deep marble pockets sealed with an unwritten tree-resin adhesive." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is Bedmi Puri made only with soaked urad dal?", a: "Coarsely ground urad dal spiced with saunf and hing provides the high plant protein and digestive fire needed by manual foundry and leather artisans working in Agra's historical workshops." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves royal Zardozi gold embroidery?", a: "Generational Muslim artisan guilds in the narrow mohallas of Nai ki Mandi, hand-weaving real metallic bullion threads over stretched wooden karchob frames." }
+    ],
+    pillars: [
+      {
+        badge: "SUBTERRANEAN FOUNDATION",
+        tag: "EBONY TIMBER WELLS",
+        title: "The Moisture-Locked Caissons",
+        tagline: "A foundation engineered to survive only if the river stays full.",
+        body: "The entire mass of the Taj Mahal rests upon subterranean masonry wells filled with rubble and capped with massive ebony timber beams. Ebony wood remains structurally rock-hard only when continuously submerged in water supplied by the Yamuna.",
+        secret: "Engineers monitor Yamuna water levels strictly; if the riverbed dries out, the subterranean wood risks exposure to oxygen and structural decay."
       },
-
-      "Agra": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why was Agra chosen as the imperial seat of the Mughal Empire?",
-            a: "Positioned along the navigable bend of the Yamuna River, Agra connected northern trade highways directly to Bengal waterways and Deccan military garrisons."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do master stonecutters view Mehtab Bagh at dusk?",
-            a: "Sunset across the Yamuna River illuminates the translucency of Makrana marble without midday sun reflection, revealing subtle pink and amber color shifts."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What secret optical trick makes the Taj Mahal appear larger as you step away?",
-            a: "The royal Darwaza-i-Rauza gate entrance is engineered with forced optical perspective—as you walk backward out of the arched gate, the Taj appears to expand rather than shrink."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How is Parchin Kari marble inlay executed with 0.1mm accuracy?",
-            a: "Artisans hand-grind semi-precious lapis, onyx, and jasper on emery wheels, setting them into hand-chiseled marble grooves with a secret resin-lime binder called 'Gaj'."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Agra Petha boiled in alum water before sugar steeping?",
-            a: "Ash gourd is soaked in lime and alum water ('Chuna Pani') to firm up outer cellulose cell walls, allowing the center to absorb syrup while remaining crisp on the outside."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who crafts the metallic Zardozi bridal robes in Gokulpura?",
-            a: "Over 10,000 artisan families in Agra old city, who preserve hand-knotted gold thread stitching passed down through 5 generations."
-          }
-        ],
-        pillars: [
-          {
-            badge: "OPTICAL MARBLE INLAY",
-            tag: "SEMI-PRECIOUS GEMSTONES",
-            title: "Parchin Kari Precision Physics",
-            tagline: "Translucent Makrana marble inlaid with lapis lazuli, turquoise, and carnelian.",
-            body: "The floral motifs on Shah Jahan's cenotaph feature up to 60 individual gem slices per single flower petal. The translucent white marble absorbs ambient light, causing inlaid gems to glow when sunlight strikes at specific angles.",
-            secret: "Shine a small penlight onto the carnelian petals inside the cenotaph screen—the stone glows fiery orange as light refracts inside the marble matrix."
-          },
-          {
-            badge: "DEFENSE ARCHITECTURE",
-            tag: "DOUBLE RED SANDSTONE",
-            title: "The Concentric Ramparts of Agra Fort",
-            tagline: "70-foot red sandstone walls designed by Akbar to withstand cannon fire.",
-            body: "Agra Fort features outer moat defenses, inner sloping walls that deflected iron cannonballs, and acoustic sound tunnels ('Machhi Bhawan') that carried guard warnings around corners.",
-            secret: "Visit the Sheesh Mahal (Mirror Palace)—thousands of tiny convex mirrors imported from Aleppo reflect a single candle flame into a constellation of lights."
-          },
-          {
-            badge: "RIVERFRONT URBANISM",
-            tag: "YAMUNA GARDEN GRID",
-            title: "Babur's Riverfront Charbagh Layout",
-            tagline: "Symmetrical paradise gardens designed as cool water-cooled urban retreats.",
-            body: "Rather than isolated monuments, 16th-century Agra was designed as a continuous 10-mile riverfront boulevard of terraced gardens, pavilion palaces, and water channels cooled by Yamuna breezes.",
-            secret: "The gardens were fed by overhead aqueducts powered by animal-driven Persian waterwheels ('Rahat') lifting river water into elevated stone storage tanks."
-          },
-          {
-            badge: "ACOUSTIC SANCTUARY",
-            tag: "REVERBERATION PHYSICS",
-            title: "The Acoustic Vault of the Taj Main Hall",
-            tagline: "A 28-meter inner dome engineered for harmonized musical resonance.",
-            body: "The central octagonal chamber inside the Taj Mahal acts as an acoustic sound amplifier. Prayers chanted under the apex dome reverberate for up to 15 seconds, creating a continuous harmonic chime.",
-            secret: "Mughal court singers used the long reverberation time to layer vocal harmonies over their own decaying echoes."
-          }
-        ]
+      {
+        badge: "OPTICAL ARCHITECTURE",
+        tag: "OUTWARD MINARET LEAN",
+        title: "The Fall-Safe Minarets",
+        tagline: "Minarets deliberately tilted outwards by 1.5 degrees.",
+        body: "The four flanking 40-meter minarets are not plumb vertical. They were constructed leaning slightly outward so that in the event of a catastrophic earthquake, the towers would collapse away from the central dome.",
+        secret: "Stand on the plinth directly between any two minarets and sight along the vertical stone joints to see the subtle outward divergence."
       },
-
-      "Kashmir (Valley)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why is Kashmir called the paradise valley of Asia?",
-            a: "Nestled between the Pir Panjal and Great Himalayan ranges, Dal Lake and the Jhelum river basin created a microclimate ideal for saffron, walnuts, and chinar forests."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do Dal Lake vegetable growers trade at 5:00 AM on boats?",
-            a: "The floating market ('Gudai') near Hazratbal happens at dawn on silent wooden Shikaras so fresh lotus stems ('Nadru') can reach city markets before sunrise heat."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What seismic genius keeps cedar wood houseboats floating?",
-            a: "Kashmiri 'Dunga' boats use deodar cedar wood joined by copper rivets that flex during earthquakes and water swells without cracking timber seams."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How does Kani Pashmina weave 100 wooden needles into one shawl?",
-            a: "Weavers use small eyeless wooden spools ('Tuji') following a coded needle script ('Taalim'), hand-knotting up to 500 wool loops per square inch."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Wazwan 36-course feast pounded with stone hammers?",
-            a: "Master chefs ('Vasta Waza') pound fresh mutton on walnut wood blocks with heavy stone mallets until muscle fibers break down into soft emulsified meatballs ('Rista' & 'Gushtaba')."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who preserves Papier-Mâché lacquer painting in Zadibal?",
-            a: "Shia artisan guilds descended from 15th-century Persian masters brought by King Zain-ul-Abidin ('Budshah')."
-          }
-        ],
-        pillars: [
-          {
-            badge: "SEISMIC WOOD CARPENTRY",
-            tag: "TAQ & DHAJJI DEWARI",
-            title: "Dhajji Dewari Timber Frame Physics",
-            tagline: "Earthquake-resistant timber mesh and stone masonry used in Kashmiri heritage houses.",
-            body: "Dhajji Dewari uses a lattice of cedar wood framing filled with light stone and mud mortar. During major earthquakes, the flexible wooden joints absorb seismic shock waves without structural collapse.",
-            secret: "Inspect historical shrines like Shah-i-Hamadan—built entirely of interlocking deodar logs without a single iron nail."
-          },
-          {
-            badge: "FLOATING AGRICULTURE",
-            tag: "RADH PEAT MATS",
-            title: "The Floating Gardens of Dal Lake",
-            tagline: "Artificial soil mats woven from lake weeds and rich river silt.",
-            body: "Farmers weave aquatic weeds into long floating mats ('Radh'), anchored with willow poles. These floating beds grow cucumbers and tomatoes using nutrient-rich Dal Lake water without land irrigation.",
-            secret: "The gardens can literally be towed by boat from one part of Dal Lake to another during seasonal moves."
-          },
-          {
-            badge: "SAFFRON BOTANY",
-            tag: "PAMPORE KAREWAS",
-            title: "The Red Gold Harvest of Pampore",
-            tagline: "Crocus sativus flowers cultivated on lacustrine soil plateaus.",
-            body: "Pampore's elevated clay plateaus ('Karewas') provide high-iron soil and crisp October night temperatures required for crocus flowers to burst into bloom with crimson stigmas.",
-            secret: "It takes over 150,000 hand-plucked flowers to yield a single kilogram of pure Kashmiri Kong saffron."
-          },
-          {
-            badge: "HERITAGE HYDROLOGY",
-            tag: "ROYAL SHALIMAR CHANNELS",
-            title: "The Terraced Cascades of Shalimar Bagh",
-            tagline: "Gravity-fed water fountains designed by Jahangir in 1619.",
-            body: "Water from Harwan mountain streams flows through terraced stone aqueducts, creating natural water pressure that fires dozens of fountains without mechanical pumps.",
-            secret: "Behind the central waterfall cascade are small stone niches ('Chini Khanas') where oil lamps were placed to illuminate water curtains at night."
-          }
-        ]
+      {
+        badge: "GEMOLOGICAL LAPIDARY",
+        tag: "MICRON PRECISION",
+        title: "The Inlaid Carnelian Blooms",
+        tagline: "Single flower petals crafted from up to 35 individual stone slices.",
+        body: "The floral arabesques on the cenotaphs are not painted; they are comprised of hand-polished jasper, lapis, jade, and carnelian so precisely fitted that joints between stone edges cannot be detected with a razor blade.",
+        secret: "Shine a small flashlight at a 45-degree angle against the yellow carnelian petals on the inner tomb—the translucent stone glows fiery orange."
       },
-
-      "Jaipur (Rajasthan)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why was Jaipur planned as India's first grid-planned city in 1727?",
-            a: "Maharaja Sawai Jai Singh II shifted from hill-fort Amer to the plains, designing Jaipur using Vastu Shastra and 9-square grid astronomy under architect Vidyadhar Bhattacharya."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do royal palace windows feature over 950 stone Jharokhas?",
-            a: "Hawa Mahal’s 953 screened casements created Venturi air currents so royal women could watch street processions unseen while enjoying cool summer breezes."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What astronomical secrets lie inside Jantar Mantar instruments?",
-            a: "The Vrihat Samrat Yantra is the world’s largest stone sundial, measuring local solar time to an accuracy of 2 seconds."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How does Jaipur Blue Pottery avoid using clay?",
-            a: "Blue Pottery is made without clay; artisans blend quartz stone powder, powdered glass, Fuller's earth, and natural gum, firing it at 800°C with copper oxide blue glazes."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Dal Baati Churma cooked with pure ghee and cow dung coals?",
-            a: "Baatis are dense wheat balls baked on slow desert coals to preserve shelf life during long Rajput camel campaigns, eaten soaked in hot ghee and lentil dal."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains Block Printing in Bagru and Sanganer?",
-            a: "The Chhipa community, hand-carving teak wood blocks and applying natural madder root red and indigo dyes."
-          }
-        ],
-        pillars: [
-          {
-            badge: "VENTURI THERMODYNAMICS",
-            tag: "953 STONE SCREEN WINDOWS",
-            title: "Hawa Mahal Airflow Engineering",
-            tagline: "A 5-story honeycomb facade built to cool royal quarters using natural wind pressure.",
-            body: "The narrow stone latticework Jharokhas force air through small apertures, accelerating breeze speed through the Venturi effect and dropping interior temperatures by up to 5°C.",
-            secret: "The entire 5-story structure has no solid foundation—it stands on a curved 50-centimeter thick base balanced like a screen."
-          },
-          {
-            badge: "ASTRONOMICAL INSTRUMENTATION",
-            tag: "2-SECOND SUNDIAL ACCURACY",
-            title: "Jantar Mantar Stone Calculations",
-            tagline: "19 colossal stone astronomical instruments built in 1734.",
-            body: "Jai Singh II built giant stone instruments rather than brass tools to prevent thermal expansion errors. The 27-meter tall sundial casts a shadow moving at 1 millimeter per second.",
-            secret: "Look at the Jai Prakash Yantra bowl—astronomers walked inside hemispherical marble bowls to map planetary movements directly onto grid lines."
-          },
-          {
-            badge: "CERAMIC MATERIAL SCIENCE",
-            tag: "NON-CLAY QUARTZ MATRIX",
-            title: "Jaipur Blue Pottery Glaze Chemistry",
-            tagline: "An ancient Persian-derived ceramic crafted without natural clay.",
-            body: "Using ground quartz crystal mixed with glass powder, the pottery is hand-turned, painted with cobalt blue and turquoise oxides, and double-glazed for heat resistance.",
-            secret: "Because quartz expands minimally during firing, the pottery never cracks under boiling liquids."
-          },
-          {
-            badge: "WATER HARVESTING",
-            tag: "JAIGARH FORT TANK",
-            title: "The 6-Million Gallon Jaigarh Aqueduct",
-            tagline: "A subterranean rain-harvesting system that kept Jaigarh Fort self-sufficient for centuries.",
-            body: "Rainwater from surrounding Aravalli hills was funneled through 6 kilometers of open stone canals into three massive underground reservoirs beneath Jaigarh Fort's courtyard.",
-            secret: "The water was filtered through sand and charcoal beds before entering storage, keeping it drinkable for years."
-          }
-        ]
-      },
-
-      "Varanasi (UP)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why is Varanasi considered the continuous spiritual hearth of India?",
-            a: "Inhabited for over 3,000 years along the crescent bend of the sacred Ganges River, Varanasi evolved as the center of Sanskrit learning, philosophy, and liberation ('Moksha')."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do boatmen row across the river at 5:30 AM during Subah-e-Banaras?",
-            a: "Morning light hits the 84 stone Ghats at a 45-degree angle, illuminating morning sun salutations and Vedic chants before city noise begins."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What structural design allows 84 Ghat steps to withstand monsoon floods?",
-            a: "The stone steps are anchored into deep wooden pile foundations and interlocking stone block joints that allow high river currents to flow over steps without washing away soil."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How is pure gold zari hand-woven into Banarasi silk sarees?",
-            a: "Weavers in Madanpura use handloom Jacquard punch-cards to interlace fine silk threads with silver wire electroplated in 24k gold."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Banarasi Paan chewed after meals across India?",
-            a: "Magahi betel leaf paired with lime, catechu, and aromatic spices aids digestion after heavy meals and serves as an ancient social hospitality ritual."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains the continuous Manikarnika sacred fire?",
-            a: "The Dom Raja clan, who have guarded the eternal funeral pyre flame for thousands of years without letting it extinguish."
-          }
-        ],
-        pillars: [
-          {
-            badge: "RIVERFRONT HYDRAULIC MASONRY",
-            tag: "84 SACRED GHAT STEPS",
-            title: "The Interlocking Stone Steps of Banaras",
-            tagline: "Heavy stone block revetments built to survive 15-meter Ganges monsoon rises.",
-            body: "The Ghat steps use heavy Chunar sandstone blocks joined with iron clamps and mortise-and-tenon joints. The curved crescent arrangement dissipates river water kinetic energy.",
-            secret: "At Dashashwamedh Ghat, notice deep stone sockets—these hold massive wooden umbrellas ('Chhatris') used by pandas for centuries."
-          },
-          {
-            badge: "TEXTILE HANDLOOM PHYSICS",
-            tag: "GOLD ZARI SILK",
-            title: "The Jacquard Weave of Banarasi Silk",
-            tagline: "Hand-knotted silk brocades using 5,000 punch-cards per saree.",
-            body: "Banarasi sarees incorporate silver-gold thread woven into complex floral brocades ('Kinkhab'). A single saree can take 3 master weavers over 3 months to complete.",
-            secret: "Real Banarasi silk uses 'Kadhwa' technique where each floral motif is individually hand-wrapped without loose threads on the back."
-          },
-          {
-            badge: "ACOUSTIC VEDIC RESONANCE",
-            tag: "SANZ-E-BANARAS",
-            title: "The Shehnai Lineage of Bismillah Khan",
-            tagline: "The double-reed musical instrument perfected at Vishwanath Temple.",
-            body: "The Shehnai requires immense breath control to vibrate double reeds made of swamp grass. Ustad Bismillah Khan practiced on the Ganges Ghats, using river echo to hone pitch precision.",
-            secret: "The reeds are harvested exclusively from local riverbeds and cured in sesame oil for optimal flexibility."
-          },
-          {
-            badge: "ASTRONOMICAL OBSERVATORY",
-            tag: "MAN SINGH OBSERVATORY",
-            title: "Maan Mandir Ghat Quadrant sundial",
-            tagline: "17th-century roof-top observatory built by Raja Man Singh.",
-            body: "Perched high above the river at Man Mandir Ghat, stone instruments measure celestial solar altitudes and planetary alignments over the Ganges horizon.",
-            secret: "The Samrat Yantra here maps the exact solar noon of Varanasi independent of regional time zones."
-          }
-        ]
-      },
-
-      "Kerala (Backwaters)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why did a 900km labyrinth of backwaters form along the Malabar Coast?",
-            a: "Oceanic waves formed long sandbars that trapped river runoff from 41 West-flowing rivers, creating a tranquil freshwater lagoon network separated from the Arabian Sea."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do toddy tappers climb 50-foot coconut palms before sunrise?",
-            a: "Coconut flower sap ferments within hours in tropical heat. Tappers collect fresh sweet sap ('Neera') early morning before wild yeast converts it into alcoholic toddy."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What eco-engineering allows Kuttanad farming below sea level?",
-            a: "Kuttanad is one of the few places on Earth where farming is done 2 meters below sea level using bio-bunds woven from coconut coir, clay, and bamboo."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How are Aranmula Kannadi metal mirrors cast without glass?",
-            a: "Master metallurgists cast metal mirrors using a secret alloy of copper and tin, polishing the front surface for weeks until it reflects light without distortion."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Kerala Sadya served strictly on fresh banana leaves?",
-            a: "Hot steamed rice releases polyphenols and antioxidants from the banana leaf, enhancing digestability while imparting a fresh herbal aroma."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains Kathakali makeup and dance drama in Cheruthuruthi?",
-            a: "Kerala Kalamandalam artists, who spend 10 years mastering facial muscle control, eye movements, and natural mineral face painting ('Vesham')."
-          }
-        ],
-        pillars: [
-          {
-            badge: "NAVAL TIMBER CARPENTRY",
-            tag: "KETTUVALLAM HOUSEBOATS",
-            title: "Coir-Stitched Anjili Wood Ships",
-            tagline: "Traditional boats built without a single iron nail using coconut fiber rope.",
-            body: "Kettuvallam hulls are built from wild jackwood ('Anjili') planks joined with coconut coir rope and coated with boiled cashew nut resin. The flexible seam flexing prevents water leaks.",
-            secret: "Cashew resin acts as a natural insecticide and anti-fouling agent against marine borers."
-          },
-          {
-            badge: "METALLURGICAL MIRROR SCIENCE",
-            tag: "FRONT-SURFACE REFLECTION",
-            title: "Aranmula Metal Mirror Metallurgy",
-            tagline: "100% metal mirrors providing zero secondary ghosting reflection.",
-            body: "Unlike silvered glass mirrors where reflection happens at the back, Aranmula mirrors reflect directly off the polished front metal alloy surface, eliminating secondary optical distortion.",
-            secret: "The alloy ratio is known only to a single family guild in Aranmula village near the Pamba River."
-          },
-          {
-            badge: "SUB-SEA AGRICULTURE",
-            tag: "BELOW SEA LEVEL FARMING",
-            title: "The Clay Bio-Bunds of Kuttanad",
-            tagline: "UN-recognized heritage farming system operating below sea level.",
-            body: "Farmers construct perimeter dams using lake clay and coconut fiber, pumping water out into canals using electric pumps to cultivate rice below sea level.",
-            secret: "The soil salinity is managed by opening and closing the Thanneermukkom saltwater barrier during high tides."
-          },
-          {
-            badge: "PERFORMATIVE ICONOGRAPHY",
-            tag: "NATURAL MINERAL FACIALS",
-            title: "Kathakali Vesham Color Chemistry",
-            tagline: "Facial makeup made from crushed indigo, rice paste, and lampblack.",
-            body: "The green face paint ('Pacca') represents noble heroes, made by grinding mineral malachite with coconut oil. White paper chins ('Chutti') highlight facial muscle twitches.",
-            secret: "Performers place a tiny eggplant seed under their eyelids before performance to redden their eyes naturally."
-          }
-        ]
-      },
-
-      "Amritsar (Punjab)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why was the Golden Temple built at the center of a sacred pool in 1577?",
-            a: "Guru Ram Das excavated the Amrit Sarovar ('Pool of Nectar') as a spiritual crossroads where people of all castes could bathe, eat, and pray together without distinction."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do 100,000 people eat free at Sri Harmandir Sahib Langar daily?",
-            a: "The Langar honors the core Sikh principle of 'Vand Chhako' (share what you earn), serving free vegetarian meals cooked 24/7 by voluntary sevadars."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "Why is the Golden Temple built at a lower level than surrounding land?",
-            a: "Unlike traditional temples built high on steps, Harmandir Sahib is entered by walking down steps, symbolizing humility and open access from all four cardinal directions."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How is Phulkari flower embroidery stitched from the back of cloth?",
-            a: "Women stitch untwisted silk thread ('Pat') onto coarse unbleached cotton ('Khaddar') from the reverse side without drawing patterns, relying on count-thread memory."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Amritsari Kulcha baked inside a blistering clay tandoor?",
-            a: "Layered dough laminated with ghee and mashed spiced potatoes puffs up when slapped against 400°C clay tandoor walls, served crushed with dollops of white butter."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains the Gurbani Kirtan music at the inner sanctum?",
-            a: "Huzuri Ragis who play classical Indian Raags using traditional stringed instruments like the Taus, Dilruba, and Rabab."
-          }
-        ],
-        pillars: [
-          {
-            badge: "COMMUNAL KITCHEN PHYSICS",
-            tag: "100,000 MEALS DAILY",
-            title: "The Mega-Langar Automation & Seva",
-            tagline: "The world's largest free mega-kitchen powered by community volunteerism.",
-            body: "The kitchen uses automatic roti-making machines producing 25,000 flatbreads per hour alongside massive 1,000-liter stainless steel dal cauldrons stirred by hand.",
-            secret: "All dishwashing is done by hand in 5 sequential water basins by continuous shifts of volunteers ('Sevadars')."
-          },
-          {
-            badge: "METALLURGICAL EMBOSSING",
-            tag: "24K GOLD LEAF FOIL",
-            title: "The Gold Gilded Copper Plates",
-            tagline: "750 kg of pure gold leaf gilding installed under Maharaja Ranjit Singh.",
-            body: "The upper marble stories are covered in copper sheets embossed with floral motifs and electro-gilded with 24k gold leaf layer by layer.",
-            secret: "The gold plates are inspected and polished every year using soft lemon juice and soapnut ('Reetha') solution."
-          },
-          {
-            badge: "TEXTILE GEOMETRY",
-            tag: "UNMOUNTED SILK STITCHING",
-            title: "Phulkari Silk Thread Count Memory",
-            tagline: "Geometric floral embroidery hand-stitched from the reverse side.",
-            body: "Phulkari ('flower work') uses untwisted floss silk thread that catches light from different angles, creating a shimmering 3D velvet effect across cotton cloth.",
-            secret: "A true 'Bagh' (garden) Phulkari leaves no bare base fabric visible—the entire cloth is solid silk embroidery."
-          },
-          {
-            badge: "CIVIL EMBANKMENT",
-            tag: "SACRED POOL HYDRAULICS",
-            title: "The Amrit Sarovar Water Filtration",
-            tagline: "A 150-meter square pool continuously replenished by fresh wells.",
-            body: "The sacred tank holds millions of gallons of water, filtered through perimeter sand beds and recirculated through underground channels to maintain clarity.",
-            secret: "The marble walkway ('Parikrama') surrounding the pool is cooled by water channels running beneath the stone slabs."
-          }
-        ]
-      },
-
-      "Goa (Coastal)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why did a Portuguese-Indian syncretic architecture emerge here?",
-            a: "451 years of Portuguese rule combined Iberian Baroque church aesthetics with indigenous Konkani laterite stone masonry and tropical climate design."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do Goans observe 'Susegad' afternoon quiet hours?",
-            a: "Susegad (from Portuguese 'Sossegado' - tranquil) is a cultural rhythm respecting coastal heat, encouraging rest, family conversations, and slow living."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What secret ingredient glazes the floors of Old Goa Haveli mansions?",
-            a: "Floors were sealed with egg whites, coconut shell charcoal, and ox blood, creating smooth crimson red oxide surfaces that stay cool during monsoons."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How is Azulejos tin-glazed ceramic tile painted in Panjim?",
-            a: "Artisans paint cobalt blue historical scenes onto wet tin-glaze tiles before firing at 1,000°C, a craft preserved in Fontainhas Latin Quarter."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why does Goan Fish Curry require kokum and freshly grated coconut?",
-            a: "Kokum ('Solkadhi') provides natural fruit acidity that balances oily kingfish, while fresh coconut milk creates a smooth tropical curry base."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who distills Cashew Feni using copper alembic pot stills?",
-            a: "Traditional 'Cazulo' distillers in Sathregad who crush ripe cashew apples by foot and double-distill the juice over wood fires."
-          }
-        ],
-        pillars: [
-          {
-            badge: "LATERITE STONE CARPENTRY",
-            tag: "RED CLAY MASONRY",
-            title: "The Porous Laterite Architecture of Old Goa",
-            tagline: "Soft red volcanic stone that hardens upon atmospheric exposure.",
-            body: "Goan churches like Basilica of Bom Jesus were built using iron-rich laterite rock. Mined soft, the stone hardens into rock-solid masonry when exposed to air.",
-            secret: "Plaster made from crushed oyster shells and lime was applied to laterite walls to stop monsoon moisture penetration."
-          },
-          {
-            badge: "CERAMIC AZULEJOS ART",
-            tag: "TIN-GLAZED BLUE TILES",
-            title: "Azulejo Tile Firing Science",
-            tagline: "Iberian ceramic painting brought to Latin Quarter Fontainhas.",
-            body: "Azulejos tiles use cobalt oxide pigment that chemically bonds with silica glaze during high-temperature kiln firing, creating weather-proof house nameplates and murals.",
-            secret: "Walk through Fontainhas—every house nameplate features custom blue Azulejo tile art depicting family trade origins."
-          },
-          {
-            badge: "ORGANIC FERMENTATION",
-            tag: "CASHEW FENI DISTILLATION",
-            title: "Triple-Distilled Cazulo Feni Physics",
-            tagline: "GI-tagged spirit brewed from fermented cashew fruit juice.",
-            body: "Cashew apples are stomped in stone basins ('Kollm'), and the juice is fermented naturally without artificial yeast before being distilled in earthen clay pots.",
-            secret: "The third distillation run yields 'Feni' at 45% ABV, producing a distinct botanical aroma unique to Goa."
-          },
-          {
-            badge: "COASTAL ECO-ENGINEERING",
-            tag: "KHANZEN SALTWATER RECLAIM",
-            title: "The Khazan Sluice Gate System",
-            tagline: "Centuries-old estuarine farming and mangrove bund network.",
-            body: "Khazan lands use wooden flap sluice gates ('Manos') that automatically close during high tide to keep sea water out and open at low tide to drain fields.",
-            secret: "The wooden sluice gates operate purely on natural water pressure differential without electric motors."
-          }
-        ]
-      },
-
-      "Hampi (Karnataka)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why did a medieval superpower arise in a maze of granite boulders?",
-            a: "The Kishkindha boulders and the turbulent Tungabhadra gorge formed an impregnable natural fortress, allowing the Sangama brothers in 1336 to fortify a capital that grew into the world's second-largest city."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do boatmen cross the swirling Tungabhadra in woven baskets?",
-            a: "Coracles ('Harigolu') made of woven bamboo and waterproofed with buffalo hide and bitumen flex with the violent river currents over granite rapids without shattering like rigid wooden hulls."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What inverted optical marvel hides inside Virupaksha Temple?",
-            a: "Inside a dark stone chamber behind the inner sanctum, a pinhole aperture in the outer wall casts an upside-down camera obscura shadow of the giant 160-foot temple gopuram on the wall."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "How do stonecutters extract massive pillars from live granite bedrock?",
-            a: "Artisans chiseled small square notches into the rock, wedged dried acacia wood pegs into them, and drenched them with water. As the wood expanded with hydraulic pressure, clean stone blocks cracked free."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Jolada Rotti slapped by hand without a rolling pin?",
-            a: "Sorghum flour lacks gluten. Master cooks slap the hot dough between oiled palms onto blistering iron tavas, puffing the rotti into a feather-thin, shelf-stable flatbread suited for dry Deccan heat."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains the Lambani geometric embroidery?",
-            a: "The nomadic Banjara Lambani women of Sandur, combining cross-stitch embroidery with cowrie shells, discarded coins, and lead mirrors passed mother-to-daughter."
-          }
-        ],
-        pillars: [
-          {
-            badge: "ACOUSTIC ENGINEERING",
-            tag: "56 MUSICAL COLUMNS",
-            title: "The Resonant Pillars of Vittala",
-            tagline: "Solid granite pillars engineered to produce classical Carnatic musical notes.",
-            body: "Inside the Maha Mandapa of the Vittala temple, 56 slender granite pillars sound like bells, mridangams, and flutes when gently tapped. British geologists confirmed they are carved from solid resonant granite with varying mineral densities.",
-            secret: "Look closely at the pillar clusters: each main pillar is surrounded by 7 minor pillars representing the musical notes (Sa-Re-Ga-Ma-Pa-Dha-Ni)."
-          },
-          {
-            badge: "HYDRAULIC GRANITE",
-            tag: "GEOMETRIC SYMMETRY",
-            title: "The Stepped Basin of Pushkarani",
-            tagline: "Prefabricated black schist masonry fed by gravity aqueducts.",
-            body: "The royal Stepped Tank features stepped tiers carved from dense chlorite schist. Every stone block was chiseled with quarry mason marks and assembled dry without mortar, fed by a stone aqueduct that funneled river water across miles.",
-            secret: "Notice the faint Kannada numerals and orientation arrows engraved on individual steps—it was prefabricated off-site and assembled like a 3D puzzle."
-          },
-          {
-            badge: "MEGALITHIC LANDSCAPE",
-            tag: "2.5 BILLION YEARS",
-            title: "The Proterozoic Granite Slabs",
-            tagline: "One of the oldest exposed rock surfaces on planet Earth.",
-            body: "The boulder piles of Hampi are ancient granite batholiths exposed by billions of years of wind and water erosion cracking vertical and horizontal joint planes into balanced boulders.",
-            secret: "Climb Hemakuta Hill at 5:30 AM to watch the dawn light warm the ancient granite from cool gray to fiery golden orange."
-          },
-          {
-            badge: "ANCIENT OPTICS",
-            tag: "PINHOLE PROJECTION",
-            title: "The Camera Obscura of Virupaksha",
-            tagline: "15th-century Vijayanagara masons mastering optical physics.",
-            body: "Centuries before camera obscura became standard in European drawing, architects of Virupaksha aligned a narrow triangular slit in the eastern granite wall to project the 50-meter eastern tower upside-down inside the dark shrine hall.",
-            secret: "Visit the chamber on the northern side of the sanctum between 10:00 AM and 1:00 PM when the sun highlights the inverted silhouette sharpest against the whitewashed wall."
-          }
-        ]
-      },
-
-      "Ladakh (Highland)": {
-        inquiries: [
-          {
-            lens: "WHY THIS EXISTS",
-            q: "Why did a mountain civilization thrive in an oxygen-thin rain shadow?",
-            a: "Shielded from Indian monsoons by the Great Himalayas, Ladakh’s cold desert valleys survived by harvesting glacial meltwater along the arterial trans-Himalayan caravan trade between Yarkand and Tibet."
-          },
-          {
-            lens: "WHY LOCALS DO THIS",
-            q: "Why do Ladakhis churn salty yak butter into their morning black tea?",
-            a: "At 11,000 feet, standard milky sugar tea dehydrates. Salt and high-fat yak butter replenish electrolytes, prevent chapped lips, and provide sustained metabolic calories against sub-zero winds."
-          },
-          {
-            lens: "WHAT TOURISTS MISS",
-            q: "What architectural secret keeps mud-brick monasteries standing for 1,000 years?",
-            a: "The Rammed Earth and sun-dried mud bricks contain high mineral mica and willow-stick timber lintels that flex during tremors while breathing moisture out in extreme arid winters."
-          },
-          {
-            lens: "THE STORY BEHIND THIS CRAFT",
-            q: "Where does the world's most expensive raw Pashmina originate?",
-            a: "Harvested from nomadic Changpa goat herds grazing the wind-swept Changthang plateau at 15,000 feet. The freezing -40°C winter forces the goats to grow a downy under-fleece measuring just 12–15 microns."
-          },
-          {
-            lens: "WHAT THIS FOOD MEANS",
-            q: "Why is Tsampa roasted barley flour carried on long mountain passes?",
-            a: "Tsampa is pre-roasted before milling. Because it requires no cooking fire, high-altitude yak caravans simply knead it with butter tea into energy-dense dough balls while traversing snowbound passes."
-          },
-          {
-            lens: "WHO KEEPS THIS TRADITION ALIVE",
-            q: "Who maintains the sacred mineral paint Thangkas?",
-            a: "Monastic lama-artists who meditate before grinding lapis lazuli, malachite, cinnabar, and gold leaf into geometric sacred mandalas following strict iconometric proportions."
-          }
-        ],
-        pillars: [
-          {
-            badge: "GLACIAL HYDRO-ENGINEERING",
-            tag: "SUB-ZERO IRRIGATION",
-            title: "The Ice Stupas of Sonam Wangchuk",
-            tagline: "Artificial conical ice towers storing winter waste water for spring sowing.",
-            body: "During freezing winters, mountain streams run unused. Ladakhi engineers pipe this water down into valley centers and spray it vertically into sub-zero air. The freezing mist creates vertical ice cones that melt slowly as spring agricultural temperatures rise.",
-            secret: "Visit Phyang or Shara village in late March to see active ice stupas discharging meltwater directly into newly ploughed barley terraces."
-          },
-          {
-            badge: "SACRED ICONOMETRY",
-            tag: "GROUND LAPIS & GOLD",
-            title: "The Thousand-Year Walls of Alchi",
-            tagline: "Kashmiri-influenced Buddhist murals preserved by extreme desert aridity.",
-            body: "Unlike later Tibetan-style monasteries, the 11th-century murals of Alchi Choskor were executed by master Kashmiri painters using pulverized semi-precious stones. The zero-humidity climate has kept the colors glowing without touch-ups for 900 years.",
-            secret: "Carry a weak LED pocket torch into the Sumtsek shrine—the natural lapis lazuli blues and cinnabar reds reflect light without fading."
-          },
-          {
-            badge: "NOMADIC PASTORALISM",
-            tag: "15,000 FT GRAZING",
-            title: "The Changpa Rebo Encampments",
-            tagline: "Pastoral nomads harvesting raw Pashmina across arctic plateau winds.",
-            body: "The Changpa migrate across the high Changthang plateau living in woven black yak-hair tents called 'Rebo'. These porous tents keep out sleet and wind while permitting smoke from dung stoves to exit cleanly through top seams.",
-            secret: "Raw Changthangi wool can never be sheared; it must be gently combed out by hand during spring moulting to protect the delicate fiber structure."
-          },
-          {
-            badge: "RITUAL THEATRE",
-            tag: "CHAM MASK TRANCES",
-            title: "The Dance of the Dharmapalas",
-            tagline: "Monks donning fierce carved wooden masks to balance cosmic forces.",
-            body: "During monastery festivals, lamas transform into protective deities through Cham dances. Moving to the slow resonance of 10-foot long copper trumpets ('Dungchen') and cymbals, the dances cleanse negative karma from the surrounding valleys.",
-            secret: "Watch the feet of the dancers: the synchronized heel-to-toe pivots mimic sacred tantric foot-patterns drawn in sand within the inner sanctum."
-          }
-        ]
+      {
+        badge: "ACOUSTIC RESONANCE",
+        tag: "28-SECOND REVERB",
+        title: "The Echo Dome of Mumtaz",
+        tagline: "A reverberation chamber tuned to sustain sacred vocal prayer.",
+        body: "The central interior dome was acoustically tuned with hollow double-shell cavity walls to sustain a vocal musical note for 28 seconds, transforming single prayers into an ambient wall of sacred resonance.",
+        secret: "Early morning guards whisper or hum a single resonant note inside the tomb to demonstrate the continuous decaying echo to visitors."
       }
-    };
+    ]
+  },
 
-    // =========================================================================
-    // 3. RUNTIME CONTROLLER: SEAMLESS SITE SWITCHER & DISSOLVE ENGINE
-    // =========================================================================
-    let currentLayer = 'front';
+  "kashmir (valley)": {
+    name: "Kashmir (Valley)",
+    coords: "LAT 34.0837° N // LON 74.7973° E",
+    tag: "NODE // KS-03",
+    bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did civilization converge in this Himalayan amphitheater?", a: "Carved between the Pir Panjal and Great Himalayan ranges, the valley acted as the critical oasis where the Northern Silk Road met trans-Himalayan monastic paths." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do locals gather around the copper Samovar at dawn?", a: "Kahwa infused with saffron, cinnamon, and crushed almonds is not just hospitality—it serves as vital metabolic heat to counter high-altitude thermal drops." },
+      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the boulevard shikaras of Dal Lake?", a: "The 4:00 AM floating vegetable market on Mir Behri, where vendor-farmers barter indigenous produce using historic silent hand-signal codes under river mist." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Kani and Pashmina shawls drafted?", a: "Woven from microscopic Capra Hircus mountain-goat fleece using wooden spool needles ('kanis') guided by a coded, centuries-old calligraphic chant called 'Taleem'." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is traditional Wazwan cooked exclusively over fruit-wood?", a: "Master chefs ('Wazas') use fallen dried apple and walnut wood to achieve the sustained, smoke-free flame required to hand-pound tender meat for Rista and Gushtaba." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves the zero-nail Pinjrakari woodwork?", a: "The master woodwrights of Old Srinagar, assembling intricate geometric cedar lattices using gravity and sliding joints without a single iron nail." }
+    ],
+    pillars: [
+      { badge: "SEISMIC WOOD ARCHITECTURE", tag: "1,000 YRS FLEXIBLE", title: "Taq & Dhajji Dewari", tagline: "Earthquake-resistant timber engineering that dances with fault lines.", body: "Ancient Kashmiri masons intertwined deodar timber beams with light stone masonry. Instead of resisting tectonic shocks, the wooden cage flexes and dissipates seismic energy without collapse.", secret: "Examine the underbellies of Old Srinagar bridges and shrines like Khanqah-e-Moula—they are held without mortar or steel." },
+      { badge: "TEXTILE MATHEMATICS", tag: "18 MONTHS ON LOOM", title: "The Taleem Script of Kani", tagline: "Where master weavers convert poetic notation into woven silk and wool.", body: "Kani shawls are not woven by sight. Master Ustaads translate intricate Persian floral patterns into a transcribed coded alphabet chanted aloud, instructing the weaver's fingers on every warp thread.", secret: "A genuine heirloom Kani shawl contains over 300,000 individual knots and is completely reversible." },
+      { badge: "LIVING WATERWAYS", tag: "RADH FLOATING FARMS", title: "The Drifting Soil of Dal", tagline: "Agricultural beds woven entirely from aquatic weeds and wild lake reeds.", body: "Generations of Mir Behri farmers weave dense mats of Typha reeds into floating bio-rafts ('Radh'). These rafts rise and fall with water levels, producing organic heirloom Nadru (lotus stem) and greens.", secret: "Rent a small rowing boat at 4:45 AM toward the interior channels—floating barter transactions conclude strictly before 6:30 AM." },
+      { badge: "BOTANICAL ALCHEMY", tag: "GRADE-A MONGRA", title: "The Purple Soil of Pampore", tagline: "The world's most concentrated saffron fields blooming under October moonlight.", body: "The lacustrine plateau of Pampore possesses unique alluvial soil ('karewas'). It takes over 150,000 hand-picked Crocus sativus flowers to yield a single kilogram of pure Kashmiri saffron threads.", secret: "Authentic saffron threads never dissolve or bleed instantly into warm water—they diffuse a golden amber hue over 15 slow minutes." }
+    ]
+  },
 
-    function selectDestination(destKey) {
-      // Normalize destination key lookup
-      let key = destKey;
-      if (!ARVORA_DESTINATIONS[key]) {
-        const found = Object.keys(ARVORA_DESTINATIONS).find(k => k.toLowerCase().includes(destKey.toLowerCase()) || destKey.toLowerCase().includes(k.toLowerCase()));
-        if (found) key = found;
-      }
-      
-      const dest = ARVORA_DESTINATIONS[key];
-      const media = DESTINATION_MEDIA[key] || DESTINATION_MEDIA["Delhi"];
-      if (!dest) return;
+  "amritsar (punjab)": {
+    name: "Amritsar (Punjab)",
+    coords: "LAT 31.6340° N // LON 74.8723° E",
+    tag: "NODE // PB-04",
+    bg: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why was the Amrit Sarovar dug around a modest forest pool?", a: "Guru Ram Das consecrated the tank in 1577 as an egalitarian sanctuary, built lower than the surrounding terrain so that all kings and commoners must descend equally." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do devotees perform Seva daily?", a: "Washing marble floors or polishing shoes is a spiritual discipline designed to dismantle the ego and reinforce universal human dignity." },
+      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the temple parikrama?", a: "The historic Katras of the Old Walled City, where brasssmiths, papad-makers, and spice godowns preserve 19th-century merchant life." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is traditional Phulkari silk embroidered?", a: "Embroidered from the reverse side of coarse handspun khaddar fabric using untwisted silk floss ('pat') purely from thread counts, never stamped patterns." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why are Amritsari Kulchas baked only in open clay tandoors?", a: "Laminated with alternate layers of ghee and spiced potato dough, the extreme radiant heat of subterranean clay blisters the crust into crisp, paper-thin shards." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who manages the world's largest communal kitchen?", a: "The Guru Ram Das Langar Hall operates 24/7 on community donations and volunteers, feeding over 100,000 people of all faiths daily for free." }
+    ],
+    pillars: [
+      { badge: "SACRED VOLUNTEERISM", tag: "100,000 MEALS DAILY", title: "The Mega-Kitchen of Equality", tagline: "Precision logistics driven entirely by selfless devotion.", body: "Operating non-stop through wars and crises, the langar cooks 12,000 kg of flour and 1,500 kg of lentils every 24 hours with automated roti machines running alongside thousands of volunteers.", secret: "Walk behind the dining halls into the dal-stirring area; volunteers will gladly let you stir a 7-foot iron cauldron." },
+      { badge: "METALLURGIC SYMBOLISM", tag: "750 KG PURE GOLD", title: "The Gilded Copper Repoussé", tagline: "Master gilding commissioned by Maharaja Ranjit Singh.", body: "Beneath the golden sheen lies copper sheets embossed with floral repoussé patterns overlaid with pure gold foil. Inside, master artisans executed delicate Pietra Dura inlay.", secret: "The floral marble inlays were carved by descendants of the same artisans who decorated the Taj Mahal." },
+      { badge: "UNESCO CRAFT HERITAGE", tag: "HAMMERED METALWORK", title: "The Thatheras of Jandiala Guru", tagline: "India's only UNESCO-inscribed traditional metal-crafting guild.", body: "Using hand-held anvils and rounded hammers, Thathera craftsmen beat flat brass and copper discs into seamless water vessels with textured dimples that structurally reinforce the metal.", secret: "Visit Jandiala Guru 15 km outside the city to witness the rhythmic acoustic hammer beats echoing down artisan lanes." },
+      { badge: "HERITAGE DEFENSE", tag: "18TH-CENTURY BULWARK", title: "The Circular Maze of Gobindgarh", tagline: "Military architecture built to withstand Afghan artillery cannons.", body: "Constructed on concentric circular bastions with thick outer mud-and-brick walls that absorbed cannonball impact instead of shattering, securing the historic Toshakhana treasury.", secret: "The inner subterranean chambers stay at 18°C year-round to safeguard gunpowder stockpiles from scorching summers." }
+    ]
+  },
 
-      // A. Dynamic Parallax Background Dissolve Transition
-      const back = document.getElementById('stage-bg-back');
-      const front = document.getElementById('stage-bg-front');
+  "goa (coastal)": {
+    name: "Goa (Coastal)",
+    coords: "LAT 15.2993° N // LON 74.1240° E",
+    tag: "NODE // GA-05",
+    bg: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did maritime empires anchor along the Mandovi basin?", a: "Deep natural harbors and estuarine networks allowed early Kadamba and later Portuguese fleets to control spice trade routes while maintaining defensive river moats." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do coastal villages follow the 'Susegad' lifestyle?", a: "Susegad is a Portuguese-Goan ethos of unhurried balance, taking time during midday heat to prioritize communal rhythm and family." },
+      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the northern beach shacks?", a: "The ancient Khazan agro-aquatic wetlands—a 3,000-year-old bio-engineered dyke and sluice-gate system regulating tides to farm salt, fish, and rice." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Goan Azulejos tiles hand-painted?", a: "Glazed ceramic tiles are hand-stenciled and painted using cobalt-oxide mineral pigments before undergoing a 1,000°C kiln glaze." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is authentic Vindalho made with coconut vinegar?", a: "Derived from Portuguese 'carne de vinha d’alhos', local Catholic cooks substituted fermented coconut toddy vinegar for tropical preservation." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves traditional Ghode Modni?", a: "Folk performers across Bicholim and Sattari who safeguard warrior dance theater commemorating Maratha victories through ancestral guilds." }
+    ],
+    pillars: [
+      { badge: "INDIGENOUS HYDRO-TECH", tag: "3,500 YRS OLD", title: "The Khazan Sluice Gates", tagline: "Tidal engineering that turns brackish estuaries into food engines.", body: "Reclaimed from mangrove swamps, Khazans rely on self-regulating wooden 'Manos' (sluice gates) that open at low tide to drain water and shut at high tide to trap fish.", secret: "Head to Chorao Island during low tide to see the wooden flap valves functioning entirely on lunar water pressure." },
+      { badge: "ECCLESIASTICAL ARCHITECTURE", tag: "OYSTER SHELL GLAZE", title: "Manoeline-Baroque Fusion", tagline: "Cathedrals built of porous red earth waterproofed with jaggery and lime.", body: "Goan masons substituted imported glass windows with delicate ground translucent mother-of-pearl oyster shells ('Carepas') that filter coastal glare into soft golden light.", secret: "The window panes of the Church of St. Anne in Talaulim are constructed entirely of polished oyster shells." },
+      { badge: "DISTILLERY HERITAGE", tag: "DOUBLE-DISTILLED TODDY", title: "The Cashew Urrak & Feni Lineage", tagline: "Centuries-old copper pot distillation with GI-status protection.", body: "Hand-crushed cashew apples ferment spontaneously without yeast. Distilled twice in earthenware 'Lavnis' or copper stills to produce seasonal Urrak.", secret: "Urrak is strictly available between March and May; locals mix it with Limca, green chili, and salt." },
+      { badge: "COMMUNITY STEWARDSHIP", tag: "PRE-PORTUGUESE TENURE", title: "The Communidades of Goa", tagline: "Village collective ownership older than written medieval chronicles.", body: "Goan villages were governed by Gaunkars who held farmland in collective trust. Profits were distributed to ancestral families after maintaining public infrastructure.", secret: "The historic administrative ledgers ('Tombo') in Panaji still govern village fishing rights disputes today." }
+    ]
+  },
 
-      if (back && front && media && media.bg) {
-        if (currentLayer === 'front') {
-          back.style.backgroundImage = `url('${media.bg}')`;
-          front.classList.add('fade-out');
-          currentLayer = 'back';
-        } else {
-          front.style.backgroundImage = `url('${media.bg}')`;
-          front.classList.remove('fade-out');
-          currentLayer = 'front';
-        }
-      }
+  "jaipur (rajasthan)": {
+    name: "Jaipur (Rajasthan)",
+    coords: "LAT 26.9124° N // LON 75.7873° E",
+    tag: "NODE // RJ-06",
+    bg: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why was Jaipur built on a strict geometric grid in 1727?", a: "Maharaja Sawai Jai Singh II and architect Vidyadhar Bhattacharya broke from organic medieval sprawl, applying Vedic Vastu Shastra and European Euclidean grids to build India's first planned city." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do Jaipur houses maintain strict terracotta-pink lime facades?", a: "Enacted by royal decree in 1876 for the Prince of Wales's visit, the terracotta hue was made mandatory by state municipal law to project universal hospitality and deflect harsh desert heat." },
+      { lens: "WHAT TOURISTS MISS", q: "What secret acoustic vents hide inside Hawa Mahal?", a: "Its 953 jharokhas are engineered on the Venturi effect: air accelerates through narrow openings, cooling the multi-level stone corridors by up to 4°C without electric fans." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "Why does Jaipur Blue Pottery use no clay?", a: "It is crafted entirely from ground quartz stone powder, cullet glass, fuller's earth, and natural gum, hand-painted with cobalt oxide that vitrifies into a luminous turquoise." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why does authentic Laal Maas use Mathania red chilies?", a: "Invented during royal desert hunts, this warrior dish substituted wild garlic and sun-cured Mathania chilies for missing water and vegetables to preserve game meat in desert heat." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who maintains the mud-resist Dabu block printers?", a: "The Chippa community of Bagru village, using natural river water, iron-horseshoe black dye, and fermented indigo vats passed through oral apprenticeships." }
+    ],
+    pillars: [
+      { badge: "CELESTIAL ARCHITECTURE", tag: "2-SECOND PRECISION", title: "The Stone Instruments of Jai Singh", tagline: "The world's largest stone sundial measuring time through planetary shadows.", body: "The Vrihat Samrat Yantra at Jantar Mantar rises 27 meters. Engineered from marble and red sandstone, its shadow moves at 1 mm per second, calculating solar time within 2 seconds.", secret: "Stand by the Samrat Yantra at exactly 12:00 noon local solar time to watch the shadow cross the central meridian line." },
+      { badge: "CERAMIC ALCHEMY", tag: "ZERO CLAY TECHNIQUE", title: "The Turquoise Quartz of Turko-Persia", tagline: "A craft born in Turko-Persian courts revived in Rajasthani workshops.", body: "Unlike normal earthenware, Blue Pottery dough is pressed into plaster molds. Fired once at 850°C, each piece is hand-brushed using copper and cobalt minerals.", secret: "The base of authentic Jaipur quartz pottery is pure white or biscuit-colored, never terracotta clay." },
+      { badge: "HYDRAULIC FORTRESS", tag: "5 MILES UNDERGROUND", title: "The Subterranean Ducts of Jaigarh", tagline: "Water harvesting networks that sustained armies through years of siege.", body: "Surrounding mountains funnel desert monsoon rain through stone aqueducts into three subterranean tanks storing 6 million gallons.", secret: "The central covered tank inside Jaigarh Fort kept water cool, algae-free, and potable for two continuous years." },
+      { badge: "ASTRONOMICAL URBANISM", tag: "9 NINE-SQUARE MANDALA", title: "The Prastara Grid of 1727", tagline: "Urban planning mapped against the planetary navagraha alignment.", body: "Jaipur was laid out on nine modular quadrants separated by wide 108-foot arterial boulevards with Nahargarh Fort as the natural anchor.", secret: "Walk down Sireh Deori Bazaar at 6:00 AM to observe the geometric perspective line connecting the city gates." }
+    ]
+  },
 
-      // B. Update Telemetry Labels & Headings
-      const cleanTitleName = key.split(' ')[0].toUpperCase();
-      const metaTag = document.getElementById('meta-location-tag');
-      const metaTitle = document.getElementById('meta-destination-title');
-      const portalCoord = document.getElementById('portal-coordinates');
+  "varanasi (up)": {
+    name: "Varanasi (UP)",
+    coords: "LAT 25.3176° N // LON 82.9739° E",
+    tag: "NODE // UP-07",
+    bg: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did 3,000 years of civilization center on this river crescent?", a: "Situated where the sacred Ganges bends northward toward the Himalayas, Varanasi was established as the sacred axis of liberation ('Moksha')." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do locals perform the dawn Ganges dip?", a: "Locals begin every dawn before 5:30 AM with a river dip at Assi or Dashashwamedh Ghat, offering Surya Arghya water to align biorhythms with the rising sun." },
+      { lens: "WHAT TOURISTS MISS", q: "What lies beyond the cremation ghats?", a: "The hidden inner sanctum galis of Chaukhamba where centuries-old Sanskrit gurukuls teach Vedic chanting orally without printed texts." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Banarasi gold zari sarees woven?", a: "Woven on subterranean pit looms using pure silver wire electroplated with 24K gold ('Zari'), requiring over 5,600 punch cards and 6 months of hand weaving." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is Malaiyo prepared only under winter night dew?", a: "Malaiyo is an ethereal cloud foam prepared by exposing boiled milk on open rooftops to winter night dew and hand-whipping it at 4:00 AM with saffron." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who guards the sacred eternal flames?", a: "The Dom Raja lineage guarding the 3,000-year unbroken cremation fire at Manikarnika Ghat, and Muslim Ansari master weavers." }
+    ],
+    pillars: [
+      { badge: "SACRED ANTIQUITY", tag: "3,000 YRS UNBROKEN", title: "The Flame That Never Sleeps", tagline: "One ceremonial fire that has stayed continuously lit since antiquity.", body: "The sacred eternal flame at Manikarnika Ghat is guarded day and night by the Dom Raja clan. Chronicles attest this fire has burned without extinguishing for over 3,000 years.", secret: "Observe from a respectful distance by wooden rowboat at dusk—the firelit silhouette against the ghats is singular." },
+      { badge: "SILK ALCHEMY", tag: "PURE SILVER & GOLD", title: "Sarees Spun from Precious Metals", tagline: "Where master weavers spend 6 months mathematically weaving a single drape.", body: "Authentic Banarasi silk is interlaced on subterranean pit looms using pure silver wire electroplated with 24K gold, weighing between 1.5 to 2.5 kg.", secret: "Check the reverse weave: authentic Banarasi has floating floats neatly woven without synthetic adhesive backings." },
+      { badge: "SPIRITUAL SYMPHONY", tag: "5:15 AM DAWN RAGA", title: "The Awakening of the Ganges", tagline: "Where ancient ragas, fire, and sacred river mist harmonize at sunrise.", body: "Every morning at 5:15 AM at Assi Ghat, the holy city awakens with Subah-e-Banaras: brass lamp aarti, Sanskrit Vedic chants, and live classical sitar and shehnai ragas.", secret: "Arrive by 5:00 AM for the sound of conch shells echoing across the water curve." },
+      { badge: "CULINARY ALCHEMY", tag: "DEW-WHIPPED CLOUD", title: "The Cloud Dessert of Chaukhamba", tagline: "A winter delicacy prepared under open night skies and morning dew.", body: "Raw milk is boiled in massive iron cauldrons, left on open rooftops to absorb chilly dew, and whipped under moonlight into a foam that dissolves on the palate.", secret: "Malaiyo is prepared from November to February; eat it before 10:00 AM before the sun melts the foam." }
+    ]
+  },
 
-      if (metaTag) metaTag.textContent = media.nodeTag || "NODE // DL-01";
-      if (metaTitle) metaTitle.textContent = `${cleanTitleName}: CULTURAL INTELLIGENCE & SPATIAL CODEX`;
-      if (portalCoord) portalCoord.textContent = media.coord || `LOC // ${cleanTitleName}_GRID_01`;
+  "kerala (backwaters)": {
+    name: "Kerala (Backwaters)",
+    coords: "LAT 9.4981° N // LON 76.3388° E",
+    tag: "NODE // KL-08",
+    bg: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did ancient maritime empires obsess over this narrow strip of coast?", a: "Flanked by the Western Ghats and Arabian Sea, Kerala was the world's spice gateway (Muziris) where Roman and Arab merchants anchored for black pepper." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do locals serve the 26-dish Sadya in an exact sequence?", a: "The leaf's tapered end must point left. Acidic pickles sit at the top-left to limit intake, while rice and cooling digestive curries flow left to right to aid gut biome digestion." },
+      { lens: "WHAT TOURISTS MISS", q: "What lies beyond standard Alleppey houseboat routes?", a: "Kuttanad, the only place in India where farming occurs 4 to 10 feet below sea level utilizing an ancient lock-and-dyke system." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How is the reflective Aranmula Kannadi cast without silvered glass?", a: "An ancestral secret copper-tin bronze alloy polished manually with velvet, oil, and emery powder for weeks to achieve front-surface distortion-free reflection." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is Karimeen wrapped in charred banana leaves?", a: "The banana leaf traps steam, infusing coconut-shallot spice paste into the pearl spot fish while preserving its delicate moisture without scorching." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who transforms mortal men into living deities during Theyyam?", a: "Subaltern agrarian communities of North Malabar who don 20-foot headgear and glowing embers, collapsing caste hierarchies through ancestral spirit possession." }
+    ],
+    pillars: [
+      { badge: "METALLURGICAL ALCHEMY", tag: "SACRED SECRET ALLOY", title: "The Mirror That Holds No Glass", tagline: "Front-surface reflection crafted exclusively by one clan in Aranmula.", body: "Unlike modern mirrors reflecting off mercury on back glass, Aranmula Kannadi reflects light directly off the polished bronze surface with zero refraction gap.", secret: "Touch a match tip to the surface: on an authentic Aranmula, the tip and reflection touch with zero gap." },
+      { badge: "SACRED THEATER", tag: "TRANS-RITUAL EMBERS", title: "Theyyam: The Living Deities", tagline: "Where village dancers enter trances and dance inside fire pits.", body: "Ceremonies in northern groves dissolve caste lines. Performers inherit divine roles, spending 8 hours applying herbal facial pigments before reciting 1,500-year-old oral histories.", secret: "Visit ancestral Kavus in Kannur between midnight and dawn (Nov–Apr); quiet, barefoot observers are welcomed." },
+      { badge: "SUB-SEA-LEVEL HYDRAULICS", tag: "BELOW SEA LEVEL", title: "The Kuttanad Bio-Dykes", tagline: "India’s lowest elevation farming system sustained against saline backwaters.", body: "Centuries before modern civil drainage, local farmers constructed earth dykes reinforced with coconut logs and drained backwaters via waterwheels ('Chakram').", secret: "Take a government passenger ferry from Changanassery to Alappuzha at 6:00 AM to see villagers tilling fields below boat level." },
+      { badge: "MARTIAL BIOMECHANICS", tag: "3,000 YRS CONTINUOUS", title: "Kalaripayattu Marma Shastra", tagline: "The ancestral science of 108 lethal pressure points.", body: "Practiced inside a sunken mud-floored arena ('Kalari') designed to balance thermal humors, practitioners condition their bodies with herbal oils for combat and healing.", secret: "The southwestern corner ('Poothara') houses a seven-tiered platform symbolizing the seven chakras and serpent energy." }
+    ]
+  },
 
-      // C. Render Module 01: 6 Signature Inquiries Bento Grid
-      const inqContainer = document.getElementById('inquiries-container');
-      if (inqContainer && dest.inquiries) {
-        inqContainer.innerHTML = dest.inquiries.map(item => `
-          <div class="telemetry-card">
-            <div>
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                <span style="display: inline-block; width: 6px; height: 6px; background: var(--accent-emerald); border-radius: 50%;"></span>
-                <span class="telemetry">${item.lens}</span>
-              </div>
-              <h4 style="font-size: 0.98rem; font-weight: 600; color: #fff; line-height: 1.45; margin: 0 0 10px 0;">${item.q}</h4>
-              <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">${item.a}</p>
-            </div>
-          </div>
-        `).join('');
-      }
+  "hampi (karnataka)": {
+    name: "Hampi (Karnataka)",
+    coords: "LAT 15.3350° N // LON 76.4600° E",
+    tag: "NODE // KA-09",
+    bg: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did a medieval superpower arise in a maze of boulders?", a: "The Kishkindha granite boulders and Tungabhadra gorge formed an impregnable natural fortress, allowing the Sangama brothers to fortify the world's second-largest city." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do boatmen cross the swirling Tungabhadra in woven baskets?", a: "Coracles made of woven bamboo and waterproofed with hide flex with river currents over granite rapids without shattering like rigid wooden hulls." },
+      { lens: "WHAT TOURISTS MISS", q: "What inverted optical marvel hides inside Virupaksha Temple?", a: "A pinhole aperture in the stone wall casts an upside-down camera obscura shadow of the 160-foot temple gopuram onto an interior sanctum wall." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "How do stonecutters extract massive pillars from live granite?", a: "Artisans chiseled square notches into rock, wedged dried acacia wood pegs, and soaked them with water; expanding wood cracked clean stone blocks free." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is Jolada Rotti slapped by hand without a rolling pin?", a: "Sorghum flour lacks gluten. Master cooks slap hot dough between oiled palms onto blistering iron tavas, creating a shelf-stable flatbread." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who maintains Lambani geometric embroidery?", a: "Nomadic Banjara Lambani women of Sandur, combining cross-stitch embroidery with cowrie shells and mirrors passed mother-to-daughter." }
+    ],
+    pillars: [
+      { badge: "ACOUSTIC ENGINEERING", tag: "56 MUSICAL COLUMNS", title: "The Resonant Pillars of Vittala", tagline: "Solid granite pillars engineered to produce classical musical notes.", body: "Inside the Vittala temple, 56 slender granite pillars sound like bells, drums, and flutes when tapped. Geologists confirmed they are carved from solid resonant granite with varying mineral densities.", secret: "Each main pillar is surrounded by 7 minor pillars representing the musical notes (Sa-Re-Ga-Ma-Pa-Dha-Ni)." },
+      { badge: "HYDRAULIC GRANITE", tag: "GEOMETRIC SYMMETRY", title: "The Stepped Basin of Pushkarani", tagline: "Prefabricated black schist masonry fed by gravity aqueducts.", body: "The royal tank features stepped tiers carved from chlorite schist. Every block was chiseled with quarry mason marks and assembled dry without mortar.", secret: "Notice the faint Kannada numerals and arrows on steps—it was prefabricated off-site and assembled like a 3D puzzle." },
+      { badge: "MEGALITHIC LANDSCAPE", tag: "2.5 BILLION YEARS", title: "The Proterozoic Granite Slabs", tagline: "One of the oldest exposed rock surfaces on planet Earth.", body: "The boulder piles of Hampi are ancient granite batholiths exposed by billions of years of wind and water erosion cracking joint planes into balanced boulders.", secret: "Climb Hemakuta Hill at 5:30 AM to watch dawn light warm the ancient granite from cool gray to fiery gold." },
+      { badge: "ANCIENT OPTICS", tag: "PINHOLE PROJECTION", title: "The Camera Obscura of Virupaksha", tagline: "15th-century Vijayanagara masons mastering optical physics.", body: "Architects aligned a narrow triangular slit in the eastern wall to project the 50-meter tower upside-down inside the dark shrine hall.", secret: "Visit the northern sanctum chamber between 10:00 AM and 1:00 PM when the sun highlights the inverted silhouette sharpest." }
+    ]
+  },
 
-      // D. Render Module 02: 4 Living Cultural DNA Bento Grid
-      const dnaContainer = document.getElementById('dna-container');
-      if (dnaContainer && dest.pillars) {
-        dnaContainer.innerHTML = dest.pillars.map(pillar => `
-          <div class="telemetry-card">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                <span class="telemetry">${pillar.badge}</span>
-                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; color: var(--accent-gold); background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 3px 9px; border-radius: 20px;">${pillar.tag}</span>
-              </div>
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 700; margin: 0 0 6px 0;">${pillar.title}</h3>
-              <p style="color: #a7f3d0; font-style: italic; font-size: 0.82rem; margin: 0 0 14px 0; line-height: 1.4;">${pillar.tagline}</p>
-              <p style="color: var(--text-secondary); font-size: 0.84rem; line-height: 1.65; margin: 0 0 16px 0;">${pillar.body}</p>
-            </div>
-            <div class="secret-box">
-              <strong style="color: var(--accent-gold);">💡 INSIDER SECRET:</strong> ${pillar.secret}
-            </div>
-          </div>
-        `).join('');
-      }
+  "ladakh (highland)": {
+    name: "Ladakh (Highland)",
+    coords: "LAT 34.1526° N // LON 77.5771° E",
+    tag: "NODE // LD-10",
+    bg: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1920&q=80",
+    inquiries: [
+      { lens: "WHY THIS EXISTS", q: "Why did a mountain civilization thrive in an oxygen-thin rain shadow?", a: "Shielded from monsoons by the Himalayas, Ladakh’s cold desert survived by harvesting glacial meltwater along trade routes between Yarkand and Tibet." },
+      { lens: "WHY LOCALS DO THIS", q: "Why do Ladakhis churn salty yak butter into their morning tea?", a: "At 11,000 feet, standard sweet tea dehydrates. Salt and high-fat yak butter replenish electrolytes and provide sustained calories against sub-zero winds." },
+      { lens: "WHAT TOURISTS MISS", q: "What architectural secret keeps mud-brick gompas standing for 1,000 years?", a: "Rammed Earth and sun-dried mud bricks contain high mineral mica and willow-stick timber lintels that flex during tremors while breathing moisture out." },
+      { lens: "THE STORY BEHIND THIS CRAFT", q: "Where does the world's finest raw Pashmina originate?", a: "Harvested from nomadic Changpa goat herds on the Changthang plateau at 15,000 feet, where -40°C winters force goats to grow ultra-fine 12-micron under-fleece." },
+      { lens: "WHAT THIS FOOD MEANS", q: "Why is Tsampa roasted barley flour carried on long mountain passes?", a: "Pre-roasted before milling, Tsampa requires no cooking fire; high-altitude yak caravans simply knead it with butter tea into energy-dense dough balls." },
+      { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who maintains the sacred mineral paint Thangkas?", a: "Monastic lama-artists who meditate before grinding lapis lazuli, malachite, and gold leaf into geometric sacred mandalas following strict iconometrics." }
+    ],
+    pillars: [
+      { badge: "GLACIAL HYDRO-ENGINEERING", tag: "SUB-ZERO IRRIGATION", title: "The Ice Stupas of Sonam Wangchuk", tagline: "Conical ice towers storing winter waste water for spring sowing.", body: "During freezing winters, mountain streams are piped down into valley centers and sprayed into sub-zero air, forming vertical ice cones that melt slowly during spring sowing.", secret: "Visit Phyang or Shara village in late March to see active ice stupas discharging meltwater directly into barley terraces." },
+      { badge: "SACRED ICONOMETRY", tag: "GROUND LAPIS & GOLD", title: "The Thousand-Year Walls of Alchi", tagline: "Kashmiri-influenced Buddhist murals preserved by extreme desert aridity.", body: "Murals were executed by master Kashmiri painters using pulverized semi-precious stones. Zero-humidity climate has kept colors glowing without touch-ups for 900 years.", secret: "Carry a weak LED pocket torch into the Sumtsek shrine—the natural lapis lazuli blues reflect light without fading." },
+      { badge: "NOMADIC PASTORALISM", tag: "15,000 FT GRAZING", title: "The Changpa Rebo Encampments", tagline: "Pastoral nomads harvesting raw Pashmina across arctic plateau winds.", body: "The Changpa migrate across the high plateau living in woven black yak-hair tents ('Rebo') that keep out sleet while permitting smoke from stoves to exit.", secret: "Raw Changthangi wool must be gently combed out by hand during spring moulting to protect fiber structure." },
+      { badge: "RITUAL THEATRE", tag: "CHAM MASK TRANCES", title: "The Dance of the Dharmapalas", tagline: "Monks donning carved wooden masks to balance cosmic forces.", body: "During monastery festivals, lamas transform into protective deities through Cham dances, moving to 10-foot long copper trumpets to cleanse negative karma.", secret: "The synchronized heel-to-toe pivots mimic sacred tantric foot-patterns drawn in sand within the inner sanctum." }
+    ]
+  }
+};
 
-      // E. Update Nav Switcher Active State
-      document.querySelectorAll('#hud-navigation .hud-tab').forEach(tab => {
-        const tabDest = tab.dataset.dest || tab.textContent;
-        if (tabDest === key || key.toLowerCase().includes(tabDest.toLowerCase()) || tabDest.toLowerCase().includes(key.toLowerCase())) {
-          tab.classList.add('active');
-        } else {
-          tab.classList.remove('active');
-        }
-      });
-    }
+/* ========================================================
+   2. INTELLIGENT KEY RESOLVER (Fixes Taj Mahal / Delhi bug)
+======================================================== */
+function resolveDestinationKey(rawInput) {
+  if (!rawInput) return "delhi";
+  const cleaned = rawInput.toLowerCase().trim();
 
-    // =========================================================================
-    // 4. CANVAS PARTICLE SYSTEM: AMBIENT STONE DUST & SPARKS
-    // =========================================================================
-    function initParticleCanvas() {
-      const canvas = document.getElementById('particle-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+  if (cleaned.includes("delhi")) return "delhi";
+  if (cleaned.includes("agra")) return "agra";
+  if (cleaned.includes("kashmir")) return "kashmir (valley)";
+  if (cleaned.includes("jaipur")) return "jaipur (rajasthan)";
+  if (cleaned.includes("varanasi")) return "varanasi (up)";
+  if (cleaned.includes("kerala")) return "kerala (backwaters)";
+  if (cleaned.includes("amritsar")) return "amritsar (punjab)";
+  if (cleaned.includes("goa")) return "goa (coastal)";
+  if (cleaned.includes("hampi")) return "hampi (karnataka)";
+  if (cleaned.includes("ladakh")) return "ladakh (highland)";
 
-      let width = canvas.width = canvas.parentElement.clientWidth || 800;
-      let height = canvas.height = canvas.parentElement.clientHeight || 520;
+  return "delhi";
+}
 
-      const particles = [];
-      const count = 48;
+/* ========================================================
+   3. DUAL-STAGE BACKGROUND PARALLAX CROSS-FADE
+======================================================== */
+let activeStage = 'front';
+function transitionBackground(imageUrl) {
+  const front = document.getElementById('stage-bg-front');
+  const back = document.getElementById('stage-bg-back');
 
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 1.8 + 0.6,
-          color: Math.random() > 0.4 ? 'rgba(16, 185, 129, ' + (Math.random() * 0.65 + 0.25) + ')' : 'rgba(255, 255, 255, ' + (Math.random() * 0.55 + 0.2) + ')',
-          speedX: (Math.random() - 0.5) * 0.45,
-          speedY: -Math.random() * 0.55 - 0.15
-        });
-      }
+  if (activeStage === 'front') {
+    back.style.backgroundImage = `url('${imageUrl}')`;
+    front.classList.add('fade-out');
+    back.classList.remove('fade-out');
+    activeStage = 'back';
+  } else {
+    front.style.backgroundImage = `url('${imageUrl}')`;
+    back.classList.add('fade-out');
+    front.classList.remove('fade-out');
+    activeStage = 'front';
+  }
+}
 
-      function animateParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-          p.x += p.speedX;
-          p.y += p.speedY;
+/* ========================================================
+   4. SYSTEM DOSSIER RENDER ENGINE
+======================================================== */
+function renderDestination(rawKey) {
+  const key = resolveDestinationKey(rawKey);
+  const data = DESTINATIONS[key];
 
-          if (p.y < 0) {
-            p.y = height;
-            p.x = Math.random() * width;
-          }
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
+  // 1. Cross-fade to the verified photographic landmark
+  transitionBackground(data.bg);
 
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.fill();
-        });
-        requestAnimationFrame(animateParticles);
-      }
+  // 2. Update Telemetry & Headings
+  document.getElementById("portal-coordinates").innerText = data.coords;
+  document.getElementById("meta-location-tag").innerText = data.tag;
+  document.getElementById("meta-destination-title").innerText = `${data.name.toUpperCase()}: CULTURAL INTELLIGENCE & SPATIAL CODEX`;
 
-      animateParticles();
-    }
+  // 3. Inject Module 01: 6 Signature Inquiries
+  const inqRoot = document.getElementById("inquiries-container");
+  inqRoot.innerHTML = data.inquiries.map(item => `
+    <article class="telemetry-card">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+          <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent-emerald);"></span>
+          <span class="telemetry">${item.lens}</span>
+        </div>
+        <h4 style="font-size: 0.95rem; font-weight: 600; color: #fff; line-height: 1.4; margin-bottom: 10px;">${item.q}</h4>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">${item.a}</p>
+      </div>
+    </article>
+  `).join("");
 
-    // =========================================================================
-    // 5. INITIALIZE LISTENERS & DEFAULT RENDER (DELHI)
-    // =========================================================================
-    document.addEventListener('DOMContentLoaded', () => {
-      // Set initial stage background image
-      const front = document.getElementById('stage-bg-front');
-      if (front) {
-        front.style.backgroundImage = `url('https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1920&q=80')`;
-      }
+  // 4. Inject Module 02: 4 Living Cultural DNA Pillars
+  const dnaRoot = document.getElementById("dna-container");
+  dnaRoot.innerHTML = data.pillars.map(pillar => `
+    <article class="telemetry-card">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <span class="telemetry" style="color: #38bdf8;">${pillar.badge}</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); padding: 2px 6px; border-radius: 4px;">${pillar.tag}</span>
+        </div>
+        <h4 style="font-size: 1.05rem; font-weight: 600; color: #fff; margin-bottom: 6px;">${pillar.title}</h4>
+        <p style="font-size: 0.8rem; font-style: italic; color: #cbd5e1; line-height: 1.4; margin-bottom: 12px;">${pillar.tagline}</p>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">${pillar.body}</p>
+      </div>
+      <div class="secret-box">
+        <strong style="color: var(--accent-emerald); font-family: 'JetBrains Mono', monospace;">INSIDER SECRET:</strong> ${pillar.secret}
+      </div>
+    </article>
+  `).join("");
+}
 
-      // Bind HUD navigation tabs
-      document.querySelectorAll('#hud-navigation .hud-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          const dest = tab.dataset.dest || tab.textContent.trim();
-          selectDestination(dest);
-        });
-      });
+/* ========================================================
+   5. ANTI-GRAVITY PORTAL INTERACTIVE PHYSICS
+======================================================== */
+function initPortalPhysics() {
+  const canvas = document.getElementById("particle-canvas");
+  const ctx = canvas.getContext("2d");
+  const portal = document.getElementById("portal-frame");
+  const keystone = document.getElementById("keystone");
 
-      // Init canvas & default destination
-      initParticleCanvas();
-      selectDestination("Delhi");
+  function resize() {
+    canvas.width = portal.offsetWidth;
+    canvas.height = portal.offsetHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // Spores and dust floating upward
+  const particles = Array.from({ length: 45 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.8 + 0.4,
+    vY: Math.random() * -0.6 - 0.2,
+    vX: (Math.random() - 0.5) * 0.3,
+    alpha: Math.random() * 0.7 + 0.2
+  }));
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.y += p.vY;
+      p.x += p.vX;
+      if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(16, 185, 129, ${p.alpha})`;
+      ctx.fill();
     });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Mouse Parallax on Keystone
+  portal.addEventListener("mousemove", (e) => {
+    const rect = portal.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    keystone.style.transform = `translate(${x * 20}px, ${y * 15 - 6}px) rotate(${x * 2}deg)`;
+  });
+
+  portal.addEventListener("mouseleave", () => {
+    keystone.style.transform = `translate(0px, 0px) rotate(0deg)`;
+  });
+}
+
+/* ========================================================
+   6. BOOTSTRAPPER & EVENT BINDINGS
+======================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  initPortalPhysics();
+
+  const tabs = document.querySelectorAll(".hud-tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      renderDestination(tab.dataset.dest);
+    });
+  });
+
+  // Initial Boot: Delhi
+  renderDestination("Delhi");
+});
   </script>
 </body>
 </html>

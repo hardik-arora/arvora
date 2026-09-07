@@ -381,14 +381,13 @@
 
   <script>
     // =========================================================================
-    // 1. RELIABLE DIRECT UNSPLASH CDN IMAGES (EVERY SINGLE URL VERIFIED 200 OK)
+    // 1. RELIABLE DIRECT UNSPLASH & WIKIMEDIA CDN IMAGES
     // =========================================================================
     const destinationDossiers = {
       "jaipur": {
         name: "Jaipur: The Pink City of Forts & Living Guilds",
         state: "Rajasthan",
-        // Verified 200 OK: Hawa Mahal Jaipur
-        imageUrl: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=85",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg/1280px-East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg",
         essence: "Astronomical precision, royal Rajput chivalric decrees, and generational artisans shaping stone, silk, and gems.",
         bestKnownFor: "Hawa Mahal's 953 jharokhas, Amber Fort's mirrored physics, blue quartz pottery, and fiery Mathania chili curries.",
         cards: [
@@ -476,9 +475,8 @@
       "varanasi": {
         name: "Varanasi: The Luminous City of Light & Moksha",
         state: "Uttar Pradesh",
-        // Verified 200 OK: Varanasi Sacred Ghats
-        imageUrl: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=1600&q=85",
-        essence: "The eternal spiritual crossing where life, death, classical ragas, and Sanskrit scholarship converge upon stone ghats.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Aarti%2C_Ganga_Aarti_at_Dashashwamedh_Ghat%2C_Varanasi.jpg/1280px-Aarti%2C_Ganga_Aarti_at_Dashashwamedh_Ghat%2C_Varanasi.jpg",
+        essence: "The eternal spiritual crossing where life, death, classical ragas, and cosmic liberation intersect on river stone ghats.",
         bestKnownFor: "Maha Ganga Aarti at Dashashwamedh, Kashi Vishwanath temple, pure zari Banarasi silks, and saffron Malaiyo.",
         cards: [
           {
@@ -565,8 +563,7 @@
       "kerala": {
         name: "Kerala: Ancient Canopy, Backwaters & Spice Coasts",
         state: "Kerala",
-        // Verified 200 OK: Kerala Backwaters
-        imageUrl: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1600&q=85",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Alappuzha_Boat_Beauty_W.jpg/1280px-Alappuzha_Boat_Beauty_W.jpg",
         essence: "God's Own Country: palm lagoons, mountain tea estates, Ayurvedic forests, and thousand-year-old temple arts.",
         bestKnownFor: "Alleppey backwater houseboats, Kathakali theatrical dances, 24-dish banana leaf Sadya, and hill tea estates.",
         cards: [
@@ -654,8 +651,7 @@
       "amritsar": {
         name: "Amritsar: The Golden Sanctuary of Courage & Seva",
         state: "Punjab",
-        // Verified 200 OK: Golden Temple Amritsar
-        imageUrl: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1600&q=85",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Akal_Takht_and_Harmandir_Sahib%2C_Amritsar%2C_Punjab%2C_India.jpg/1280px-Akal_Takht_and_Harmandir_Sahib%2C_Amritsar%2C_Punjab%2C_India.jpg",
         essence: "Spiritual humility, heroic frontier valor, and an uninterrupted tradition of feeding 100,000 souls daily without charge.",
         bestKnownFor: "Sri Harmandir Sahib (The Golden Temple), Wagah Border retreat ceremony, buttery tandoori kulchas, and Phulkari embroidery.",
         cards: [
@@ -740,11 +736,97 @@
         ]
       },
 
+      "kashmir": {
+        name: "Kashmir Valley: Saffron Valleys & Alpine Reflections",
+        state: "Jammu & Kashmir",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Dal_Lake%27s_sunset_tour_on_a_shikara_-_Srinagar_%289966936105%29.jpg/1280px-Dal_Lake%27s_sunset_tour_on_a_shikara_-_Srinagar_%289966936105%29.jpg",
+        essence: "Alpine meadow paradise of pristine wooden houseboats, saffron terraces, and ancient Pashmina weaver looms.",
+        bestKnownFor: "Dal Lake Shikara rides, Mughal terraced gardens, Wazwan 36-course royal feasts, and pure Pashmina shawls.",
+        cards: [
+          {
+            category: "🏞️ TOP SIGHTS & MONUMENTS",
+            badge: "ALPINE PARADISE",
+            title: "Mughal Terraced Gardens & Floating Dal Lake Shikaras",
+            subtext: "Emperor Jahangir's vision of paradise on Earth, flanked by the Zabarwan range.",
+            items: [
+              "Dal Lake & Nigeen Lake: World-famous cedar-wood houseboats floating on serene lotus-dappled alpine waters.",
+              "Shalimar & Nishat Bagh: 17th-century stepped Mughal gardens featuring stone water cascades and ancient Chinar trees.",
+              "Gulmarg Meadow of Flowers: High-altitude skiing haven featuring the world's highest cable car (Gondola at 13,780 ft).",
+              "Pahalgam & Betaab Valley: Pine-scented river valleys where crystal glacial waters cut through alpine meadows."
+            ],
+            secret: "Hire a Shikara at 6:00 AM to visit the floating vegetable market in the inner canals of Dal Lake."
+          },
+          {
+            category: "🍲 SIGNATURE CUISINE",
+            badge: "ROYAL WAZWAN FEAST",
+            title: "36-Course Banquet & Saffron-Infused Kahwa Tea",
+            subtext: "Elaborate culinary arts crafted by generational royal chefs (Wazas).",
+            items: [
+              "Rogan Josh: Tender mutton braised in red cockscomb flower extract (Ratanjot), curd, and Kashmiri fennel powder.",
+              "Gushtaba: Velvety minced mutton meatballs hand-pounded for hours and slow-cooked in a silky yogurt gravy.",
+              "Kashmiri Kahwa: Fragrant green tea brewed with saffron strands, crushed almonds, cardamom, and cinnamon bark.",
+              "Modur Pulao: Sweet basmati rice steamed with pure saffron, clarified ghee, dry fruits, and caramelized raisins."
+            ],
+            secret: "Authentic Gushtaba is hand-pounded on a wooden log with stone mallets to achieve its melt-in-mouth texture."
+          },
+          {
+            category: "🍴 FAMOUS FOOD SHOPS",
+            badge: "HERITAGE KITCHENS",
+            title: "Historic Wazwan Houses & Traditional Tea Lofts",
+            subtext: "Generational culinary anchors in old Srinagar.",
+            items: [
+              "Ahdoos (Residency Road, Srinagar since 1918): The undisputed benchmark for authentic 36-course Wazwan.",
+              "Mughal Darbar (Residency Road): Celebrated for rich Rista, Tabak Maaz, and aromatic mutton pulao.",
+              "Chai Jaai Tea Room (Lal Chowk): Atmospheric riverfront tearoom serving Kashmiri Nun Chai and bakery biscuits.",
+              "Jee Enn Sons Bakery (Lal Chowk): Famous for traditional Kashmiri bread (Kandur roti), Sheermal, and Baqarkhani."
+            ],
+            secret: "Pair hot salt-infused pink Nun Chai with crisp buttered Sheermal at a local neighborhood Kandur bakery."
+          },
+          {
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
+            badge: "WEAVER LINEAGES",
+            title: "Ring-Test Pashmina & Gold-Thread Paper-Mâché",
+            subtext: "Master guilds producing delicate hand-spun luxury treasures.",
+            items: [
+              "Pashmina Shawls: Hand-spun downy wool harvested from Changthangi goats, hand-embroidered with Sozni needlework.",
+              "Kashmiri Papier-Mâché: Meticulously hand-painted lacquerware boxes and vases adorned with pure gold leaf motifs.",
+              "Walnut Wood Carving: Hand-carved solid walnut furniture featuring 3D dragon, lotus, and chinar leaf reliefs.",
+              "Kashmiri Silk Carpets: Hand-knotted silk carpets featuring over 500 knots per square inch."
+            ],
+            secret: "Pass an authentic pure Pashmina shawl through a wedding ring—its extreme softness allows it to slide through effortlessly."
+          },
+          {
+            category: "🛍️ FAMOUS BAZAARS & LANES",
+            badge: "HERITAGE MARKETPLACES",
+            title: "Lal Chowk Arcades & Old Srinagar Craft Quarter",
+            subtext: "Bustling commerce hubs trading saffron, dry fruits, and silks.",
+            items: [
+              "Lal Chowk & Polo View Market: Pedestrian boulevard famous for high-end craft lofts, Pashmina, and walnut wood.",
+              "Zaina Kadal Bazaar: Medieval market precinct in Old Srinagar for authentic saffron strands and copperware.",
+              "Maharaj Ganj: Historic trading lanes for dried Kashmiri apples, walnuts, almonds, and shilajit.",
+              "Floating Market Canals: Early morning waterway bazaar where local farmers trade fresh lotus stems (Nadru)."
+            ],
+            secret: "Look for GI-tagged Kashmiri Saffron packaged with government holographic seals to ensure 100% purity."
+          },
+          {
+            category: "🎪 LIVING CULTURE & FESTIVALS",
+            badge: "VALLEY HERITAGE",
+            title: "Tulip Festival Blooms & Sufiana Kalam Harmonies",
+            subtext: "Centuries of peaceful Sufi mystical traditions and spring floral blooms.",
+            items: [
+              "Indira Gandhi Tulip Festival: Asia's largest tulip garden hosting over 1.5 million blooming flowers every April.",
+              "Sufiana Kalam Music: Traditional classical music ensemble featuring santoor, Kashmiri sitar, and wooden drums.",
+              "Urs of Sheikh Noor-ud-Din Wali: Annual spiritual gathering at Charar-e-Sharief honoring Kashmir's patron saint."
+            ],
+            secret: "Visit the Tulip Garden in early April when the snow-capped Zabarwan mountains form the background backdrop."
+          }
+        ]
+      },
+
       "goa": {
-        name: "Goa: The Susegad Coast & Latin Quarters",
+        name: "Goa: The Susegad Coast, Forts & Latin Quarters",
         state: "Goa",
-        // Verified 200 OK: Goa Coast
-        imageUrl: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1600&q=85",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Basilica_of_Bom_Jesus%2C_Goa_2.jpg/1280px-Basilica_of_Bom_Jesus%2C_Goa_2.jpg",
         essence: "450 years of Portuguese architecture, Konkani village fishing sanctuaries, and coastal river estuaries.",
         bestKnownFor: "Churches of Old Goa, pastel mansions of Fontainhas, fiery pork vindaloo, and cashew feni.",
         cards: [
@@ -832,8 +914,7 @@
       "hampi": {
         name: "Hampi: The Granite Splendor of Vijayanagara",
         state: "Karnataka",
-        // Verified 200 OK: Hampi Ruins
-        imageUrl: "https://images.unsplash.com/photo-1620766182966-c6eb5ed2b788?auto=format&fit=crop&w=1600&q=85",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Famous_Stone_Chariot_of_Hampi.jpg/1280px-Famous_Stone_Chariot_of_Hampi.jpg",
         essence: "The ruined capital of a medieval empire where sacred rivers cut through a landscape of colossal granite boulders.",
         bestKnownFor: "The Stone Chariot at Vittala Temple, 56 musical granite pillars, Virupaksha temple, and coracle boat river rides.",
         cards: [

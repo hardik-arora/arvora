@@ -729,7 +729,34 @@
       100% { transform: translateX(100%); }
     }
 
+  
+    /* Leaflet Dark Cartography & Custom Marker Styling */
+    .spatial-map-wrapper { position: relative; }
+    .leaflet-container {
+      background: #040608 !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    .leaflet-popup-content-wrapper {
+      background: rgba(8, 13, 22, 0.95) !important;
+      border: 1px solid rgba(16, 185, 129, 0.5) !important;
+      border-radius: 12px !important;
+      color: #fff !important;
+      backdrop-filter: blur(16px) !important;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.9) !important;
+      padding: 4px !important;
+    }
+    .leaflet-popup-tip {
+      background: rgba(8, 13, 22, 0.95) !important;
+      border: 1px solid rgba(16, 185, 129, 0.5) !important;
+    }
+    .custom-arvora-marker {
+      position: relative;
+    }
+
   </style>
+  <!-- Leaflet 1.9.4 Cartography Engine -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -844,6 +871,16 @@
       </div>
     </div>
 
+
+    <!-- Interactive Spatial Vector Map Viewport -->
+    <div class="spatial-map-wrapper" style="margin-bottom: 40px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <span class="telemetry"><span class="telemetry-dot"></span> LIVE SPATIAL VECTOR MAP // OPENSTREETMAP LEAFLET ENGINE</span>
+        <span class="telemetry" id="map-target-status" style="color: var(--accent-emerald);">VECTOR LOCKED</span>
+      </div>
+      <div id="arvora-spatial-map" style="width: 100%; height: 380px; border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; background: #040608; z-index: 10;"></div>
+    </div>
+
     <!-- 3D Interactive Flip Dossiers (Module A) -->
     <div style="margin-bottom: 20px;">
       <span class="telemetry"><span class="telemetry-dot"></span> MODULE 01 // 6 SIGNATURE CULTURAL INQUIRIES</span>
@@ -898,7 +935,95 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
-            /* ====================================================================
+            
+    /* ====================================================================
+       INTERACTIVE CARTOGRAPHY MAP CONTROLLER (LEAFLET + ARVORA STATE)
+    ==================================================================== */
+    let arvoraMap = null;
+    let activeLocationMarker = null;
+
+    function initArvoraMap() {
+      const container = document.getElementById("arvora-spatial-map");
+      if (!container || typeof L === "undefined") return;
+
+      if (!arvoraMap) {
+        arvoraMap = L.map("arvora-spatial-map", {
+          center: [28.6139, 77.2090],
+          zoom: 11,
+          zoomControl: true,
+          attributionControl: false
+        });
+
+        // Dark Matter CartoDB tiles
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+          maxZoom: 19,
+          subdomains: "abcd"
+        }).addTo(arvoraMap);
+      }
+    }
+
+    function updateMapToLocation(location) {
+      if (typeof L === "undefined") return;
+      if (!arvoraMap) initArvoraMap();
+      if (!arvoraMap || !location || !location.coordinates) return;
+
+      const { lat, lng } = location.coordinates;
+      const placeName = location.name || "Target Location";
+      const coordsText = location.coordsFormatted || `LAT ${lat.toFixed(4)}° // LON ${lng.toFixed(4)}°`;
+      const region = location.region || "Verified Spatial Node";
+
+      // 1. Animate/fly viewport smoothly to target coordinates
+      if (location.boundingBox) {
+        try {
+          arvoraMap.fitBounds(location.boundingBox, { padding: [50, 50], duration: 1.5 });
+        } catch(e) {
+          arvoraMap.flyTo([lat, lng], 12, { duration: 1.5, easeLinearity: 0.25 });
+        }
+      } else {
+        arvoraMap.flyTo([lat, lng], 12, { duration: 1.5, easeLinearity: 0.25 });
+      }
+
+      // 2. Clear existing location pins & drop custom active marker
+      if (activeLocationMarker) {
+        arvoraMap.removeLayer(activeLocationMarker);
+      }
+
+      const customIcon = L.divIcon({
+        className: 'custom-arvora-marker',
+        html: `<div style="
+          width: 22px;
+          height: 22px;
+          background: #10b981;
+          border: 3px solid #ffffff;
+          border-radius: 50%;
+          box-shadow: 0 0 20px #10b981, 0 0 40px #10b981;
+          transform: translate(-50%, -50%);
+        "></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+
+      activeLocationMarker = L.marker([lat, lng], { icon: customIcon }).addTo(arvoraMap);
+
+      // 3. Custom tooltip popup
+      const popupContent = `
+        <div style="padding: 6px 4px;">
+          <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:#10b981; text-transform:uppercase;">● ${region}</span>
+          <h4 style="color:#ffffff; font-size:1.05rem; font-weight:700; margin:4px 0 6px 0;">${placeName}</h4>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:#cbd5e1;">📍 ${coordsText}</div>
+        </div>
+      `;
+
+      activeLocationMarker.bindPopup(popupContent).openPopup();
+
+      const statusEl = document.getElementById("map-target-status");
+      if (statusEl) statusEl.innerText = `VECTOR LOCKED // ${placeName.toUpperCase()}`;
+
+      // Invalidate size to prevent grey tiles on first display
+      setTimeout(() => { if (arvoraMap) arvoraMap.invalidateSize(); }, 300);
+    }
+
+    /* ====================================================================
        CENTRALIZED LOCATION STATE STORE & SYNCHRONIZATION ENGINE
        Stores: placeId, name, coordinates (lat, lng), region, bounds, details
        Features: Observer Pattern, Deep Linking URL Sync, Skeleton States
@@ -2380,6 +2505,11 @@
       // 2. Synchronize Explore Places & Heritage Coordinates Grid
       if (typeof renderPlaces === "function") {
         renderPlaces(currentCategoryFilter || "all");
+      }
+
+      // 3. Synchronize Cartography Map Component (flyTo, fitBounds, custom marker & tooltip)
+      if (typeof updateMapToLocation === "function") {
+        updateMapToLocation(location);
       }
     });
 

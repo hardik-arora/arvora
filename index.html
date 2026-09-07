@@ -872,414 +872,477 @@
     <div class="drawer-grid" id="drawer-grid"></div>
   </div>
 
-  <script>
+    <script>
     // =========================================================================
-    // 1. RELIABLE DIRECT PHOTO DATABASE FOR LOCATIONS
+    // 1. EXACT IMAGE MAP PER DESTINATION (Fixes Taj Mahal showing everywhere)
     // =========================================================================
-    const destinationDossiers = {
-  "jaipur": {
-    "name": "Jaipur: The Pink City of Forts & Living Guilds",
-    "stateName": "Jaipur",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg/1280px-East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg",
-    "essence": "Astronomical precision, royal Rajput chivalric decrees, and generational artisans shaping stone, silk, and gems.",
-    "bestKnownFor": "Hawa Mahal's 953 jharokhas, Amber Fort's mirrored physics, blue quartz pottery, and fiery Mathania chili curries.",
-    "signature_cultural_inquiries": {
-      "title": "DON'T JUST VISIT JAIPUR. UNDERSTAND IT.",
-      "subtitle": "6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.",
-      "items": [
-        {
-          "lens": "WHY THIS EXISTS",
-          "question": "Why was Jaipur built on a geometric 9-square grid in 1727 instead of expanding organically like medieval hill forts?",
-          "answer": "Maharaja Sawai Jai Singh II and architect Vidyadhar Bhattacharya used the sacred Vastu Purusha Mandala layout. Aligned with Shilpa Shastra, the city was divided into 9 square blocks reflecting celestial navagraha planets to withstand desert sieges while ensuring natural wind circulation."
-        },
-        {
-          "lens": "WHY LOCALS DO THIS",
-          "question": "Why do residents of the old walled quarters strictly paint their house fronts in terracotta-pink lime wash?",
-          "answer": "In 1876, Maharaja Ram Singh II decreed all facades be coated in pink terracotta (a mix of lime, copper sulfate, and red ochre) to welcome the Prince of Wales. Local municipal bylaws mandate this exact shade to uphold royal hospitality protocols."
-        },
-        {
-          "lens": "WHAT TOURISTS MISS",
-          "question": "What secret hydraulic network lies beneath the dry granite peaks of the Aravalli hills above Amber Fort?",
-          "answer": "A 6-mile subterranean stone aqueduct network engineered in the 16th century. Rainwater from mountain catchments was funneled into three massive underground granite cisterns at Jaigarh Fort, storing 6 million gallons for year-round garrison survival."
-        },
-        {
-          "lens": "THE STORY BEHIND THIS CRAFT",
-          "question": "How do master artisans produce Jaipur Blue Pottery without using a single handful of red clay?",
-          "answer": "Pioneered by Padma Shri Kripal Singh, artisans blend ground quartz stone, raw glass powder, Fuller's earth (Multani Mitti), and natural gum paste. Hand-painted with cobalt blue and copper oxide stains, the doughless pieces are fired at 800\u00b0C over 15 days."
-        },
-        {
-          "lens": "WHAT THIS FOOD MEANS",
-          "question": "Why is Dal Baati Churma baked over dried cow-dung embers and submerged in clarified cow ghee?",
-          "answer": "Engineered for long desert warfare campaigns. Hardened wheat baati balls were buried under hot desert sands, then slow-baked over cow-dung fires. High in caloric density, when soaked in ghee they could last for months without spoiling."
-        },
-        {
-          "lens": "WHO KEEPS THIS TRADITION ALIVE",
-          "question": "Who safeguards the 300-year-old Kundan-Meenakari enamel jewelry technique in Johari Bazaar?",
-          "answer": "The hereditary Sunar and Meena artisan guilds of Johari Bazaar and Badi Chaupar. Fifth-generation enamellers carve fine 24k gold troughs using agate styluses, back-filling them with powdered vitreous glass colors."
-        }
-      ]
-    },
-    "living_cultural_dna": {
-      "title": "JAIPUR: Untold Stories & Architectural Secrets",
-      "subtitle": "Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.",
-      "pillars": [
-        {
-          "category_badge": "VENTURI PHYSICS & ARCHITECTURE",
-          "highlight_tag": "953 SANDSTONE LATTICES",
-          "title": "The Air-Conditioned Honeycomb of the Royal Zenana",
-          "sub_tagline": "How fluid mechanics cooled desert air for royal women observing public street life.",
-          "description": "Hawa Mahal's 953 carved jharokhas act as micro-nozzles utilizing the Venturi principle. As hot desert breezes pass through narrowed stone apertures, air pressure drops while velocity increases, naturally lowering interior ambient temperatures by up to 10\u00b0C without mechanical energy.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Visit at 8:30 AM when morning light streams through 5th-floor stained-glass jharokhas, casting kaleidoscope geometry across internal chambers."
-        },
-        {
-          "category_badge": "ASTRONOMICAL MEASUREMENT",
-          "highlight_tag": "2-SECOND TIME ACCURACY",
-          "title": "The World's Largest Stone Equinoctial Sundial",
-          "sub_tagline": "Calculating local solar time and astrological declinations through massive masonry structures.",
-          "description": "The 27-meter tall Samrat Yantra at Jantar Mantar features a gnomon angled precisely at 27\u00b0 (Jaipur's latitude). Its shadow moves across marble-faced curved quadrants at a rate of 1mm per second, giving time measurements accurate to 2 seconds.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Stand on the eastern quadrant edge at solar noon (12:15 PM local) to watch the shadow line glide visibly across second-interval graduations."
-        },
-        {
-          "category_badge": "METALLURGICAL ALCHEMY",
-          "highlight_tag": "100-TON CASTING",
-          "title": "The Jaivana Cannon & Subterranean Water Vaults",
-          "sub_tagline": "The largest wheeled cannon ever cast, manufactured within Jaigarh Fort's foundry.",
-          "description": "Cast in 1720 using a high-tin bronze alloy, the 50-ton barrel required a four-elephant team to pivot. Test-fired only once, its 100 kg gunpowder charge propelled a 50 kg iron ball over 35 kilometers, carving a natural lake in Chaksu town.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Walk the subterranean granite tunnel connecting Jaigarh Fort to Amber Palace to inspect ancient rainwater collection vaults."
-        },
-        {
-          "category_badge": "NATURAL DYEING GUILDS",
-          "highlight_tag": "BAGRU VEGETABLE DYES",
-          "title": "Wooden Block Stamp Carvings of Chippa Craftsmen",
-          "sub_tagline": "Centuries of mud-resist block printing using fermented iron rust and botanical dyes.",
-          "description": "In Bagru village, the Chippa artisan community uses hand-carved teak wood blocks to stamp natural indigo, harda (myrobalan fruit), and fermented iron rust solution onto unbleached cotton fabric using Dabu mud-resist pastes.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Authentic Bagru block prints retain a subtle earthy fragrance of natural fermented iron and myrobalan fruit rather than synthetic chemical dyes."
-        }
-      ]
-    }
-  },
-  "varanasi": {
-    "name": "Varanasi: The Luminous City of Light & Moksha",
-    "stateName": "Varanasi",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Varanasi_Munshi_Ghat3.jpg/1280px-Varanasi_Munshi_Ghat3.jpg",
-    "essence": "The eternal spiritual crossing where life, death, classical ragas, and cosmic liberation intersect on river stone ghats.",
-    "bestKnownFor": "Maha Ganga Aarti at Dashashwamedh, Kashi Vishwanath temple, pure zari Banarasi silks, and saffron Malaiyo.",
-    "signature_cultural_inquiries": {
-      "title": "DON'T JUST VISIT VARANASI. UNDERSTAND IT.",
-      "subtitle": "6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.",
-      "items": [
-        {
-          "lens": "WHY THIS EXISTS",
-          "question": "Why was Varanasi founded on the northern crescent bend of the Ganga River over 3,000 years ago?",
-          "answer": "Geometrically oriented so the morning sun rises directly across the river, illuminating all 84 stone ghats simultaneously. According to Puranic geography, this north-flowing bend represents Shiva's crescent moon, symbolizing cosmic liberation from the cycle of rebirth."
-        },
-        {
-          "lens": "WHY LOCALS DO THIS",
-          "question": "Why do Banaras residents greet each other at dawn with 'Har Har Mahadev' before taking a holy dip?",
-          "answer": "A daily spiritual cleansing ritual (Subah-e-Banaras) that recognizes the divine spark within every individual. Bathing in the Ganges facing the rising sun is believed to balance body humors (Vata, Pitta, Kapha) and cleanse karma."
-        },
-        {
-          "lens": "WHAT TOURISTS MISS",
-          "question": "What ancient Sanskrit learning institution operates silently inside the alleyways of Chawl Kuan?",
-          "answer": "The traditional Vedic Pathshalas where young brahmacharis memorize all 10,000 verses of the Rigveda through oral chanting (Ghana Patha) without written manuscripts, preserving an oral tradition recognized by UNESCO."
-        },
-        {
-          "lens": "THE STORY BEHIND THIS CRAFT",
-          "question": "How do master Muslim and Hindu weavers create a genuine Banarasi Katan Silk Saree?",
-          "answer": "Using hand-operated pit looms, weavers manipulate thousands of Jacquard punch cards. Pure mulberry silk threads are intertwined with real silver and gold metallic wires (Zari), requiring 30 to 90 days of collaborative hand labor per saree."
-        },
-        {
-          "lens": "WHAT THIS FOOD MEANS",
-          "question": "Why is Malaiyo (Nimish) available only between November and February at dawn in Thatheri Bazaar?",
-          "answer": "A delicate culinary phenomenon created by boiling raw milk, cooling it on open clay rooftops overnight to absorb winter dew, then whipping it with saffron, cardamom, and pistachio into a frothy cloud that melts instantly on the tongue."
-        },
-        {
-          "lens": "WHO KEEPS THIS TRADITION ALIVE",
-          "question": "Who keeps the eternal cremation fire burning at Manikarnika Ghat for over 3,000 unbroken years?",
-          "answer": "The Dom Raja family lineage. Considered sacred guardians of the Akhand Dhuni (eternal flame), no funeral pyre at Manikarnika Ghat can be lit without fire taken directly from their ancestral hearth."
-        }
-      ]
-    },
-    "living_cultural_dna": {
-      "title": "VARANASI: Untold Stories & Architectural Secrets",
-      "subtitle": "Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.",
-      "pillars": [
-        {
-          "category_badge": "SACRED ANTIQUITY",
-          "highlight_tag": "3,000 YRS UNBROKEN",
-          "title": "The Flame That Never Sleeps at Manikarnika",
-          "sub_tagline": "An unbroken funeral pyre fire maintained by the Dom Raja clan since antiquity.",
-          "description": "At Manikarnika Ghat, the sacred Akhand Dhuni (eternal fire) has burned continuously for millennia. Hindus believe cremation here grants immediate Moksha (liberation from rebirth), bypassing the karmic cycle entirely as Lord Shiva chants the Taraka mantra in the ears of the departed.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Observe Manikarnika from a wooden hand-rowed boat at dusk; photography is strictly forbidden on the stone cremation steps out of deep reverence."
-        },
-        {
-          "category_badge": "MATERIAL ALCHEMY",
-          "highlight_tag": "PURE SILVER & GOLD ZARI",
-          "title": "Jacquard Pit-Looms of Madanpura Weavers",
-          "sub_tagline": "Intertwining pure Katan mulberry silk with precious metallic zari threads.",
-          "description": "Traditional Banarasi silk weaving relies on intricate drawloom mechanisms where master weavers pass wooden shuttles rhythmically by hand. Up to 5,000 warp threads are individually controlled to produce intricate floral brocades (Kinkhab) and paisleys.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Inspect the underside of authentic handloom Banarasi silk: genuine weaves show floating yarn threads, unlike smooth, uniform machine productions."
-        },
-        {
-          "category_badge": "SPIRITUAL SYMPHONY",
-          "highlight_tag": "5:15 AM DAWN RAGA",
-          "title": "Subah-e-Banaras Chants & The Banaras Gharana",
-          "sub_tagline": "Where classical music maestros practiced shehnai on river steps at dawn.",
-          "description": "The riverfront stone amphitheater resonates at sunrise with Vedic hymns, classical sitar, and shehnai ragas. Home to Bharat Ratna Ustad Bismillah Khan, the Banaras Gharana incorporates temple dhrupad beats and delicate thumri expressions.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Sit on the stone steps of Assi Ghat by 5:15 AM for morning yoga followed by live classical ragas performed as the sun breaks over the Ganges."
-        },
-        {
-          "category_badge": "CULINARY ALCHEMY",
-          "highlight_tag": "DEW-WHIPPED CLOUD",
-          "title": "Winter Dew Saffron Foam & Clay-Pot Tamatar Chaat",
-          "sub_tagline": "Satvik culinary masterpieces perfected without onion or garlic.",
-          "description": "Varanasi's street gastronomy features Tamatar Chaat\u2014spiced tomatoes braised with ginger and cumin, served hot in unglazed terracotta kulhads drizzled with sugar syrup and crisp namkeen\u2014paired with seasonal dew-whipped Malaiyo foam.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Visit Kashi Chaat Bhandar at Godowlia Chowk after 6:00 PM to sample authentic clay-pot Tamatar Chaat freshly tempered with cumin ghee."
-        }
-      ]
-    }
-  },
-  "kerala": {
-    "name": "Kerala: Ancient Canopy, Backwaters & Spice Coasts",
-    "stateName": "Kerala",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Alappuzha_Boat_Beauty_W.jpg/1280px-Alappuzha_Boat_Beauty_W.jpg",
-    "essence": "God's Own Country: palm lagoons, mountain tea estates, Ayurvedic forests, and thousand-year-old temple arts.",
-    "bestKnownFor": "Alleppey backwater houseboats, Kathakali theatrical dances, 24-dish banana leaf Sadya, and hill tea estates.",
-    "signature_cultural_inquiries": {
-      "title": "DON'T JUST VISIT KERALA. UNDERSTAND IT.",
-      "subtitle": "6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.",
-      "items": [
-        {
-          "lens": "WHY THIS EXISTS",
-          "question": "Why did ancient global spice routes converge on the Malabar Coast of Kerala over 2,000 years ago?",
-          "answer": "The unique microclimate of the Western Ghats mountain slope created the world's only natural habitat for wild black pepper (Elettaria cardamomum and Piper nigrum). Phoenicians, Romans, Arabs, and Chinese merchants navigated monsoon winds to trade gold for 'Black Gold'."
-        },
-        {
-          "lens": "WHY LOCALS DO THIS",
-          "question": "Why do Kerala families systematically consume warm pink herb-infused drinking water (Kariyali / Pathimugam)?",
-          "answer": "Pathimugam water is boiled with Sappanwood heartwood, a traditional Ayurvedic digestive remedy. Rich in antioxidants and water-purifying tannins, it cools body temperature during tropical humidity while boosting metabolic immunity."
-        },
-        {
-          "lens": "WHAT TOURISTS MISS",
-          "question": "What centuries-old martial art academy operates inside clay-paved pits (Kalari) across rural Malabar?",
-          "answer": "Kalaripayattu, the world's oldest surviving martial art system. Practitioners train barefoot in underground red-clay pit arenas (Kalari), combining Marma point anatomy, flexibility postures (Vadivu), and flexible steel sword duels (Urumi)."
-        },
-        {
-          "lens": "THE STORY BEHIND THIS CRAFT",
-          "question": "How are traditional Kettuvallam backwater houseboats constructed without using a single metal nail?",
-          "answer": "Master carpenters join massive Anjili (wild jackfruit wood) planks using handmade coconut coir fiber ropes soaked in cashew nut shell oil. This natural resin sealant makes the vessel 100% waterproof and flexible against lagoon wave forces."
-        },
-        {
-          "lens": "WHAT THIS FOOD MEANS",
-          "question": "Why is a traditional Onam Sadya served on a fresh plantain leaf eaten in a strict sequence using bare hands?",
-          "answer": "An Ayurvedic feast of 24 to 28 vegetarian curries served from left to right. The top leaf section holds sweet crisp snacks while the bottom holds warm rice and curries. Eating with fingers stimulates nerve endings that signal digestive enzymes to the stomach."
-        },
-        {
-          "lens": "WHO KEEPS THIS TRADITION ALIVE",
-          "question": "Who maintains the ritualistic Kathakali dance-drama traditions in Cheruthuruthi?",
-          "answer": "The Kerala Kalamandalam deemed university. Master gurus train performers for over 10 years in ocular control, hand mudras (24 root gestures), and natural stone mineral face painting (Pacha makeup)."
-        }
-      ]
-    },
-    "living_cultural_dna": {
-      "title": "KERALA: Untold Stories & Architectural Secrets",
-      "subtitle": "Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.",
-      "pillars": [
-        {
-          "category_badge": "NAVAL ARCHITECTURE",
-          "highlight_tag": "100% NAIL-FREE COIR BARGES",
-          "title": "Jackfruit Timber & Cashew Resin Sealed Barges",
-          "sub_tagline": "Traditional Kettuvallam vessels engineered from coir-bound wild jackfruit wood.",
-          "description": "Kettuvallams are hand-stitched by master artisans using coir yarn knotted through pre-drilled timber holes. Coated with boiled cashew kernel resin and fish oil, these 80-foot hulls flex naturally with tidal water pressure without cracking.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Take the early morning state water ferry from Alleppey to Kottayam through village canals to observe authentic Kettuvallams navigating lotus fields."
-        },
-        {
-          "category_badge": "SACRED MARTIAL ARTS",
-          "highlight_tag": "3,000 YR MARMA ANATOMY",
-          "title": "Kalaripayattu & Flexible Steel Urumi Swords",
-          "sub_tagline": "The ancient mother of Asian martial arts trained in subterranean red-clay pits.",
-          "description": "Kalaripayattu combines striking techniques, animal posture stances (Gaja, Simha, Sarpa), and lethal 107 Marma vital point strikes. Master duels feature the double-edged flexible whip-sword (Urumi) spun in rapid defense circles.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Visit a traditional Kalari in Fort Kochi at 6:00 AM to witness morning oil massage (Uzhichil) followed by weapon drills."
-        },
-        {
-          "category_badge": "AYURVEDIC FEASTING",
-          "highlight_tag": "28-CURRY PLANTAIN FEAST",
-          "title": "The Physics & Philosophy of Banana Leaf Sadya",
-          "sub_tagline": "A balanced multi-course banquet served strictly on fresh plantain leaves.",
-          "description": "The Sadya balances six tastes (Shadrasa: sweet, sour, salty, bitter, pungent, astringent). Courses progress from Parippu (lentil ghee rice) to Sambhar, Avial (coconut vegetables), Rasam, and sweet Saffron Ada Pradhaman payasam.",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Fold the top half of your banana leaf downward toward yourself after finishing the meal to signal deep satisfaction to your hosts."
-        },
-        {
-          "category_badge": "RITUAL DANCE DRAMA",
-          "highlight_tag": "4-HOUR NATURAL MINERAL MAKEUP",
-          "title": "Kathakali Ocular Expressions & Pacha Facial Paint",
-          "sub_tagline": "Sacred temple theatre translating epic Ramayana episodes into eye movements.",
-          "description": "Kathakali actors undergo hours of daily eye exercises using ghee drops to move pupils independently. Green Pacha facial paint denotes noble hero gods, applied using natural indigo, red realgar, and rice paste cheek frames (Chutti).",
-          "insider_secret": "\ud83d\udca1 INSIDER SECRET: Arrive at Kerala Kathakali Centre 1.5 hours before showtime to watch actors transform as they apply natural mineral cosmetics."
-        }
-      ]
-    }
-  }
-};
+    const DESTINATION_MEDIA = {
+      "Jaipur (Rajasthan)": {
+        bg: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1920&q=80"
+      },
+      "jaipur": {
+        bg: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Varanasi (UP)": {
+        bg: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=80"
+      },
+      "varanasi": {
+        bg: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Kerala (Backwaters)": {
+        bg: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80"
+      },
+      "kerala": {
+        bg: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Amritsar (Punjab)": {
+        bg: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1920&q=80"
+      },
+      "amritsar": {
+        bg: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Goa (Coastal)": {
+        bg: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1920&q=80"
+      },
+      "goa": {
+        bg: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Kashmir (Valley)": {
+        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80"
+      },
+      "kashmir": {
+        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Hampi (Karnataka)": {
+        bg: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=1920&q=80"
+      },
+      "hampi": {
+        bg: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=1920&q=80"
+      },
+      "Ladakh (Highland)": {
+        bg: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1920&q=80"
+      },
+      "ladakh": {
+        bg: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1920&q=80"
+      }
+    };
 
     // Fast, verified Wikipedia Taj Mahal CDN fallback
-    const fallbackImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Taj_Mahal%2C_Agra%2C_India_edit3.jpg/1280px-Taj_Mahal%2C_Agra%2C_India_edit3.jpg";
+    const fallbackImage = "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80";
 
-        function generateDynamicDossier(placeName = 'Jaipur') {
-      const p = placeName.charAt(0).toUpperCase() + placeName.slice(1);
-      const pUpper = p.toUpperCase();
-      return {
-        "name": `${p}: Cultural Intelligence & Untold Stories`,
-        "stateName": p,
-        "imageUrl": fallbackImage,
-        "essence": `Unpacking generational guilds, sacred geography, and living heritage across ${p}.`,
-        "bestKnownFor": `Regional architecture, seasonal food traditions, indigenous craft guilds, and living community fairs.`,
-        "signature_cultural_inquiries": {
-          "title": `DON'T JUST VISIT ${pUpper}. UNDERSTAND IT.`,
-          "subtitle": `6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.`,
-          "items": [
-            { "lens": "WHY THIS EXISTS", "question": `Why did the settlement of ${p} form at its specific geographical crossroads?`, "answer": `Positioned along ancient trade and river routes, ${p} developed as a vital sanctuary where natural topography and defensive barriers allowed a distinct regional trade guild and agricultural hub to flourish.` },
-            { "lens": "WHY LOCALS DO THIS", "question": `What daily morning ritual or wellness rhythm defines community life in ${p}?`, "answer": `Locals maintain an unbroken tradition of sunrise river dips, Ayurvedic herbal decoctions, and communal market gatherings designed to harmonize body humors with seasonal climatic transitions.` },
-            { "lens": "WHAT TOURISTS MISS", "question": `What hidden architectural precinct or quiet alleyway remains overlooked in ${p}?`, "answer": `Beyond major ticketed monuments lie historic old-town residential quarters featuring centuries-old stepwells, courtyard mansions, and artisan lofts operating far from standard tourist itineraries.` },
-            { "lens": "THE STORY BEHIND THIS CRAFT", "question": `How do local master artisans in ${p} handcraft native textiles and metalwork?`, "answer": `Artisans employ generational techniques passed down through family guilds—manipulating handloom warp threads, natural botanical dyes, and hand-hammered metal alloys over months of skilled labor.` },
-            { "lens": "WHAT THIS FOOD MEANS", "question": `What micro-technique and seasonal window shape the signature dish of ${p}?`, "answer": `Rooted in local soil and climate, recipes feature slow-simmered regional grains, native spices, and clarified ghee prepared according to traditional Ayurvedic digestion principles.` },
-            { "lens": "WHO KEEPS THIS TRADITION ALIVE", "question": `Which hereditary communities and artisan guilds safeguard the living traditions of ${p}?`, "answer": `Hereditary weaver families, temple song keepers, and artisan cooperatives active across ${p}'s historic bazaars safeguard non-material oral heritage and craft secrets today.` }
-          ]
-        },
-        "living_cultural_dna": {
-          "title": `${pUpper}: Untold Stories & Architectural Secrets`,
-          "subtitle": `Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.`,
-          "pillars": [
-            { "category_badge": "SACRED ANTIQUITY", "highlight_tag": "HISTORIC PRECINCT", "title": `Sacred Shrines & Fortified Gates of ${p}`, "sub_tagline": `Centuries of localized craftsmanship built to withstand regional topography.`, "description": `Ancient stone ramparts, courtyard shrines, and subterranean water catchments in ${p} reflect centuries of astronomical and hydraulic planning.`, "insider_secret": `💡 INSIDER SECRET: Explore the central old bazaar at dawn before commercial vehicle traffic opens.` },
-            { "category_badge": "CULINARY ALCHEMY", "highlight_tag": "REGIONAL FLAVORS", "title": `Traditional Thalis & Decades-Old Sweet Houses`, "sub_tagline": `Native ingredients cooked according to seasonal Ayurvedic guidelines.`, "description": `${p}'s culinary tradition relies on slow-braised pulses, stone-milled wheat flatbreads, and reduced-milk sweets fried in pure village ghee.`, "insider_secret": `💡 INSIDER SECRET: Look for century-old sweet confectionery stalls near the historic town clock tower.` },
-            { "category_badge": "MATERIAL ALCHEMY", "highlight_tag": "INDIGENOUS ARTISANS", "title": `Handloom Weaves, Bell-Metal & Local Pottery`, "sub_tagline": `Generational skills passed down within family artisan clusters.`, "description": `Master weavers and metal sculptors in ${p} create intricate patterns without modern machinery using natural indigo dyes and bronze alloys.`, "insider_secret": `💡 INSIDER SECRET: Visit state government handicraft emporiums to ensure fair trade and authentic artisan wages.` },
-            { "category_badge": "COMMUNITY CELEBRATION", "highlight_tag": "TEMPLE FAIR", "title": `Harvest Processions & Folk Ballad Fairs`, "sub_tagline": `Celebrations that unite entire agricultural communities through folk music.`, "description": `Seasonal festivals in ${p} feature vibrant masked dances, temple horn symphonies, and nocturnal poetry recitals celebrating agricultural abundance.`, "insider_secret": `💡 INSIDER SECRET: Ask local elders about village mela dates that coincide with seasonal full moons.` }
-          ]
+    // 2. Data store for all tabs (No raw colons, valid JS syntax)
+    const DESTINATION_DATA = {
+      "Kashmir (Valley)": {
+        name: "Kashmir Valley: Saffron Valleys & Alpine Reflections",
+        stateName: "Kashmir",
+        essence: "Alpine meadow paradise of pristine wooden houseboats, saffron terraces, and ancient Pashmina weaver looms.",
+        bestKnownFor: "Dal Lake Shikara rides, Mughal terraced gardens, Wazwan 36-course royal feasts, and pure Pashmina shawls.",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why did civilization converge in this Himalayan amphitheater?", a: "Carved between the Pir Panjal and Great Himalayan ranges, the valley acted as the critical oasis where the Northern Silk Road met trans-Himalayan monastic paths." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do locals gather around the copper Samovar at dawn?", a: "Kahwa infused with saffron, cinnamon, and crushed almonds is not just hospitality—it serves as vital metabolic heat to counter high-altitude thermal drops." },
+          { lens: "WHAT TOURISTS MISS", q: "What lies beyond the boulevard shikaras of Dal Lake?", a: "The 4:00 AM floating vegetable market on Mir Behri, where vendor-farmers barter indigenous produce using historic silent hand-signal codes under river mist." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Kani and Pashmina shawls drafted?", a: "Woven from microscopic Capra Hircus mountain-goat fleece using wooden spool needles ('kanis') guided by a coded, centuries-old calligraphic chant called 'Taleem'." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why is traditional Wazwan cooked exclusively over fruit-wood?", a: "Master chefs ('Wazas') use fallen dried apple and walnut wood to achieve the sustained, smoke-free flame required to hand-pound tender meat for Rista and Gushtaba." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves the zero-nail Pinjrakari woodwork?", a: "The master woodwrights of Old Srinagar, assembling intricate geometric cedar lattices using gravity and sliding joints without a single iron nail." }
+        ],
+        pillars: [
+          {
+            badge: "SEISMIC WOOD ARCHITECTURE",
+            tag: "1,000 YRS FLEXIBLE",
+            title: "Taq & Dhajji Dewari",
+            tagline: "Earthquake-resistant timber engineering that dances with fault lines.",
+            body: "Ancient Kashmiri masons intertwined deodar timber beams with light stone masonry. Instead of resisting tectonic shocks, the wooden cage flexes and dissipates seismic energy without collapse.",
+            secret: "Examine the underbellies of Old Srinagar bridges and centuries-old shrines like Khanqah-e-Moula—they are held without mortar or steel reinforcement."
+          },
+          {
+            badge: "TEXTILE MATHEMATICS",
+            tag: "18 MONTHS ON LOOM",
+            title: "The Taleem Script of Kani",
+            tagline: "Where master weavers convert poetic musical notation into woven silk and wool.",
+            body: "Kani shawls are not woven by sight. Master Ustaads translate intricate Persian floral patterns into a transcribed coded alphabet chanted aloud, instructing the weaver's fingers on every warp thread.",
+            secret: "A genuine heirloom Kani shawl contains over 300,000 individual knots and is completely reversible with no loose thread ends."
+          },
+          {
+            badge: "LIVING WATERWAYS",
+            tag: "RADH FLOATING FARMS",
+            title: "The Drifting Soil of Dal",
+            tagline: "Agricultural beds woven entirely from aquatic weeds and wild lake reeds.",
+            body: "Generations of Mir Behri farmers weave dense mats of Typha reeds into floating bio-rafts ('Radh'). These rafts rise and fall with water levels, producing organic heirloom Nadru (lotus stem) and greens.",
+            secret: "Rent a small rowing boat at 4:45 AM toward the interior channels—floating barter transactions conclude strictly before 6:30 AM."
+          },
+          {
+            badge: "BOTANICAL ALCHEMY",
+            tag: "GRADE-A MONGRA",
+            title: "The Purple Soil of Pampore",
+            tagline: "The world's most concentrated saffron fields blooming under October moonlight.",
+            body: "The lacustrine plateau of Pampore possesses unique alluvial soil ('karewas'). It takes over 150,000 hand-picked Crocus sativus flowers to yield a single kilogram of pure Kashmiri saffron threads.",
+            secret: "Authentic saffron threads never dissolve or bleed instantly into warm water—they diffuse a golden amber hue over 15 slow minutes."
+          }
+        ]
+      },
+
+      "Goa (Coastal)": {
+        name: "Goa: The Susegad Coast, Forts & Latin Quarters",
+        stateName: "Goa",
+        essence: "450 years of Portuguese architecture, Konkani village fishing sanctuaries, and coastal river estuaries.",
+        bestKnownFor: "Churches of Old Goa, pastel mansions of Fontainhas, fiery pork vindaloo, and cashew feni.",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why did maritime empires anchor along the Mandovi basin?", a: "Deep natural harbors and estuarine networks allowed early Kadamba and later Portuguese fleets to control spice trade routes while maintaining inland defensive river moats." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do coastal villages follow the 'Susegad' lifestyle?", a: "Far from laziness, Susegad is a deeply ingrained Portuguese-Goan ethos of unhurried balance, taking time during midday heat to prioritize communal rhythm and family." },
+          { lens: "WHAT TOURISTS MISS", q: "What lies beyond the crowded northern beach shacks?", a: "The ancient Khazan agro-aquatic wetlands—a 3,000-year-old bio-engineered dyke and sluice-gate system regulating tides to farm salt, fish, and flood-resistant rice." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How are Goan Azulejos tiles hand-painted?", a: "Introduced via Lisbon, glazed ceramic tiles are hand-stenciled and painted using cobalt-oxide mineral pigments before undergoing a 1,000°C kiln glaze." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why is traditional Vindalho made with coconut vinegar?", a: "Derived from Portuguese sailors' 'carne de vinha d’alhos' (meat pickled in wine and garlic), local Catholic cooks substituted palm coconut toddy vinegar for tropical preservation." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves traditional brass-lamp Ghode Modni?", a: "Folk performers across Bicholim and Sattari who safeguard warrior dance theater commemorating Maratha victories through ancestral martial guilds." }
+        ],
+        pillars: [
+          {
+            badge: "INDIGENOUS HYDRO-TECH",
+            tag: "3,500 YRS OLD",
+            title: "The Khazan Sluice Gates",
+            tagline: "Tidal engineering that turns brackish estuaries into food engines.",
+            body: "Reclaimed from mangrove swamps, Khazans rely on self-regulating wooden 'Manos' (sluice gates) that automatically open at low tide to drain water and shut at high tide to trap fish.",
+            secret: "Head to the interior Chorao Island roads during low tide to see the wooden flap valves functioning entirely on lunar water pressure."
+          },
+          {
+            badge: "ECCLESIASTICAL ARCHITECTURE",
+            tag: "LATERITE STONE & OYSTER SHELLS",
+            title: "Manoeline-Baroque Fusion",
+            tagline: "Cathedrals built of porous red earth waterproofed with jaggery and lime.",
+            body: "Goan master masons substituted imported glass windows with delicate, ground translucent mother-of-pearl oyster shells ('Carepas') that filter blinding coastal glare into soft golden interior ambient light.",
+            secret: "Look closely at the window panes of the Church of St. Anne in Talaulim—they are constructed entirely of polished oyster shells, not frosted glass."
+          },
+          {
+            badge: "DISTILLERY HERITAGE",
+            tag: "DOUBLE-DISTILLED TODDY",
+            title: "The Cashew Urrak & Feni Lineage",
+            tagline: "A centuries-old copper pot distillation with GI-status protection.",
+            body: "Hand-crushed cashew apples ferment spontaneously without yeast. Distilled twice in traditional earthenware 'Lavnis' or copper stills, producing the smooth, first-pour seasonal Urrak.",
+            secret: "Urrak is strictly available between March and May; locals mix it with Limca, green chili, and salt as an antidote to coastal heat."
+          },
+          {
+            badge: "COMMUNITY STEWARDSHIP",
+            tag: "PRE-PORTUGUESE LAND TENURE",
+            title: "The Communidades of Goa",
+            tagline: "Village collective ownership older than written medieval chronicles.",
+            body: "Goan villages were governed by Gaunkars who held farmland in collective trust. Profits from seasonal farming and fisheries were distributed equally to ancestral families after maintaining public infrastructure.",
+            secret: "The historic administrative ledgers ('Tombo') in Panaji still govern village boundary and fishing rights disputes to this day."
+          }
+        ]
+      },
+
+      "Amritsar (Punjab)": {
+        name: "Amritsar: The Golden Sanctuary of Courage & Seva",
+        stateName: "Amritsar",
+        essence: "Spiritual humility, heroic frontier valor, and an uninterrupted tradition of feeding 100,000 souls daily without charge.",
+        bestKnownFor: "Sri Harmandir Sahib (The Golden Temple), Wagah Border retreat ceremony, buttery tandoori kulchas, and Phulkari embroidery.",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why was the Amrit Sarovar dug around a modest forest pool?", a: "Guru Ram Das consecrated the tank in 1577 as a deliberate egalitarian sanctuary, positioned lower than the surrounding city so all kings and commoners must descend equally." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do devotees perform Seva (selfless service) daily?", a: "Washing marble floors, chopping garlic, or polishing shoes is a spiritual discipline designed to dismantle the ego and reinforce universal human dignity." },
+          { lens: "WHAT TOURISTS MISS", q: "What lies beyond the temple parikrama?", a: "The historic Katras and subterranean passages of the Old Walled City, where centuries-old brasssmiths, papad-makers, and spice godowns preserve 19th-century merchant life." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How is traditional Phulkari silk embroidered?", a: "Embroidered from the reverse side of coarse handspun khaddar fabric using untwisted silk floss ('pat') purely from memory and thread counts, never stamped patterns." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why are Amritsari Kulchas baked only in open clay tandoors?", a: "Laminated with alternate layers of ghee and spiced potato dough, the extreme radiant heat of subterranean clay blisters the crust into crisp, paper-thin shards." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who manages the world's largest communal kitchen?", a: "The Guru Ram Das Langar Hall operates 24/7 on community donations and tens of thousands of daily volunteers, feeding over 100,000 people of all faiths for free." }
+        ],
+        pillars: [
+          {
+            badge: "SACRED VOLUNTEERISM",
+            tag: "100,000 MEALS DAILY",
+            title: "The Mega-Kitchen of Equality",
+            tagline: "Precision logistics driven entirely by selfless devotion.",
+            body: "Operating non-stop through wars and pandemics, the langar hall cooks 12,000 kg of flour and 1,500 kg of lentils every 24 hours. Automated roti machines run alongside thousands of volunteers peeling onions and serving food.",
+            secret: "Walk directly behind the dining halls into the Dal-stirring area; volunteers will gladly hand you an oar-sized ladle to stir a 7-foot iron cauldron."
+          },
+          {
+            badge: "METALLURGIC SYMBOLISM",
+            tag: "750 KG PURE GOLD",
+            title: "The Gilded Copper Repoussé",
+            tagline: "The master gilding and marble inlay commissioned by Maharaja Ranjit Singh.",
+            body: "Beneath the golden sheen lies copper sheets embossed with floral repoussé patterns, then overlaid with multi-layered gold foil. Inside, master Muslim and Hindu artisans executed the delicate floral Pietra Dura inlay.",
+            secret: "Look closely at the northern lower wall panels—the floral marble inlays were created by the exact same artisan lineages that decorated the Taj Mahal."
+          },
+          {
+            badge: "UNESCO CRAFT HERITAGE",
+            tag: "HAMMERED METALWORK",
+            title: "The Thatheras of Jandiala Guru",
+            tagline: "India's only UNESCO-inscribed traditional metal-crafting guild.",
+            body: "Using hand-held anvils and rounded hammers, Thathera craftsmen beat flat brass and copper discs into seamless water pots ('gagars') with textured dimples that structurally reinforce the metal.",
+            secret: "Visit the Jandiala Guru settlement 15 km outside the city to witness the rhythmic acoustic hammer beats echoing down the artisan lanes."
+          },
+          {
+            badge: "HERITAGE DEFENSE",
+            tag: "18TH-CENTURY BULWARK",
+            title: "The Circular Maze of Gobindgarh",
+            tagline: "Military architecture built to withstand Afghan artillery cannons.",
+            body: "Constructed on concentric circular bastions with thick outer mud-and-brick walls that absorbed cannonball impact instead of shattering, securing the legendary Toshakhana treasury.",
+            secret: "The inner subterranean chambers were engineered to stay at 18°C year-round to safeguard gunpowder stockpiles from Punjab's scorching summers."
+          }
+        ]
+      },
+
+      "Jaipur (Rajasthan)": {
+        name: "Jaipur: The Pink City of Forts & Living Guilds",
+        stateName: "Jaipur",
+        essence: "Astronomical precision, royal Rajput chivalric decrees, and generational artisans shaping stone, silk, and gems.",
+        bestKnownFor: "Hawa Mahal's 953 jharokhas, Amber Fort's mirrored physics, blue quartz pottery, and fiery Mathania chili curries.",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why was Jaipur built on a geometric 9-square grid in 1727?", a: "Maharaja Sawai Jai Singh II and architect Vidyadhar Bhattacharya used the sacred Vastu Purusha Mandala layout aligned with Shilpa Shastra to withstand desert sieges." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do old city residents strictly paint house fronts in terracotta pink?", a: "Decreed in 1876 by Ram Singh II to welcome the Prince of Wales, municipal bylaws preserve this pink lime wash as a sacred hospitality protocol." },
+          { lens: "WHAT TOURISTS MISS", q: "What lies beneath the granite peaks above Amber Fort?", a: "A 6-mile subterranean stone aqueduct network feeding 3 granite cisterns storing 6 million gallons of monsoon rainfall." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How do artisans produce Blue Pottery without red clay?", a: "Artisans blend ground quartz stone, glass powder, Multani Mitti, and natural gum paste, firing glazed pieces at 800°C over 15 days." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why is Dal Baati Churma cooked in cow-dung embers?", a: "Hardened wheat baati balls buried in hot desert sands lasted months without spoiling during long war campaigns." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who safeguards 300-year-old Kundan-Meenakari enamel work?", a: "The Sunar and Meena artisan guilds of Johari Bazaar carving 24k gold troughs backed with vitreous glass enamel." }
+        ],
+        pillars: [
+          {
+            badge: "VENTURI PHYSICS & ARCHITECTURE",
+            tag: "953 SANDSTONE LATTICES",
+            title: "The Air-Conditioned Honeycomb of Hawa Mahal",
+            tagline: "How fluid mechanics cooled desert air for royal women.",
+            body: "Hawa Mahal's 953 carved jharokhas act as micro-nozzles utilizing the Venturi principle. Hot breezes pass through narrowed stone apertures, lowering interior temperatures by 10°C.",
+            secret: "Visit at 8:30 AM when morning light streams through 5th-floor stained-glass jharokhas."
+          },
+          {
+            badge: "ASTRONOMICAL MEASUREMENT",
+            tag: "2-SECOND TIME ACCURACY",
+            title: "The World's Largest Stone Sundial",
+            tagline: "Calculating solar time through massive masonry structures.",
+            body: "The 27-meter tall Samrat Yantra shadow moves across marble-faced curved quadrants at 1mm per second, measuring solar time accurate to 2 seconds.",
+            secret: "Stand on the eastern quadrant edge at solar noon (12:15 PM local) to watch the shadow line glide."
+          },
+          {
+            badge: "METALLURGICAL ALCHEMY",
+            tag: "100-TON CASTING",
+            title: "The Jaivana Cannon at Jaigarh Fort",
+            tagline: "The largest wheeled cannon ever cast in a fort foundry.",
+            body: "Cast in 1720 using high-tin bronze alloy, its 100 kg gunpowder charge propelled a 50 kg iron ball over 35 kilometers.",
+            secret: "Walk the subterranean granite tunnel connecting Jaigarh Fort to Amber Palace."
+          },
+          {
+            badge: "NATURAL DYEING GUILDS",
+            tag: "BAGRU VEGETABLE DYES",
+            title: "Bagru Mud-Resist Block Printing",
+            tagline: "Centuries of mud-resist printing using natural botanical dyes.",
+            body: "The Chippa community uses hand-carved teak wood blocks to stamp indigo, harda, and fermented iron rust solution onto unbleached cotton.",
+            secret: "Authentic Bagru block prints retain a subtle earthy fragrance of natural fermented iron."
+          }
+        ]
+      },
+
+      "Varanasi (UP)": {
+        name: "Varanasi: The Luminous City of Light & Moksha",
+        stateName: "Varanasi",
+        essence: "The eternal spiritual crossing where life, death, classical ragas, and cosmic liberation intersect on river stone ghats.",
+        bestKnownFor: "Maha Ganga Aarti at Dashashwamedh, Kashi Vishwanath temple, pure zari Banarasi silks, and saffron Malaiyo.",
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: "Why was Varanasi founded on the northern crescent bend of the Ganga?", a: "Geometrically oriented so morning sun illuminates all 84 ghats, representing Shiva's crescent moon of cosmic liberation." },
+          { lens: "WHY LOCALS DO THIS", q: "Why do residents greet each other at dawn with 'Har Har Mahadev'?", a: "Subah-e-Banaras river dips recognize the divine spark in every soul and balance body humors." },
+          { lens: "WHAT TOURISTS MISS", q: "What Sanskrit learning operates inside Chawl Kuan alleys?", a: "Vedic Pathshalas where brahmacharis memorize 10,000 Rigveda verses orally without written manuscripts." },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: "How do master weavers create Banarasi Katan Silk Sarees?", a: "Pit loom weavers manipulate thousands of Jacquard punch cards, intertwining mulberry silk with real gold and silver Zari." },
+          { lens: "WHAT THIS FOOD MEANS", q: "Why is Malaiyo foam available only in winter dew at dawn?", a: "Raw milk boiled and left on rooftops overnight absorbs winter dew before being whipped into saffron foam." },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who keeps the eternal cremation fire burning at Manikarnika?", a: "The Dom Raja clan, sacred guardians of the Akhand Dhuni burning continuously for over 3,000 years." }
+        ],
+        pillars: [
+          {
+            badge: "SACRED ANTIQUITY",
+            tag: "3,000 YRS UNBROKEN",
+            title: "The Akhand Dhuni at Manikarnika",
+            tagline: "An unbroken funeral pyre fire maintained by the Dom Raja clan.",
+            body: "At Manikarnika Ghat, cremation grants immediate Moksha, bypassing the karmic cycle entirely as Shiva chants the Taraka mantra.",
+            secret: "Observe Manikarnika quietly from a wooden hand-rowed boat at dusk; photography is strictly forbidden."
+          },
+          {
+            badge: "MATERIAL ALCHEMY",
+            tag: "PURE SILVER & GOLD ZARI",
+            title: "Jacquard Pit-Looms of Madanpura",
+            tagline: "Intertwining pure Katan silk with metallic zari threads.",
+            body: "Master weavers pass wooden shuttles rhythmically to control 5,000 warp threads for complex floral Kinkhab brocades.",
+            secret: "Inspect the underside of authentic handloom silk: genuine weaves show floating yarn threads."
+          },
+          {
+            badge: "SPIRITUAL SYMPHONY",
+            tag: "5:15 AM DAWN RAGA",
+            title: "Subah-e-Banaras & Banaras Gharana",
+            tagline: "Classical shehnai and sitar ragas resonating on river steps at dawn.",
+            body: "Home to Ustad Bismillah Khan, the riverfront stone amphitheater resonates at sunrise with dhrupad beats and thumri expressions.",
+            secret: "Sit on the steps of Assi Ghat by 5:15 AM for morning ragas as the sun breaks over the river."
+          },
+          {
+            badge: "CULINARY ALCHEMY",
+            tag: "DEW-WHIPPED CLOUD",
+            title: "Winter Dew Malaiyo & Tamatar Chaat",
+            tagline: "Satvik street culinary masterpieces served in unglazed clay pots.",
+            body: "Spiced tomatoes braised with cumin served hot in terracotta kulhads drizzled with sugar syrup and namkeen.",
+            secret: "Visit Kashi Chaat Bhandar at Godowlia Chowk after 6:00 PM for freshly tempered cumin ghee chaat."
+          }
+        ]
+      }
+    };
+
+    // Fallback generator for tabs not explicitly in the static list
+    function getDestinationData(name) {
+      if (DESTINATION_DATA[name]) return DESTINATION_DATA[name];
+
+      // Normalized key search
+      const cleanKey = name.toString().toLowerCase().trim().split(/[\s,()]+/)[0];
+      for (let k in DESTINATION_DATA) {
+        if (k.toLowerCase().includes(cleanKey)) {
+          return DESTINATION_DATA[k];
         }
+      }
+
+      const city = name.split(" ")[0];
+      return {
+        name: `${city}: Cultural Intelligence & Untold Stories`,
+        stateName: city,
+        essence: `Unpacking generational guilds, sacred geography, and living heritage across ${city}.`,
+        bestKnownFor: `Regional architecture, seasonal food traditions, indigenous craft guilds, and living community fairs.`,
+        inquiries: [
+          { lens: "WHY THIS EXISTS", q: `Why did ancient settlers choose this location in ${city}?`, a: `Established around key trade and spiritual crossroads, the region's geography provided strategic defense and natural spring water access.` },
+          { lens: "WHY LOCALS DO THIS", q: `What seasonal rhythm defines daily life for ${city} residents?`, a: `Generations have structured daily work and bazaar hours around early morning cool winds, resting during the harsh afternoon heat.` },
+          { lens: "WHAT TOURISTS MISS", q: `What hidden architectural legacy lies off the beaten path?`, a: `The narrow inner quarters preserve century-old masonry techniques, communal stepwells, and historic guild courtyard residences.` },
+          { lens: "THE STORY BEHIND THIS CRAFT", q: `How do local craftsmen produce authentic regional goods?`, a: `Artisans spend weeks using hand-forged tools and organic minerals to craft items that modern industrial processes cannot replicate.` },
+          { lens: "WHAT THIS FOOD MEANS", q: `What cultural history is preserved in the local gastronomy?`, a: `Recipes originated inside royal caravans and street stalls, utilizing slow simmering and locally harvested spices.` },
+          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: `Who protects the region's intangible heritage?`, a: `Family lineages pass down oral hymns, culinary formulas, and artisanal skills through strict master-apprentice guilds.` }
+        ],
+        pillars: [
+          {
+            badge: "HERITAGE ORIGINS",
+            tag: "CENTURIES UNBROKEN",
+            title: `The Foundations of ${city}`,
+            tagline: "Where royal decrees and merchant guilds shaped urban history.",
+            body: `From early fortification to bustling trade capitals, ${city} evolved through layered dynasties, each leaving distinct architectural fingerprints across its old corridors.`,
+            secret: "Wander through the older artisan quarters before 8:00 AM to see traditional workshops operating in their original historic structures."
+          },
+          {
+            badge: "MASTER CRAFT",
+            tag: "HAND-FORGED PURITY",
+            title: "Artisanal Guild Mastery",
+            tagline: "Techniques preserved unchanged across four generations.",
+            body: "Local masters use locally sourced raw materials and natural dyes to create textiles and metalwork that withstand decades of use.",
+            secret: "Verify authenticity by checking for handmade irregularities and regional GI certification stamps."
+          },
+          {
+            badge: "SACRED GEOGRAPHY",
+            tag: "DAWN CHANTS",
+            title: "Living Spiritual Rhythm",
+            tagline: "The acoustic and ritual landscape that awakes the city.",
+            body: "From early morning prayer bells to temple instruments, the city's streets are mapped around acoustic resonance and centuries of communal gathering.",
+            secret: "Visit the oldest central sanctuary at first light before tour buses arrive to experience the authentic ritual atmosphere."
+          },
+          {
+            badge: "CULINARY HERITAGE",
+            tag: "HEIRLOOM FLAVORS",
+            title: "Generational Kitchen Lore",
+            tagline: "Slow food crafted with indigenous climate-adapted ingredients.",
+            body: "Local dishes are designed around the native flora, clay-pot baking, and seasonal spices to fuel local artisans and merchants through long days.",
+            secret: "Look for family-run eateries operating for over 60 years that specialize in single heirloom recipes."
+          }
+        ]
       };
     }
 
+    // 3. Render Function to inject cards into the DOM
+    function renderDestination(destinationName) {
+      const data = getDestinationData(destinationName);
+      const media = DESTINATION_MEDIA[destinationName] || DESTINATION_MEDIA[destinationName.split(" ")[0].toLowerCase()] || {
+        bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80"
+      };
 
+      // Fix background photo immediately
+      const toolBackgroundImage = document.getElementById('tool-image-background');
+      if (toolBackgroundImage) {
+        toolBackgroundImage.style.backgroundImage = `url('${media.bg}')`;
+        toolBackgroundImage.style.opacity = "0.85";
+      }
 
-    // =========================================================================
-    // 2. RENDER EDITORIAL DOSSIERS & ASYNC PRELOADER
-    // =========================================================================
+      const dossierOutput = document.getElementById('dossier-output');
+      if (dossierOutput) {
+        dossierOutput.innerHTML = `
+          <!-- Top Editorial Hero Banner -->
+          <div class="dossier-hero-banner">
+            <div class="hero-banner-kicker">✦ SPATIAL INTELLIGENCE & CULTURAL CODEX</div>
+            <h2 class="hero-banner-title">${data.name}</h2>
+            <p class="hero-banner-desc">${data.essence}</p>
+            <div class="hero-banner-highlight">
+              <span class="highlight-pill">ESSENCE</span>
+              <span>${data.bestKnownFor}</span>
+            </div>
+          </div>
+
+          <!-- MODULE 1: 6 SIGNATURE CULTURAL INQUIRIES -->
+          <div class="module-header">
+            <span class="module-tag">SIGNATURE CULTURAL INQUIRIES</span>
+            <h3 class="module-heading">DON'T JUST VISIT ${destinationName.toUpperCase()}. UNDERSTAND IT.</h3>
+            <p class="module-subheading">6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.</p>
+          </div>
+
+          <div class="inquiry-grid" id="inquiries-cards">
+            ${data.inquiries.map(item => `
+              <div class="inquiry-card">
+                <div class="inquiry-lens-tag">✦ ${item.lens}</div>
+                <h4 class="inquiry-question">${item.q}</h4>
+                <p class="inquiry-body">${item.a}</p>
+              </div>
+            `).join("")}
+          </div>
+
+          <!-- MODULE 2: 4 LIVING CULTURAL DNA PILLARS -->
+          <div class="module-header">
+            <span class="module-tag">LIVING CULTURAL DNA & UNTOLD FACTS</span>
+            <h3 class="module-heading">${destinationName.toUpperCase()}: Untold Stories & Architectural Secrets</h3>
+            <p class="module-subheading">Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.</p>
+          </div>
+
+          <div class="dna-pillars-grid" id="dna-cards">
+            ${data.pillars.map(pillar => `
+              <div class="story-card">
+                <div>
+                  <div class="card-top-meta">
+                    <span class="card-category-tag">${pillar.badge}</span>
+                    <span class="card-stat-badge">${pillar.tag}</span>
+                  </div>
+                  <h4 class="card-headline">${pillar.title}</h4>
+                  <p class="card-subtext"><em>${pillar.tagline}</em></p>
+                  <p class="card-body-items" style="font-size:12.5px; line-height:1.6; color:#d6e2d7; margin-bottom:16px;">${pillar.body}</p>
+                </div>
+                <div class="insider-secret-box">
+                  <div class="insider-secret-label">💡 INSIDER SECRET</div>
+                  <div class="insider-secret-text">${pillar.secret}</div>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+    }
+
+    // 4. Bind listeners & initial setup
     const dossierOutput = document.getElementById('dossier-output');
     const showcaseSearchInput = document.getElementById('showcase-search-input');
     const toolBackgroundImage = document.getElementById('tool-image-background');
 
-    function normalizeQuery(str) {
-      if (!str) return '';
-      return str.toString().toLowerCase().trim().split(/[\s,()]+/)[0];
+    if (showcaseSearchInput) {
+      showcaseSearchInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        if (val.length >= 2) {
+          renderDestination(val);
+        }
+      });
     }
 
-    function renderDossier(rawKey = 'Jaipur') {
-      const cleanKey = normalizeQuery(rawKey);
-      const data = destinationDossiers[cleanKey] || generateDynamicDossier(rawKey);
-      const destUpper = (data.stateName || rawKey).toUpperCase();
-
-      const targetBg = data.imageUrl || fallbackImage;
-
-      // Safe image preloading with fallback
-      const img = new Image();
-      img.onload = () => {
-        toolBackgroundImage.style.backgroundImage = `url("${targetBg}")`;
-        toolBackgroundImage.style.opacity = "0.85";
-      };
-      img.onerror = () => {
-        toolBackgroundImage.style.backgroundImage = `url("${fallbackImage}")`;
-        toolBackgroundImage.style.opacity = "0.85";
-      };
-      img.src = targetBg;
-
-      dossierOutput.innerHTML = `
-        <!-- Top Editorial Hero Banner -->
-        <div class="dossier-hero-banner">
-          <div class="hero-banner-kicker">✦ SPATIAL INTELLIGENCE & CULTURAL CODEX</div>
-          <h2 class="hero-banner-title">${data.name}</h2>
-          <p class="hero-banner-desc">${data.essence}</p>
-          <div class="hero-banner-highlight">
-            <span class="highlight-pill">ESSENCE</span>
-            <span>${data.bestKnownFor}</span>
-          </div>
-        </div>
-
-        <!-- MODULE 1: SIGNATURE CULTURAL INQUIRIES -->
-        <div class="module-header">
-          <span class="module-tag">SIGNATURE CULTURAL INQUIRIES</span>
-          <h3 class="module-heading">DON'T JUST VISIT ${destUpper}. UNDERSTAND IT.</h3>
-          <p class="module-subheading">6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.</p>
-        </div>
-
-        <div class="inquiry-grid">
-          ${(data.inquiries || []).map(inq => `
-            <div class="inquiry-card">
-              <div class="inquiry-lens-tag">✦ ${inq.lens}</div>
-              <h4 class="inquiry-question">${inq.question}</h4>
-              <p class="inquiry-body">${inq.body}</p>
-            </div>
-          `).join('')}
-        </div>
-
-        <!-- MODULE 2: LIVING CULTURAL DNA & UNTOLD FACTS -->
-        <div class="module-header">
-          <span class="module-tag">LIVING CULTURAL DNA & UNTOLD FACTS</span>
-          <h3 class="module-heading">${destUpper}: Untold Stories & Architectural Secrets</h3>
-          <p class="module-subheading">Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.</p>
-        </div>
-
-        <div class="dna-pillars-grid">
-          ${(data.cards || data.pillars || []).map(card => `
-            <div class="story-card">
-              <div>
-                <div class="card-top-meta">
-                  <span class="card-category-tag">${card.category}</span>
-                  <span class="card-stat-badge">${card.badge || card.highlight}</span>
-                </div>
-                <h4 class="card-headline">${card.title}</h4>
-                <p class="card-subtext"><em>${card.subtext}</em></p>
-                ${card.items ? `
-                  <ul class="card-body-items">
-                    ${card.items.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
-                ` : `
-                  <p class="card-body-items" style="font-size:12.5px; line-height:1.6; color:#d6e2d7; margin-bottom:16px;">${card.body}</p>
-                `}
-              </div>
-
-              <!-- Insider Secret Footer -->
-              <div class="insider-secret-box">
-                <div class="insider-secret-label">💡 INSIDER SECRET</div>
-                <div class="insider-secret-text">${card.secret}</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
-
-    // Search input listener
-    showcaseSearchInput.addEventListener('input', (e) => {
-      const val = e.target.value.trim();
-      if (val.length >= 2) {
-        renderDossier(val);
-      }
-    });
-
-    // Quick filter chips click
     document.querySelectorAll('.region-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        const dest = chip.dataset.dest;
-        showcaseSearchInput.value = dest;
-        renderDossier(dest);
+        const dest = chip.dataset.dest || chip.textContent.trim();
+        if (showcaseSearchInput) showcaseSearchInput.value = dest;
+        renderDestination(dest);
       });
     });
 
-    // Initial render with Jaipur default
-    renderDossier("Jaipur");
+    // Initial render for Jaipur default
+    renderDestination("Jaipur (Rajasthan)");
 
     // =========================================================================
-    // 3. TASKBAR & MODAL CONTROLLER
+    // TASKBAR & MODAL CONTROLLER
     // =========================================================================
     const searchInput = document.getElementById('feature-search');
     const chips = Array.from(document.querySelectorAll('.feature-chip'));
@@ -1288,16 +1351,16 @@
     const showcaseContainer = document.getElementById('showcase-tool-container');
     const genericContainer = document.getElementById('generic-tool-container');
 
-    // Filter top taskbar chips
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
-      chips.forEach(chip => {
-        const text = chip.textContent.toLowerCase();
-        chip.style.display = text.includes(query) ? 'inline-block' : 'none';
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        chips.forEach(chip => {
+          const text = chip.textContent.toLowerCase();
+          chip.style.display = text.includes(query) ? 'inline-block' : 'none';
+        });
       });
-    });
+    }
 
-    // Pop-up Feature Modal
     const modal = document.getElementById('feature-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');
@@ -1305,6 +1368,7 @@
     const modalClose = document.getElementById('modal-close');
 
     function openModal(title, desc) {
+      if (!modal) return;
       modalTitle.textContent = title;
       modalDesc.textContent = desc;
       modal.classList.add('active');
@@ -1317,12 +1381,13 @@
       });
     });
 
-    modalClose.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
+    if (modalClose) modalClose.addEventListener('click', () => modal.classList.remove('active'));
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+    }
 
-    // Parallax mouse motion
     const archGraphic = document.querySelector('.arch-svg-graphic');
     window.addEventListener('pointermove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 26;
@@ -1332,7 +1397,6 @@
       }
     }, { passive: true });
 
-    // Slide-over Drawer
     const exploreBtn = document.getElementById('explore-btn');
     const drawer = document.getElementById('portal-drawer');
     const drawerClose = document.getElementById('drawer-close');
@@ -1340,13 +1404,14 @@
     const drawerSearch = document.getElementById('drawer-search-input');
 
     function populateDrawer() {
+      if (!drawerGrid) return;
       drawerGrid.innerHTML = '';
       chips.forEach(chip => {
         const card = document.createElement('div');
         card.className = 'drawer-card';
         card.innerHTML = `<h4>${chip.dataset.title || chip.textContent}</h4><p>${chip.dataset.desc}</p>`;
         card.addEventListener('click', () => {
-          drawer.classList.remove('active');
+          if (drawer) drawer.classList.remove('active');
           openModal(chip.dataset.title || chip.textContent, chip.dataset.desc);
         });
         drawerGrid.appendChild(card);
@@ -1354,23 +1419,29 @@
     }
     populateDrawer();
 
-    drawerSearch.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      document.querySelectorAll('.drawer-card').forEach(card => {
-        card.style.display = card.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+    if (drawerSearch) {
+      drawerSearch.addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        document.querySelectorAll('.drawer-card').forEach(card => {
+          card.style.display = card.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+        });
       });
-    });
+    }
 
     function openPortal() {
       populateDrawer();
-      drawer.classList.add('active');
-      drawerSearch.focus();
+      if (drawer) {
+        drawer.classList.add('active');
+        if (drawerSearch) drawerSearch.focus();
+      }
     }
 
-    exploreBtn.addEventListener('click', openPortal);
-    drawerClose.addEventListener('click', () => {
-      drawer.classList.remove('active');
-    });
+    if (exploreBtn) exploreBtn.addEventListener('click', openPortal);
+    if (drawerClose) {
+      drawerClose.addEventListener('click', () => {
+        if (drawer) drawer.classList.remove('active');
+      });
+    }
 
     document.querySelectorAll('.brand-mini, .brand-logo').forEach(brand => {
       brand.addEventListener('click', (e) => { e.preventDefault(); openPortal(); });
@@ -1380,38 +1451,38 @@
       link.addEventListener('click', (e) => {
         e.preventDefault();
         openPortal();
-        drawerSearch.value = link.textContent.trim();
-        drawerSearch.dispatchEvent(new Event('input'));
+        if (drawerSearch) {
+          drawerSearch.value = link.textContent.trim();
+          drawerSearch.dispatchEvent(new Event('input'));
+        }
       });
     });
 
-    // =========================================================================
-    // 4. ACCESS FEATURE TOOL CLICK -> NATIVE IN-PAGE TOOL LAUNCH
-    // =========================================================================
     const toolBackBtn = document.getElementById('tool-back-btn');
 
-    modalLaunch.addEventListener('click', () => {
-      modal.classList.remove('active');
+    if (modalLaunch) {
+      modalLaunch.addEventListener('click', () => {
+        if (modal) modal.classList.remove('active');
+        if (toolViewport) toolViewport.style.display = 'flex';
+        if (toolHeaderTitle) toolHeaderTitle.textContent = modalTitle.textContent;
 
-      // Open in-viewport tool dashboard (covers stage 100%)
-      toolViewport.style.display = 'flex';
-      toolHeaderTitle.textContent = modalTitle.textContent;
+        if (modalTitle && modalTitle.textContent.includes("36 States")) {
+          if (showcaseContainer) showcaseContainer.style.display = 'flex';
+          if (genericContainer) genericContainer.style.display = 'none';
+          if (showcaseSearchInput) showcaseSearchInput.focus();
+        } else {
+          if (showcaseContainer) showcaseContainer.style.display = 'none';
+          if (genericContainer) genericContainer.style.display = 'flex';
+        }
+      });
+    }
 
-      // Check if "36 States..." was opened
-      if (modalTitle.textContent.includes("36 States")) {
-        showcaseContainer.style.display = 'flex';
-        genericContainer.style.display = 'none';
-        showcaseSearchInput.focus();
-      } else {
-        showcaseContainer.style.display = 'none';
-        genericContainer.style.display = 'flex';
-      }
-    });
-
-    // Back to portal view
-    toolBackBtn.addEventListener('click', () => {
-      toolViewport.style.display = 'none';
-    });
+    if (toolBackBtn) {
+      toolBackBtn.addEventListener('click', () => {
+        if (toolViewport) toolViewport.style.display = 'none';
+      });
+    }
   </script>
+
 </body>
 </html>

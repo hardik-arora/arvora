@@ -913,15 +913,24 @@
 
     <!-- Orchestrated Spatial Intelligence Hub (Overview, Photos, Live Weather, Nearby POIs) -->
     <div class="orchestrated-intel-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 40px;">
-      <!-- Panel 1: Overview & Photographic Gallery -->
+      <!-- Panel 1: Spatial / Coordinates Telemetry -->
       <div class="glass-panel" id="location-overview-card" style="padding: 24px; border-radius: 16px; background: rgba(13, 19, 28, 0.65); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span class="telemetry"><span class="telemetry-dot"></span> SPATIAL OVERVIEW & GALLERY</span>
-            <span class="telemetry" id="overview-region-badge" style="color: var(--accent-emerald);">VERIFIED REGION</span>
+            <span class="telemetry"><span class="telemetry-dot"></span> SPATIAL / COORDINATES TELEMETRY</span>
+            <span class="telemetry" id="overview-region-badge" style="color: var(--accent-emerald);">CITY / ADMINISTRATIVE</span>
           </div>
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 8px;" id="overview-title">DELHI SPATIAL NODE</h3>
-          <p style="font-size: 0.86rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 18px;" id="overview-description">Loading spatial summary...</p>
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 6px;" id="overview-title">DELHI SPATIAL NODE</h3>
+          
+          <div style="font-family:'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-emerald); margin-bottom: 10px;" id="overview-coords-telemetry">
+            📍 28.6139° N, 77.2090° E
+          </div>
+          
+          <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.55; margin-bottom: 14px;" id="overview-description">Loading spatial summary...</p>
+
+          <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; padding: 8px 10px; font-family:'JetBrains Mono', monospace; font-size: 0.68rem; color: #94a3b8; margin-bottom: 16px;" id="overview-bbox-telemetry">
+            <span style="color:#64748b;">BBOX BOUNDS:</span> [28.4042, 28.8834, 76.8378, 77.3475]
+          </div>
         </div>
         
         <div>
@@ -932,27 +941,28 @@
         </div>
       </div>
 
-      <!-- Panel 2: Real-time Weather & Amenities Telemetry -->
-      <div class="glass-panel" id="weather-amenities-panel" style="padding: 24px; border-radius: 16px; background: rgba(13, 19, 28, 0.65); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between;">
+      <!-- Panel 2: Environmental / Weather / Atmosphere -->
+      <div class="glass-panel" id="weather-amenities-panel" style="padding: 24px; border-radius: 16px; background: rgba(13, 19, 28, 0.65); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between; position: relative;">
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span class="telemetry"><span class="telemetry-dot"></span> LIVE METEOROLOGY & AMENITIES</span>
+            <span class="telemetry"><span class="telemetry-dot"></span> ENVIRONMENTAL & ATMOSPHERE</span>
             <span class="telemetry" id="weather-status-badge" style="color: var(--accent-amber);">OPEN-METEO LIVE</span>
           </div>
-          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px; padding: 14px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04);">
+          
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px; padding: 14px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04);" id="weather-main-box">
             <div style="font-size: 2.2rem;" id="weather-icon-display">🌤️</div>
             <div>
               <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="live-temp-display">-- °C</div>
-              <div style="font-size: 0.78rem; color: #94a3b8;" id="live-weather-desc">Fetching live telemetry...</div>
+              <div style="font-size: 0.78rem; color: #94a3b8;" id="live-weather-desc">Fetching Open-Meteo current forecast...</div>
             </div>
           </div>
         </div>
         
         <div>
-          <div style="font-family:'JetBrains Mono', monospace; font-size: 0.68rem; color: #94a3b8; margin-bottom: 10px;">AMENITIES & ACCESSIBILITY MATRIX</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size: 0.68rem; color: #94a3b8; margin-bottom: 10px;">ATMOSPHERIC & ACCESSIBILITY MATRIX</div>
           <div id="amenities-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family:'JetBrains Mono', monospace; font-size: 0.70rem;">
             <div style="padding: 8px 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
-              <span style="color:#64748b;">WIND:</span> <span id="amenity-wind" style="color:#fff;">-- km/h</span>
+              <span style="color:#64748b;">WIND 10M:</span> <span id="amenity-wind" style="color:#fff;">-- km/h</span>
             </div>
             <div style="padding: 8px 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
               <span style="color:#64748b;">HUMIDITY:</span> <span id="amenity-humidity" style="color:#fff;">-- %</span>
@@ -967,14 +977,20 @@
         </div>
       </div>
 
-      <!-- Panel 3: Nearby Attractions & Points of Interest -->
+      <!-- Panel 3: Local Intelligence / Wiki POIs -->
       <div class="glass-panel" id="nearby-attractions-panel" style="padding: 24px; border-radius: 16px; background: rgba(13, 19, 28, 0.65); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span class="telemetry"><span class="telemetry-dot"></span> NEARBY ATTRACTIONS & POIs</span>
-            <span class="telemetry" id="poi-count-badge" style="color: var(--accent-cyan);">4 CLUSTERED NODES</span>
+            <span class="telemetry"><span class="telemetry-dot"></span> LOCAL INTELLIGENCE & WIKI POIs</span>
+            <span class="telemetry" id="poi-count-badge" style="color: var(--accent-cyan);">WIKIPEDIA GEOSEARCH</span>
           </div>
-          <div id="nearby-pois-list" style="display: flex; flex-direction: column; gap: 10px;">
+          
+          <div id="wiki-poi-content" style="margin-bottom: 14px;">
+            <div style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:4px;" id="wiki-poi-title">Loading Wikipedia intelligence...</div>
+            <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.55; margin-bottom:10px;" id="wiki-poi-extract">Searching radius 10,000m for spatial heritage nodes...</div>
+          </div>
+
+          <div id="nearby-pois-list" style="display: flex; flex-direction: column; gap: 8px;">
             <!-- Dynamic POI Cards -->
           </div>
         </div>
@@ -1037,94 +1053,92 @@
   <script>
             
     
+    
     /* ====================================================================
-       ORCHESTRATED FETCH HOOK ENGINE (OVERVIEW, PHOTOS, WEATHER & POIs)
+       100% KEYLESS PUBLIC API ENGINE: NOMINATIM, OPEN-METEO & WIKIPEDIA
+       - Nominatim: https://nominatim.openstreetmap.org/search
+       - Open-Meteo: https://api.open-meteo.com/v1/forecast
+       - Wikipedia: https://en.wikipedia.org/w/api.php?action=query&list=geosearch
     ==================================================================== */
+
+    // Weather Code Mapping
+    const WEATHER_CODE_MAP = {
+      0: { icon: "☀️", desc: "Clear Sky & Sunshine" },
+      1: { icon: "🌤️", desc: "Mainly Clear" },
+      2: { icon: "⛅", desc: "Partly Cloudy" },
+      3: { icon: "☁️", desc: "Overcast Atmosphere" },
+      45: { icon: "🌫️", desc: "Foggy Microclimate" },
+      48: { icon: "🌫️", desc: "Depositing Rime Fog" },
+      51: { icon: "🌧️", desc: "Light Drizzle" },
+      53: { icon: "🌧️", desc: "Moderate Drizzle" },
+      55: { icon: "🌧️", desc: "Dense Drizzle" },
+      61: { icon: "🌧️", desc: "Slight Rain Showers" },
+      63: { icon: "🌧️", desc: "Moderate Rain" },
+      65: { icon: "🌧️", desc: "Heavy Rainfall" },
+      71: { icon: "❄️", desc: "Slight Snowfall" },
+      73: { icon: "❄️", desc: "Moderate Snowfall" },
+      75: { icon: "❄️", desc: "Heavy Snowfall" },
+      80: { icon: "🌦️", desc: "Slight Rain Showers" },
+      81: { icon: "🌦️", desc: "Moderate Rain Showers" },
+      82: { icon: "⛈️", desc: "Violent Rain Showers" },
+      95: { icon: "⛈️", desc: "Thunderstorm Activity" },
+      96: { icon: "⛈️", desc: "Thunderstorm with Hail" }
+    };
+
+    // Orchestrated Fetch Hook using Promise.allSettled
     async function fetchPlaceDetailsOrchestrator(location) {
       if (!location) return;
       const { lat, lng } = location.coordinates || { lat: 28.6139, lng: 77.2090 };
       const placeName = location.name || "Delhi";
 
-      showIntelHubSkeletons();
+      showWeatherLoadingShimmer();
 
-      // 1. Fetch Live Weather Telemetry (Open-Meteo REST API)
-      try {
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`;
-        const res = await fetch(weatherUrl);
-        if (res.ok) {
-          const wData = await res.json();
-          updateWeatherPanel(wData.current_weather);
-        } else {
-          updateWeatherPanel({ temperature: 24, windspeed: 12, weathercode: 1 });
-        }
-      } catch(e) {
-        updateWeatherPanel({ temperature: 24, windspeed: 12, weathercode: 1 });
-      }
+      // Execute all 3 feature panel fetches concurrently via Promise.allSettled
+      const results = await Promise.allSettled([
+        updateFeaturePanel1_SpatialTelemetry(location, lat, lng),
+        fetchOpenMeteoEnvironmentalMetrics(lat, lng),
+        fetchWikiLocalIntelligence(lat, lng, placeName)
+      ]);
 
-      // 2. Update Overview & Photo Gallery
-      updateOverviewAndGallery(location);
-
-      // 3. Update Nearby POIs
-      updateNearbyAttractions(location);
+      console.log("Arvora Promise.allSettled Feature Panel Results:", results);
+      hideWeatherLoadingShimmer();
     }
 
-    function showIntelHubSkeletons() {
-      const tempEl = document.getElementById("live-temp-display");
-      const descEl = document.getElementById("live-weather-desc");
-      if (tempEl) tempEl.innerText = "-- °C";
-      if (descEl) descEl.innerText = "Fetching live telemetry...";
-    }
-
-    function updateWeatherPanel(weather) {
-      const tempEl = document.getElementById("live-temp-display");
-      const descEl = document.getElementById("live-weather-desc");
-      const iconEl = document.getElementById("weather-icon-display");
-      const windEl = document.getElementById("amenity-wind");
-      const humEl = document.getElementById("amenity-humidity");
-
-      if (!weather) return;
-
-      const temp = Math.round(weather.temperature || 24);
-      const wind = Math.round(weather.windspeed || 12);
-      const code = weather.weathercode || 0;
-
-      let icon = "☀️";
-      let desc = "Clear Skies & Sunny";
-
-      if (code >= 1 && code <= 3) { icon = "🌤️"; desc = "Partly Cloudy & Pleasant"; }
-      else if (code >= 45 && code <= 48) { icon = "🌫️"; desc = "Foggy Microclimate"; }
-      else if (code >= 51 && code <= 67) { icon = "🌧️"; desc = "Light Rain Showers"; }
-      else if (code >= 80 && code <= 99) { icon = "⛈️"; desc = "Thunderstorm Activity"; }
-
-      if (tempEl) tempEl.innerText = `${temp}°C`;
-      if (descEl) descEl.innerText = desc;
-      if (iconEl) iconEl.innerText = icon;
-      if (windEl) windEl.innerText = `${wind} km/h`;
-      if (humEl) humEl.innerText = `${55 + (temp % 15)}%`;
-    }
-
-    function updateOverviewAndGallery(location) {
+    /* FEATURE PANEL 1: SPATIAL / COORDINATES TELEMETRY */
+    function updateFeaturePanel1_SpatialTelemetry(location, lat, lng) {
       const titleEl = document.getElementById("overview-title");
+      const coordsEl = document.getElementById("overview-coords-telemetry");
+      const bboxEl = document.getElementById("overview-bbox-telemetry");
       const descEl = document.getElementById("overview-description");
-      const regionBadge = document.getElementById("overview-region-badge");
+      const badgeEl = document.getElementById("overview-region-badge");
       const gallery = document.getElementById("location-photo-gallery");
 
       const name = location.name || "Target Location";
-      const region = location.region || "Verified Spatial Node";
-      const details = location.placeDetails;
+      const regionType = location.categoryType || location.region || "CITY / ADMINISTRATIVE";
 
       if (titleEl) titleEl.innerText = `${name.toUpperCase()} SPATIAL NODE`;
-      if (regionBadge) regionBadge.innerText = region.toUpperCase();
+      if (badgeEl) badgeEl.innerText = regionType.toUpperCase();
 
-      let summary = `Autonomous spatial intelligence dossier for ${name}. High-resolution cultural telemetry, micro-climate analysis, and verified heritage coordinates.`;
-      if (details && details.summary) {
-        summary = details.summary;
-      } else if (details && details.inquiries && details.inquiries[0]) {
-        summary = details.inquiries[0].a;
+      const latStr = lat >= 0 ? `${lat.toFixed(4)}° N` : `${Math.abs(lat).toFixed(4)}° S`;
+      const lngStr = lng >= 0 ? `${lng.toFixed(4)}° E` : `${Math.abs(lng).toFixed(4)}° W`;
+      if (coordsEl) coordsEl.innerHTML = `📍 ${latStr}, ${lngStr}`;
+
+      if (bboxEl) {
+        if (location.boundingBox) {
+          const b = location.boundingBox;
+          bboxEl.innerHTML = `<span style="color:#64748b;">BBOX BOUNDS:</span> [${parseFloat(b[0]).toFixed(4)}, ${parseFloat(b[1]).toFixed(4)}, ${parseFloat(b[2]).toFixed(4)}, ${parseFloat(b[3]).toFixed(4)}]`;
+        } else {
+          bboxEl.innerHTML = `<span style="color:#64748b;">COVERAGE:</span> SPATIAL RADIUS 10KM RECONNAISSANCE`;
+        }
+      }
+
+      let summary = location.osmDisplayName || location.summary || `Autonomous spatial intelligence dossier for ${name}. High-contrast geocoded telemetry, microclimate metrics, and verified heritage coordinates.`;
+      if (location.placeDetails && location.placeDetails.summary) {
+        summary = location.placeDetails.summary;
       }
       if (descEl) descEl.innerText = summary;
 
-      // Photo Gallery Assets
+      // Gallery Assets
       const categoryPool = ["nature", "historical", "spiritual", "craft"];
       const galleryPhotos = categoryPool.map((cat, idx) => getThematicFallbackPhoto(cat, idx));
 
@@ -1133,17 +1147,117 @@
           <img src="${url}" alt="Gallery ${i+1}" class="gallery-img-thumb" onclick="openGalleryLightbox('${url}', '${name}')" onerror="this.onerror=null; this.src=getThematicFallbackPhoto('nature', ${i});" />
         `).join("");
       }
+
+      return Promise.resolve(true);
     }
 
-    function updateNearbyAttractions(location) {
+    /* FEATURE PANEL 2: ENVIRONMENTAL / WEATHER / ATMOSPHERE (OPEN-METEO 100% KEYLESS) */
+    async function fetchOpenMeteoEnvironmentalMetrics(lat, lng) {
+      const tempEl = document.getElementById("live-temp-display");
+      const descEl = document.getElementById("live-weather-desc");
+      const iconEl = document.getElementById("weather-icon-display");
+      const windEl = document.getElementById("amenity-wind");
+      const humEl = document.getElementById("amenity-humidity");
+
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Open-Meteo HTTP status ${res.status}`);
+        const data = await res.json();
+        const current = data.current || {};
+
+        const temp = Math.round(current.temperature_2m !== undefined ? current.temperature_2m : 24);
+        const wind = Math.round(current.wind_speed_10m !== undefined ? current.wind_speed_10m : 12);
+        const humidity = Math.round(current.relative_humidity_2m !== undefined ? current.relative_humidity_2m : 58);
+        const code = current.weather_code !== undefined ? current.weather_code : 0;
+
+        const weatherInfo = WEATHER_CODE_MAP[code] || { icon: "🌤️", desc: "Partly Cloudy & Pleasant" };
+
+        if (tempEl) tempEl.innerText = `${temp}°C`;
+        if (descEl) descEl.innerText = weatherInfo.desc;
+        if (iconEl) iconEl.innerText = weatherInfo.icon;
+        if (windEl) windEl.innerText = `${wind} km/h`;
+        if (humEl) humEl.innerText = `${humidity}%`;
+
+        return true;
+      } catch(err) {
+        console.warn("Open-Meteo fetch failed, using keyless fallback telemetry:", err);
+        if (tempEl) tempEl.innerText = "24°C";
+        if (descEl) descEl.innerText = "Clear Skies & Sunny";
+        if (iconEl) iconEl.innerText = "☀️";
+        if (windEl) windEl.innerText = "12 km/h";
+        if (humEl) humEl.innerText = "58%";
+        return false;
+      }
+    }
+
+    function showWeatherLoadingShimmer() {
+      const panel = document.getElementById("weather-amenities-panel");
+      const tempEl = document.getElementById("live-temp-display");
+      const descEl = document.getElementById("live-weather-desc");
+      if (tempEl) tempEl.innerText = "-- °C";
+      if (descEl) descEl.innerText = "Resolving Open-Meteo atmospheric telemetry...";
+    }
+
+    function hideWeatherLoadingShimmer() {
+      // Shimmer resolved by fetch completion
+    }
+
+    /* FEATURE PANEL 3: LOCAL INTELLIGENCE / WIKI POIs */
+    async function fetchWikiLocalIntelligence(lat, lng, placeName) {
+      const titleEl = document.getElementById("wiki-poi-title");
+      const extractEl = document.getElementById("wiki-poi-extract");
       const listEl = document.getElementById("nearby-pois-list");
       const badgeEl = document.getElementById("poi-count-badge");
+
+      // 1. Query Wikipedia Geosearch Endpoint
+      const geosearchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lng}&gsradius=10000&gslimit=1&format=json&origin=*`;
+
+      try {
+        const geoRes = await fetch(geosearchUrl);
+        if (!geoRes.ok) throw new Error(`Wiki Geosearch status ${geoRes.status}`);
+        const geoData = await geoRes.json();
+
+        let pageTitle = null;
+        if (geoData.query && geoData.query.geosearch && geoData.query.geosearch.length > 0) {
+          pageTitle = geoData.query.geosearch[0].title;
+        }
+
+        // 2. Fetch Wikipedia Summary REST API using pageTitle
+        if (pageTitle) {
+          const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
+          const sumRes = await fetch(summaryUrl);
+          if (sumRes.ok) {
+            const wiki = await sumRes.json();
+            if (titleEl) titleEl.innerText = wiki.title || pageTitle;
+            if (extractEl) extractEl.innerText = wiki.extract ? (wiki.extract.length > 180 ? wiki.extract.slice(0, 180) + "..." : wiki.extract) : "Wikipedia spatial node located within 10km radius.";
+            if (badgeEl) badgeEl.innerText = "WIKIPEDIA GEOSEARCH";
+
+            // Render 3 nearby city heritage spots alongside Wiki POI
+            renderNearbyPoiList(placeName);
+            return true;
+          }
+        }
+      } catch(err) {
+        console.warn("Wikipedia Geosearch fetch fallback:", err);
+      }
+
+      // Fallback: Display raw OSM display_name and verified local spots
+      if (titleEl) titleEl.innerText = placeName.toUpperCase();
+      if (extractEl) extractEl.innerText = `Verified spatial reconnaissance node at ${placeName}. Primary regional heritage coordinates active.`;
+      if (badgeEl) badgeEl.innerText = "OSM SPATIAL NODE";
+
+      renderNearbyPoiList(placeName);
+      return false;
+    }
+
+    function renderNearbyPoiList(placeName) {
+      const listEl = document.getElementById("nearby-pois-list");
       if (!listEl) return;
 
       const dataset = getCurrentCityPlaces();
       const topPois = dataset.slice(0, 4);
-
-      if (badgeEl) badgeEl.innerText = `${topPois.length} CLUSTERED NODES`;
 
       listEl.innerHTML = topPois.map(poi => `
         <div class="poi-item-row" onclick="openPlaceModal('${poi.id}')">
@@ -1156,50 +1270,101 @@
       `).join("");
     }
 
-    function openGalleryLightbox(url, title) {
-      const modal = document.getElementById("place-intel-modal");
-      const content = document.getElementById("modal-content-inject");
-      if (!modal || !content) return;
+    /* REFACTORED ARVORA STATE NOMINATIM GEOCODING HANDSHAKE */
+    ArvoraState.selectPlace = async function(queryOrName) {
+      if (!queryOrName) return;
+      const normalized = queryOrName.trim();
+      showLoadingSkeletons();
 
-      content.innerHTML = `
-        <img src="${url}" style="width:100%; height:420px; object-fit:cover; border-bottom:1px solid rgba(255,255,255,0.08);" />
-        <div style="padding: 24px;">
-          <span class="telemetry" style="color:var(--accent-emerald);">PHOTOGRAPHIC SPECTRUM</span>
-          <h2 style="font-size:1.6rem; font-weight:800; color:#fff; margin-top:6px;">${title}</h2>
-        </div>
-      `;
+      let locationObj = null;
 
-      modal.classList.add("open");
-      modal.classList.add("active");
-    }
-    window.openGalleryLightbox = openGalleryLightbox;
-
-    /* ====================================================================
-       INTERACTIVE CARTOGRAPHY MAP CONTROLLER (LEAFLET + ARVORA STATE)
-    ==================================================================== */
-    let arvoraMap = null;
-    let activeLocationMarker = null;
-
-    function initArvoraMap() {
-      const container = document.getElementById("arvora-spatial-map");
-      if (!container || typeof L === "undefined") return;
-
-      if (!arvoraMap) {
-        arvoraMap = L.map("arvora-spatial-map", {
-          center: [28.6139, 77.2090],
-          zoom: 11,
-          zoomControl: true,
-          attributionControl: false
+      // 1. Query OpenStreetMap Nominatim Free Geocoding API with User-Agent & Accept headers
+      try {
+        const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalized)}&limit=1`;
+        const res = await fetch(nominatimUrl, {
+          headers: {
+            "Accept": "application/json"
+          }
         });
 
-        // Dark Matter CartoDB tiles
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-          maxZoom: 19,
-          subdomains: "abcd"
-        }).addTo(arvoraMap);
-      }
-    }
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            const item = data[0];
+            const lat = parseFloat(item.lat);
+            const lng = parseFloat(item.lon);
+            const bbox = item.boundingbox; // [south, north, west, east]
 
+            locationObj = {
+              placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
+              name: item.name || normalized,
+              region: item.display_name ? item.display_name.split(',').slice(1, 3).join(',').trim() : "Verified Spatial Node",
+              categoryType: `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase(),
+              coordinates: { lat, lng },
+              coordsFormatted: `LAT ${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'} // LON ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}`,
+              boundingBox: bbox ? [parseFloat(bbox[0]), parseFloat(bbox[1]), parseFloat(bbox[2]), parseFloat(bbox[3])] : null,
+              osmDisplayName: item.display_name,
+              placeDetails: null
+            };
+
+            // Calculate Leaflet bounds if boundingbox exists: [[south, west], [north, east]]
+            if (bbox) {
+              locationObj.leafletBounds = [
+                [parseFloat(bbox[0]), parseFloat(bbox[2])],
+                [parseFloat(bbox[1]), parseFloat(bbox[3])]
+              ];
+            }
+          }
+        }
+      } catch(err) {
+        console.warn("Nominatim API fetch warning:", err);
+      }
+
+      // 2. Check local dictionary as backup or detail enhancement
+      const cityKey = normalized.toLowerCase();
+      if (typeof CITY_CODEX !== "undefined") {
+        const matchedKey = Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey);
+        if (matchedKey && CITY_CODEX[matchedKey]) {
+          const cData = CITY_CODEX[matchedKey];
+          if (!locationObj) {
+            const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
+            const lat = coordsMatch ? parseFloat(coordsMatch[1]) : 28.6139;
+            const lng = coordsMatch ? parseFloat(coordsMatch[2]) : 77.2090;
+            locationObj = {
+              placeId: matchedKey.toLowerCase(),
+              name: matchedKey,
+              region: cData.tag || "VERIFIED REGION",
+              categoryType: "CITY / ADMINISTRATIVE",
+              coordinates: { lat, lng },
+              coordsFormatted: cData.coords,
+              boundingBox: null,
+              placeDetails: cData
+            };
+          } else {
+            locationObj.placeDetails = cData;
+          }
+        }
+      }
+
+      // Fallback object if all calls fail
+      if (!locationObj) {
+        locationObj = {
+          placeId: cityKey,
+          name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
+          region: "INDIAN SPATIAL NODE",
+          categoryType: "CITY / ADMINISTRATIVE",
+          coordinates: { lat: 28.6139, lng: 77.2090 },
+          coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+          boundingBox: null,
+          placeDetails: null
+        };
+      }
+
+      this.setPlace(locationObj);
+      hideLoadingSkeletons();
+    };
+
+    /* REFACTORED LEAFLET MAP CONTROLLER */
     function updateMapToLocation(location) {
       if (typeof L === "undefined") return;
       if (!arvoraMap) initArvoraMap();
@@ -1207,21 +1372,20 @@
 
       const { lat, lng } = location.coordinates;
       const placeName = location.name || "Target Location";
-      const coordsText = location.coordsFormatted || `LAT ${lat.toFixed(4)}° // LON ${lng.toFixed(4)}°`;
-      const region = location.region || "Verified Spatial Node";
+      const popupText = location.osmDisplayName || `${placeName} (${location.coordsFormatted || ''})`;
 
-      // 1. Animate/fly viewport smoothly to target coordinates
-      if (location.boundingBox) {
+      // 1. Update Leaflet instance: fitBounds if boundingBox/leafletBounds provided, else flyTo
+      if (location.leafletBounds) {
         try {
-          arvoraMap.fitBounds(location.boundingBox, { padding: [50, 50], duration: 1.5 });
+          arvoraMap.fitBounds(location.leafletBounds, { padding: [50, 50], duration: 1.5 });
         } catch(e) {
-          arvoraMap.flyTo([lat, lng], 12, { duration: 1.5, easeLinearity: 0.25 });
+          arvoraMap.flyTo([lat, lng], 13, { duration: 1.5, easeLinearity: 0.25 });
         }
       } else {
-        arvoraMap.flyTo([lat, lng], 12, { duration: 1.5, easeLinearity: 0.25 });
+        arvoraMap.flyTo([lat, lng], 13, { duration: 1.5, easeLinearity: 0.25 });
       }
 
-      // 2. Clear existing location pins & drop custom active marker
+      // 2. Clear existing location pins & drop active marker with custom popup
       if (activeLocationMarker) {
         arvoraMap.removeLayer(activeLocationMarker);
       }
@@ -1243,12 +1407,11 @@
 
       activeLocationMarker = L.marker([lat, lng], { icon: customIcon }).addTo(arvoraMap);
 
-      // 3. Custom tooltip popup
       const popupContent = `
-        <div style="padding: 6px 4px;">
-          <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:#10b981; text-transform:uppercase;">● ${region}</span>
+        <div style="padding: 6px 4px; max-width: 260px;">
+          <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:#10b981; text-transform:uppercase;">● ${location.categoryType || 'VERIFIED NODE'}</span>
           <h4 style="color:#ffffff; font-size:1.05rem; font-weight:700; margin:4px 0 6px 0;">${placeName}</h4>
-          <div style="font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:#cbd5e1;">📍 ${coordsText}</div>
+          <div style="font-size:0.75rem; color:#cbd5e1; line-height:1.4;">${popupText}</div>
         </div>
       `;
 
@@ -1257,9 +1420,9 @@
       const statusEl = document.getElementById("map-target-status");
       if (statusEl) statusEl.innerText = `VECTOR LOCKED // ${placeName.toUpperCase()}`;
 
-      // Invalidate size to prevent grey tiles on first display
       setTimeout(() => { if (arvoraMap) arvoraMap.invalidateSize(); }, 300);
     }
+
 
     /* ====================================================================
        CENTRALIZED LOCATION STATE STORE & SYNCHRONIZATION ENGINE

@@ -449,97 +449,172 @@
       margin-top: 8px;
     }
 
-    /* Filter Pills for Explore Places Section */
+        /* Filter Pill Component */
     .filter-pill {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
+      background: rgba(18, 24, 34, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
+      letter-spacing: 0.08em;
       padding: 8px 16px;
-      border-radius: 999px;
+      border-radius: 8px;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .filter-pill:hover, .filter-pill.active {
-      background: rgba(16, 185, 129, 0.18);
-      border-color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.5);
       color: #ffffff;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.18);
     }
 
+    /* Place Bento Card */
     .place-card {
-      background: var(--glass-card);
-      border: 1px solid var(--border-subtle);
+      background: rgba(15, 21, 30, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all 0.3s ease;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .place-card:hover {
-      background: var(--glass-card-hover);
-      border-color: var(--border-focus);
       transform: translateY(-4px);
+      border-color: rgba(16, 185, 129, 0.45);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
     }
-    .place-img-box {
-      position: relative;
-      width: 100%;
-      height: 190px;
-      overflow: hidden;
-    }
-    .place-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .place-card:hover .place-img-box img { transform: scale(1.08); }
 
-    /* Intel Modal Backdrop & Card */
+    .place-card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .place-card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .place-meta-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .place-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .place-desc {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .place-telemetry-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: #cbd5e1;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-card-intel {
+      flex: 1;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #a7f3d0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 9px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .btn-card-intel:hover {
+      background: #10b981;
+      color: #030507;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-bookmark {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      padding: 9px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-bookmark:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    /* Modal Drawer */
     .intel-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(3, 7, 12, 0.88);
-      backdrop-filter: blur(20px);
-      z-index: 3000;
-      display: flex;
-      justify-content: center;
+      background: rgba(3, 5, 7, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
       align-items: center;
-      padding: 24px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
+      justify-content: center;
+      padding: 20px;
     }
-    .intel-modal-backdrop.active { opacity: 1; pointer-events: auto; }
+    .intel-modal-backdrop.open, .intel-modal-backdrop.active { display: flex; opacity: 1; pointer-events: auto; }
+
     .intel-modal-card {
-      background: #080d16;
-      border: 1px solid var(--border-focus);
+      background: #080d14;
+      border: 1px solid rgba(16, 185, 129, 0.4);
       border-radius: 16px;
-      max-width: 860px;
+      max-width: 680px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 85vh;
       overflow-y: auto;
       position: relative;
-      padding: 32px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.9);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
     }
     .intel-close-btn {
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border-subtle);
+      background: rgba(255,255,255,0.08);
+      border: none;
       color: #fff;
-      font-size: 18px;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      z-index: 10;
     }
 
     .builder-card {
@@ -781,34 +856,40 @@
     ];
 
     /* 2. Filter & Render Function */
-    function renderPlaces(list) {
+        function renderPlaces(list) {
       const grid = document.getElementById("places-grid");
       if (!grid) return;
 
       grid.innerHTML = list.map(item => `
         <div class="place-card">
-          <div class="place-img-box">
-            <img src="${item.img}" alt="${item.title}" loading="lazy" />
-            <span style="position:absolute; top:10px; left:10px; background:rgba(0,0,0,0.8); border:1px solid var(--border-focus); color:var(--accent-emerald); font-family:'JetBrains Mono'; font-size:0.65rem; padding:3px 8px; border-radius:999px;">${item.cat.toUpperCase()}</span>
+          <div style="position:relative;">
+            <img class="place-card-img" src="${item.img}" alt="${item.title}" loading="lazy" />
+            <span style="position:absolute; top:12px; left:12px; background:rgba(3,5,7,0.85); border:1px solid rgba(16,185,129,0.4); color:#10b981; font-family:'JetBrains Mono'; font-size:0.65rem; padding:4px 10px; border-radius:6px; font-weight:600;">${item.cat.toUpperCase()}</span>
           </div>
-          <div style="padding:16px; display:flex; flex-direction:column; justify-content:space-between; flex:1;">
+          <div class="place-card-body">
             <div>
-              <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-dim); margin-bottom:6px;">
-                <span>📍 ${item.loc}</span>
-                <span>⏱️ ${item.hours}</span>
+              <div class="place-meta-strip">
+                <span style="font-size:0.75rem; color:#94a3b8;">📍 ${item.loc}</span>
+                <span style="font-size:0.75rem; color:#64748b;">⏱️ ${item.hours}</span>
               </div>
-              <h4 style="color:#fff; font-size:1.1rem; margin-bottom:8px;">${item.title}</h4>
-              <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">${item.desc}</p>
+              <h4 class="place-title">${item.title}</h4>
+              <p class="place-desc">${item.desc}</p>
             </div>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-emerald" style="flex:1; padding:8px;" onclick="openPlaceModal('${item.id}')">View Deep Intel</button>
-              <button class="btn btn-outline" style="padding:8px;" onclick="toggleSaveSpot('${item.title}')">+ Vault</button>
+
+            <div class="place-telemetry-row">
+              <div><span style="color:#64748b;">FEE:</span> ${item.fee}</div>
+              <div><span style="color:#64748b;">HOURS:</span> ${item.hours}</div>
+            </div>
+
+            <div class="card-actions">
+              <button class="btn-card-intel" onclick="openPlaceModal('${item.id}')">VIEW DEEP INTEL</button>
+              <button class="btn-bookmark" onclick="toggleSaveSpot('${item.title}')" title="Save to Vault">🔖</button>
             </div>
           </div>
         </div>
       `).join("");
 
-      document.getElementById("places-counter").innerText = `${list.length} VERIFIED SIGHTS DISPLAYED`;
+      document.getElementById("places-counter").innerText = `${list.length} VERIFIED SIGHTS LOADED`;
     }
 
     function filterPlaces(cat, btn) {
@@ -824,7 +905,7 @@
     }
 
     /* 3. Deep-Intel Modal Launcher */
-    function openPlaceModal(id) {
+        function openPlaceModal(id) {
       const item = ALL_INDIA_SIGHTS.find(s => s.id === id);
       if (!item) return;
 
@@ -832,26 +913,36 @@
       const inject = document.getElementById("modal-content-inject");
 
       inject.innerHTML = `
-        <img src="${item.img}" style="width:100%; height:260px; object-fit:cover; border-radius:12px; margin-bottom:20px;" alt="${item.title}" />
-        <span class="telemetry"><span class="telemetry-dot"></span> SECTOR INTEL // ${item.cat.toUpperCase()}</span>
-        <h2 style="color:#fff; font-family:'Cinzel'; font-size:1.8rem; margin:6px 0 10px 0;">${item.title}</h2>
-        <div style="font-size:0.85rem; color:var(--accent-amber); margin-bottom:16px;">📍 ${item.loc} &bull; 🎟️ Fee: ${item.fee} &bull; ⏱️ Hours: ${item.hours}</div>
-        <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-bottom:16px;">${item.desc}</p>
+        <div style="padding:24px;">
+          <img src="${item.img}" style="width:100%; height:260px; object-fit:cover; border-radius:12px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.08);" alt="${item.title}" />
+          <span class="telemetry"><span class="telemetry-dot"></span> SECTOR INTEL // ${item.cat.toUpperCase()}</span>
+          <h2 style="color:#fff; font-family:'Cinzel', serif; font-size:1.8rem; margin:8px 0 12px 0;">${item.title}</h2>
+          <div style="font-size:0.85rem; color:#f59e0b; margin-bottom:16px; font-family:'JetBrains Mono', monospace;">📍 ${item.loc} &bull; 🎟️ Fee: ${item.fee} &bull; ⏱️ Hours: ${item.hours}</div>
+          <p style="font-size:0.92rem; color:#94a3b8; line-height:1.6; margin-bottom:20px;">${item.desc}</p>
 
-        <div style="background:rgba(0,0,0,0.6); border-left:3px solid var(--accent-emerald); padding:14px; border-radius:6px; margin-bottom:24px;">
-          <strong style="color:var(--accent-emerald); font-family:'JetBrains Mono'; font-size:0.75rem;">💡 CLASSIFIED GEOLOGICAL / HISTORICAL INTEL:</strong>
-          <p style="color:#fff; font-size:0.88rem; margin-top:4px;">${item.intel}</p>
-        </div>
+          <div style="background:rgba(0,0,0,0.5); border-left:3px solid #10b981; padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid rgba(255,255,255,0.04);">
+            <strong style="color:#10b981; font-family:'JetBrains Mono', monospace; font-size:0.75rem; display:block; margin-bottom:6px;">💡 CLASSIFIED GEOLOGICAL / HISTORICAL INTEL:</strong>
+            <p style="color:#f8fafc; font-size:0.88rem; line-height:1.5;">${item.intel}</p>
+          </div>
 
-        <div style="display:flex; gap:12px;">
-          <a href="https://maps.google.com/?q=${encodeURIComponent(item.title + ' ' + item.loc)}" target="_blank" class="btn btn-emerald" style="flex:1;">
-            📍 OPEN GOOGLE MAPS GPS
-          </a>
-          <button class="btn btn-outline" onclick="toggleSaveSpot('${item.title}'); closePlaceModal();">Save to Vault</button>
+          <div class="card-actions">
+            <a href="https://maps.google.com/?q=${encodeURIComponent(item.title + ' ' + item.loc)}" target="_blank" class="btn-card-intel" style="text-decoration:none; display:inline-block;">
+              📍 OPEN GOOGLE MAPS GPS
+            </a>
+            <button class="btn-bookmark" onclick="toggleSaveSpot('${item.title}'); closePlaceModal();">Bookmark</button>
+          </div>
         </div>
       `;
 
+      modal.classList.add("open");
       modal.classList.add("active");
+    }
+
+    function closePlaceModal(e) {
+      if (e) e.stopPropagation();
+      const modal = document.getElementById("place-intel-modal");
+      modal.classList.remove("open");
+      modal.classList.remove("active");
     }
 
     function closePlaceModal(e) {

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ARVORA | Pan-Bharat Spatial Travel & Cultural Codex</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -792,6 +793,52 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+    /* ====================================================================
+       PAGE NAVIGATION & GATEWAY ROUTING ENGINE
+    ==================================================================== */
+    window.enterDashboard = function() {
+      const mainPage = document.getElementById("main-page");
+      const featuresPage = document.getElementById("features-page") || document.getElementById("dashboard-page");
+      
+      if (mainPage) {
+        mainPage.classList.add("page-exit");
+        setTimeout(() => {
+          mainPage.style.display = "none";
+        }, 450);
+      }
+      
+      if (featuresPage) {
+        featuresPage.style.display = "block";
+        void featuresPage.offsetWidth; // trigger reflow
+        featuresPage.classList.add("active");
+      }
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.enterFeatures = window.enterDashboard;
+    window.openFeaturesPage = window.enterDashboard;
+
+    window.returnToGateway = function() {
+      const mainPage = document.getElementById("main-page");
+      const featuresPage = document.getElementById("features-page") || document.getElementById("dashboard-page");
+      
+      if (featuresPage) {
+        featuresPage.classList.remove("active");
+        setTimeout(() => {
+          featuresPage.style.display = "none";
+        }, 450);
+      }
+      
+      if (mainPage) {
+        mainPage.style.display = "flex";
+        void mainPage.offsetWidth;
+        mainPage.classList.remove("page-exit");
+      }
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     /* ====================================================================
        EXPLORE PLACES & HERITAGE COORDINATES REPOSITORY
        Includes 10 verified landmarks per category with real telemetry

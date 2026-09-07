@@ -1051,6 +1051,164 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+    /* ====================================================================
+       STEP 4: FEATURE CARDS PROMISE.ALLSETTLED CONCURRENT ORCHESTRATOR
+       - Panel 1: Spatial / Coordinates Telemetry
+       - Panel 2: Environmental / Weather Metrics (Open-Meteo 100% Keyless)
+       - Panel 3: Local Intelligence / Summary (Wikipedia Geosearch REST API)
+    ==================================================================== */
+    async function updateFeaturePanelsConcurrently(lat, lon, displayName, locationData) {
+      if (typeof isValidLatLng === "function" && !isValidLatLng(lat, lon)) {
+        console.warn(`[Arvora Cards Guard] Suppressed card updates for invalid coordinates: (${lat}, ${lon})`);
+        return;
+      }
+
+      const results = await Promise.allSettled([
+        updatePanel1_SpatialTelemetry(lat, lon, displayName, locationData),
+        updatePanel2_OpenMeteoWeather(lat, lon),
+        updatePanel3_WikiLocalIntelligence(lat, lon, displayName)
+      ]);
+
+      console.log("[Arvora Promise.allSettled] Feature Cards updated concurrently:", results);
+    }
+
+    // Panel 1: Spatial Telemetry
+    async function updatePanel1_SpatialTelemetry(lat, lon, displayName, locationData) {
+      const latStr = lat >= 0 ? `${lat.toFixed(4)}° N` : `${Math.abs(lat).toFixed(4)}° S`;
+      const lonStr = lon >= 0 ? `${lon.toFixed(4)}° E` : `${Math.abs(lon).toFixed(4)}° W`;
+      const name = (locationData && locationData.name) ? locationData.name : (displayName ? displayName.split(',')[0].trim() : "Target Location");
+
+      const coordEls = document.querySelectorAll("#feature-coordinates, .telemetry-coords, #overview-coords-telemetry, [data-coord]");
+      coordEls.forEach(el => { el.textContent = `📍 ${latStr}, ${lonStr}`; });
+
+      const titleEl = document.getElementById("overview-title");
+      if (titleEl) titleEl.innerText = `${name.toUpperCase()} SPATIAL NODE`;
+
+      const badgeEl = document.getElementById("overview-region-badge");
+      if (badgeEl) badgeEl.innerText = (locationData && locationData.categoryType) ? locationData.categoryType : "CITY / ADMINISTRATIVE";
+
+      const descEl = document.getElementById("overview-description");
+      if (descEl) {
+        descEl.innerText = (locationData && locationData.osmDisplayName) ? locationData.osmDisplayName : (displayName || `Autonomous spatial intelligence dossier for ${name}.`);
+      }
+
+      const bboxEl = document.getElementById("overview-bbox-telemetry");
+      if (bboxEl && locationData && locationData.boundingBox) {
+        const b = locationData.boundingBox;
+        bboxEl.innerHTML = `<span style="color:#64748b;">BBOX BOUNDS:</span> [${parseFloat(b[0]).toFixed(4)}, ${parseFloat(b[1]).toFixed(4)}, ${parseFloat(b[2]).toFixed(4)}, ${parseFloat(b[3]).toFixed(4)}]`;
+      }
+
+      if (typeof getThematicFallbackPhoto === "function") {
+        const gallery = document.getElementById("location-photo-gallery");
+        if (gallery) {
+          const categoryPool = ["nature", "historical", "spiritual", "craft"];
+          const galleryPhotos = categoryPool.map((cat, idx) => getThematicFallbackPhoto(cat, idx));
+          gallery.innerHTML = galleryPhotos.map((url, i) => `
+            <img src="${url}" alt="Gallery ${i+1}" class="gallery-img-thumb" style="width:100%; height:55px; object-fit:cover; border-radius:6px; cursor:pointer;" onclick="openGalleryLightbox('${url}', '${name}')" onerror="this.onerror=null; this.src=getThematicFallbackPhoto('nature', ${i});" />
+          `).join("");
+        }
+      }
+
+      return true;
+    }
+
+    // Panel 2: Environmental & Weather Metrics via Open-Meteo (100% Keyless)
+    async function updatePanel2_OpenMeteoWeather(lat, lon) {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
+      
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Open-Meteo HTTP status ${res.status}`);
+        const data = await res.json();
+        const current = data.current || {};
+
+        const temp = Math.round(current.temperature_2m !== undefined ? current.temperature_2m : 24);
+        const wind = Math.round(current.wind_speed_10m !== undefined ? current.wind_speed_10m : 12);
+        const humidity = Math.round(current.relative_humidity_2m !== undefined ? current.relative_humidity_2m : 58);
+        const code = current.weather_code !== undefined ? current.weather_code : 0;
+
+        const weatherInfo = (typeof WEATHER_CODE_MAP !== "undefined" && WEATHER_CODE_MAP[code]) ? WEATHER_CODE_MAP[code] : { icon: "🌤️", desc: "Partly Cloudy & Pleasant" };
+
+        const tempEls = document.querySelectorAll("#live-temp-display, .env-temp, #feature-weather-temp");
+        tempEls.forEach(el => { el.innerText = `${temp}°C`; });
+
+        const windEls = document.querySelectorAll("#amenity-wind, .env-wind, #feature-weather-wind");
+        windEls.forEach(el => { el.innerText = `${wind} km/h`; });
+
+        const humEls = document.querySelectorAll("#amenity-humidity, .env-humidity, #feature-weather-humidity");
+        humEls.forEach(el => { el.innerText = `${humidity}%`; });
+
+        const descEl = document.getElementById("live-weather-desc");
+        if (descEl) descEl.innerText = weatherInfo.desc;
+
+        const iconEl = document.getElementById("weather-icon-display");
+        if (iconEl) iconEl.innerText = weatherInfo.icon;
+
+        return true;
+      } catch(err) {
+        console.warn("Open-Meteo weather fetch warning:", err);
+        return false;
+      }
+    }
+
+    // Panel 3: Local Intelligence via Wikipedia Geosearch & REST API
+    async function updatePanel3_WikiLocalIntelligence(lat, lon, displayName) {
+      const geosearchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=10000&gslimit=1&format=json&origin=*`;
+      
+      const titleEl = document.getElementById("wiki-poi-title");
+      const extractEl = document.getElementById("wiki-poi-extract") || document.getElementById("feature-summary-text");
+      const badgeEl = document.getElementById("poi-count-badge");
+
+      try {
+        const geoRes = await fetch(geosearchUrl);
+        if (!geoRes.ok) throw new Error(`Wiki Geosearch status ${geoRes.status}`);
+        const geoData = await geoRes.json();
+
+        let pageTitle = null;
+        if (geoData.query && geoData.query.geosearch && geoData.query.geosearch.length > 0) {
+          pageTitle = geoData.query.geosearch[0].title;
+        }
+
+        if (pageTitle) {
+          const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
+          const sumRes = await fetch(summaryUrl);
+          if (sumRes.ok) {
+            const wiki = await sumRes.json();
+            if (titleEl) titleEl.innerText = wiki.title || pageTitle;
+            
+            let extract = wiki.extract ? (wiki.extract.length > 180 ? wiki.extract.slice(0, 180) + "..." : wiki.extract) : "Wikipedia spatial node located within 10km radius.";
+            if (extractEl) extractEl.innerText = extract;
+            if (badgeEl) badgeEl.innerText = "WIKIPEDIA GEOSEARCH";
+
+            if (wiki.thumbnail && wiki.thumbnail.source) {
+              const wikiContainer = document.getElementById("wiki-poi-content");
+              if (wikiContainer && !document.getElementById("wiki-poi-thumb")) {
+                const thumbImg = document.createElement("img");
+                thumbImg.id = "wiki-poi-thumb";
+                thumbImg.src = wiki.thumbnail.source;
+                thumbImg.alt = wiki.title || pageTitle;
+                thumbImg.style.cssText = "width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.08);";
+                wikiContainer.appendChild(thumbImg);
+              } else if (document.getElementById("wiki-poi-thumb")) {
+                document.getElementById("wiki-poi-thumb").src = wiki.thumbnail.source;
+              }
+            }
+            return true;
+          }
+        }
+      } catch(err) {
+        console.warn("Wikipedia Geosearch fetch warning:", err);
+      }
+
+      const placeName = displayName ? displayName.split(',')[0].trim() : "TARGET NODE";
+      if (titleEl) titleEl.innerText = placeName.toUpperCase();
+      if (extractEl) extractEl.innerText = `Verified spatial reconnaissance node at ${placeName}. Primary regional heritage coordinates active.`;
+      if (badgeEl) badgeEl.innerText = "OSM SPATIAL NODE";
+      return false;
+    }
+
+    window.updateFeaturePanelsConcurrently = updateFeaturePanelsConcurrently;
+
     // Strict LatLng & Zoom Validation Guards
     function isValidLatLng(lat, lng) {
       const nLat = Number(lat);
@@ -1505,13 +1663,16 @@
       }
     });
 
-    // Subscribe Feature Cards (Telemetry, Atmosphere, Wiki)
+        // Subscribe Feature Cards (Telemetry, Atmosphere, Wiki)
     ArvoraState.subscribe((state) => {
-      const coordEl = document.querySelector('#feature-coordinates, .telemetry-coords, [data-coord]');
-      if (coordEl && state.lat && state.lon) {
-        const latStr = state.lat >= 0 ? `${state.lat.toFixed(4)}° N` : `${Math.abs(state.lat).toFixed(4)}° S`;
-        const lonStr = state.lon >= 0 ? `${state.lon.toFixed(4)}° E` : `${Math.abs(state.lon).toFixed(4)}° W`;
-        coordEl.textContent = `📍 ${latStr}, ${lonStr}`;
+      const rawLat = state.lat ?? (state.currentLocation && state.currentLocation.coordinates ? state.currentLocation.coordinates.lat : null);
+      const rawLon = state.lon ?? state.lng ?? (state.currentLocation && state.currentLocation.coordinates ? (state.currentLocation.coordinates.lng ?? state.currentLocation.coordinates.lon) : null);
+      const nLat = Number(rawLat);
+      const nLon = Number(rawLon);
+      const displayName = state.displayName || (state.currentLocation ? state.currentLocation.osmDisplayName || state.currentLocation.name : "");
+
+      if (isValidLatLng(nLat, nLon)) {
+        updateFeaturePanelsConcurrently(nLat, nLon, displayName, state.currentLocation);
       }
     });
 

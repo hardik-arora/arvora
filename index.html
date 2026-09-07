@@ -996,6 +996,8 @@
     }
 
     function loadLocation(cityKey) {
+      currentCityKey = cityKey.toLowerCase();
+      renderPlaces(currentCategoryFilter || 'all');
       // 1. Update Active HUD Chip
       document.querySelectorAll(".hud-chip").forEach(chip => {
         if (chip.innerText.trim().toLowerCase() === cityKey.toLowerCase()) {
@@ -1871,18 +1873,33 @@
       }
     ];
 
+    
     /* ====================================================================
-       RENDER & FILTER ENGINE
+       CITY-MATCHED HERITAGE REGISTRY DYNAMIC ENGINE
     ==================================================================== */
+    let currentCityKey = "delhi";
+    let currentCategoryFilter = "all";
+
+    function getCurrentCityPlaces() {
+      const key = currentCityKey.toLowerCase();
+      if (typeof CITY_HERITAGE_REGISTRY !== "undefined" && CITY_HERITAGE_REGISTRY[key]) {
+        return CITY_HERITAGE_REGISTRY[key];
+      }
+      return HERITAGE_COORDINATES_DB;
+    }
+
     function renderPlaces(filterCategory = "all") {
+      currentCategoryFilter = filterCategory;
       const container = document.getElementById("places-grid");
       if (!container) return;
 
+      const dataset = getCurrentCityPlaces();
       const filtered = filterCategory === "all" 
-        ? HERITAGE_COORDINATES_DB 
-        : HERITAGE_COORDINATES_DB.filter(p => p.category === filterCategory);
+        ? dataset 
+        : dataset.filter(p => p.category === filterCategory);
 
-      document.getElementById("places-counter").innerText = `${filtered.length} SIGHTS DISPLAYED`;
+      const counter = document.getElementById("places-counter");
+      if (counter) counter.innerText = `${filtered.length} VERIFIED SIGHTS DISPLAYED`;
 
       container.innerHTML = filtered.map(place => `
         <article class="place-card">
@@ -1919,15 +1936,16 @@
 
     function filterPlaces(cat, btnElement) {
       document.querySelectorAll(".places-category-bar .filter-pill").forEach(b => b.classList.remove("active"));
-      btnElement.classList.add("active");
+      if (btnElement) btnElement.classList.add("active");
       renderPlaces(cat);
     }
 
-    /* ====================================================================
-       MODAL DEEP-INTEL DRAWER
-    ==================================================================== */
     function openPlaceModal(placeId) {
-      const item = HERITAGE_COORDINATES_DB.find(p => p.id === placeId);
+      const dataset = getCurrentCityPlaces();
+      let item = dataset.find(p => p.id === placeId);
+      if (!item) {
+        item = HERITAGE_COORDINATES_DB.find(p => p.id === placeId);
+      }
       if (!item) return;
 
       const modal = document.getElementById("place-intel-modal");

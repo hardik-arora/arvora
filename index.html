@@ -1647,168 +1647,96 @@
     }
 
     // 3. Render Function to inject full magazine dossier + both modules into the DOM
+    function selectDestination(destName) {
+      renderDestination(destName);
+    }
+
     function renderDestination(destinationName) {
       const data = getDestinationData(destinationName);
       const media = DESTINATION_MEDIA[destinationName] || DESTINATION_MEDIA[destinationName.split(" ")[0].toLowerCase()] || {
         bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80"
       };
 
-      // Fix background photo immediately
-      const toolBackgroundImage = document.getElementById('tool-image-background');
-      if (toolBackgroundImage) {
-        toolBackgroundImage.style.backgroundImage = `url('${media.bg}')`;
-        toolBackgroundImage.style.opacity = "0.85";
-      }
+      const cityUpper = destinationName.split(" ")[0].toUpperCase();
 
       const dossierOutput = document.getElementById('dossier-output');
       if (dossierOutput) {
         dossierOutput.innerHTML = `
-          <!-- Top Editorial Hero Banner -->
-          <div class="dossier-hero-banner">
-            <div class="hero-banner-kicker">✦ SPATIAL INTELLIGENCE & CULTURAL CODEX</div>
-            <h2 class="hero-banner-title">${destinationName}</h2>
-            <p class="hero-banner-desc">${data.livingCulture || data.essence || "Living heritage, sacred landscapes, and generational craft guilds."}</p>
-            <div class="hero-banner-highlight">
-              <span class="highlight-pill">ESSENCE</span>
-              <span>${data.bestKnownFor}</span>
+          <!-- Sparkling Real Stone Portal Frame -->
+          <div class="portal-hero" style="background-image: url('${media.bg}');">
+            <div class="portal-overlay"></div>
+            <div style="text-align: center; z-index: 2;">
+              <span class="tech-label" style="letter-spacing: 0.3em; margin-bottom: 12px; display: inline-block;">Autonomous Spatial Heritage Codex</span>
+              <h1 class="portal-title-engraved">ARVORA</h1>
+              <p style="color: var(--text-muted); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; margin-top: 8px;" id="telemetry-badge">LOC // ${cityUpper}_GRID_04</p>
             </div>
           </div>
 
-          <!-- SHOWCASE CARDS GRID (TOP SIGHTS, CUISINE, EATERIES, CRAFTS, BAZAARS, FESTIVALS) -->
-          <div class="dossier-cards-grid" style="margin-bottom: 24px;">
-            ${data.topSights ? `
-              <div class="story-card">
+          <!-- Glassmorphism Panel Container -->
+          <div class="glass-panel" style="padding: 24px; margin-bottom: 32px;">
+            <!-- Minimalist Tab Nav -->
+            <div class="tab-scroller">
+              <button class="tab-btn ${destinationName.includes('Jaipur') ? 'active' : ''}" onclick="selectDestination('Jaipur (Rajasthan)')">01 // JAIPUR</button>
+              <button class="tab-btn ${destinationName.includes('Varanasi') ? 'active' : ''}" onclick="selectDestination('Varanasi (UP)')">02 // VARANASI</button>
+              <button class="tab-btn ${destinationName.includes('Kerala') ? 'active' : ''}" onclick="selectDestination('Kerala (Backwaters)')">03 // KERALA</button>
+              <button class="tab-btn ${destinationName.includes('Amritsar') ? 'active' : ''}" onclick="selectDestination('Amritsar (Punjab)')">04 // AMRITSAR</button>
+              <button class="tab-btn ${destinationName.includes('Goa') ? 'active' : ''}" onclick="selectDestination('Goa (Coastal)')">05 // GOA</button>
+              <button class="tab-btn ${destinationName.includes('Kashmir') ? 'active' : ''}" onclick="selectDestination('Kashmir (Valley)')">06 // KASHMIR</button>
+              <button class="tab-btn ${destinationName.includes('Hampi') ? 'active' : ''}" onclick="selectDestination('Hampi (Karnataka)')">07 // HAMPI</button>
+              <button class="tab-btn ${destinationName.includes('Ladakh') ? 'active' : ''}" onclick="selectDestination('Ladakh (Highland)')">08 // LADAKH</button>
+            </div>
+
+            <!-- Dynamic Destination Dossier -->
+            <div style="margin-top: 28px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border-subtle); padding-bottom: 16px;">
                 <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">🏛️ TOP SIGHTS & MONUMENTS</span>
-                    <span class="card-stat-badge">HERITAGE NODES</span>
-                  </div>
-                  <h4 class="card-headline">Sacred Shrines & Historic Architecture</h4>
-                  <ul class="card-body-items">
-                    ${data.topSights.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
+                  <span class="tech-label">Spatial Intelligence & Living Codex</span>
+                  <h2 id="dossier-title" style="font-size: 1.6rem; font-weight: 600; margin: 6px 0 0 0; color: #fff;">${destinationName.toUpperCase()}: CULTURAL INTELLIGENCE & UNTOLD STORIES</h2>
+                </div>
+                <span class="tech-label" id="dossier-tag">TELEMETRY: VERIFIED</span>
+              </div>
+
+              <!-- Section 1: Signature Cultural Inquiries (6 Bento Cards) -->
+              <div style="margin-top: 36px;">
+                <span class="tech-label">01 // SIGNATURE CULTURAL INQUIRIES</span>
+                <h3 style="font-size: 1.15rem; color: #fff; margin: 4px 0 16px 0;">Cultural Decryption & Living Context</h3>
+                <div id="inquiries-container" class="bento-grid-6">
+                  ${data.inquiries.map(item => `
+                    <div class="bento-card">
+                      <div>
+                        <div class="tech-label" style="margin-bottom: 10px;">✦ ${item.lens}</div>
+                        <h4 style="color: #ffffff; font-size: 15px; font-weight: 600; line-height: 1.4; margin: 0 0 10px 0;">${item.q}</h4>
+                        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; margin: 0;">${item.a}</p>
+                      </div>
+                    </div>
+                  `).join("")}
                 </div>
               </div>
-            ` : ''}
 
-            ${data.signatureFoods ? `
-              <div class="story-card">
-                <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">🍲 SIGNATURE CUISINE</span>
-                    <span class="card-stat-badge">HEIRLOOM FLAVORS</span>
-                  </div>
-                  <h4 class="card-headline">Authentic Local Delicacies</h4>
-                  <ul class="card-body-items">
-                    ${data.signatureFoods.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
+              <!-- Section 2: Living Cultural DNA & Untold Facts (4 Bento Pillars) -->
+              <div style="margin-top: 48px;">
+                <span class="tech-label">02 // LIVING CULTURAL DNA & UNTOLD FACTS</span>
+                <h3 style="font-size: 1.15rem; color: #fff; margin: 4px 0 16px 0;">Architectural Physics & Generational Guilds</h3>
+                <div id="dna-container" class="bento-grid-4">
+                  ${data.pillars.map(pillar => `
+                    <div class="bento-card">
+                      <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                          <span class="tech-label">${pillar.badge}</span>
+                          <span style="font-size: 10px; font-weight: 700; color: #f59e0b; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); padding: 2px 8px; border-radius: 20px;">${pillar.tag}</span>
+                        </div>
+                        <h3 style="color: #f8fafc; font-size: 18px; font-weight: 600; margin: 0 0 6px 0;">${pillar.title}</h3>
+                        <p style="color: #cbd5e1; font-style: italic; font-size: 13px; margin: 0 0 14px 0; line-height: 1.4;">${pillar.tagline}</p>
+                        <p style="color: var(--text-muted); font-size: 13.5px; line-height: 1.6; margin: 0 0 18px 0;">${pillar.body}</p>
+                      </div>
+                      <div style="background: rgba(2, 6, 23, 0.6); border-left: 3px solid #eab308; padding: 10px 12px; border-radius: 4px; font-size: 12px; color: #e2e8f0; line-height: 1.5;">
+                        <strong>💡 INSIDER SECRET:</strong> ${pillar.secret}
+                      </div>
+                    </div>
+                  `).join("")}
                 </div>
               </div>
-            ` : ''}
-
-            ${data.famousEateries ? `
-              <div class="story-card">
-                <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">🍴 FAMOUS FOOD SHOPS</span>
-                    <span class="card-stat-badge">CENTURY-OLD HALWAIS</span>
-                  </div>
-                  <h4 class="card-headline">Iconic Culinary Institutions</h4>
-                  <ul class="card-body-items">
-                    ${data.famousEateries.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
-                </div>
-              </div>
-            ` : ''}
-
-            ${data.iconicCrafts ? `
-              <div class="story-card">
-                <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">🏺 ICONIC CRAFTS & ARTEFACTS</span>
-                    <span class="card-stat-badge">GI TAGGED GUILDS</span>
-                  </div>
-                  <h4 class="card-headline">Generational Master Artistry</h4>
-                  <ul class="card-body-items">
-                    ${data.iconicCrafts.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
-                </div>
-              </div>
-            ` : ''}
-
-            ${data.famousBazaars ? `
-              <div class="story-card">
-                <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">🛍️ FAMOUS BAZAARS & LANES</span>
-                    <span class="card-stat-badge">MERCHANT ARCADES</span>
-                  </div>
-                  <h4 class="card-headline">Historic Markets & Trade Lanes</h4>
-                  <ul class="card-body-items">
-                    ${data.famousBazaars.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
-                </div>
-              </div>
-            ` : ''}
-
-            ${data.uniqueFestivals ? `
-              <div class="story-card">
-                <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">🎪 LIVING CULTURE & FESTIVALS</span>
-                    <span class="card-stat-badge">PAGEANTRY</span>
-                  </div>
-                  <h4 class="card-headline">Sacred Rituals & Celebrations</h4>
-                  <ul class="card-body-items">
-                    ${data.uniqueFestivals.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
-                </div>
-              </div>
-            ` : ''}
-          </div>
-
-          <!-- MODULE 1: 6 SIGNATURE CULTURAL INQUIRIES -->
-          <div class="module-header">
-            <span class="module-tag">SIGNATURE CULTURAL INQUIRIES</span>
-            <h3 class="module-heading">DON'T JUST VISIT ${destinationName.toUpperCase()}. UNDERSTAND IT.</h3>
-            <p class="module-subheading">6 critical cultural lenses unlocking why this destination exists, how locals live, what tourists miss, and who keeps heritage alive.</p>
-          </div>
-
-          <div class="inquiry-grid" id="inquiries-cards">
-            ${data.inquiries.map(item => `
-              <div class="inquiry-card">
-                <div class="inquiry-lens-tag">✦ ${item.lens}</div>
-                <h4 class="inquiry-question">${item.q}</h4>
-                <p class="inquiry-body">${item.a}</p>
-              </div>
-            `).join("")}
-          </div>
-
-          <!-- MODULE 2: 4 LIVING CULTURAL DNA PILLARS -->
-          <div class="module-header">
-            <span class="module-tag">LIVING CULTURAL DNA & UNTOLD FACTS</span>
-            <h3 class="module-heading">${destinationName.toUpperCase()}: Untold Stories & Architectural Secrets</h3>
-            <p class="module-subheading">Beyond monument tickets: how physics, generational guilds, royal decrees, and sacred traditions shaped this historic destination.</p>
-          </div>
-
-          <div class="dna-pillars-grid" id="dna-cards">
-            ${data.pillars.map(pillar => `
-              <div class="story-card">
-                <div>
-                  <div class="card-top-meta">
-                    <span class="card-category-tag">${pillar.badge}</span>
-                    <span class="card-stat-badge">${pillar.tag}</span>
-                  </div>
-                  <h4 class="card-headline">${pillar.title}</h4>
-                  <p class="card-subtext"><em>${pillar.tagline}</em></p>
-                  <p class="card-body-items" style="font-size:12.5px; line-height:1.6; color:#d6e2d7; margin-bottom:16px;">${pillar.body}</p>
-                </div>
-                <div class="insider-secret-box">
-                  <div class="insider-secret-label">💡 INSIDER SECRET</div>
-                  <div class="insider-secret-text">${pillar.secret}</div>
-                </div>
-              </div>
-            `).join("")}
+            </div>
           </div>
         `;
       }

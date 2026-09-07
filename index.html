@@ -1070,23 +1070,28 @@
     const showcaseSearchInput = document.getElementById('showcase-search-input');
     const toolBackgroundImage = document.getElementById('tool-image-background');
 
-    function renderDossier(locationKey) {
-      const cleanKey = locationKey.toLowerCase().trim();
-      const data = destinationDossiers[cleanKey] || generateDynamicDossier(locationKey);
+    function normalizeQuery(str) {
+      if (!str) return '';
+      return str.toString().toLowerCase().trim().split(/[\s,()]+/)[0];
+    }
+
+    function renderDossier(rawKey) {
+      const cleanKey = normalizeQuery(rawKey);
+      const data = destinationDossiers[cleanKey] || generateDynamicDossier(rawKey);
 
       const targetBg = data.imageUrl || fallbackImage;
 
-      // Preload image asynchronously to ensure 100% smooth load without any 404 console errors
-      const imgPreloader = new Image();
-      imgPreloader.onload = () => {
+      // Safe image preloading with fallback
+      const img = new Image();
+      img.onload = () => {
         toolBackgroundImage.style.backgroundImage = `url("${targetBg}")`;
-        toolBackgroundImage.style.opacity = "0.88";
+        toolBackgroundImage.style.opacity = "0.85";
       };
-      imgPreloader.onerror = () => {
+      img.onerror = () => {
         toolBackgroundImage.style.backgroundImage = `url("${fallbackImage}")`;
-        toolBackgroundImage.style.opacity = "0.88";
+        toolBackgroundImage.style.opacity = "0.85";
       };
-      imgPreloader.src = targetBg;
+      img.src = targetBg;
 
       dossierOutput.innerHTML = `
         <!-- Top Editorial Hero Banner -->

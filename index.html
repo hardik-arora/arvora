@@ -1125,7 +1125,7 @@
     // Fast, verified Wikipedia Taj Mahal CDN fallback
     const fallbackImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Taj_Mahal%2C_Agra%2C_India_edit3.jpg/1280px-Taj_Mahal%2C_Agra%2C_India_edit3.jpg";
 
-        function generateDynamicDossier(placeName) {
+        function generateDynamicDossier(placeName = 'Jaipur') {
       const p = placeName.charAt(0).toUpperCase() + placeName.slice(1);
       const pUpper = p.toUpperCase();
       return {
@@ -1159,85 +1159,7 @@
       };
     }
 
-    function renderDossier(rawKey) {
-      const cleanKey = normalizeQuery(rawKey);
-      const data = destinationDossiers[cleanKey] || generateDynamicDossier(rawKey);
-      const inqData = data.signature_cultural_inquiries || {};
-      const dnaData = data.living_cultural_dna || {};
 
-      const targetBg = data.imageUrl || fallbackImage;
-
-      // Safe image preloading with fallback
-      const img = new Image();
-      img.onload = () => {
-        toolBackgroundImage.style.backgroundImage = `url("${targetBg}")`;
-        toolBackgroundImage.style.opacity = "0.85";
-      };
-      img.onerror = () => {
-        toolBackgroundImage.style.backgroundImage = `url("${fallbackImage}")`;
-        toolBackgroundImage.style.opacity = "0.85";
-      };
-      img.src = targetBg;
-
-      dossierOutput.innerHTML = `
-        <!-- Top Editorial Hero Banner -->
-        <div class="dossier-hero-banner">
-          <div class="hero-banner-kicker">✦ SPATIAL INTELLIGENCE & CULTURAL CODEX</div>
-          <h2 class="hero-banner-title">${data.name}</h2>
-          <p class="hero-banner-desc">${data.essence}</p>
-          <div class="hero-banner-highlight">
-            <span class="highlight-pill">ESSENCE</span>
-            <span>${data.bestKnownFor}</span>
-          </div>
-        </div>
-
-        <!-- MODULE 1: SIGNATURE CULTURAL INQUIRIES -->
-        <div class="module-header">
-          <span class="module-tag">SIGNATURE CULTURAL INQUIRIES</span>
-          <h3 class="module-heading">${inqData.title || "SIGNATURE CULTURAL INQUIRIES"}</h3>
-          <p class="module-subheading">${inqData.subtitle || ""}</p>
-        </div>
-
-        <div class="inquiry-grid">
-          ${(inqData.items || []).map(inq => `
-            <div class="inquiry-card">
-              <div class="inquiry-lens-tag">✦ ${inq.lens}</div>
-              <h4 class="inquiry-question">${inq.question}</h4>
-              <p class="inquiry-body">${inq.answer || inq.body}</p>
-            </div>
-          `).join('')}
-        </div>
-
-        <!-- MODULE 2: LIVING CULTURAL DNA & UNTOLD FACTS -->
-        <div class="module-header">
-          <span class="module-tag">LIVING CULTURAL DNA & UNTOLD FACTS</span>
-          <h3 class="module-heading">${dnaData.title || "LIVING CULTURAL DNA & UNTOLD FACTS"}</h3>
-          <p class="module-subheading">${dnaData.subtitle || ""}</p>
-        </div>
-
-        <div class="dna-pillars-grid">
-          ${(dnaData.pillars || []).map(card => `
-            <div class="story-card">
-              <div>
-                <div class="card-top-meta">
-                  <span class="card-category-tag">${card.category_badge || card.category}</span>
-                  <span class="card-stat-badge">${card.highlight_tag || card.badge}</span>
-                </div>
-                <h4 class="card-headline">${card.title}</h4>
-                <p class="card-subtext"><em>${card.sub_tagline || card.subtext}</em></p>
-                <p class="card-body-items" style="font-size:12.5px; line-height:1.6; color:#d6e2d7; margin-bottom:16px;">${card.description || card.body}</p>
-              </div>
-
-              <!-- Insider Secret Footer -->
-              <div class="insider-secret-box">
-                <div class="insider-secret-label">💡 INSIDER SECRET</div>
-                <div class="insider-secret-text">${card.insider_secret || card.secret}</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
 
     // =========================================================================
     // 2. RENDER EDITORIAL DOSSIERS & ASYNC PRELOADER
@@ -1251,7 +1173,7 @@
       return str.toString().toLowerCase().trim().split(/[\s,()]+/)[0];
     }
 
-    function renderDossier(rawKey) {
+    function renderDossier(rawKey = 'Jaipur') {
       const cleanKey = normalizeQuery(rawKey);
       const data = destinationDossiers[cleanKey] || generateDynamicDossier(rawKey);
       const destUpper = (data.stateName || rawKey).toUpperCase();

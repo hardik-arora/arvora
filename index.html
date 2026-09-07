@@ -1051,6 +1051,192 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+    /* ====================================================================
+       1. GLOBAL STATE DEFINITION (ATTACHED TO WINDOW AT TOP OF SCRIPT)
+       ==================================================================== */
+    window.ArvoraState = window.ArvoraState || {
+      query: 'Delhi',
+      lat: 28.6139,
+      lon: 77.2090,
+      displayName: 'Delhi, National Capital Territory, India',
+      mapInstance: null,
+      activeMarker: null,
+      subscribers: [],
+      currentLocation: {
+        placeId: "delhi",
+        name: "Delhi",
+        region: "National Capital Territory",
+        coordinates: { lat: 28.6139, lng: 77.2090 },
+        coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+        boundingBox: null,
+        placeDetails: null
+      },
+
+      subscribe(fn) {
+        if (typeof fn === 'function') {
+          this.subscribers.push(fn);
+          try { fn(this); } catch(e) { console.error(e); }
+        }
+        return () => {
+          this.subscribers = this.subscribers.filter(s => s !== fn);
+        };
+      },
+
+      notify() {
+        this.subscribers.forEach(cb => {
+          try { cb(this); } catch(e) { console.error(e); }
+        });
+      },
+
+      setLocation(lat, lon, displayName) {
+        const nLat = parseFloat(lat);
+        const nLon = parseFloat(lon ?? arguments[1]);
+        if (typeof isValidLatLng === "function" && !isValidLatLng(nLat, nLon)) {
+          console.warn(`[Arvora State Guard] Suppressed setLocation with invalid coordinates: (${lat}, ${lon})`);
+          return;
+        }
+        this.lat = nLat;
+        this.lon = nLon;
+        this.displayName = displayName || '';
+        this.currentLocation = {
+          ...this.currentLocation,
+          name: displayName ? displayName.split(',')[0].trim() : this.currentLocation.name,
+          coordinates: { lat: this.lat, lng: this.lon },
+          coordsFormatted: `LAT ${this.lat >= 0 ? this.lat.toFixed(4) + '° N' : Math.abs(this.lat).toFixed(4) + '° S'} // LON ${this.lon >= 0 ? this.lon.toFixed(4) + '° E' : Math.abs(this.lon).toFixed(4) + '° W'}`,
+          osmDisplayName: displayName
+        };
+        this.syncURL();
+        this.notify();
+      },
+
+      setPlace(locationData) {
+        if (!locationData) return;
+        this.currentLocation = { ...this.currentLocation, ...locationData };
+        if (locationData.coordinates) {
+          this.lat = locationData.coordinates.lat;
+          this.lon = locationData.coordinates.lng;
+        }
+        if (locationData.name) {
+          this.query = locationData.name;
+        }
+        if (locationData.osmDisplayName) {
+          this.displayName = locationData.osmDisplayName;
+        }
+        this.syncURL();
+        this.notify();
+      },
+
+      syncURL() {
+        if (window.history && window.history.replaceState) {
+          const url = new URL(window.location);
+          if (this.currentLocation && this.currentLocation.name) {
+            url.searchParams.set("q", this.currentLocation.name.toLowerCase());
+          }
+          if (this.lat && this.lon) {
+            url.searchParams.set("lat", this.lat);
+            url.searchParams.set("lng", this.lon);
+          }
+          window.history.replaceState({}, "", url);
+        }
+      },
+
+      initFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get("q") || params.get("place") || params.get("location");
+        if (query) {
+          this.selectPlace(query);
+        } else {
+          this.selectPlace("Delhi");
+        }
+      },
+
+      async selectPlace(queryOrName) {
+        if (!queryOrName) return;
+        const normalized = queryOrName.trim();
+        if (typeof showLoadingSkeletons === "function") showLoadingSkeletons();
+
+        let locationObj = null;
+
+        try {
+          const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalized)}&limit=1`;
+          const res = await fetch(nominatimUrl, { headers: { "Accept": "application/json" } });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.length > 0) {
+              const item = data[0];
+              const lat = parseFloat(item.lat);
+              const lng = parseFloat(item.lon ?? item.lng);
+              const bbox = item.boundingbox;
+
+              locationObj = {
+                placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
+                name: item.name || normalized,
+                region: item.display_name ? item.display_name.split(',').slice(1, 3).join(',').trim() : "Verified Spatial Node",
+                categoryType: `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase(),
+                coordinates: { lat, lng },
+                coordsFormatted: `LAT ${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'} // LON ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}`,
+                boundingBox: bbox ? [parseFloat(bbox[0]), parseFloat(bbox[1]), parseFloat(bbox[2]), parseFloat(bbox[3])] : null,
+                osmDisplayName: item.display_name,
+                placeDetails: null
+              };
+
+              if (bbox) {
+                locationObj.leafletBounds = [
+                  [parseFloat(bbox[0]), parseFloat(bbox[2])],
+                  [parseFloat(bbox[1]), parseFloat(bbox[3])]
+                ];
+              }
+            }
+          }
+        } catch(err) {
+          console.warn("Nominatim API fetch warning:", err);
+        }
+
+        if (!locationObj) {
+          const cityKey = normalized.toLowerCase();
+          if (typeof CITY_CODEX !== "undefined") {
+            const matchedKey = Object.keys(CITY_CODEX).find(k => k.toLowerCase() === cityKey);
+            if (matchedKey && CITY_CODEX[matchedKey]) {
+              const cData = CITY_CODEX[matchedKey];
+              const coordsMatch = cData.coords ? cData.coords.match(/LAT\s*([\d.]+).*?LON\s*([\d.]+)/i) : null;
+              const lat = coordsMatch ? parseFloat(coordsMatch[1]) : 28.6139;
+              const lng = coordsMatch ? parseFloat(coordsMatch[2]) : 77.2090;
+              locationObj = {
+                placeId: matchedKey.toLowerCase(),
+                name: matchedKey,
+                region: cData.tag || "VERIFIED REGION",
+                categoryType: "CITY / ADMINISTRATIVE",
+                coordinates: { lat, lng },
+                coordsFormatted: cData.coords,
+                boundingBox: null,
+                placeDetails: cData
+              };
+            }
+          }
+        }
+
+        if (!locationObj) {
+          locationObj = {
+            placeId: normalized.toLowerCase(),
+            name: normalized.charAt(0).toUpperCase() + normalized.slice(1),
+            region: "INDIAN SPATIAL NODE",
+            categoryType: "CITY / ADMINISTRATIVE",
+            coordinates: { lat: 28.6139, lng: 77.2090 },
+            coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
+            boundingBox: null,
+            placeDetails: null
+          };
+        }
+
+        this.setPlace(locationObj);
+        if (typeof hideLoadingSkeletons === "function") hideLoadingSkeletons();
+      }
+    };
+
+    // Safe global alias (no TDZ / circular dependency issues)
+    var ArvoraState = window.ArvoraState;
+
 
     // Strict LatLng Validation Helper Guard
     function isValidLatLng(lat, lng) {

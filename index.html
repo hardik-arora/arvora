@@ -1051,6 +1051,30 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+    // Strict LatLng & Zoom Validation Guards
+    function isValidLatLng(lat, lng) {
+      const nLat = Number(lat);
+      const nLng = Number(lng);
+      return typeof lat !== 'undefined' && typeof lng !== 'undefined' &&
+             !isNaN(nLat) && !isNaN(nLng) &&
+             Number.isFinite(nLat) && Number.isFinite(nLng) &&
+             nLat >= -90 && nLat <= 90 && nLng >= -180 && nLng <= 180;
+    }
+
+    function getValidZoom(zoom, mapInst) {
+      const nZoom = Number(zoom);
+      if (Number.isFinite(nZoom) && !isNaN(nZoom) && nZoom > 0 && nZoom <= 22) {
+        return Math.round(nZoom);
+      }
+      if (mapInst && typeof mapInst.getZoom === 'function') {
+        try {
+          const currentZoom = mapInst.getZoom();
+          if (Number.isFinite(currentZoom) && !isNaN(currentZoom)) return currentZoom;
+        } catch(e) {}
+      }
+      return 13;
+    }
+
     /* ====================================================================
        1. GLOBAL STATE DEFINITION (ATTACHED TO WINDOW AT TOP OF SCRIPT)
        ==================================================================== */
@@ -1441,7 +1465,7 @@
        2. FEATURE INTEGRATIONS & LISTENERS
        ========================================== */
 
-        // Subscribe Leaflet Map with Strict Safety Guards
+            // Subscribe Leaflet Map
     ArvoraState.subscribe((state) => {
       const mapInst = state.mapInstance || window.arvoraMap || window.map;
       const rawLat = state.lat ?? (state.currentLocation && state.currentLocation.coordinates ? state.currentLocation.coordinates.lat : null);
@@ -1450,8 +1474,9 @@
       const nLon = Number(rawLon);
 
       if (mapInst && isValidLatLng(nLat, nLon)) {
+        const targetZoom = getValidZoom(13, mapInst);
         try {
-          mapInst.flyTo([nLat, nLon], 13, { duration: 1.5 });
+          mapInst.flyTo([nLat, nLon], targetZoom, { duration: 1.5 });
           
           let marker = state.activeMarker || window.activeLocationMarker || window.activeMarker;
           if (marker) {
@@ -1928,7 +1953,7 @@
     var arvoraMap = null;
     var activeLocationMarker = null;
 
-        function initArvoraMap() {
+            function initArvoraMap() {
       const mapContainer = document.getElementById("arvora-spatial-map");
       if (!mapContainer || typeof L === "undefined") return null;
       if (window.arvoraMap || arvoraMap) return window.arvoraMap || arvoraMap;
@@ -1937,12 +1962,13 @@
       const stateLon = window.ArvoraState ? (window.ArvoraState.lon ?? window.ArvoraState.lng) : null;
       const initLat = isValidLatLng(stateLat, stateLon) ? Number(stateLat) : 28.6139;
       const initLng = isValidLatLng(stateLat, stateLon) ? Number(stateLon) : 77.2090;
+      const initZoom = getValidZoom(12, null);
 
       try {
         arvoraMap = L.map("arvora-spatial-map", {
           zoomControl: true,
           scrollWheelZoom: false
-        }).setView([initLat, initLng], 12);
+        }).setView([initLat, initLng], initZoom);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,

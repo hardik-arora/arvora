@@ -790,146 +790,876 @@
     </div>
   </div>
 
-  <!-- SYSTEM JAVASCRIPT -->
+    <!-- SYSTEM JAVASCRIPT -->
   <script>
-    /* 1. 50 VERIFIED ALL-INDIA SIGHTS DATABASE (10 per category) */
-    const ALL_INDIA_SIGHTS = [
-      // --- NATURE & GEOLOGY (10) ---
-      { id: "nature-1", cat: "nature", title: "Robber's Cave (Guchhupani)", loc: "Dehradun, Uttarakhand", fee: "₹35", hours: "7 AM - 6 PM", img: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80", desc: "Natural river cave formation where cold mountain streams flow inside a narrow basalt limestone gorge.", intel: "Walk knee-deep in cold spring water inside a dark river cave. Local legends say 19th-century bandits hid stolen treasury loot here." },
-      { id: "nature-2", cat: "nature", title: "Lonar Meteorite Crater Lake", loc: "Buldhana, Maharashtra", fee: "Free", hours: "Open 24/7", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80", desc: "The world's only hyper-velocity impact crater formed in basaltic rock 50,000 years ago, containing dual alkaline-saline water.", intel: "Contains rare maskelynite glass minerals formed by extreme meteoric pressure." },
-      { id: "nature-3", cat: "nature", title: "Sahastradhara Sulphur Springs", loc: "Dehradun, Uttarakhand", fee: "Free", hours: "8 AM - 7 PM", img: "https://images.unsplash.com/photo-1511497584788-8767611136f6?auto=format&fit=crop&w=800&q=80", desc: "Limestone step terraces dripping medicinal sulphur springs known for skin-healing mineral water.", intel: "The lime deposits continuously petrify moss leaves into fossilized travertine rock." },
-      { id: "nature-4", cat: "nature", title: "Borra Speleothem Caves", loc: "Araku Valley, Andhra Pradesh", fee: "₹80", hours: "10 AM - 5 PM", img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", desc: "Deepest limestone caves in India featuring million-year-old stalactites and stalagmites shaped like sacred icons.", intel: "Carved by the Gosthani River flowing through subterranean limestone strata." },
-      { id: "nature-5", cat: "nature", title: "Pangong Tso Alpine Lake", loc: "Changthang, Ladakh", fee: "Permit", hours: "Sunrise - Sunset", img: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80", desc: "High-altitude endorheic lake at 14,270 feet shifting color from azure blue to deep emerald green under high UV light.", intel: "Saline lake that freezes solid into thick ice sheets in winter despite high salt concentration." },
-      { id: "nature-6", cat: "nature", title: "Jog Granite Waterfalls", loc: "Shivamogga, Karnataka", fee: "₹20", hours: "8 AM - 5 PM", img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", desc: "Second-highest plunge waterfall in India dropping 830 feet over sheer vertical granite cliffs.", intel: "Powered by the Sharavathi River splitting into four distinct cascades: Raja, Roarer, Rocket, and Rani." },
-      { id: "nature-7", cat: "nature", title: "Marble Rocks of Bhedaghat", loc: "Jabalpur, Madhya Pradesh", fee: "₹100", hours: "6 AM - 8 PM", img: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80", desc: "100-foot tall white marble canyon carved by the Narmada River, glowing brilliant silver under full moon nights.", intel: "Soft magnesium-rich white marble that produces sharp acoustics across the river gorge." },
-      { id: "nature-8", cat: "nature", title: "Cherrapunji Living Root Bridges", loc: "Sohra, Meghalaya", fee: "₹50", hours: "Sunrise - Sunset", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=800&q=80", desc: "Bio-engineered bridges guided from living Ficus elastica tree roots by Khasi indigenous tribes across centuries.", intel: "The root structures grow stronger with age, supporting up to 50 adults simultaneously." },
-      { id: "nature-9", cat: "nature", title: "Yumthang Valley of Flowers", loc: "North Sikkim", fee: "Permit", hours: "6 AM - 4 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Sub-alpine sanctuary surrounded by snow-capped peaks, blooming with 24 species of wild Rhododendrons in spring.", intel: "Natural hot springs rich in thermal sulphur bubble up near the riverbank." },
-      { id: "nature-10", cat: "nature", title: "Dudhsagar Four-Tiered Falls", loc: "Mandovi Basin, Goa", fee: "₹100", hours: "9 AM - 5 PM", img: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80", desc: "Sea of Milk four-tiered waterfall cascading 1,017 feet through dense Western Ghats jungle canopy.", intel: "Railway track passes directly over the mid-tier stone viaduct bridge." },
+    /* ====================================================================
+       EXPLORE PLACES & HERITAGE COORDINATES REPOSITORY
+       Includes 10 verified landmarks per category with real telemetry
+    ==================================================================== */
+    const HERITAGE_COORDINATES_DB = [
+      // -------------------------------------------------------------
+      // 1. NATURE & GEOLOGICAL WONDERS (10 Sites)
+      // -------------------------------------------------------------
+      {
+        id: "nat-01",
+        category: "nature",
+        name: "Valley of Flowers National Park",
+        region: "Chamoli, Uttarakhand",
+        coords: "30.7280° N, 79.6053° E",
+        tag: "ALPINE BOTANICAL BASIN",
+        fee: "₹150 (Indians) / ₹600 (Foreigners)",
+        timings: "07:00 AM – 05:00 PM (June–Oct)",
+        duration: "Full Day (6–8 Hours Trek)",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "Endemic alpine flower meadows blooming with over 500 species against jagged glaciated Himalayan peaks.",
+        mechanics: "A glaciated hanging valley carpeted with wild blue poppies, Brahmakamal, and therapeutic medicinal herbs.",
+        secret: "Reach the inner riverbed before 10:00 AM to observe fragile Himalayan dew-lilies before mountain winds accelerate."
+      },
+      {
+        id: "nat-02",
+        category: "nature",
+        name: "Living Root Bridges of Nohwet & Cherrapunji",
+        region: "East Khasi Hills, Meghalaya",
+        coords: "25.2780° N, 91.7330° E",
+        tag: "BIO-ENGINEERED CANOPY",
+        fee: "₹50 Conservation Fee",
+        timings: "06:00 AM – 05:00 PM",
+        duration: "3–4 Hours",
+        image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+        desc: "Secondary aerial roots of Ficus elastica guided across raging rivers using hollow betel nut trunks over 50 years.",
+        mechanics: "Self-healing biological engineering that grows stronger during monsoon downpours rather than decaying like timber.",
+        secret: "The double-decker root bridge at Nongriat has a third aerial layer currently being guided by village elders."
+      },
+      {
+        id: "nat-03",
+        category: "nature",
+        name: "Lonar Meteorite Impact Crater Lake",
+        region: "Buldhana, Maharashtra",
+        coords: "19.9760° N, 76.5070° E",
+        tag: "PLIOCENE ASTROBLEME",
+        fee: "Free Entry",
+        timings: "Open 24 Hours",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "A saline, hyper-alkaline endorheic lake formed 52,000 years ago by a hyper-velocity meteor striking basalt bedrock.",
+        mechanics: "Contains rare minerals like maskelynite and extremophilic micro-organisms studied by planetary geologists.",
+        secret: "Compass dials go haywire near the southwestern rim due to localized magnetic anomalies in the impact melt rock."
+      },
+      {
+        id: "nat-04",
+        category: "nature",
+        name: "Borra Subterranean Limestone Caves",
+        region: "Araku Valley, Andhra Pradesh",
+        coords: "18.2808° N, 83.0397° E",
+        tag: "SPELEOTHEM LABYRINTH",
+        fee: "₹80 Adult",
+        timings: "10:00 AM – 05:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80",
+        desc: "One of India's deepest karst caves reaching 80 meters subterranean depth, sculpted by the Gosthani River.",
+        mechanics: "Centuries of calcium bicarbonate dripping through humic soil created massive stalactite and stalagmite pillars.",
+        secret: "Look for natural natural aperture shafts at noon: sunlight illuminates natural sulfur crystal striations."
+      },
+      {
+        id: "nat-05",
+        category: "nature",
+        name: "Magnetic Hill & Indus-Zanskar Sangam",
+        region: "Leh, Ladakh",
+        coords: "34.1878° N, 77.3541° E",
+        tag: "GRAVITATIONAL ANOMALY",
+        fee: "Free Public Access",
+        timings: "Daylight Hours",
+        duration: "1.5 Hours",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "A layout of surrounding ridges creating an optical illusion where vehicles in neutral gear appear to roll uphill.",
+        mechanics: "A horizon-obstructed optical tilt combined with iron-dense volcanic deposits along the Indus canyon.",
+        secret: "Turn off the engine completely at the white box mark—the vehicle accelerates up to 20 km/h due to visual perspective illusion."
+      },
+      {
+        id: "nat-06",
+        category: "nature",
+        name: "Bhimbetka Proterozoic Rock Shelters",
+        region: "Raisen, Madhya Pradesh",
+        coords: "22.9372° N, 77.6133° E",
+        tag: "PALEOLITHIC CANVAS",
+        fee: "₹25 (Indians) / ₹500 (Foreigners)",
+        timings: "07:00 AM – 06:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "Dense sandstone cliffs showcasing continuous human cave habitation from the Upper Paleolithic to medieval eras.",
+        mechanics: "Paintings made with manganese, hematite, and animal fat have bonded directly into the porous quartzite rock.",
+        secret: "Auditorium Cave has a massive central bell-rock that emits a deep resonant ringing chime heard a kilometer away."
+      },
+      {
+        id: "nat-07",
+        category: "nature",
+        name: "Majuli Island River Ecosystem",
+        region: "Brahmaputra Basin, Assam",
+        coords: "26.9500° N, 94.2167° E",
+        tag: "WORLD'S LARGEST RIVER ISLAND",
+        fee: "Free (Ferry ₹15)",
+        timings: "Ferry runs 07:00 AM – 04:00 PM",
+        duration: "Overnight Recommended",
+        image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+        desc: "A drifting silty island ecosystem home to neo-Vaishnavite Satras and master traditional bamboo mask weavers.",
+        mechanics: "Formed by dynamic shifts in the Brahmaputra and Subansiri river channels during catastrophic historical floods.",
+        secret: "Visit Samaguri Satra to witness bamboo, cow-dung, and cloth masks with movable lower jaws used in Bhaona theater."
+      },
+      {
+        id: "nat-08",
+        category: "nature",
+        name: "Great Rann of Kutch Salt Desert",
+        region: "Kutch, Gujarat",
+        coords: "23.8340° N, 69.8330° E",
+        tag: "EVAPORITE DESERT EXPANSE",
+        fee: "₹100 Permit per person",
+        timings: "06:00 AM – 08:00 PM",
+        duration: "Evening / Sunset",
+        image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+        desc: "Over 7,500 sq km of pure white salt crystals deposited by evaporated Arabian Sea tides under intense desert sun.",
+        mechanics: "Seasonal inundation during monsoon dissolves subterranean minerals, recrystalizing into brilliant polygonal salt crusts.",
+        secret: "The Chir Batti (ghost lights) phenomenon can be observed across the salt flats on completely moonless nights."
+      },
+      {
+        id: "nat-09",
+        category: "nature",
+        name: "Kuttanad Sub-Sea-Level Agrarian Delta",
+        region: "Alappuzha, Kerala",
+        coords: "9.3500° N, 76.4000° E",
+        tag: "BELOW SEA LEVEL CROPLAND",
+        fee: "Free Public Canal Access",
+        timings: "Best at Sunrise",
+        duration: "2–3 Hours",
+        image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+        desc: "The only region in India where farming is conducted 4 to 10 feet below sea level using bio-dykes and wooden sluices.",
+        mechanics: "Interlocking mud and coconut trunk embankments drain backwater salinity to grow flood-resilient paddy.",
+        secret: "Board the state transport water taxi from Changanassery to see farmers weeding fields below the keel of your ferry."
+      },
+      {
+        id: "nat-10",
+        category: "nature",
+        name: "Pangong Tso Endorheic Saline Lake",
+        region: "Changthang, Ladakh",
+        coords: "33.7595° N, 78.6674° E",
+        tag: "14,270 FT HIGH BASIN",
+        fee: "Inner Line Permit required",
+        timings: "Daylight Hours",
+        duration: "Half-Day / Overnight",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "A 134-km long trans-boundary glacial lake whose saline water shifts from turquoise blue to indigo throughout the day.",
+        mechanics: "High mineral concentration prevents vegetation growth, producing crystalline optical water refraction.",
+        secret: "In sub-zero winter temperatures, the entire saline lake surface freezes into glass sheets despite the salt content."
+      },
 
-      // --- HISTORICAL & FORTS (10) ---
-      { id: "hist-1", cat: "historical", title: "Forest Research Institute (FRI)", loc: "Dehradun, Uttarakhand", fee: "₹50", hours: "9 AM - 5:30 PM", img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80", desc: "Colonial Greco-Roman brick architecture spread over 450 hectares with 6 specialized forestry museums.", intel: "Built in 1929 by Blomfield, featuring massive timber roof trusses and 2.5 miles of arched brick colonnades." },
-      { id: "hist-2", cat: "historical", title: "Mehrangarh Fort Citadel", loc: "Jodhpur, Rajasthan", fee: "₹200", hours: "9 AM - 5 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Perched 410 feet above the blue city, featuring 120-foot thick stone ramparts and royal palanquin galleries.", intel: "Cannonball impact marks from historic sieges are still embedded in the Jaipur Pol gate." },
-      { id: "hist-3", cat: "historical", title: "Gwalior Fort & Man Mandir Palace", loc: "Gwalior, Madhya Pradesh", fee: "₹75", hours: "8 AM - 6 PM", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "Described as the 'pearl among fortresses in India', adorned with turquoise ceramic tile duck motifs.", intel: "Houses the 9th-century Chaturbhuj Temple containing the world's oldest written zero ('0') inscription." },
-      { id: "hist-4", cat: "historical", title: "Agra Concentric Red Fort", loc: "Agra, Uttar Pradesh", fee: "₹50", hours: "Sunrise - Sunset", img: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80", desc: "Imperial seat of the Mughal Empire built by Akbar, featuring double red sandstone defense walls and Sheesh Mahal.", intel: "Acoustic sound channels carry guard warnings around 90-degree stone corners." },
-      { id: "hist-5", cat: "historical", title: "Jaigarh Fort & Subterranean Tank", loc: "Jaipur, Rajasthan", fee: "₹100", hours: "9 AM - 5 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Fortress housing Jaivana—the world's largest cannon on wheels—and 6-million gallon rain harvesting tanks.", intel: "Rainwater was funneled through 6 km of mountain canals into three sealed underground stone reservoirs." },
-      { id: "hist-6", cat: "historical", title: "Kumbhalgarh 36-km Great Wall", loc: "Rajsamand, Rajasthan", fee: "₹40", hours: "9 AM - 6 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Continuous 36-kilometer stone wall—the second longest continuous wall on Earth—protecting 360 temples.", intel: "The wall is wide enough for eight horses to gallop abreast along the top ramparts." },
-      { id: "hist-7", cat: "historical", title: "Golconda Fort Acoustic Vaults", loc: "Hyderabad, Telangana", fee: "₹25", hours: "9 AM - 5:30 PM", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "Medieval diamond trade capital famous for its clapping portico acoustic warning system.", intel: "A single handclap at the entrance dome reverberates clearly up to the hill pavilion 1 km away." },
-      { id: "hist-8", cat: "historical", title: "Qutb Complex & Rust-Free Iron Pillar", loc: "Mehrauli, New Delhi", fee: "₹40", hours: "7 AM - 9 PM", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "72.5-meter fluted minaret and 1,600-year-old Gupta iron pillar that defies atmospheric oxidation.", intel: "High phosphorus content creates a continuous passive film shielding the iron from monsoon humidity." },
-      { id: "hist-9", cat: "historical", title: "Chittorgarh Fort & Vijay Stambha", loc: "Chittorgarh, Rajasthan", fee: "₹40", hours: "9 AM - 5 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Largest fort complex in India spanning 700 acres over a hill, featuring the 9-story Victory Tower.", intel: "Houses 84 historical water bodies capable of storing 4 billion liters of water for siege warfare." },
-      { id: "hist-10", cat: "historical", title: "Fort Aguada & 1612 Lighthouse", loc: "Sinquerim, Goa", fee: "₹25", hours: "9:30 AM - 6 PM", img: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80", desc: "Portuguese coastal fortress with a 79-million gallon freshwater cistern that replenished European spice ships.", intel: "The four-story lighthouse constructed in 1612 is the oldest of its kind in Asia." },
+      // -------------------------------------------------------------
+      // 2. HISTORICAL & ARCHITECTURAL FORTS (10 Sites)
+      // -------------------------------------------------------------
+      {
+        id: "hist-01",
+        category: "historical",
+        name: "Mehrangarh Citadel & Impregnable Ramparts",
+        region: "Jodhpur, Rajasthan",
+        coords: "26.2980° N, 73.0189° E",
+        tag: "400 FT PERPENDICULAR CLIFF",
+        fee: "₹100 (Indians) / ₹600 (Foreigners)",
+        timings: "09:00 AM – 05:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+        desc: "Rising 400 feet above the blue city, constructed directly into ancient volcanic rhyolite rock faces without perimeter weakness.",
+        mechanics: "Seven concentric gates with sharp 90-degree angular bends designed to prevent elephant-battering rams from gathering speed.",
+        secret: "Cannonball impact scars from 18th-century Jaipur artillery sieges are still clearly visible on the Dedh Kamgra Gate."
+      },
+      {
+        id: "hist-02",
+        category: "historical",
+        name: "Vijayanagara Stone Chariot & Vittala Complex",
+        region: "Hampi, Karnataka",
+        coords: "15.3350° N, 76.4600° E",
+        tag: "16TH-CENTURY GRANITE MASTERWORK",
+        fee: "₹40 (Indians) / ₹600 (Foreigners)",
+        timings: "06:00 AM – 06:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "A monumental Garuda shrine sculpted like a battle chariot with modular granite wheels that historically rotated on stone axles.",
+        mechanics: "Carved from dense chlorite granite slabs joined with hidden tongue-and-groove mortise masonry joints.",
+        secret: "The wheels had functional stone axles until the British colonial administration cemented them to prevent structural wear."
+      },
+      {
+        id: "hist-03",
+        category: "historical",
+        name: "Rani ki Vav Stepwell Subterranean Sanctum",
+        region: "Patan, Gujarat",
+        coords: "23.8589° N, 72.1017° E",
+        tag: "INVERTED TEMPLE HYDRAULICS",
+        fee: "₹40 (Indians) / ₹600 (Foreigners)",
+        timings: "08:00 AM – 06:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+        desc: "A 7-story subterranean stepwell carved in Maru-Gurjara style with over 800 intricate sculptures honoring Lord Vishnu.",
+        mechanics: "Engineered as an inverted temple to preserve groundwater in drought-prone plains while honoring sacred water spirits.",
+        secret: "A 30-km escape tunnel at the lowest tier historically led directly to the royal fort of Patan for wartime evacuation."
+      },
+      {
+        id: "hist-04",
+        category: "historical",
+        name: "Chittorgarh Bastion & Tower of Fame",
+        region: "Chittorgarh, Rajasthan",
+        coords: "24.8879° N, 74.6453° E",
+        tag: "LARGEST FORT IN BHARAT",
+        fee: "₹40 (Indians) / ₹600 (Foreigners)",
+        timings: "08:00 AM – 07:30 PM",
+        duration: "4–5 Hours",
+        image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+        desc: "Sprawled across 700 acres on a 180-meter plateau with 84 historical water bodies storing 4 billion liters of rainwater.",
+        mechanics: "Masonry reservoirs relied on natural cliff catchment fissures, allowing 50,000 soldiers to survive four-year sieges.",
+        secret: "The Gaumukh reservoir is fed by a perpetual subterranean natural aquifer that seeps from basalt fissures year-round."
+      },
+      {
+        id: "hist-05",
+        category: "historical",
+        name: "Humayun's Tomb Red Sandstone Charbagh",
+        region: "Delhi",
+        coords: "28.5933° N, 77.2507° E",
+        tag: "PROTOTYPE OF THE TAJ MAHAL",
+        fee: "₹40 (Indians) / ₹600 (Foreigners)",
+        timings: "06:00 AM – 06:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80",
+        desc: "The earliest example of Mughal garden-tomb architecture in India, built in 1570 with geometric Persian Charbagh quadrants.",
+        mechanics: "Pioneered the double-dome engineering system, allowing a high outer decorative dome while keeping the interior ceiling intimate.",
+        secret: "Over 150 Mughal royal family members are interred in the perimeter crypt vaults without external markers."
+      },
+      {
+        id: "hist-06",
+        category: "historical",
+        name: "Murud-Janjira Marine Sea Fortress",
+        region: "Raigad, Maharashtra",
+        coords: "18.3007° N, 72.9961° E",
+        tag: "UNCONQUERED OFFSHORE CITADEL",
+        fee: "₹25 Ferry Ticket",
+        timings: "07:00 AM – 06:00 PM",
+        duration: "2.5 Hours",
+        image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
+        desc: "An oval fortress standing on a submerged coral reef in the Arabian Sea, never captured in its 400-year maritime history.",
+        mechanics: "Constructed with lead-infused stone mortar to withstand saline tidal erosion, with 500-lb bronze cannons like Kalal Bangadi.",
+        secret: "Despite being surrounded entirely by salty ocean water, the fort's interior courtyard contains two deep freshwater sweet wells."
+      },
+      {
+        id: "hist-07",
+        category: "historical",
+        name: "Golconda Fort Acoustic Whispering Gallery",
+        region: "Hyderabad, Telangana",
+        coords: "17.3833° N, 78.4011° E",
+        tag: "MILITARY ACOUSTIC RADAR",
+        fee: "₹25 (Indians) / ₹300 (Foreigners)",
+        timings: "09:00 AM – 05:30 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "A diamond-trading citadel engineered with acoustic chambers that served as an early warning communication network.",
+        mechanics: "A handclap under the entry dome can be heard clearly at the Bala Hissar pavilion located 1 kilometer away at the highest crest.",
+        secret: "The vault of Fateh Darwaza contains corner masonry sound channels calibrated to amplify the acoustic pitch of a drawn sword."
+      },
+      {
+        id: "hist-08",
+        category: "historical",
+        name: "Kumbhalgarh 36-Kilometer Fortress Wall",
+        region: "Rajsamand, Rajasthan",
+        coords: "25.1479° N, 73.5878° E",
+        tag: "SECOND LONGEST WALL IN WORLD",
+        fee: "₹40 (Indians) / ₹600 (Foreigners)",
+        timings: "09:00 AM – 06:00 PM",
+        duration: "3.5 Hours",
+        image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+        desc: "Ramparts stretching 36 km along the Aravalli peaks, wide enough for eight armed horses to gallop abreast.",
+        mechanics: "Built with stepped lateral buttresses that prevent structural shearing when subjected to seismic tremors.",
+        secret: "Maharana Pratap was born in the Badal Mahal palace at the highest vertical peak of this mountain fort."
+      },
+      {
+        id: "hist-09",
+        category: "historical",
+        name: "Brihadisvara Temple Monolithic Granite Vimana",
+        region: "Thanjavur, Tamil Nadu",
+        coords: "10.7828° N, 79.1318° E",
+        tag: "1010 CE CHOLA MEGASYMMETRY",
+        fee: "Free Entry",
+        timings: "06:00 AM – 08:30 PM",
+        duration: "2.5 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "A 66-meter high temple tower crowned by an 80-ton monolithic granite cupola capstone assembled without mortar.",
+        mechanics: "Constructed using an earth incline ramp spanning 6 km up which elephants hauled the monolithic 80-ton apex stone.",
+        secret: "The entire complex uses interlocking granite blocks in a region devoid of granite quarries for 60 km around."
+      },
+      {
+        id: "hist-10",
+        category: "historical",
+        name: "Gobindgarh Fort Concentric Defense Grid",
+        region: "Amritsar, Punjab",
+        coords: "31.6289° N, 74.8622° E",
+        tag: "MAHARAJA RANJIT SINGH ARMORY",
+        fee: "₹50 Base / ₹150 Attractions",
+        timings: "10:00 AM – 10:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=800&q=80",
+        desc: "A French-engineered Sikh military fortress designed with circular bastions to absorb direct cannonball shockwaves.",
+        mechanics: "Thick mud, lime, and brick outer walls deflected high-velocity artillery instead of fracturing like stone.",
+        secret: "The Toshakhana vault held the legendary Koh-i-Noor diamond under armed Nihang guard until 1849."
+      },
 
-      // --- SPIRITUAL & CAVE SANCTUMS (10) ---
-      { id: "spir-1", cat: "spiritual", title: "Mindrolling Great Buddhist Stupa", loc: "Dehradun, Uttarakhand", fee: "Free", hours: "9 AM - 7 PM", img: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80", desc: "185-foot Great Stupa of Buddha featuring 5 floors of sacred Tibetan wall frescoes and Japanese gardens.", intel: "Houses gold-gilded relics and complex geometric mandalas painted using ground lapis lazuli." },
-      { id: "spir-2", cat: "spiritual", title: "Tapkeshwar Mahadev Cave Shrine", loc: "Dehradun, Uttarakhand", fee: "Free", hours: "6 AM - 8 PM", img: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80", desc: "Natural subterranean cave where water continuously drips from cave ceilings over the sacred Shivalinga.", intel: "Located along the Asan riverbed where Guru Dronacharya is believed to have meditated." },
-      { id: "spir-3", cat: "spiritual", title: "Kailasa Temple (Ellora Cave 16)", loc: "Sambhaji Nagar, Maharashtra", fee: "₹40", hours: "Sunrise - Sunset", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "World's largest monolithic rock-cut structure, carved top-down out of a single basalt cliffface.", intel: "Over 200,000 tons of volcanic rock were excavated downward using only hammers and chisels." },
-      { id: "spir-4", cat: "spiritual", title: "Kashi Vishwanath & Manikarnika", loc: "Varanasi, Uttar Pradesh", fee: "Free", hours: "3 AM - 11 PM", img: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80", desc: "Sacred golden spire temple connected to the 3,000-year-old unbroken cremation flame at Manikarnika Ghat.", intel: "The ceremonial fire at Manikarnika has burned continuously day and night without extinguishing for millennia." },
-      { id: "spir-5", cat: "spiritual", title: "Sri Harmandir Sahib (Golden Temple)", loc: "Amritsar, Punjab", fee: "Free", hours: "Open 24/7", img: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=800&q=80", desc: "Egalitarian sanctuary gilded with 750 kg of pure 24K gold, centered inside the Amrit Sarovar sacred pool.", intel: "Operates the world's largest free mega-kitchen (Langar), serving over 100,000 free meals daily." },
-      { id: "spir-6", cat: "spiritual", title: "Virupaksha & Vittala Musical Pillars", loc: "Hampi, Karnataka", fee: "₹40", hours: "6 AM - 6 PM", img: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80", desc: "15th-century Vijayanagara temple with 56 solid granite pillars that emit Carnatic musical notes when tapped.", intel: "Features an inverted camera obscura pinhole projecting the 50-meter tower upside down inside the sanctum." },
-      { id: "spir-7", cat: "spiritual", title: "Brihadisvara Monolithic Vimana", loc: "Thanjavur, Tamil Nadu", fee: "Free", hours: "6 AM - 8:30 PM", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "1,000-year-old Chola granite temple crowned by an 80-ton single stone capstone (Kumbam).", intel: "Built entirely of interlocking granite blocks dry-assembled without mortar, casting zero shadow at solar noon in summer." },
-      { id: "spir-8", cat: "spiritual", title: "Kedarnath Cave Temple & Peak", loc: "Rudraprayag, Uttarakhand", fee: "Free", hours: "4 AM - 9 PM", img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", desc: "High-altitude 8th-century stone temple at 11,755 feet backed by the icy Kedarnath Himalayan massif.", intel: "Constructed using massive interlocking granite slabs that survived the catastrophic 2013 glacial outburst." },
-      { id: "spir-9", cat: "spiritual", title: "Hemis High Monastic Gompa", loc: "Hemis, Ladakh", fee: "₹50", hours: "8 AM - 6 PM", img: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80", desc: "17th-century Drukpa lineage monastery housing ancient silver-gilded stupas and sacred Thangka scrolls.", intel: "Hosts annual Cham mask dances where monks don fierce wooden masks to cleanse negative cosmic energy." },
-      { id: "spir-10", cat: "spiritual", title: "Meenakshi Sundareswarar Towers", loc: "Madurai, Tamil Nadu", fee: "Free", hours: "5 AM - 9 PM", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "Dravidian architectural complex with 14 towering Gopurams sculpted with 33,000 colorful stucco figures.", intel: "Houses the Hall of 1,000 Pillars where every carved granite column is aligned in precise 3D grid lines." },
+      // -------------------------------------------------------------
+      // 3. SPIRITUAL & MONASTIC SANCTUMS (10 Sites)
+      // -------------------------------------------------------------
+      {
+        id: "spi-01",
+        category: "spiritual",
+        name: "Harmandir Sahib (The Golden Temple)",
+        region: "Amritsar, Punjab",
+        coords: "31.6200° N, 74.8765° E",
+        tag: "24/7 EGALITARIAN SANCTUARY",
+        fee: "Free (All Welcomed)",
+        timings: "Open 24 Hours",
+        duration: "3–4 Hours",
+        image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=800&q=80",
+        desc: "The supreme spiritual center of Sikhism, plated in 750 kg of pure gold and surrounded by the sacred Amrit Sarovar.",
+        mechanics: "Engineered lower than the surrounding city so all kings and pilgrims must walk downward to enter, discarding ego.",
+        secret: "The Guru Ram Das Langar kitchen serves over 100,000 meals daily without pausing through wars or monsoons."
+      },
+      {
+        id: "spi-02",
+        category: "spiritual",
+        name: "Dashashwamedh & Manikarnika Ghats",
+        region: "Varanasi, Uttar Pradesh",
+        coords: "25.3109° N, 83.0107° E",
+        tag: "3,000 YRS CONTINUOUS RITUAL",
+        fee: "Free Riverfront Access",
+        timings: "Open 24 Hours",
+        duration: "At Dusk and Dawn",
+        image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80",
+        desc: "The sacred waterfront where 84 stone steps meet the northward-curving Ganges, burning unbroken cremation fires since antiquity.",
+        mechanics: "The Dom Raja clan tends the eternal sacred hearth, which draws its fire directly from ancient Vedic altars.",
+        secret: "Take a wooden rowboat at 5:15 AM to hear the simultaneous sound of conch shells and live morning shehnai ragas."
+      },
+      {
+        id: "spi-03",
+        category: "spiritual",
+        name: "Kailasa Monolithic Rock Temple (Cave 16)",
+        region: "Ellora, Maharashtra",
+        coords: "20.0238° N, 75.1793° E",
+        tag: "TOP-DOWN MONOLITH CARVING",
+        fee: "₹40 (Indians) / ₹600 (Foreigners)",
+        timings: "06:00 AM – 06:00 PM (Closed Tuesdays)",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "The largest monolithic rock-cut monument in the world, carved vertically downward from a single basalt cliffside.",
+        mechanics: "Over 200,000 tons of volcanic rock were chiseled away from the top down without scaffolding, leaving zero margin for error.",
+        secret: "The master architect Krishna I etched an inscription on the plinth stating: 'How was this made? Even I am astonished!'"
+      },
+      {
+        id: "spi-04",
+        category: "spiritual",
+        name: "Thiksey Monastery (Gompa Matrix)",
+        region: "Leh, Ladakh",
+        coords: "34.0583° N, 77.6667° E",
+        tag: "12-STORY TIBETAN SANCTUM",
+        fee: "₹30 Monastery Fund",
+        timings: "07:00 AM – 06:00 PM",
+        duration: "2.5 Hours",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "A Gelug monastery rising 12 tiers up a rocky hill, housing a 49-foot statue of Maitreya Buddha spanning two floors.",
+        mechanics: "Built with timber-lintel mud masonry that breathes out winter moisture while dampening seismic shocks.",
+        secret: "Arrive at 6:30 AM for the morning prayer assembly to hear 10-foot long copper horns (Dungchen) echoing down the Indus valley."
+      },
+      {
+        id: "spi-05",
+        category: "spiritual",
+        name: "Meenakshi Amman Dravidian Gopuram Sanctum",
+        region: "Madurai, Tamil Nadu",
+        coords: "9.9195° N, 78.1193° E",
+        tag: "14 STUCCO SCULPTURE TOWERS",
+        fee: "Free (Special Darshan ₹100)",
+        timings: "05:00 AM – 12:30 PM, 04:00 PM – 10:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "The spiritual heart of Madurai, famous for its 14 rainbow gopuram towers housing over 33,000 painted mythological sculptures.",
+        mechanics: "The Hall of Thousand Pillars contains 985 carved granite columns aligned in perfect symmetry from any viewing angle.",
+        secret: "Near the exit of the thousand-pillar hall, five musical pillars carved from single stones ring with different notes when tapped."
+      },
+      {
+        id: "spi-06",
+        category: "spiritual",
+        name: "Nizamuddin Dargah Sufi Inner Sanctum",
+        region: "Delhi",
+        coords: "28.5916° N, 77.2418° E",
+        tag: "800 YRS SUFI HARMONICS",
+        fee: "Free Entry",
+        timings: "05:00 AM – 10:30 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80",
+        desc: "Mausoleum of Sufi saint Hazrat Nizamuddin Auliya, surrounded by historic marble courtyards echoing continuous devotional Qawwali.",
+        mechanics: "Acoustic courtyards disperse vocal reverberations through marble arcades, carrying voices clearly through dense crowds.",
+        secret: "The direct lineage of Hazrat Amir Khusrau (Qawwal Bachhe) still leads the devotional singing every Thursday night."
+      },
+      {
+        id: "spi-07",
+        category: "spiritual",
+        name: "Hemis High-Altitude Gompa",
+        region: "Ladakh",
+        coords: "33.9126° N, 77.7075° E",
+        tag: "17TH-CENTURY DRUKPA SEAT",
+        fee: "₹50 Museum Entry",
+        timings: "08:00 AM – 06:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "The wealthiest and most historic monastery in Ladakh, hidden deep inside a narrow gorge off the Indus highway.",
+        mechanics: "Houses an irreplaceable collection of golden statues, stupas inlaid with turquoise, and ancient silk thangkas.",
+        secret: "During the annual Hemis festival, monks perform sacred Cham trances wearing heavy carved wooden masks to dispel negative spirits."
+      },
+      {
+        id: "spi-08",
+        category: "spiritual",
+        name: "Virupaksha Cave-Temple & Pinhole Gopuram",
+        region: "Hampi, Karnataka",
+        coords: "15.3350° N, 76.4600° E",
+        tag: "7TH-CENTURY LIVING SHRINE",
+        fee: "₹25 Entry",
+        timings: "06:00 AM – 08:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "A temple dedicated to Lord Shiva with continuous worship spanning over 1,300 unbroken years.",
+        mechanics: "A pinhole slit in the dark stone rear hall projects an inverted camera obscura image of the 160-foot entrance tower onto the wall.",
+        secret: "The pinhole optical inversion is sharpest between 11:00 AM and 1:00 PM when the sun shines directly on the eastern facade."
+      },
+      {
+        id: "spi-09",
+        category: "spiritual",
+        name: "Tapkeshwar Mahadev Cave Sanctuary",
+        region: "Dehradun, Uttarakhand",
+        coords: "30.3580° N, 78.0200° E",
+        tag: "SUBTERRANEAN RIVER SHIVLING",
+        fee: "Free Entry",
+        timings: "06:00 AM – 07:00 PM",
+        duration: "1.5 Hours",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "A natural limestone river cavern where water continuously drips from the rocky cave ceiling onto the sacred Shiva lingam.",
+        mechanics: "Natural karst drainage filters rainwater through mineral rock strata, keeping the droplet cadence steady through droughts.",
+        secret: "Explore the narrow sulfur water spring pools located directly behind the main cave during early morning hours."
+      },
+      {
+        id: "spi-10",
+        category: "spiritual",
+        name: "Basilica of Bom Jesus & Relics of Xavier",
+        region: "Old Goa, Goa",
+        coords: "15.5009° N, 73.9116° E",
+        tag: "1605 CE MANOELINE BAROQUE",
+        fee: "Free Entry",
+        timings: "09:00 AM – 06:30 PM",
+        duration: "1.5 Hours",
+        image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
+        desc: "A UNESCO-inscribed Baroque basilica constructed from red laterite stone, holding the silver casket of St. Francis Xavier.",
+        mechanics: "Built with porous coastal laterite stone sealed with jaggery and egg-white plaster to resist tropical monsoon dampness.",
+        secret: "The intricate floral floor motifs were carved by Hindu master sculptors using traditional Konkan floral styles."
+      },
 
-      // --- CRAFT & GUILD BAZAARS (10) ---
-      { id: "craft-1", cat: "craft", title: "Paltan Bazaar & Clock Tower", loc: "Dehradun, Uttarakhand", fee: "Free", hours: "10 AM - 10 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Heritage bazaar surrounding the 6-sided Clock Tower, famous for Basmati rice, rusks, and spices.", intel: "Hub for Ellora's Stick Jaws bakery products and authentic Garhwali handicraft stalls." },
-      { id: "craft-2", cat: "craft", title: "Dariba Kalan Silver Vark Lane", loc: "Old Delhi", fee: "Free", hours: "11 AM - 8 PM", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80", desc: "Historic Mughal silversmith lane where 99.9% pure silver is hammered into 0.2-micron edible Vark foil.", intel: "Artisans beat silver strips continuously for 6 hours using 5-kg wooden mallets between leather sheets." },
-      { id: "craft-3", cat: "craft", title: "Bagru Mud-Resist Dabu Printers", loc: "Bagru, Rajasthan", fee: "Free", hours: "10 AM - 6 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Chippa community artisan village using natural mud-resist stamping, iron rust dye, and indigo vats.", intel: "Dabu mud paste uses black clay, lime, and gum arabic to block dye penetration during dipping." },
-      { id: "craft-4", cat: "craft", title: "Aranmula Metal Mirror Metallurgy", loc: "Aranmula, Kerala", fee: "Free", hours: "9 AM - 6 PM", img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", desc: "GI-tagged front-surface reflection bronze mirrors cast without glass or mercury by one family guild.", intel: "Unlike silvered glass, reflection occurs directly on the polished front metal surface with zero ghosting." },
-      { id: "craft-5", cat: "craft", title: "Banarasi Gold Zari Silk Looms", loc: "Madanpura, Varanasi", fee: "Free", hours: "10 AM - 7 PM", img: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80", desc: "Subterranean pit looms weaving pure silver wire electroplated with 24K gold into heavy silk brocades.", intel: "A single saree requires up to 5,600 Jacquard punch-cards and 3 months of master hand-weaving." },
-      { id: "craft-6", cat: "craft", title: "Thatheras Hammered Metal Guild", loc: "Jandiala Guru, Punjab", fee: "Free", hours: "9 AM - 6 PM", img: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=800&q=80", desc: "India's only UNESCO-inscribed traditional metal-crafting guild beating brass vessels with hand hammers.", intel: "Hand-hammered dimple patterns structurally reinforce copper and brass water vessels." },
-      { id: "craft-7", cat: "craft", title: "Jaipur Quartz Blue Pottery Guild", loc: "Jaipur, Rajasthan", fee: "Free", hours: "10 AM - 7 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Ancient Persian ceramic technique crafted entirely without clay using ground quartz crystal powder.", intel: "Painted with cobalt and copper oxide minerals that glaze into translucent blue at 850°C." },
-      { id: "craft-8", cat: "craft", title: "Kani Pashmina Calligraphic Weavers", loc: "Old Srinagar, Kashmir", fee: "Free", hours: "10 AM - 6 PM", img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", desc: "Weavers using wooden spool needles guided by a coded calligraphic needle script called 'Taleem'.", intel: "Master Ustaads translate floral artwork into a chanted needle alphabet followed by weavers." },
-      { id: "craft-9", cat: "craft", title: "Kinhal Wooden Lacquerware Guilds", loc: "Koppal, Karnataka", fee: "Free", hours: "10 AM - 6 PM", img: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80", desc: "GI-tagged heritage woodcraft guild that carved the original Vijayanagara temple chariot figures.", intel: "Artisans use liquid wood paste ('Kiththa') made of tamarind seed paste and jute fiber to smooth joints." },
-      { id: "craft-10", cat: "craft", title: "Channapatna Non-Toxic Lacquer Toys", loc: "Ramanagara, Karnataka", fee: "Free", hours: "9 AM - 6 PM", img: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80", desc: "GI-tagged wooden toy craft using Wrightia tinctoria wood coated with natural vegetable dyes and shellac.", intel: "Toys are turned on high-speed lathes and polished smooth using dried palm leaves." },
+      // -------------------------------------------------------------
+      // 4. CRAFT & GUILD BAZAARS (10 Sites)
+      // -------------------------------------------------------------
+      {
+        id: "crf-01",
+        category: "craft",
+        name: "Thatheras Hammered Brass Colony",
+        region: "Jandiala Guru, Punjab",
+        coords: "31.5540° N, 75.0250° E",
+        tag: "UNESCO INTANGIBLE CRAFT",
+        fee: "Free Artisan Walkway",
+        timings: "08:00 AM – 06:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=800&q=80",
+        desc: "The only UNESCO-inscribed craft guild in India, where artisans beat hot copper and brass discs into seamless cooking vessels.",
+        mechanics: "Rhythmic hammer dimpling work-hardens the alloy, increasing structural strength and heat conductivity without solder joints.",
+        secret: "Watch the masters scrape newly hammered brass pots with tamarind water and sand to bring out a natural mirror-gold gleam."
+      },
+      {
+        id: "crf-02",
+        category: "craft",
+        name: "Bagru Mud-Resist (Dabu) Printing Yards",
+        region: "Bagru, Rajasthan",
+        coords: "26.8120° N, 75.5450° E",
+        tag: "NATURAL INDIGO & WOOD-BLOCK",
+        fee: "Free Workshop Visits",
+        timings: "09:00 AM – 05:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+        desc: "Generational Chippa families hand-stamping organic fabrics with natural mud resist pastes, fermented indigo, and hard river clay.",
+        mechanics: "Mud resist is mixed with gum and wheat chaff to prevent indigo dye penetration, creating clean white geometric outlines.",
+        secret: "The deep black dye is brewed from fermented rusted iron horseshoes, molasses, and tamarind water."
+      },
+      {
+        id: "crf-03",
+        category: "craft",
+        name: "Parchin Kari (Pietra Dura) Workshops",
+        region: "Nai ki Mandi, Agra",
+        coords: "27.1800° N, 78.0100° E",
+        tag: "SEMI-PRECIOUS INLAY GUILD",
+        fee: "Free Demonstration",
+        timings: "10:00 AM – 07:00 PM",
+        duration: "1.5 Hours",
+        image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80",
+        desc: "Artisans slicing lapis, carnelian, and jade into 2mm petals, embedding them into white Makrana marble with natural resins.",
+        mechanics: "Master lapidaries cut stones on manually spun bow-wheels, achieving joints tight enough to hold water without adhesive.",
+        secret: "Real carnelian stone glows glowing orange when illuminated by an LED light source, unlike dyed plastic imitations."
+      },
+      {
+        id: "crf-04",
+        category: "craft",
+        name: "Old Srinagar Pinjrakari & Kani Looms",
+        region: "Downtown Srinagar, Kashmir",
+        coords: "34.0837° N, 74.7973° E",
+        tag: "ZERO-NAIL LATTICE & TALEEM",
+        fee: "Free Heritage Quarter",
+        timings: "10:00 AM – 06:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "Master woodworkers fitting geometric deodar cedar joints without nails, alongside Kani shawl pit-looms using coded chants.",
+        mechanics: "Kani weavers do not look at a visual pattern; they read coded lyrical Taleem scripts chanted aloud by the master ustaad.",
+        secret: "A master Kani pashmina shawl requires 18 months on the loom and over 300,000 discrete interlock knots."
+      },
+      {
+        id: "crf-05",
+        category: "craft",
+        name: "Aranmula Metal Alloy Mirror Guild",
+        region: "Aranmula, Kerala",
+        coords: "9.3333° N, 76.6833° E",
+        tag: "FRONT-SURFACE BRONZE MIRROR",
+        fee: "Workshop Demonstration Free",
+        timings: "09:00 AM – 05:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+        desc: "One single family lineage in Aranmula casting front-surface mirrors from a secret copper-tin bronze alloy without silvered glass.",
+        mechanics: "Manual polishing with velvet and emery powder creates front-surface reflection with zero secondary refraction gap.",
+        secret: "Touch a match head to the mirror surface: the real reflection touches the tip with zero glass gap."
+      },
+      {
+        id: "crf-06",
+        category: "craft",
+        name: "Dariba Kalan Pure Silver Vark Alleys",
+        region: "Chandni Chowk, Delhi",
+        coords: "28.6560° N, 77.2310° E",
+        tag: "0.2 MICRON METALLIC BEATING",
+        fee: "Free Bazaar Access",
+        timings: "11:00 AM – 07:00 PM",
+        duration: "1.5 Hours",
+        image: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80",
+        desc: "A century-old jewelry lane where craftsmen hammer pure silver ribbons between ox-gut leather books into edible micro-foils.",
+        mechanics: "Six continuous hours of rhythmic manual hammering flattens pure silver into sheets 0.2 microns thick.",
+        secret: "Listen for the rhythmic acoustic dull thuds echoing from upper mezzanine floors of the narrow market buildings."
+      },
+      {
+        id: "crf-07",
+        category: "craft",
+        name: "Thatheri Bazaar Hand-Turned Brassware",
+        region: "Chowk, Varanasi",
+        coords: "25.3120° N, 83.0080° E",
+        tag: "ANCIENT RITUAL METALLURGY",
+        fee: "Free Bazaar Alleys",
+        timings: "10:00 AM – 08:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80",
+        desc: "A labyrinth of narrow alleys where generational artisans hammer brass and copper into sacred puja vessels and lamps.",
+        mechanics: "Hand-lathed brass pots are scraped with natural abrasive pastes to generate sacred acoustic resonance when struck.",
+        secret: "Authentic Varanasi water vessels use five specific sacred metals (Panchaloha) to inhibit bacterial growth in water."
+      },
+      {
+        id: "crf-08",
+        category: "craft",
+        name: "Paltan Bazaar & Tibetan Market",
+        region: "Dehradun, Uttarakhand",
+        coords: "30.3244° N, 78.0417° E",
+        tag: "BASMATI, WOOLENS & CARDAMOM",
+        fee: "Free Walking Bazaar",
+        timings: "10:00 AM – 09:30 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "A bustling market running from the Clock Tower, famous for authentic Dehradun Basmati rice, woolen shawls, and Tibetan spices.",
+        mechanics: "Historic bazaar founded in the British military cantonment era that remains the primary valley trade corridor.",
+        secret: "Head to the alley behind the clock tower to pick up freshly baked rusks and plum cakes from historic family bakeries."
+      },
+      {
+        id: "crf-09",
+        category: "craft",
+        name: "Sandur Banjara Lambani Embroidery Colony",
+        region: "Bellary, Karnataka",
+        coords: "15.0833° N, 76.5500° E",
+        tag: "GEOMETRIC MIRROR EMBROIDERY",
+        fee: "Free Community Visit",
+        timings: "09:00 AM – 05:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "Nomadic Lambani women combining 14 distinct cross-stitch patterns with cowrie shells, lead coins, and mirror-work.",
+        mechanics: "Heirloom fabrics take up to three months to hand-sew without stamped patterns, planned purely from memory.",
+        secret: "Every geometric band of stitching corresponds to a specific clan lineage and pastoral migration map."
+      },
+      {
+        id: "crf-10",
+        category: "craft",
+        name: "Jew Town Antiques & Spice Godowns",
+        region: "Mattancherry, Kochi, Kerala",
+        coords: "9.9575° N, 76.2597° E",
+        tag: "MALABAR SPICE WAREHOUSES",
+        fee: "Free Walking District",
+        timings: "10:00 AM – 07:00 PM",
+        duration: "2.5 Hours",
+        image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+        desc: "Centuries-old paved lanes surrounding the 1568 Paradesi Synagogue, filled with antique Dutch furniture and black pepper godowns.",
+        mechanics: "The scent of wild ginger, cardamom, and clove wafts from multi-generational spice-grading warehouses.",
+        secret: "Look inside the inner courtyards to see old wooden lever scales used to weigh pepper sacks for merchant ships."
+      },
 
-      // --- ADVENTURE & HIGH PASSES (10) ---
-      { id: "adv-1", cat: "adventure", title: "Khardung La High Pass (17,582 ft)", loc: "Leh, Ladakh", fee: "Permit", hours: "Open 24/7", img: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80", desc: "Historic Silk Road motorable pass offering panoramic views of the Karakoram range and Nubra Valley.", intel: "Oxygen levels are 50% lower than sea level; stay duration is restricted to 20 minutes." },
-      { id: "adv-2", cat: "adventure", title: "Atal Tunnel & Rohtang Pass", loc: "Manali, Himachal Pradesh", fee: "Permit", hours: "Open 24/7", img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", desc: "World's longest highway tunnel above 10,000 feet (9.02 km), connecting Kullu Valley to Lahaul & Spiti.", intel: "Engineered with semi-transverse ventilation and emergency escape ducts every 500 meters." },
-      { id: "adv-3", cat: "adventure", title: "Auli High-Altitude Ski Slopes", loc: "Chamoli, Uttarakhand", fee: "₹500 (Ropeway)", hours: "8 AM - 5 PM", img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", desc: "Premier Himalayan ski resort at 9,000 feet surrounded by Nanda Devi and Mana Parbat peaks.", intel: "Features a 4-km cable car ropeway connecting Joshimath to Auli slopes." },
-      { id: "adv-4", cat: "adventure", title: "Rishikesh White-Water Ganges Rapids", loc: "Rishikesh, Uttarakhand", fee: "₹600 - ₹1500", hours: "7 AM - 5 PM", img: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80", desc: "Grade III and IV white-water river rafting stretches through Himalayan foothills between Shivpuri and Laxman Jhula.", intel: "Best experienced from September to June when water clarity is pristine." },
-      { id: "adv-5", cat: "adventure", title: "Zanskar Frozen River Chadar Trek", loc: "Zanskar, Ladakh", fee: "Permit", hours: "Jan - Feb", img: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80", desc: "Extreme winter trek walking on frozen river ice sheet ('Chadar') through 1,000-foot vertical gorge walls.", intel: "Temperatures drop to -30°C; trekkers sleep in natural river caves overnight." },
-      { id: "adv-6", cat: "adventure", title: "Sam Sand Dunes Safari & Astronomy", loc: "Jaisalmer, Rajasthan", fee: "₹1,500", hours: "4 PM - 10 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80", desc: "Thar Desert sand dunes offering 4x4 dune bashing, camel safaris, and clear dark-sky stargazing.", intel: "Zero light pollution allows naked-eye visibility of the Milky Way core in winter." },
-      { id: "adv-7", cat: "adventure", title: "Spiti Valley & Kunzum Pass", loc: "Spiti, Himachal Pradesh", fee: "Permit", hours: "May - Oct", img: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80", desc: "Cold desert valley at 12,500 feet featuring high-altitude monasteries like Key Gompa and Chandratal Lake.", intel: "Kunzum Pass (14,931 ft) connects Lahaul to Spiti with a shrine dedicated to Goddess Kunzum." },
-      { id: "adv-8", cat: "adventure", title: "Chembra Peak & Heart Lake", loc: "Wayanad, Kerala", fee: "₹750 (Group)", hours: "7 AM - 2 PM", img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80", desc: "Trek to the highest peak in Wayanad (6,900 ft), passing a natural heart-shaped high mountain lake.", intel: "The heart-shaped lake ('Hridayaththeertham') has never dried up in recorded history." },
-      { id: "adv-9", cat: "adventure", title: "Gandikota Grand Canyon of India", loc: "Kadapa, Andhra Pradesh", fee: "Free", hours: "Open 24/7", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80", desc: "Massive gorge carved by the Pennar River through Erramala hills, crowned by a 13th-century red sandstone fort.", intel: "Resembles Arizona's Grand Canyon with 300-foot sheer quartzite rock walls." },
-      { id: "adv-10", cat: "adventure", title: "Bir Billing Paragliding Launchpad", loc: "Kangra, Himachal Pradesh", fee: "₹3,000", hours: "8 AM - 5 PM", img: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80", desc: "World's second-highest paragliding site offering tandem flights with 2,400-meter thermal altitude gain.", intel: "Billing is the takeoff site at 8,000 feet; Bir is the safe landing pasture at 4,300 feet." }
+      // -------------------------------------------------------------
+      // 5. ADVENTURE & SECRET TRAILS (10 Sites)
+      // -------------------------------------------------------------
+      {
+        id: "adv-01",
+        category: "adventure",
+        name: "Robber's Cave (Guchhupani) Limestone Gorge",
+        region: "Dehradun, Uttarakhand",
+        coords: "30.3778° N, 78.0583° E",
+        tag: "NATURAL CAVE STREAM TREK",
+        fee: "₹35 Entrance Fee",
+        timings: "07:00 AM – 06:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "A 600-meter narrow limestone canyon where cold mountain spring water flows ankle-deep through dark cave corridors.",
+        mechanics: "The underground spring disappears beneath the rock floor and reappears meters ahead through geological karst fractures.",
+        secret: "Rent rubber wading boots at the entrance; wading into the dark inner cave reveals a hidden cold waterfall drop."
+      },
+      {
+        id: "adv-02",
+        category: "adventure",
+        name: "Chadar Frozen Zanskar Gorge Expedition",
+        region: "Zanskar Valley, Ladakh",
+        coords: "33.9800° N, 76.9000° E",
+        tag: "SUB-ZERO ICE SHEET EXPEDITION",
+        fee: "Expedition Permit & Medical Clearance",
+        timings: "January to February Only",
+        duration: "6–8 Days Trek",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "Walking over a frozen river sheet ('Chadar') enclosed inside vertical 1,000-foot rock canyons at -30°C.",
+        mechanics: "The river ice freezes into a dynamic glass bridge that shifts hourly with water pressure and thermal contraction.",
+        secret: "Zanskari guides test ice thickness by listening to the hollow acoustic rumble of rushing river currents beneath the ice."
+      },
+      {
+        id: "adv-03",
+        category: "adventure",
+        name: "Hemakuta & Matanga Hill Dawn Boulder Scramble",
+        region: "Hampi, Karnataka",
+        coords: "15.3350° N, 76.4600° E",
+        tag: "PROTEROZOIC SUNRISE CREST",
+        fee: "Free Public Trail",
+        timings: "Climb by 05:15 AM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "A steep granite scramble up the highest geographic crest in Hampi, offering 360-degree views of the Vijayanagara ruins.",
+        mechanics: "Granite boulders weathered for 2.5 billion years offer high-friction foot traction on steep ridgelines.",
+        secret: "Climb via the eastern temple staircase with a headlamp; the dawn sunlight warms the granite boulders from violet to gold."
+      },
+      {
+        id: "adv-04",
+        category: "adventure",
+        name: "Roopkund Glacial Mystery Lake Trek",
+        region: "Chamoli, Uttarakhand",
+        coords: "30.2642° N, 79.7317° E",
+        tag: "16,500 FT ELEVATION",
+        fee: "Forest Department Permit",
+        timings: "May–June & Sept–Oct",
+        duration: "5–7 Days Expedition",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "A glacial tarn nestled in the Trishul massif where hundreds of 9th-century skeletal remains emerge as the ice melts.",
+        mechanics: "Sub-zero temperatures and thin air preserved bones, leather shoes, and bamboo sticks across eleven centuries.",
+        secret: "DNA testing revealed the remains belong to two distinct groups: local travelers and an unidentified Mediterranean group."
+      },
+      {
+        id: "adv-05",
+        category: "adventure",
+        name: "Khardung La High-Altitude Mountain Pass",
+        region: "Ladakh",
+        coords: "34.2789° N, 77.6044° E",
+        tag: "17,982 FT PASSAGEWAY",
+        fee: "Inner Line Permit required",
+        timings: "09:00 AM – 04:00 PM (Weather Permitting)",
+        duration: "1–2 Hours (Transit)",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "One of the highest motorable passes on earth, connecting the Indus River valley to the Nubra and Shyok valleys.",
+        mechanics: "Extreme atmospheric pressure drops reduce oxygen levels to 50% of sea level, requiring acclimatization.",
+        secret: "Limit your stay at the pass summit to under 20 minutes to prevent high-altitude sickness (AMS) headaches."
+      },
+      {
+        id: "adv-06",
+        category: "adventure",
+        name: "Sahastradhara Sulphur Spring Caverns",
+        region: "Dehradun, Uttarakhand",
+        coords: "30.3833° N, 78.1333° E",
+        tag: "MINERALIZED DRIPPING CAVE",
+        fee: "Free Entry (Ropeway extra)",
+        timings: "08:00 AM – 06:00 PM",
+        duration: "2 Hours",
+        image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80",
+        desc: "A riverfront cliff where thousands of small spring outlets drip sulfur-rich mineral water over limestone stalactites.",
+        mechanics: "Water dissolving calcium and sulfur deposits forms tiered natural travertine pools with natural mineral salts.",
+        secret: "Wander past the commercial shops to reach the natural interior limestone overhangs with quieter dripping pools."
+      },
+      {
+        id: "adv-07",
+        category: "adventure",
+        name: "Dudhsagar Four-Tiered Jungle Waterfall",
+        region: "Goa-Karnataka Border",
+        coords: "15.3144° N, 74.3144° E",
+        tag: "310-METER CASCADE",
+        fee: "Forest Entry ₹100 + Jeep Safari",
+        timings: "08:30 AM – 04:30 PM",
+        duration: "4–5 Hours",
+        image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
+        desc: "A massive four-tiered waterfall on the Mandovi River tumbling down vertical granite cliffs in Bhagwan Mahaveer Sanctuary.",
+        mechanics: "Surging monsoon rains turn the Mandovi into a roaring curtain of white spray that gives the falls its name ('Sea of Milk').",
+        secret: "The railway viaduct crosses directly in front of the middle cascade; take an early morning passenger train for a direct view."
+      },
+      {
+        id: "adv-08",
+        category: "adventure",
+        name: "Athirappilly 'Niagara of India' Forest Falls",
+        region: "Thrissur, Kerala",
+        coords: "10.2851° N, 76.5698° E",
+        tag: "80-FOOT CURTAIN FALL",
+        fee: "₹50 Entry Fee",
+        timings: "08:00 AM – 05:00 PM",
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+        desc: "An 80-foot wide curtain of water cascading through dense Sholayar rainforest into the Chalakudy River gorge.",
+        mechanics: "Fed by the Western Ghats catchment basin, home to four endangered species of hornbills and wild elephant corridors.",
+        secret: "Follow the steep bamboo trail down to the riverbase; the mist creates visible full-circle rainbows in late morning light."
+      },
+      {
+        id: "adv-09",
+        category: "adventure",
+        name: "Spiti Pin Valley Cold-Desert Ridge Trail",
+        region: "Spiti, Himachal Pradesh",
+        coords: "32.0000° N, 78.0000° E",
+        tag: "FOSSIL BED WILDLIFE EXPEDITION",
+        fee: "Free Public Trails",
+        timings: "May to October Only",
+        duration: "Full Day / Multi-Day",
+        image: "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=80",
+        desc: "A sub-zero high-altitude river valley with vertical shale cliffs, home to snow leopards, Siberian ibex, and marine fossils.",
+        mechanics: "Sedimentary marine shale exposed by the collision of the Indian and Eurasian tectonic plates 50 million years ago.",
+        secret: "Look closely at loose gravel stones in Langza and Pin Valley: ammonite marine fossils ('Shaligrams') lie on the ground."
+      },
+      {
+        id: "adv-10",
+        category: "adventure",
+        name: "Tungabhadra Swirling Gorge Coracle Route",
+        region: "Anegundi, Karnataka",
+        coords: "15.3500° N, 76.4800° E",
+        tag: "ANCIENT BASKET BOAT NAVIGATION",
+        fee: "₹100–₹200 per ride",
+        timings: "07:00 AM – 05:30 PM",
+        duration: "1 Hour",
+        image: "https://images.unsplash.com/photo-1600100397608-f010f443b782?auto=format&fit=crop&w=800&q=80",
+        desc: "Navigating boiling river rapids in round woven bamboo coracles coated in bitumen, cruising past half-submerged rock temples.",
+        mechanics: "Circular hull geometry dissipates violent water shear from granite boulders without tilting or capsizing.",
+        secret: "Boatmen can row directly inside narrow river caves carved by whirlpool erosion over millions of years."
+      }
     ];
 
-    /* 2. Filter & Render Function */
-        function renderPlaces(list) {
-      const grid = document.getElementById("places-grid");
-      if (!grid) return;
+    /* ====================================================================
+       RENDER & FILTER ENGINE
+    ==================================================================== */
+    function renderPlaces(filterCategory = "all") {
+      const container = document.getElementById("places-grid");
+      if (!container) return;
 
-      grid.innerHTML = list.map(item => `
-        <div class="place-card">
+      const filtered = filterCategory === "all" 
+        ? HERITAGE_COORDINATES_DB 
+        : HERITAGE_COORDINATES_DB.filter(p => p.category === filterCategory);
+
+      document.getElementById("places-counter").innerText = `${filtered.length} SIGHTS DISPLAYED`;
+
+      container.innerHTML = filtered.map(place => `
+        <article class="place-card">
           <div style="position:relative;">
-            <img class="place-card-img" src="${item.img}" alt="${item.title}" loading="lazy" />
-            <span style="position:absolute; top:12px; left:12px; background:rgba(3,5,7,0.85); border:1px solid rgba(16,185,129,0.4); color:#10b981; font-family:'JetBrains Mono'; font-size:0.65rem; padding:4px 10px; border-radius:6px; font-weight:600;">${item.cat.toUpperCase()}</span>
+            <img src="${place.image}" alt="${place.name}" class="place-card-img" loading="lazy" />
+            <span style="position:absolute; top:12px; left:12px; background:rgba(3,5,7,0.85); border:1px solid rgba(16,185,129,0.4); color:#10b981; font-family:'JetBrains Mono'; font-size:0.65rem; padding:4px 10px; border-radius:6px; font-weight:600;">${place.category.toUpperCase()}</span>
           </div>
           <div class="place-card-body">
             <div>
               <div class="place-meta-strip">
-                <span style="font-size:0.75rem; color:#94a3b8;">📍 ${item.loc}</span>
-                <span style="font-size:0.75rem; color:#64748b;">⏱️ ${item.hours}</span>
+                <span class="telemetry" style="font-size:0.62rem; color:var(--accent-emerald);">${place.tag}</span>
+                <span style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:#f59e0b; background:rgba(245,158,11,0.1); padding:2px 6px; border-radius:4px;">★ VERIFIED</span>
               </div>
-              <h4 class="place-title">${item.title}</h4>
-              <p class="place-desc">${item.desc}</p>
+              <h3 class="place-title">${place.name}</h3>
+              <p class="place-desc">${place.desc}</p>
             </div>
 
-            <div class="place-telemetry-row">
-              <div><span style="color:#64748b;">FEE:</span> ${item.fee}</div>
-              <div><span style="color:#64748b;">HOURS:</span> ${item.hours}</div>
-            </div>
+            <div>
+              <div class="place-telemetry-row">
+                <div><span style="color:#64748b;">ENTRY:</span> ${place.fee.split('/')[0]}</div>
+                <div><span style="color:#64748b;">DURATION:</span> ${place.duration.split(' ')[0]} ${place.duration.split(' ')[1] || ''}</div>
+                <div style="grid-column: span 2;"><span style="color:#64748b;">COORDS:</span> ${place.coords}</div>
+              </div>
 
-            <div class="card-actions">
-              <button class="btn-card-intel" onclick="openPlaceModal('${item.id}')">VIEW DEEP INTEL</button>
-              <button class="btn-bookmark" onclick="toggleSaveSpot('${item.title}')" title="Save to Vault">🔖</button>
+              <div class="card-actions">
+                <button class="btn-card-intel" onclick="openPlaceModal('${place.id}')">DEEP INTEL & SECRETS</button>
+                <button class="btn-bookmark" onclick="bookmarkPlace('${place.name}')" title="Bookmark to My Trip">🔖</button>
+              </div>
             </div>
           </div>
-        </div>
+        </article>
       `).join("");
-
-      document.getElementById("places-counter").innerText = `${list.length} VERIFIED SIGHTS LOADED`;
     }
 
-    function filterPlaces(cat, btn) {
-      document.querySelectorAll('.places-category-bar .filter-pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (cat === 'all') {
-        renderPlaces(ALL_INDIA_SIGHTS);
-      } else {
-        const filtered = ALL_INDIA_SIGHTS.filter(s => s.cat === cat);
-        renderPlaces(filtered);
-      }
+    function filterPlaces(cat, btnElement) {
+      document.querySelectorAll(".places-category-bar .filter-pill").forEach(b => b.classList.remove("active"));
+      btnElement.classList.add("active");
+      renderPlaces(cat);
     }
 
-    /* 3. Deep-Intel Modal Launcher */
-        function openPlaceModal(id) {
-      const item = ALL_INDIA_SIGHTS.find(s => s.id === id);
+    /* ====================================================================
+       MODAL DEEP-INTEL DRAWER
+    ==================================================================== */
+    function openPlaceModal(placeId) {
+      const item = HERITAGE_COORDINATES_DB.find(p => p.id === placeId);
       if (!item) return;
 
       const modal = document.getElementById("place-intel-modal");
-      const inject = document.getElementById("modal-content-inject");
+      const content = document.getElementById("modal-content-inject");
 
-      inject.innerHTML = `
-        <div style="padding:24px;">
-          <img src="${item.img}" style="width:100%; height:260px; object-fit:cover; border-radius:12px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.08);" alt="${item.title}" />
-          <span class="telemetry"><span class="telemetry-dot"></span> SECTOR INTEL // ${item.cat.toUpperCase()}</span>
-          <h2 style="color:#fff; font-family:'Cinzel', serif; font-size:1.8rem; margin:8px 0 12px 0;">${item.title}</h2>
-          <div style="font-size:0.85rem; color:#f59e0b; margin-bottom:16px; font-family:'JetBrains Mono', monospace;">📍 ${item.loc} &bull; 🎟️ Fee: ${item.fee} &bull; ⏱️ Hours: ${item.hours}</div>
-          <p style="font-size:0.92rem; color:#94a3b8; line-height:1.6; margin-bottom:20px;">${item.desc}</p>
+      content.innerHTML = `
+        <img src="${item.image}" style="width:100%; height:260px; object-fit:cover; border-bottom:1px solid rgba(255,255,255,0.08);" />
+        <div style="padding: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span class="telemetry" style="color:var(--accent-emerald);">${item.tag}</span>
+            <span style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:#94a3b8;">${item.region}</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:800; color:#fff; margin-bottom:12px;">${item.name}</h2>
+          <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">${item.desc}</p>
 
-          <div style="background:rgba(0,0,0,0.5); border-left:3px solid #10b981; padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid rgba(255,255,255,0.04);">
-            <strong style="color:#10b981; font-family:'JetBrains Mono', monospace; font-size:0.75rem; display:block; margin-bottom:6px;">💡 CLASSIFIED GEOLOGICAL / HISTORICAL INTEL:</strong>
-            <p style="color:#f8fafc; font-size:0.88rem; line-height:1.5;">${item.intel}</p>
+          <div style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px; margin-bottom:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px; font-family:'JetBrains Mono', monospace; font-size:0.75rem;">
+            <div><strong style="color:var(--accent-emerald);">HOURS:</strong> ${item.timings}</div>
+            <div><strong style="color:var(--accent-emerald);">TICKETS:</strong> ${item.fee}</div>
+            <div><strong style="color:var(--accent-emerald);">TIME NEEDED:</strong> ${item.duration}</div>
+            <div><strong style="color:var(--accent-emerald);">COORDINATES:</strong> ${item.coords}</div>
           </div>
 
-          <div class="card-actions">
-            <a href="https://maps.google.com/?q=${encodeURIComponent(item.title + ' ' + item.loc)}" target="_blank" class="btn-card-intel" style="text-decoration:none; display:inline-block;">
-              📍 OPEN GOOGLE MAPS GPS
-            </a>
-            <button class="btn-bookmark" onclick="toggleSaveSpot('${item.title}'); closePlaceModal();">Bookmark</button>
+          <div style="margin-bottom:20px;">
+            <h4 style="font-size:0.85rem; font-family:'JetBrains Mono', monospace; color:#38bdf8; margin-bottom:6px;">ENGINEERING & GEOLOGY</h4>
+            <p style="font-size:0.85rem; color:#94a3b8; line-height:1.5;">${item.mechanics}</p>
+          </div>
+
+          <div style="background:rgba(245,158,11,0.08); border-left:3px solid #f59e0b; padding:12px 14px; border-radius:4px; margin-bottom:24px;">
+            <strong style="color:#f59e0b; font-family:'JetBrains Mono', monospace; font-size:0.75rem;">💡 INSIDER HERITAGE SECRET:</strong>
+            <p style="font-size:0.82rem; color:#f8fafc; line-height:1.5; margin-top:4px;">${item.secret}</p>
+          </div>
+
+          <div style="display:flex; gap:12px;">
+            <a href="https://maps.google.com/?q=${encodeURIComponent(item.name + ' ' + item.region)}" target="_blank" class="btn-card-intel" style="text-decoration:none; display:inline-block; text-align:center;">OPEN IN GOOGLE MAPS</a>
+            <button class="btn-card-intel" style="background:rgba(255,255,255,0.08); color:#fff; border-color:rgba(255,255,255,0.2);" onclick="bookmarkPlace('${item.name}')">SAVE TO TRIP</button>
           </div>
         </div>
       `;
@@ -945,14 +1675,20 @@
       modal.classList.remove("active");
     }
 
-    function closePlaceModal(e) {
-      if (e) e.stopPropagation();
-      document.getElementById("place-intel-modal").classList.remove("active");
+    function bookmarkPlace(name) {
+      let saved = JSON.parse(localStorage.getItem("arvora_saved_places") || "[]");
+      if (!saved.includes(name)) {
+        saved.push(name);
+        localStorage.setItem("arvora_saved_places", JSON.stringify(saved));
+        alert(`Added "${name}" to your trip bookmarks!`);
+      } else {
+        alert(`"${name}" is already in your saved trip.`);
+      }
     }
 
-    /* Initialize on DOM Load */
+    // Initialize on page load
     document.addEventListener("DOMContentLoaded", () => {
-      renderPlaces(ALL_INDIA_SIGHTS);
+      renderPlaces("all");
     });
   </script>
 </body>

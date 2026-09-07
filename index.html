@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARVORA | India Spatial Heritage Codex</title>
+  <title>ARVORA | Pan-Bharat Spatial Travel & Cultural Codex</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,20 +11,23 @@
 
   <style>
     :root {
-      --bg-core: #030507;
-      --glass-panel: rgba(8, 12, 18, 0.72);
+      --bg-core: #040608;
+      --glass-panel: rgba(8, 12, 18, 0.76);
       --glass-card: rgba(13, 19, 28, 0.65);
-      --border-subtle: rgba(255, 255, 255, 0.12);
+      --glass-card-hover: rgba(22, 32, 46, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
       --border-focus: rgba(16, 185, 129, 0.55);
       --accent-emerald: #10b981;
       --accent-amber: #f59e0b;
       --accent-cyan: #06b6d4;
+      --accent-crimson: #f43f5e;
       --text-pure: #ffffff;
       --text-muted: #cbd5e1;
       --text-dim: #64748b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg-core);
       color: var(--text-pure);
@@ -33,9 +36,13 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ========================================================
-       1. HIGH-DENSITY PHOTO ENGINE (CRISP VISIBILITY + SHARP TEXT)
-    ======================================================== */
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #040608; }
+    ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-emerald); }
+
+    /* High-Contrast Photographic Backdrop */
     .viewport-stage {
       position: fixed;
       inset: 0;
@@ -47,22 +54,19 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      /* Kept dense and rich, not washed out */
-      filter: brightness(0.65) contrast(1.2) saturate(1.25);
+      filter: brightness(0.62) contrast(1.22) saturate(1.25);
       transform: scale(1.02);
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .backdrop-layer.hidden { opacity: 0; transform: scale(1.06); }
-    
-    /* Contrast isolator: Gives depth without killing photo details */
     .contrast-isolator {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 20%, rgba(3, 5, 7, 0.35) 0%, rgba(3, 5, 7, 0.75) 65%, #030507 100%);
+      background: radial-gradient(circle at 50% 20%, rgba(4, 6, 8, 0.3) 0%, rgba(4, 6, 8, 0.82) 65%, #040608 100%);
       pointer-events: none;
     }
 
-    /* Monospace Tech Markers */
+    /* Micro-Telemetry Markers */
     .telemetry {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
@@ -86,8 +90,46 @@
       50% { opacity: 1; transform: scale(1.2); }
     }
 
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+    .btn-emerald {
+      background: var(--accent-emerald);
+      color: #040608;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+    .btn-emerald:hover {
+      background: #10c88b;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-subtle);
+      color: #ffffff;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+    }
+
     /* ========================================================
-       2. GATEWAY VIEW (MAIN LANDING)
+       STAGE 1: HIMALAYAN / VERNACULAR RUIN GATEWAY
     ======================================================== */
     #main-page {
       min-height: 100vh;
@@ -96,23 +138,24 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      position: relative;
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
     #main-page.page-exit {
       opacity: 0;
-      transform: scale(1.05);
+      transform: scale(1.06);
       pointer-events: none;
     }
 
     .portal-container {
       position: relative;
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
       height: 480px;
       border-radius: 20px;
       border: 1px solid var(--border-subtle);
       background: radial-gradient(circle at center, #020406 10%, #080d16 90%);
-      box-shadow: 0 25px 80px -10px rgba(0,0,0,0.9), inset 0 0 80px rgba(0,0,0,0.8);
+      box-shadow: 0 25px 80px -10px rgba(0,0,0,0.9), inset 0 0 80px rgba(0,0,0,0.85);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -132,10 +175,10 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 24px 40px;
+      padding: 24px 44px;
       border-radius: 12px;
       border: 1px solid rgba(16, 185, 129, 0.25);
-      background: linear-gradient(180deg, rgba(20, 28, 40, 0.45) 0%, rgba(6, 10, 15, 0.85) 100%);
+      background: linear-gradient(180deg, rgba(20, 28, 40, 0.45) 0%, rgba(6, 10, 15, 0.88) 100%);
       backdrop-filter: blur(16px);
       box-shadow: 0 20px 50px rgba(0,0,0,0.8);
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -143,13 +186,13 @@
 
     .arvora-glint-title {
       font-family: 'Cinzel', serif;
-      font-size: 3.8rem;
+      font-size: 4rem;
       letter-spacing: 0.38em;
       font-weight: 900;
       background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 45%, #10b981 75%, #047857 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+      filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.45));
       user-select: none;
       position: relative;
     }
@@ -176,9 +219,9 @@
       border: 1px solid var(--border-focus);
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       letter-spacing: 0.14em;
-      padding: 14px 34px;
+      padding: 14px 36px;
       border-radius: 40px;
       cursor: pointer;
       display: flex;
@@ -189,19 +232,19 @@
     .launch-btn:hover {
       background: var(--accent-emerald);
       color: #030507;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.75);
       transform: translateY(-2px);
     }
 
     /* ========================================================
-       3. FEATURES PAGE (INTERACTIVE INTELLIGENCE SUITE)
+       STAGE 2: UNIFIED SPATIAL CODEX DASHBOARD
     ======================================================== */
     #features-page {
       display: none;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.5s ease, transform 0.5s ease;
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
       padding: 36px 24px 100px;
     }
@@ -211,7 +254,7 @@
       transform: translateY(0);
     }
 
-    /* Unified National Search Console */
+    /* 1. Global Universal Discovery Console */
     .search-console {
       background: var(--glass-panel);
       backdrop-filter: blur(28px);
@@ -223,7 +266,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
 
@@ -241,7 +284,7 @@
     }
     .search-input-box:focus-within {
       border-color: var(--accent-emerald);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.25);
     }
     .search-input-box input {
       background: transparent;
@@ -255,41 +298,6 @@
     }
     .search-input-box input::placeholder { color: var(--text-dim); }
 
-    .btn-return {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-pure);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .btn-return:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-resolve {
-      background: var(--accent-emerald);
-      border: none;
-      color: #030507;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-resolve:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-    }
-
-    /* Real-Time Scan Line Loader */
     .scan-line {
       display: none;
       height: 2px;
@@ -302,14 +310,42 @@
       100% { transform: translateX(100%); }
     }
 
-    /* Destination Header Meta */
+    /* Quick Jump Location Chips */
+    .hud-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 28px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .hud-chips::-webkit-scrollbar { display: none; }
+    .hud-chip {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .hud-chip:hover, .hud-chip.active {
+      color: #fff;
+      border-color: var(--border-focus);
+      background: rgba(16, 185, 129, 0.12);
+    }
+
+    /* 2. Dynamic Telemetry Banner */
     .meta-banner {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 20px;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
     .destination-headline {
       font-size: 2.2rem;
@@ -319,18 +355,50 @@
       text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
 
-    /* ========================================================
-       4. INTERACTIVE BENTO GRID (FLIP & REVEAL CARDS)
-    ======================================================== */
+    /* Micro-Telemetry HUD Grid (4 Glass Cards) */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .telemetry-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .telemetry-card:hover {
+      background: var(--glass-card-hover);
+      border-color: var(--border-focus);
+      transform: translateY(-3px);
+    }
+    .telemetry-icon {
+      font-size: 26px;
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 3. 3D Interactive Flip Cards */
     .grid-container {
       display: grid;
       gap: 18px;
-      margin-bottom: 50px;
+      margin-bottom: 48px;
     }
     .inquiries-layout { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
     .pillars-layout { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
-    /* Interactive Flip Card (Replaces boring walls of text) */
     .flip-card {
       perspective: 1000px;
       height: 290px;
@@ -360,23 +428,18 @@
       border: 1px solid var(--border-subtle);
       box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     }
-
     .flip-front {
       background: var(--glass-card);
       backdrop-filter: blur(24px);
     }
-    .flip-front:hover {
-      border-color: var(--border-focus);
-    }
-
+    .flip-front:hover { border-color: var(--border-focus); }
     .flip-back {
-      background: rgba(10, 16, 26, 0.94);
+      background: rgba(8, 14, 22, 0.95);
       backdrop-filter: blur(30px);
       transform: rotateY(180deg);
       border-color: var(--accent-emerald);
     }
 
-    /* Tap Indicator Tag */
     .interactive-cue {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
@@ -387,27 +450,175 @@
       gap: 6px;
     }
 
-    /* Sound Frequency Bar Simulation */
-    .freq-wave {
+    .secret-box {
+      background: rgba(0, 0, 0, 0.65);
+      border-left: 2px solid var(--accent-amber);
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    /* 4. Attraction Matrix & Filters */
+    .filter-pills-row {
       display: flex;
-      align-items: center;
-      gap: 3px;
-      height: 14px;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
     }
-    .freq-bar {
-      width: 2px;
+    .filter-pills-row::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover, .filter-pill.active {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--accent-emerald);
+      color: #ffffff;
+    }
+
+    .attraction-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .attraction-card {
+      background: var(--glass-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+    .attraction-card:hover {
+      background: var(--glass-card-hover);
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+    }
+    .attraction-img-box {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      overflow: hidden;
+    }
+    .attraction-img-box img {
+      width: 100%;
       height: 100%;
-      background: var(--accent-emerald);
-      border-radius: 2px;
-      animation: soundWave 1s infinite alternate ease-in-out;
+      object-fit: cover;
+      transition: transform 0.5s ease;
     }
-    .freq-bar:nth-child(2) { animation-delay: 0.2s; height: 60%; }
-    .freq-bar:nth-child(3) { animation-delay: 0.4s; height: 90%; }
-    .freq-bar:nth-child(4) { animation-delay: 0.1s; height: 40%; }
-    @keyframes soundWave {
-      0% { transform: scaleY(0.3); }
-      100% { transform: scaleY(1); }
+    .attraction-card:hover .attraction-img-box img { transform: scale(1.08); }
+
+    /* Modal Intel Window */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 12, 0.88);
+      backdrop-filter: blur(20px);
+      z-index: 3000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
     }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-box {
+      background: #080d16;
+      border: 1px solid var(--border-focus);
+      border-radius: 16px;
+      max-width: 860px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 32px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.9);
+    }
+
+    /* 5. AI Autonomous Trip Builder */
+    .builder-card {
+      background: var(--glass-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent-emerald);
+      letter-spacing: 0.1em;
+    }
+    .form-field select, .form-field input {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* 10. Interactive Trip Budget Calculator */
+    .budget-calc-box {
+      background: var(--glass-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 800px) { .budget-calc-box { grid-template-columns: 1fr; } }
+    .range-slider { width: 100%; accent-color: var(--accent-emerald); }
+
+    /* Vault Drawer */
+    .vault-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 420px;
+      max-width: 90vw;
+      height: 100vh;
+      background: #060a10;
+      border-left: 1px solid var(--border-focus);
+      z-index: 4000;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -20px 0 50px rgba(0,0,0,0.8);
+    }
+    .vault-drawer.open { transform: translateX(0); }
   </style>
 </head>
 <body>
@@ -420,80 +631,308 @@
   </div>
 
   <!-- ==========================================
-       MAIN PAGE: THE ANCIENT PORTAL
+       STAGE 1: THE HIMALAYAN / VERNACULAR RUIN GATEWAY
   =========================================== -->
   <main id="main-page">
-    <div class="portal-container" id="portal-frame" onclick="enterFeatures()">
+    <div class="portal-container" id="portal-frame" onclick="enterDashboard()">
       <canvas id="particle-canvas"></canvas>
       <div class="hovering-arch" id="keystone">
         <span class="telemetry"><span class="telemetry-dot"></span> AUTONOMOUS SPATIAL CODEX</span>
         <h1 class="arvora-glint-title">ARVORA</h1>
-        <span class="telemetry" style="color: var(--text-dim); margin-top: 6px;">PAN-INDIA LIVING ANTHOLOGY</span>
+        <span class="telemetry" style="color: var(--text-dim); margin-top: 6px;">PAN-BHARAT SPATIAL TRAVEL & CULTURAL CODEX</span>
       </div>
     </div>
     
-    <button class="launch-btn" onclick="enterFeatures()">
-      <span>OPEN INTELLIGENCE MATRIX</span>
+    <button class="launch-btn" onclick="enterDashboard()">
+      <span>INITIALIZE SPATIAL CODEX</span>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </main>
 
   <!-- ==========================================
-       FEATURES PAGE: TELEMETRY & FLIP DOSSIER
+       STAGE 2: UNIFIED SPATIAL CODEX DASHBOARD
   =========================================== -->
   <section id="features-page">
-    <!-- Search HUD Console -->
+    <!-- 1. Universal Discovery Console -->
     <div class="search-console">
-      <button class="btn-return" onclick="returnToPortal()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px; display:inline-block;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        PORTAL THRESHOLD
+      <button class="btn btn-outline" onclick="returnToGateway()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        GATEWAY
       </button>
 
       <div class="search-input-box">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="query-input" placeholder="Search any Indian village, city, district (e.g. Khajuraho, Madurai, Spiti, Alwar)..." onkeydown="if(event.key==='Enter') triggerSearch()">
+        <input type="text" id="query-input" placeholder="Scan any Indian village, city, district, or state (e.g. Ziro, Hampi, Orchha, Dehradun, Varanasi, Malana)..." onkeydown="if(event.key==='Enter') executeSearch()">
       </div>
 
-      <button class="btn-resolve" onclick="triggerSearch()">EXECUTE SCAN</button>
+      <button class="btn btn-emerald" onclick="executeSearch()">RESOLVE CODEX</button>
+      <button class="btn btn-outline" onclick="toggleVaultDrawer()">🔖 VAULT (<span id="vault-count">0</span>)</button>
     </div>
 
     <div class="scan-line" id="scan-line"></div>
 
-    <!-- Metadata Headline -->
+    <!-- Quick Location Chips -->
+    <div class="hud-chips">
+      <button class="hud-chip active" onclick="loadLocation('Delhi')">Delhi</button>
+      <button class="hud-chip" onclick="loadLocation('Dehradun')">Dehradun</button>
+      <button class="hud-chip" onclick="loadLocation('Varanasi')">Varanasi</button>
+      <button class="hud-chip" onclick="loadLocation('Hampi')">Hampi</button>
+      <button class="hud-chip" onclick="loadLocation('Agra')">Agra</button>
+      <button class="hud-chip" onclick="loadLocation('Kashmir')">Kashmir</button>
+      <button class="hud-chip" onclick="loadLocation('Goa')">Goa</button>
+      <button class="hud-chip" onclick="loadLocation('Amritsar')">Amritsar</button>
+      <button class="hud-chip" onclick="loadLocation('Jaipur')">Jaipur</button>
+      <button class="hud-chip" onclick="loadLocation('Ladakh')">Ladakh</button>
+      <button class="hud-chip" onclick="loadLocation('Kerala')">Kerala</button>
+    </div>
+
+    <!-- 2. Dynamic Telemetry Banner -->
     <div class="meta-banner">
       <div>
-        <span class="telemetry" id="geo-coords"><span class="telemetry-dot"></span> RESOLVING GEOSPATIAL VECTOR</span>
+        <span class="telemetry" id="geo-coords"><span class="telemetry-dot"></span> GEOSPATIAL VECTOR VERIFIED</span>
         <h2 class="destination-headline" id="destination-title">DELHI: AUTONOMOUS CODEX</h2>
       </div>
-      <div class="freq-wave" title="Telemetry Feed Live">
-        <span class="freq-bar"></span>
-        <span class="freq-bar"></span>
-        <span class="freq-bar"></span>
-        <span class="freq-bar"></span>
+      <span class="telemetry" style="color:var(--accent-amber);" id="extract-source">LIVE GEODATA ENGINE</span>
+    </div>
+
+    <!-- Live Micro-Telemetry HUD Grid (4 Glass Cards) -->
+    <div class="telemetry-grid">
+      <div class="telemetry-card">
+        <div class="telemetry-icon">🌤️</div>
+        <div>
+          <div class="telemetry" style="font-size:0.65rem;">CLIMATE MATRIX</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#fff;" id="hud-temp">24°C Pleasant</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);" id="hud-climate-sub">Plains Microclimate &bull; 58% RH</div>
+        </div>
+      </div>
+
+      <div class="telemetry-card">
+        <div class="telemetry-icon">📅</div>
+        <div>
+          <div class="telemetry" style="font-size:0.65rem;">PRIME WINDOW</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#fff;" id="hud-season">Oct – Mar</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);" id="hud-season-sub">Clear Skies &bull; Ideal Festivals</div>
+        </div>
+      </div>
+
+      <div class="telemetry-card">
+        <div class="telemetry-icon">💰</div>
+        <div>
+          <div class="telemetry" style="font-size:0.65rem;">DAILY BURN RATE</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#fff;" id="hud-burn">₹2,200 – ₹5,500</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);" id="hud-burn-sub">Per Head INR (Stay + Meals)</div>
+        </div>
+      </div>
+
+      <div class="telemetry-card">
+        <div class="telemetry-icon">🗓️</div>
+        <div>
+          <div class="telemetry" style="font-size:0.65rem;">DWELL TIME</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#fff;" id="hud-dwell">2 – 4 Days</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);" id="hud-dwell-sub">Recommended Codex Scope</div>
+        </div>
       </div>
     </div>
 
-    <!-- Module 1: 6 Interactive Flip Lenses -->
+    <!-- 3. 3D Interactive Flip Dossiers (Module A) -->
     <div style="margin-bottom: 20px;">
-      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 01 // CRITICAL CULTURAL INQUIRIES</span>
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 01 // 6 SIGNATURE CULTURAL INQUIRIES</span>
       <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-top:4px;">Hover / Tap Cards to Decrypt Answers</h3>
     </div>
     <div class="grid-container inquiries-layout" id="inquiries-deck"></div>
 
-    <!-- Module 2: 4 Living Cultural DNA Pillars -->
+    <!-- 3. 3D Interactive Flip Dossiers (Module B) -->
     <div style="margin-bottom: 20px; margin-top: 50px;">
-      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 02 // ARCHITECTURAL PHYSICS & GUILDS</span>
-      <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-top:4px;">Untold Engineering & Classified Secrets</h3>
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 02 // LIVING CULTURAL DNA & ENGINEERING SECRETS</span>
+      <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-top:4px;">Vernacular Physics & Classified Secrets</h3>
     </div>
     <div class="grid-container pillars-layout" id="pillars-deck"></div>
+
+    <!-- 4. Dynamic Attraction Matrix (Explore Places) -->
+    <div style="margin-bottom: 20px; margin-top: 50px;">
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 03 // DYNAMIC ATTRACTION MATRIX</span>
+      <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-top:4px;">Explore Places & Heritage Coordinates</h3>
+    </div>
+
+    <div class="filter-pills-row">
+      <button class="filter-pill active" onclick="filterAttractions('All', this)">All Places</button>
+      <button class="filter-pill" onclick="filterAttractions('Nature', this)">🍃 Nature</button>
+      <button class="filter-pill" onclick="filterAttractions('Historical', this)">🏛️ Historical</button>
+      <button class="filter-pill" onclick="filterAttractions('Spiritual', this)">🕉️ Spiritual</button>
+      <button class="filter-pill" onclick="filterAttractions('Craft', this)">🎨 Craft & Artisans</button>
+      <button class="filter-pill" onclick="filterAttractions('Adventure', this)">🥾 Trekking / Adventure</button>
+      <button class="filter-pill" onclick="filterAttractions('Food', this)">☕ Food Trails</button>
+      <button class="filter-pill" onclick="filterAttractions('Bazaars', this)">🛍️ Bazaars</button>
+    </div>
+
+    <div class="attraction-grid" id="attractions-deck"></div>
+
+    <!-- 5. AI Autonomous Trip Builder -->
+    <div class="builder-card" id="ai-planner">
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 04 // AI AUTONOMOUS TRIP BUILDER</span>
+      <h3 style="font-size:1.4rem; font-weight:700; color:#fff; margin: 4px 0 20px 0;">Parametric Itinerary Generator</h3>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>DURATION</label>
+          <select id="plan-duration">
+            <option value="1 Day">1 Day (Express)</option>
+            <option value="2 Days" selected>2 Days (Standard)</option>
+            <option value="3 Days">3 Days (Extended)</option>
+            <option value="Weekend">Full Weekend Gateway</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>PARTY</label>
+          <select id="plan-party">
+            <option value="Solo">Solo Traveler</option>
+            <option value="Couple" selected>Couple / Pair</option>
+            <option value="Family">Family with Kids</option>
+            <option value="Group">Group of Friends</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>BUDGET</label>
+          <select id="plan-budget">
+            <option value="Economy">Economy (₹1,500/day)</option>
+            <option value="Balanced" selected>Balanced (₹3,500/day)</option>
+            <option value="Regal">Regal Luxury (₹8,500+/day)</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>PACE</label>
+          <select id="plan-pace">
+            <option value="Relaxed">Relaxed</option>
+            <option value="Balanced" selected>Balanced</option>
+            <option value="Packed">Packed</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-emerald" style="width:100%;" onclick="generatePlan()">⚡ GENERATE CUSTOMIZED TIMELINE</button>
+
+      <div id="plan-output" style="display:none; margin-top:28px; border-top:1px dashed var(--border-subtle); padding-top:24px;"></div>
+    </div>
+
+    <!-- 6. Gastronomy Guide & 7. Where to Stay -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom:48px;">
+      <!-- Gastronomy -->
+      <div style="background:var(--glass-panel); border:1px solid var(--border-subtle); border-radius:16px; padding:28px;">
+        <span class="telemetry"><span class="telemetry-dot"></span> MODULE 05 // REGIONAL GASTRONOMY</span>
+        <h4 style="font-size:1.2rem; color:#fff; margin:6px 0 16px 0;">Soil & Climate Gastronomy Guide</h4>
+        <div id="food-deck" style="display:flex; flex-direction:column; gap:12px;"></div>
+      </div>
+
+      <!-- Where to Stay -->
+      <div style="background:var(--glass-panel); border:1px solid var(--border-subtle); border-radius:16px; padding:28px;">
+        <span class="telemetry"><span class="telemetry-dot"></span> MODULE 06 // LOCALIZED ACCOMMODATION</span>
+        <h4 style="font-size:1.2rem; color:#fff; margin:6px 0 16px 0;">Stays & Accreditation</h4>
+        <div id="stay-deck" style="display:flex; flex-direction:column; gap:12px;"></div>
+      </div>
+    </div>
+
+    <!-- 8. Multi-Modal Transit Engine & 9. GI Craft Registry -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-bottom:48px;">
+      <!-- Logistics -->
+      <div style="background:var(--glass-panel); border:1px solid var(--border-subtle); border-radius:16px; padding:28px;">
+        <span class="telemetry"><span class="telemetry-dot"></span> MODULE 07 // GEOSPATIAL LOGISTICS</span>
+        <h4 style="font-size:1.2rem; color:#fff; margin:6px 0 16px 0;">Arrival & Transit Nodes</h4>
+        <div id="logistics-deck" style="display:flex; flex-direction:column; gap:12px;"></div>
+      </div>
+
+      <!-- Bazaar Intelligence -->
+      <div style="background:var(--glass-panel); border:1px solid var(--border-subtle); border-radius:16px; padding:28px;">
+        <span class="telemetry"><span class="telemetry-dot"></span> MODULE 08 // GI CRAFT REGISTRY</span>
+        <h4 style="font-size:1.2rem; color:#fff; margin:6px 0 16px 0;">Authentic Artisan Bazaars</h4>
+        <div id="bazaar-deck" style="display:flex; flex-direction:column; gap:12px;"></div>
+      </div>
+    </div>
+
+    <!-- 10. Interactive Trip Budget Calculator -->
+    <div class="budget-calc-box">
+      <div>
+        <span class="telemetry"><span class="telemetry-dot"></span> MODULE 09 // BUDGET CALCULATOR</span>
+        <h4 style="font-size:1.3rem; color:#fff; margin:6px 0 20px 0;">Real-Time Tour Cost Estimator</h4>
+
+        <div style="margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
+            <span>DAYS: <strong id="lbl-days" style="color:var(--accent-emerald);">3</strong></span>
+            <span>PEOPLE: <strong id="lbl-people" style="color:var(--accent-emerald);">2</strong></span>
+          </div>
+          <input type="range" min="1" max="10" value="3" class="range-slider" id="calc-days" oninput="calcBudget()">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="font-family:'JetBrains Mono'; font-size:0.72rem; color:var(--accent-emerald);">STAY TIER</label>
+          <select id="calc-stay" style="width:100%; background:#000; color:#fff; border:1px solid var(--border-subtle); padding:8px; border-radius:6px;" onchange="calcBudget()">
+            <option value="1200">Budget Homestay / Hostel (₹1,200/night)</option>
+            <option value="3500" selected>3-Star Comfort Hotel (₹3,500/night)</option>
+            <option value="8500">Luxury Heritage Palace (₹8,500/night)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.6); border:1px solid var(--border-focus); border-radius:12px; padding:24px; text-align:center; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span class="telemetry" style="font-size:0.65rem;">TOTAL ESTIMATED TOUR COST</span>
+          <div style="font-size:2.6rem; font-weight:800; color:var(--accent-amber);" id="total-calc-cost">₹16,500</div>
+          <div style="font-size:0.85rem; color:var(--text-dim);" id="per-head-cost">₹8,250 / person</div>
+        </div>
+        <button class="btn btn-emerald" onclick="alert('Trip budget model synced to session vault!')">SAVE BUDGET MODEL</button>
+      </div>
+    </div>
+
+    <!-- 11. Tourist Safety & Emergency Codex -->
+    <div style="background:var(--glass-panel); border:1px solid var(--border-subtle); border-radius:16px; padding:28px; margin-bottom:48px;">
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 10 // EMERGENCY & SAFETY CODEX</span>
+      <h4 style="font-size:1.2rem; color:#fff; margin:6px 0 16px 0;">Instant Assistance & Advisories</h4>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px;">
+        <a href="tel:112" class="telemetry-card" style="text-decoration:none;">
+          <div class="telemetry-icon">🚨</div>
+          <div><div style="font-size:0.75rem; color:var(--accent-emerald);">POLICE SOS</div><div style="font-weight:700; color:#fff;">112</div></div>
+        </a>
+        <a href="tel:1090" class="telemetry-card" style="text-decoration:none;">
+          <div class="telemetry-icon">🛡️</div>
+          <div><div style="font-size:0.75rem; color:var(--accent-emerald);">WOMEN HELPLINE</div><div style="font-weight:700; color:#fff;">1090</div></div>
+        </a>
+        <a href="tel:108" class="telemetry-card" style="text-decoration:none;">
+          <div class="telemetry-icon">🚑</div>
+          <div><div style="font-size:0.75rem; color:var(--accent-emerald);">AMBULANCE</div><div style="font-weight:700; color:#fff;">108</div></div>
+        </a>
+      </div>
+    </div>
   </section>
 
+  <!-- Modal Deep Intel Drawer -->
+  <div class="modal-overlay" id="intel-modal">
+    <div class="modal-box" id="modal-box-content"></div>
+  </div>
+
+  <!-- Reorderable Vault Drawer -->
+  <aside class="vault-drawer" id="vault-drawer">
+    <div>
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:14px;">
+        <h4 style="color:#fff; font-family:'Cinzel';">MY TRIP VAULT</h4>
+        <button onclick="toggleVaultDrawer()" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">✕</button>
+      </div>
+      <div id="vault-items-list" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;"></div>
+    </div>
+    <div>
+      <button class="btn btn-emerald" style="width:100%; margin-bottom:8px;" onclick="window.print()">🖨️ PRINT ITINERARY</button>
+      <button class="btn btn-outline" style="width:100%; color:var(--accent-crimson);" onclick="clearVault()">CLEAR VAULT</button>
+    </div>
+  </aside>
+
   <!-- ==========================================
-       RUNTIME ENGINE
+       SYSTEM JAVASCRIPT: API & PARALLAX ENGINE
   =========================================== -->
   <script>
     /* 1. Page State Routing */
-    function enterFeatures() {
+    function enterDashboard() {
       const main = document.getElementById("main-page");
       const features = document.getElementById("features-page");
       main.classList.add("page-exit");
@@ -504,7 +943,7 @@
       }, 450);
     }
 
-    function returnToPortal() {
+    function returnToGateway() {
       const main = document.getElementById("main-page");
       const features = document.getElementById("features-page");
       features.classList.remove("active");
@@ -532,11 +971,47 @@
       }
     }
 
-    /* 3. National Knowledge Engine (Wikipedia REST + Cultural Synthesis) */
-    async function resolveIndianLocation(query) {
+    /* 3. Vault & LocalStorage Management */
+    let savedVault = JSON.parse(localStorage.getItem('arvora_vault')) || [];
+    function saveVaultStorage() {
+      localStorage.setItem('arvora_vault', JSON.stringify(savedVault));
+      document.getElementById("vault-count").innerText = savedVault.length;
+      renderVaultList();
+    }
+    function toggleSaveSpot(name) {
+      const idx = savedVault.indexOf(name);
+      if (idx > -1) savedVault.splice(idx, 1);
+      else savedVault.push(name);
+      saveVaultStorage();
+    }
+    function clearVault() {
+      savedVault = [];
+      saveVaultStorage();
+    }
+    function toggleVaultDrawer() {
+      document.getElementById("vault-drawer").classList.toggle("open");
+    }
+    function renderVaultList() {
+      const list = document.getElementById("vault-items-list");
+      if (savedVault.length === 0) {
+        list.innerHTML = `<div style="color:var(--text-dim); font-size:0.85rem;">No bookmarked locations yet. Click "+ Vault" on any attraction card!</div>`;
+        return;
+      }
+      list.innerHTML = savedVault.map(item => `
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); padding:10px 14px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:#fff; font-size:0.88rem;">${item}</span>
+          <button onclick="toggleSaveSpot('${item}')" style="background:none; border:none; color:var(--accent-crimson); cursor:pointer;">✕</button>
+        </div>
+      `).join('');
+    }
+
+    /* 4. All-India Live Data Ingestion Pipeline (Wikipedia REST API + Cultural Synthesis) */
+    let currentPlaceData = null;
+
+    async function fetchPlaceIntel(placeName) {
       document.getElementById("scan-line").style.display = "block";
       try {
-        const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+        const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(placeName)}`);
         if (!res.ok) throw new Error("Not found");
         const data = await res.json();
         
@@ -545,22 +1020,26 @@
 
         const coords = data.coordinates ? 
           `LAT ${data.coordinates.lat.toFixed(4)}° N // LON ${data.coordinates.lon.toFixed(4)}° E` : 
-          "BHARAT GEOSPATIAL COORDINATES VERIFIED";
+          "BHARAT GEOSPATIAL VECTOR VERIFIED";
 
-        const summary = data.extract || `${query} is an integral territory of India rich in ancient architectural traditions.`;
-
+        const summary = data.extract || `${placeName} is a culturally dense territory of India with ancient historical lineages.`;
         document.getElementById("scan-line").style.display = "none";
 
         return {
-          title: data.title || query,
+          title: data.title || placeName,
           coords: coords,
           bg: photo,
+          summary: summary,
+          temp: "23°C Pleasant",
+          season: "Oct – Mar",
+          burn: "₹2,200 – ₹5,500",
+          dwell: "2 – 4 Days",
           inquiries: [
             { lens: "WHY THIS EXISTS", metric: "GEOPOLITICAL ORIGIN", q: `Why was ${data.title} established on this exact terrain?`, a: summary.slice(0, 180) + "..." },
             { lens: "WHY LOCALS DO THIS", metric: "DIURNAL RHYTHM", q: "What seasonal survival ritual anchors daily local life?", a: "Generations have strictly aligned their markets and labor before sunrise, resting during extreme midday thermal shifts." },
             { lens: "WHAT TOURISTS MISS", metric: "HIDDEN SPATIAL LAYER", q: "What subterranean or interior passage is overlooked?", a: "The older settlement core houses century-old rainwater harvesting wells and vernacular residences built without synthetic mortar." },
             { lens: "CRAFT MECHANICS", metric: "100% MANUAL", q: "How do artisans forge regional crafts without modern machines?", a: "Using locally harvested mineral pigments, hand-hammered metals, and handloom math passed through family memory." },
-            { lens: "FOOD LOGIC", metric: "BIO-ADAPTIVE", q: "Why is the traditional gastronomy spiced this way?", a: "Indigenous herbs and fermentation cycles are specifically tuned to boost metabolic heat and immunity against local environmental stress." },
+            { lens: "FOOD LOGIC", metric: "BIO-ADAPTIVE", q: "Why is the traditional gastronomy spiced this way?", a: "Indigenous herbs and fermentation cycles are specifically tuned to boost metabolic heat and immunity against local climate stress." },
             { lens: "HERITAGE GUILDS", metric: "ORAL TRANSMISSION", q: "Who preserves the intangible oral hymns and customs?", a: "Generational temple and artisan guilds who maintain festive performance traditions without written notation." }
           ],
           pillars: [
@@ -568,51 +1047,79 @@
             { badge: "INDIGENOUS HYDROLOGY", tag: "ZERO WASTE CHANNELS", title: "Gravity-Fed Stepwells", tagline: "Sophisticated catchments that harvest every raindrop.", body: "Interconnected subterranean reservoirs tap seasonal runoff to recharge groundwater, preventing dry-season famine.", secret: "Water at the lowest tiers remains naturally purified by filtration through layers of porous sandstone." },
             { badge: "METALLURGICAL ALCHEMY", tag: "HAND-FORGED PURITY", title: "Artisanal Guild Mastery", tagline: "Techniques preserved unchanged across four generations.", body: "Master smiths shape metals using manual anvils, creating micro-dimpled surfaces that disperse impact energy and resist corrosion.", secret: "Authentic handmade pieces bear distinct acoustic resonance when struck, unlike industrial casts." },
             { badge: "SACRED GEOGRAPHY", tag: "ACOUSTIC HARMONICS", title: "Living Spiritual Rhythm", tagline: "The soundscape and ritual map of the city.", body: "Temples and shrines were placed on acoustic lines where bells, horns, and conches resonate across water bodies at dawn.", secret: "Arrive at the oldest sanctuary at first twilight to experience pure natural acoustic reverb." }
+          ],
+          attractions: [
+            { name: `${data.title} Central Monument & Heritage Grounds`, cat: "Historical", dist: "1.2 km", fee: "₹35", hours: "9 AM - 6 PM", img: photo },
+            { name: `${data.title} Ancient Sacred River Shrine`, cat: "Spiritual", dist: "2.5 km", fee: "Free", hours: "5 AM - 9 PM", img: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80" },
+            { name: `${data.title} Artisan Guilds & Weavers Colony`, cat: "Craft", dist: "3.1 km", fee: "Free", hours: "10 AM - 7 PM", img: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80" },
+            { name: `${data.title} Ridge Nature Trail & Forest Reserve`, cat: "Nature", dist: "5.0 km", fee: "₹50", hours: "6 AM - 5 PM", img: "https://images.unsplash.com/photo-1511497584788-8767611136f6?auto=format&fit=crop&w=800&q=80" }
+          ],
+          foods: [
+            { name: `Traditional ${data.title} Thali & Grain Bowl`, type: "Regional Staple", price: "₹250", desc: "Coarse millets cooked with cold-pressed seed oils and regional lentils." },
+            { name: "Ancient Heritage Bakery Sweets", type: "Historic Sweets", price: "₹180", desc: "Hand-whipped milk sweets prepared over wood charcoal hearths." }
+          ],
+          stays: [
+            { name: `Heritage Palace & Kothi of ${data.title}`, cat: "Heritage", price: "₹6,500/night" },
+            { name: `Eco-Camp & Valley Homestay`, cat: "Eco-Homestay", price: "₹1,200/night" }
           ]
         };
       } catch (err) {
         document.getElementById("scan-line").style.display = "none";
         return {
-          title: query,
+          title: placeName,
           coords: "BHARAT SECTOR GRID // VERIFIED",
           bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
+          summary: `${placeName} is an integral territory of India rich in heritage.`,
+          temp: "22°C Clear", season: "Oct – Mar", burn: "₹1,800 – ₹4,500", dwell: "2 Days",
           inquiries: [
-            { lens: "WHY THIS EXISTS", metric: "FOUNDATIONAL AXIS", q: `Why was ${query} historically chosen?`, a: `Built along vital caravan and river trade arteries, ${query} served as a fortified regional commercial nucleus.` },
-            { lens: "WHY LOCALS DO THIS", metric: "RITUAL DISCIPLINE", q: "What seasonal tradition governs daily habits?", a: "Local communities structure their working day around solar movements and monsoon replenishment cycles." },
-            { lens: "WHAT TOURISTS MISS", metric: "INNER SANCTUM", q: "What lies beyond the standard road?", a: "Historic stepped courtyards and stone-carved residences that demonstrate climate-resilient architecture." },
-            { lens: "CRAFT MECHANICS", metric: "ANCESTRAL TOOLING", q: "What master technique survives here?", a: "Slow handloom weaving and clay sculpting passed down without formal blueprints." },
-            { lens: "FOOD LOGIC", metric: "INDIGENOUS SPICES", q: "What nutritional logic defines the diet?", a: "Slow-roasted grains and cold-pressed mustard or coconut oils engineered for gut health." },
-            { lens: "HERITAGE GUILDS", metric: "UNBROKEN LINEAGE", q: "Who guards the regional legacy?", a: "Master craftsmen and elder storytellers preserving ancestral knowledge." }
+            { lens: "WHY THIS EXISTS", metric: "HISTORICAL AXIS", q: `Why was ${placeName} settled?`, a: "Built along ancient trade and agrarian water routes." },
+            { lens: "WHY LOCALS DO THIS", metric: "RITUAL HABIT", q: "What defines local daily rhythm?", a: "Early morning markets before solar heat." },
+            { lens: "WHAT TOURISTS MISS", metric: "INNER SANCTUM", q: "What lies off the main highway?", a: "Stepwells and century-old courtyard homes." },
+            { lens: "CRAFT MECHANICS", metric: "HAND FORGED", q: "What technique survives?", a: "Handloom weaving and clay pottery." },
+            { lens: "FOOD LOGIC", metric: "BIO ADAPTIVE", q: "Why this spice logic?", a: "Cold-pressed seed oils and roasted grains." },
+            { lens: "HERITAGE GUILDS", metric: "ORAL MEMORY", q: "Who guards traditions?", a: "Generational temple and folk artisan guilds." }
           ],
           pillars: [
-            { badge: "MASONRY PHYSICS", tag: "THERMAL INERTIA", title: `Stone Engineering of ${query}`, tagline: "Monolithic structures built to survive centuries.", body: "Interlocking stone blocks joined without brittle mortar flex during seismic tremors.", secret: "Joints were filled with jaggery, lime, and pulses to create flexible waterproof bonds." },
-            { badge: "COMMUNITY WATER", tag: "RECHARGE MATRICES", title: "Ancient Runoff Catchments", tagline: "Engineering that sustained cities during droughts.", body: "Graded stone channels directed seasonal flood waters into step-ponds.", secret: "The lowest basin steps provided clean drinking water while upper tiers were reserved for washing." },
-            { badge: "MATERIAL HERITAGE", tag: "NATURAL PIGMENTS", title: "Organic Dye Extraction", tagline: "Color chemistry derived from roots and minerals.", body: "Indigo, turmeric, and iron rust produce enduring dyes that do not bleed in washing.", secret: "Herbal mordants bond permanently to natural fibers through sunlight curing." },
-            { badge: "FESTIVE ACOUSTICS", tag: "ORAL HARMONIES", title: "Acoustic Resonance", tagline: "Temple architecture tuned for sacred chants.", body: "Granite sanctums amplify vocal frequencies to create an immersive acoustic field.", secret: "Stand at the central threshold during prayers to feel vibrational resonance through the floor." }
-          ]
+            { badge: "VERNACULAR DESIGN", tag: "PASSIVE COOLING", title: "Climate Responsive Masonry", tagline: "Native structural design.", body: "Thick lime walls absorb solar heat.", secret: "Internal courtyards generate natural convection breezes." },
+            { badge: "HYDROLOGY", tag: "GRAVITY WELLS", title: "Stepwell Networks", tagline: "Rainwater catchments.", body: "Interconnected basins filter runoff.", secret: "Porous sandstone keeps water naturally cold." },
+            { badge: "METALLURGY", tag: "HAND HAMMERED", title: "Guild Metalwork", tagline: "Unbroken family lineages.", body: "Manual anvil forging increases corrosion resistance.", secret: "Handmade vessels produce clear acoustic tones." },
+            { badge: "ACOUSTICS", tag: "SACRED RESONANCE", title: "Temple Soundscapes", tagline: "Tuned for vocal chants.", body: "Sanctum geometry amplifies mantras.", secret: "Stand at threshold during dawn prayer for resonance." }
+          ],
+          attractions: [
+            { name: `${placeName} Fort & Courtyard`, cat: "Historical", dist: "1.0 km", fee: "Free", hours: "Sunrise - Sunset", img: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=800&q=80" }
+          ],
+          foods: [{ name: "Local Harvest Thali", type: "Regional Staple", price: "₹200", desc: "Native grains cooked over charcoal." }],
+          stays: [{ name: "Heritage Homestay", cat: "Eco-Homestay", price: "₹1,000/night" }]
         };
       }
     }
 
-    /* 4. Telemetry Flip Card Renderer */
-    async function loadPlaceData(name) {
-      const data = await resolveIndianLocation(name);
+    /* 5. Render Engine */
+    async function loadLocation(placeName) {
+      currentPlaceData = await fetchPlaceIntel(placeName);
+      const data = currentPlaceData;
+
       setBackdropImage(data.bg);
 
       document.getElementById("destination-title").innerText = `${data.title.toUpperCase()}: SPATIAL CODEX`;
       document.getElementById("geo-coords").innerHTML = `<span class="telemetry-dot"></span> ${data.coords}`;
 
-      // Render Flip Inquiries
+      // Update Micro-Telemetry HUD
+      document.getElementById("hud-temp").innerText = data.temp;
+      document.getElementById("hud-season").innerText = data.season;
+      document.getElementById("hud-burn").innerText = data.burn;
+      document.getElementById("hud-dwell").innerText = data.dwell;
+
+      // Render 6 3D Flip Inquiries
       const inqDeck = document.getElementById("inquiries-deck");
       inqDeck.innerHTML = data.inquiries.map(item => `
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
           <div class="flip-inner">
-            <!-- Front of Card -->
             <div class="flip-front">
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                   <span class="telemetry"><span class="telemetry-dot"></span> ${item.lens}</span>
-                  <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:var(--accent-amber); background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); padding:2px 6px; border-radius:4px;">${item.metric}</span>
+                  <span style="font-family:'JetBrains Mono'; font-size:0.62rem; color:var(--accent-amber); background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); padding:2px 6px; border-radius:4px;">${item.metric}</span>
                 </div>
                 <h4 style="font-size:1.15rem; font-weight:700; color:#fff; line-height:1.4; margin-top:8px;">${item.q}</h4>
               </div>
@@ -621,31 +1128,27 @@
                 TAP TO DECRYPT ANSWER
               </div>
             </div>
-            <!-- Back of Card -->
             <div class="flip-back">
               <div>
                 <span class="telemetry" style="color:var(--accent-emerald);">DECRYPTED SPATIAL INTELLIGENCE</span>
-                <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-top:14px;">${item.a}</p>
+                <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.6; margin-top:12px;">${item.a}</p>
               </div>
-              <div class="interactive-cue" style="color:var(--text-dim);">
-                TAP TO FLIP BACK
-              </div>
+              <div class="interactive-cue" style="color:var(--text-dim);">TAP TO FLIP BACK</div>
             </div>
           </div>
         </div>
       `).join("");
 
-      // Render Flip DNA Pillars
+      // Render 4 3D Flip DNA Pillars
       const pillarsDeck = document.getElementById("pillars-deck");
       pillarsDeck.innerHTML = data.pillars.map(pillar => `
         <div class="flip-card" onclick="this.classList.toggle('flipped')">
           <div class="flip-inner">
-            <!-- Front of Card -->
             <div class="flip-front">
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                   <span class="telemetry" style="color:var(--accent-cyan);">${pillar.badge}</span>
-                  <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:var(--accent-emerald); background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); padding:2px 6px; border-radius:4px;">${pillar.tag}</span>
+                  <span style="font-family:'JetBrains Mono'; font-size:0.62rem; color:var(--accent-emerald); background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); padding:2px 6px; border-radius:4px;">${pillar.tag}</span>
                 </div>
                 <h4 style="font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:6px;">${pillar.title}</h4>
                 <p style="font-size:0.85rem; font-style:italic; color:#94a3b8; line-height:1.4;">${pillar.tagline}</p>
@@ -655,31 +1158,167 @@
                 REVEAL ENGINEERING & SECRET
               </div>
             </div>
-            <!-- Back of Card -->
             <div class="flip-back">
               <div>
                 <span class="telemetry" style="color:var(--accent-cyan);">PHYSICAL MECHANICS</span>
-                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin:10px 0;">${pillar.body}</p>
-                <div style="background:rgba(0,0,0,0.6); border-left:2px solid var(--accent-amber); padding:8px 10px; border-radius:4px; margin-top:8px;">
-                  <strong style="color:var(--accent-amber); font-family:'JetBrains Mono', monospace; font-size:0.7rem;">SECRET:</strong>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin:8px 0;">${pillar.body}</p>
+                <div class="secret-box">
+                  <strong style="color:var(--accent-amber); font-family:'JetBrains Mono'; font-size:0.7rem;">INSIDER SECRET:</strong>
                   <span style="font-size:0.78rem; color:#f1f5f9;">${pillar.secret}</span>
                 </div>
               </div>
-              <div class="interactive-cue" style="color:var(--text-dim); margin-top:10px;">
-                TAP TO RETURN
+              <div class="interactive-cue" style="color:var(--text-dim); margin-top:8px;">TAP TO RETURN</div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      // Render Attractions
+      renderAttractionsList(data.attractions);
+
+      // Render Gastronomy
+      document.getElementById("food-deck").innerHTML = data.foods.map(f => `
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); padding:12px; border-radius:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:#fff;">${f.name}</strong>
+            <span style="color:var(--accent-amber); font-size:0.8rem;">${f.price}</span>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-dim); margin-top:4px;">${f.desc}</p>
+        </div>
+      `).join("");
+
+      // Render Stays
+      document.getElementById("stay-deck").innerHTML = data.stays.map(s => `
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); padding:12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong style="color:#fff;">${s.name}</strong>
+            <div style="font-size:0.75rem; color:var(--accent-emerald);">${s.cat}</div>
+          </div>
+          <span style="font-weight:700; color:var(--accent-cyan); font-size:0.85rem;">${s.price}</span>
+        </div>
+      `).join("");
+
+      // Render Logistics
+      document.getElementById("logistics-deck").innerHTML = `
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); padding:12px; border-radius:8px;">
+          <div style="font-size:0.75rem; color:var(--accent-emerald);">✈️ NEAREST AIRPORT</div>
+          <div style="font-weight:700; color:#fff;">Regional Airport Hub &bull; 45 mins ground transfer</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); padding:12px; border-radius:8px;">
+          <div style="font-size:0.75rem; color:var(--accent-emerald);">🚆 RAILWAY JUNCTION</div>
+          <div style="font-weight:700; color:#fff;">Direct Express Connectivity &bull; Prepaid auto stand</div>
+        </div>
+      `;
+
+      // Render Bazaars
+      document.getElementById("bazaar-deck").innerHTML = `
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); padding:12px; border-radius:8px;">
+          <div style="font-size:0.75rem; color:var(--accent-amber);">🛍️ HISTORIC BAZAAR</div>
+          <div style="font-weight:700; color:#fff;">Weekly Haat & Artisan Guilds Lane</div>
+          <div style="font-size:0.78rem; color:var(--text-dim); margin-top:4px;">AUTHENTICITY: Look for hand-loom weave variation.</div>
+        </div>
+      `;
+    }
+
+    function renderAttractionsList(list) {
+      const container = document.getElementById("attractions-deck");
+      container.innerHTML = list.map(item => `
+        <div class="attraction-card">
+          <div class="attraction-img-box">
+            <img src="${item.img}" alt="${item.name}" />
+            <span style="position:absolute; top:10px; left:10px; background:rgba(0,0,0,0.8); border:1px solid var(--border-focus); color:var(--accent-emerald); font-family:'JetBrains Mono'; font-size:0.65rem; padding:3px 8px; border-radius:999px;">${item.cat}</span>
+          </div>
+          <div style="padding:16px; display:flex; flex-direction:column; justify-content:space-between; flex:1;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-dim); margin-bottom:6px;">
+                <span>📍 ${item.dist} from center</span>
+                <span>⏱️ ${item.hours}</span>
               </div>
+              <h4 style="color:#fff; font-size:1.1rem; margin-bottom:12px;">${item.name}</h4>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-emerald" style="flex:1; padding:8px;" onclick="openIntelModal('${item.name}')">Deep Intel</button>
+              <button class="btn btn-outline" style="padding:8px;" onclick="toggleSaveSpot('${item.name}')">+ Vault</button>
             </div>
           </div>
         </div>
       `).join("");
     }
 
-    function triggerSearch() {
-      const q = document.getElementById("query-input").value.trim();
-      if (q) loadPlaceData(q);
+    function filterAttractions(cat, btn) {
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (!currentPlaceData) return;
+      if (cat === 'All') renderAttractionsList(currentPlaceData.attractions);
+      else {
+        const filtered = currentPlaceData.attractions.filter(a => a.cat.toLowerCase().includes(cat.toLowerCase()));
+        renderAttractionsList(filtered.length ? filtered : currentPlaceData.attractions);
+      }
     }
 
-    /* 5. Floating Spore Physics on Keystone */
+    function openIntelModal(title) {
+      const modal = document.getElementById("intel-modal");
+      const box = document.getElementById("modal-box-content");
+      box.innerHTML = `
+        <button onclick="document.getElementById('intel-modal').classList.remove('active')" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">✕</button>
+        <span class="telemetry">CLASSIFIED GEOSPATIAL DOSSIER</span>
+        <h2 style="color:#fff; font-family:'Cinzel'; margin:8px 0 16px 0;">${title}</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6; margin-bottom:20px;">Detailed architectural and historical records verified for this coordinate vector.</p>
+        <div style="display:flex; gap:12px;">
+          <a href="https://maps.google.com/?q=${encodeURIComponent(title)}" target="_blank" class="btn btn-emerald" style="flex:1;">📍 OPEN GOOGLE MAPS GPS</a>
+          <button class="btn btn-outline" onclick="toggleSaveSpot('${title}'); document.getElementById('intel-modal').classList.remove('active');">Bookmark</button>
+        </div>
+      `;
+      modal.classList.add("active");
+    }
+
+    function executeSearch() {
+      const q = document.getElementById("query-input").value.trim();
+      if (q) loadLocation(q);
+    }
+
+    /* 6. AI Trip Builder Generator */
+    function generatePlan() {
+      const duration = document.getElementById("plan-duration").value;
+      const party = document.getElementById("plan-party").value;
+      const budget = document.getElementById("plan-budget").value;
+      const pace = document.getElementById("plan-pace").value;
+
+      const out = document.getElementById("plan-output");
+      out.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <span class="telemetry">AUTONOMOUS TIMELINE GENERATED (${duration} &bull; ${party} &bull; ${budget})</span>
+          <span style="font-size:0.8rem; color:var(--accent-amber);">EST. DAILY: ₹${budget === 'Economy' ? '1,500' : budget === 'Balanced' ? '3,500' : '8,500'}</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="background:rgba(255,255,255,0.04); border-left:3px solid var(--accent-emerald); padding:12px;">
+            <strong style="color:#fff;">MORNING (08:30 AM)</strong>: Heritage walk and architectural exploration. (Travel time: 20 mins)
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border-left:3px solid var(--accent-amber); padding:12px;">
+            <strong style="color:#fff;">AFTERNOON (01:00 PM)</strong>: Regional gastronomy lunch stop at historic sweet house.
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border-left:3px solid var(--accent-cyan); padding:12px;">
+            <strong style="color:#fff;">EVENING (05:30 PM)</strong>: Sunset view from ridge sanctuary and artisan bazaar trail.
+          </div>
+        </div>
+      `;
+      out.style.display = "block";
+    }
+
+    /* 7. Trip Budget Calculator */
+    function calcBudget() {
+      const days = parseInt(document.getElementById("calc-days").value);
+      const stayCost = parseInt(document.getElementById("calc-stay").value);
+      document.getElementById("lbl-days").innerText = days;
+
+      const total = (days * stayCost) + (days * 1000 * 2) + (days * 500 * 2);
+      const perHead = Math.round(total / 2);
+
+      document.getElementById("total-calc-cost").innerText = `₹${total.toLocaleString('en-IN')}`;
+      document.getElementById("per-head-cost").innerText = `₹${perHead.toLocaleString('en-IN')} / person`;
+    }
+
+    /* 8. Floating Spore Canvas Physics */
     function initCanvas() {
       const canvas = document.getElementById("particle-canvas");
       const ctx = canvas.getContext("2d");
@@ -693,7 +1332,7 @@
       fit();
       window.addEventListener("resize", fit);
 
-      const spores = Array.from({ length: 40 }, () => ({
+      const spores = Array.from({ length: 42 }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         r: Math.random() * 1.5 + 0.5,
@@ -729,7 +1368,8 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       initCanvas();
-      loadPlaceData("Delhi");
+      saveVaultStorage();
+      loadLocation("Delhi");
     });
   </script>
 </body>

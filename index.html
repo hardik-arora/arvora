@@ -10,7 +10,7 @@
     body { background-color: #030805; color: #edf4ec; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
     
     /* Top Quick-Access Taskbar */
-    .quick-taskbar { position: fixed; top: 0; left: 0; right: 0; height: 58px; background: rgba(4, 10, 7, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(237, 244, 236, 0.12); display: flex; align-items: center; gap: 12px; padding: 0 20px; z-index: 1000; }
+    .quick-taskbar { position: fixed; top: 0; left: 0; right: 0; height: 58px; background: rgba(4, 10, 7, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(237, 244, 236, 0.12); display: flex; align-items: center; gap: 12px; padding: 0 20px; z-index: 1000; }
     .brand-logo { font-weight: 700; letter-spacing: 0.15em; font-size: 14px; color: #edf4ec; white-space: nowrap; text-decoration: none; display: flex; align-items: center; gap: 6px; cursor: pointer; }
     .search-wrap { position: relative; flex-shrink: 0; }
     .search-input { background: rgba(237, 244, 236, 0.07); border: 1px solid rgba(237, 244, 236, 0.15); border-radius: 999px; padding: 6px 14px 6px 30px; color: #edf4ec; font-size: 12px; width: 170px; outline: none; transition: width 0.2s, border-color 0.2s; }
@@ -20,7 +20,7 @@
     .chips-scroll::-webkit-scrollbar { display: none; }
     .feature-chip { background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.14); color: #cad8cb; font-size: 12px; padding: 5px 14px; border-radius: 999px; text-decoration: none; cursor: pointer; transition: all 0.2s ease; user-select: none; }
     .feature-chip:hover { background: rgba(237, 244, 236, 0.18); color: #edf4ec; border-color: rgba(237, 244, 236, 0.35); transform: translateY(-1px); }
-    .feature-chip.lead-chip { background: rgba(140, 210, 160, 0.18); border-color: rgba(140, 210, 160, 0.45); color: #edf4ec; font-weight: 500; }
+    .feature-chip.lead-chip { background: rgba(140, 210, 160, 0.22); border-color: rgba(140, 210, 160, 0.5); color: #edf4ec; font-weight: 600; }
 
     /* Centered Floating Canvas Stage */
     .naturecore-viewport { position: relative; margin-top: 80px; margin-bottom: 40px; width: min(94vw, 1420px); height: min(84vh, 840px); min-height: 600px; border-radius: 28px; border: 1px solid rgba(237, 244, 236, 0.12); box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 80px rgba(12, 36, 20, 0.3); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; z-index: 10; }
@@ -62,7 +62,7 @@
       overflow: hidden; 
     }
     
-    /* Denser, richer background photo */
+    /* High-density photographic presence (82% opacity) */
     #tool-image-background { 
       position: absolute; 
       inset: 0; 
@@ -71,19 +71,19 @@
       background-position: center center; 
       background-size: cover; 
       background-repeat: no-repeat; 
-      opacity: 0.68; 
-      filter: contrast(1.15) brightness(0.9); 
-      transition: background-image 0.25s ease-in-out, opacity 0.25s ease; 
+      opacity: 0.82; 
+      filter: contrast(1.15) saturate(1.1); 
+      transition: background-image 0.2s ease-in-out; 
       z-index: 1; 
     }
 
-    /* Scrim to guarantee perfect text contrast over the dense photo */
+    /* Scrim engineered for high contrast over dense photos */
     #tool-image-scrim {
       position: absolute;
       inset: 0;
       background: 
-        radial-gradient(ellipse at 50% 20%, rgba(2, 6, 3, 0.45) 0%, rgba(2, 6, 3, 0.88) 90%),
-        linear-gradient(180deg, rgba(2, 6, 3, 0.35) 0%, rgba(2, 6, 3, 0.94) 100%);
+        radial-gradient(ellipse at 50% 15%, rgba(2, 6, 3, 0.35) 0%, rgba(2, 6, 3, 0.82) 80%),
+        linear-gradient(180deg, rgba(2, 6, 3, 0.3) 0%, rgba(2, 6, 3, 0.95) 95%);
       z-index: 2;
       pointer-events: none;
     }
@@ -98,32 +98,32 @@
       overflow-y: auto; 
     }
     
-    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.15); padding-bottom: 16px; margin-bottom: 16px; flex-shrink: 0; }
-    #tool-header-title { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-    #tool-back-btn { background: rgba(237, 244, 236, 0.12); border: 1px solid rgba(237, 244, 236, 0.25); color: #fff; padding: 7px 18px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all 0.2s; backdrop-filter: blur(10px); }
-    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.28); transform: translateY(-1px); }
+    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.18); padding-bottom: 16px; margin-bottom: 16px; flex-shrink: 0; }
+    #tool-header-title { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
+    #tool-back-btn { background: rgba(237, 244, 236, 0.15); border: 1px solid rgba(237, 244, 236, 0.3); color: #fff; padding: 7px 18px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: all 0.2s; backdrop-filter: blur(10px); }
+    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.3); transform: translateY(-1px); }
     
     /* Search Bar with glowing borders */
     .showcase-search-shell { display: flex; gap: 10px; margin-bottom: 12px; flex-shrink: 0; }
     .showcase-search-input { 
       flex: 1; 
-      background: rgba(4, 14, 8, 0.85); 
-      border: 1px solid rgba(140, 210, 160, 0.45); 
+      background: rgba(3, 12, 7, 0.9); 
+      border: 1px solid rgba(140, 210, 160, 0.55); 
       border-radius: 14px; 
       padding: 13px 20px; 
       color: #edf4ec; 
       font-size: 14px; 
       outline: none; 
       backdrop-filter: blur(20px); 
-      box-shadow: 0 4px 25px rgba(0,0,0,0.6); 
+      box-shadow: 0 4px 30px rgba(0,0,0,0.8); 
       transition: all 0.2s; 
     }
-    .showcase-search-input:focus { border-color: #9fe0b5; background: rgba(6, 20, 12, 0.95); box-shadow: 0 0 30px rgba(140, 210, 160, 0.35); }
+    .showcase-search-input:focus { border-color: #9fe0b5; background: rgba(5, 18, 10, 0.96); box-shadow: 0 0 30px rgba(140, 210, 160, 0.4); }
     
     .quick-regions { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 14px; scrollbar-width: none; flex-shrink: 0; }
     .quick-regions::-webkit-scrollbar { display: none; }
-    .region-chip { font-size: 11px; padding: 6px 14px; border-radius: 999px; background: rgba(4, 14, 8, 0.75); border: 1px solid rgba(237, 244, 236, 0.18); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; backdrop-filter: blur(12px); }
-    .region-chip:hover { background: rgba(140, 210, 160, 0.25); border-color: rgba(140, 210, 160, 0.6); color: #edf4ec; transform: translateY(-1px); }
+    .region-chip { font-size: 11px; padding: 6px 14px; border-radius: 999px; background: rgba(3, 12, 7, 0.85); border: 1px solid rgba(237, 244, 236, 0.22); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; backdrop-filter: blur(14px); }
+    .region-chip:hover { background: rgba(140, 210, 160, 0.28); border-color: rgba(140, 210, 160, 0.7); color: #edf4ec; transform: translateY(-1px); }
 
     /* =========================================================================
        HIGH-DENSITY EDITORIAL DOSSIER CARDS
@@ -132,52 +132,52 @@
     
     /* Top Hero Banner Card */
     .dossier-hero-banner { 
-      background: rgba(4, 14, 9, 0.82); 
-      backdrop-filter: blur(24px); 
-      -webkit-backdrop-filter: blur(24px); 
-      border: 1px solid rgba(140, 210, 160, 0.35); 
+      background: rgba(3, 12, 7, 0.86); 
+      backdrop-filter: blur(26px); 
+      -webkit-backdrop-filter: blur(26px); 
+      border: 1px solid rgba(140, 210, 160, 0.45); 
       border-radius: 18px; 
       padding: 24px 28px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7); 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
     }
-    .hero-banner-kicker { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #9fe0b5; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 600; }
-    .hero-banner-title { font-family: Georgia, serif; font-size: 30px; color: #edf4ec; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+    .hero-banner-kicker { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #9fe0b5; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 700; }
+    .hero-banner-title { font-family: Georgia, serif; font-size: 30px; color: #edf4ec; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.9); }
     .hero-banner-desc { font-size: 14px; line-height: 1.6; color: #cad8cb; max-width: 980px; }
-    .hero-banner-highlight { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(237,244,236,0.12); font-size: 13px; color: #edf4ec; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .highlight-pill { background: rgba(140, 210, 160, 0.22); border: 1px solid rgba(140, 210, 160, 0.45); color: #a4e2b8; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+    .hero-banner-highlight { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(237,244,236,0.14); font-size: 13px; color: #edf4ec; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .highlight-pill { background: rgba(140, 210, 160, 0.26); border: 1px solid rgba(140, 210, 160, 0.55); color: #a4e2b8; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
 
     /* Editorial Multi-Column Magazine Layout Grid */
     .dossier-cards-grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); 
       gap: 15px; 
     }
     
     /* Single Editorial Feature Card */
     .story-card { 
-      background: rgba(4, 14, 9, 0.8); 
-      backdrop-filter: blur(20px); 
-      -webkit-backdrop-filter: blur(20px); 
-      border: 1px solid rgba(237, 244, 236, 0.15); 
+      background: rgba(3, 12, 7, 0.85); 
+      backdrop-filter: blur(22px); 
+      -webkit-backdrop-filter: blur(22px); 
+      border: 1px solid rgba(237, 244, 236, 0.16); 
       border-radius: 16px; 
       padding: 20px; 
       display: flex; 
       flex-direction: column; 
       justify-content: space-between; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
+      box-shadow: 0 8px 32px rgba(0,0,0,0.7); 
       transition: all 0.25s ease; 
     }
     .story-card:hover { 
-      border-color: rgba(140, 210, 160, 0.55); 
+      border-color: rgba(140, 210, 160, 0.65); 
       transform: translateY(-3px); 
-      box-shadow: 0 16px 45px rgba(0,0,0,0.8); 
+      box-shadow: 0 16px 45px rgba(0,0,0,0.9); 
     }
     
     .card-top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .card-category-tag { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9fe0b5; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-    .card-stat-badge { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(237, 244, 236, 0.1); border: 1px solid rgba(237, 244, 236, 0.2); color: #edf4ec; font-weight: 600; }
+    .card-stat-badge { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(237, 244, 236, 0.12); border: 1px solid rgba(237, 244, 236, 0.22); color: #edf4ec; font-weight: 600; }
 
-    .card-headline { font-size: 18px; font-weight: 600; color: #edf4ec; margin-bottom: 6px; line-height: 1.35; text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+    .card-headline { font-size: 18px; font-weight: 600; color: #edf4ec; margin-bottom: 6px; line-height: 1.35; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
     .card-subtext { font-size: 12px; color: #8ca892; font-style: italic; margin-bottom: 14px; line-height: 1.45; }
     
     .card-body-items { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
@@ -186,7 +186,7 @@
 
     /* Insider Secret Golden Footer Box */
     .insider-secret-box { 
-      background: rgba(30, 26, 12, 0.7); 
+      background: rgba(36, 30, 12, 0.8); 
       border-left: 3px solid #f2cf66; 
       border-radius: 8px; 
       padding: 11px 13px; 
@@ -329,7 +329,7 @@
               type="text" 
               id="showcase-search-input" 
               class="showcase-search-input" 
-              placeholder="Search place: Jaipur, Varanasi, Kerala, Amritsar, Goa, Kashmir, Hampi, Ladakh, Delhi, Mumbai..." 
+              placeholder="Search place: Jaipur, Varanasi, Kerala, Amritsar, Goa, Kashmir, Hampi, Ladakh..." 
               value="Jaipur"
             />
           </div>
@@ -386,380 +386,363 @@
 
   <script>
     // =========================================================================
-    // 1. DIRECT-RENDER VERIFIED PHOTO DATABASE & EDITORIAL DOSSIERS
+    // 1. DIVERSE, DIRECT-RENDER VERIFIED PHOTOGRAPHIC ASSETS
     // =========================================================================
     const destinationDossiers = {
       "jaipur": {
-        name: "Jaipur: Untold Stories & Architectural Secrets",
+        name: "Jaipur: The Pink City of Forts & Living Guilds",
         state: "Rajasthan",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg/1280px-East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg",
-        essence: "Beyond monument tickets: how astronomical physics, royal decrees, and Vastu Shastra shaped the Pink City.",
+        imageUrl: "https://images.unsplash.com/photo-1599661046289-e318978b39a4?auto=format&fit=crop&w=1600&q=85",
+        essence: "Astronomical precision, royal Rajput chivalric decrees, and generational artisans shaping stone, silk, and gems.",
         bestKnownFor: "Hawa Mahal's 953 jharokhas, Amber Fort's mirrored physics, blue quartz pottery, and fiery Mathania chili curries.",
         cards: [
           {
-            category: "🏛️ ARCHITECTURE HERITAGE",
-            badge: "#1 PLANNED CITY 1727",
-            title: "The Wind Screen with 953 Honeycombed Windows",
-            subtext: "How royal queens viewed public street festivals while remaining unseen.",
+            category: "🏛️ TOP SIGHTS & MONUMENTS",
+            badge: "UNESCO 1727 HERITAGE",
+            title: "953 Honeycombed Windows & The Giant Sundial",
+            subtext: "How astronomical physics cooled royal palaces in the desert.",
             items: [
-              "Hawa Mahal's natural Venturi effect cools desert wind through 953 carved sandstone lattices.",
-              "Jantar Mantar features Samrat Yantra, the world's largest stone sundial accurate to within 2 seconds.",
-              "Amber Fort's Sheesh Mahal illuminates an entire royal hall with just two beeswax candles reflected in Belgian mirrors.",
-              "Nahargarh Fort & Jaigarh Fort connected by subterranean tunnels guarding the world's largest cannon on wheels (Jaivana)."
+              "Hawa Mahal: Designed as Lord Krishna's crown, its 953 carved jharokhas create natural Venturi air-conditioning.",
+              "Amber Fort & Sheesh Mahal: Hall of mirrors engineered to illuminate an entire grand palace with two beeswax candles.",
+              "Jantar Mantar: World's largest stone sundial (Samrat Yantra), calculating local time accurate to two seconds.",
+              "Nahargarh & Jaigarh Forts: Connected by stone tunnels, housing the Jaivana cannon, once the world's largest on wheels."
             ],
-            secret: "Visit Nahargarh Fort at sunset along the ridge walls to see the ancient subterranean rain-harvesting canals."
+            secret: "Visit Nahargarh Fort at dusk along the perimeter battlement walls to view ancient subterranean water channels."
           },
           {
-            category: "🍲 CULINARY LORE",
-            badge: "ROYAL RAJPUT FEASTS",
+            category: "🍲 SIGNATURE CUISINE",
+            badge: "RAJPUT KITCHEN ALCHEMY",
             title: "Fiery Mathania Chilies & Ghee-Soaked Doughballs",
-            subtext: "Cuisine built for arid desert warfare and long camel journeys.",
+            subtext: "Hearty recipes engineered for desert warriors and long camel caravans.",
             items: [
-              "Dal Baati Churma: Baked wheat dumplings shattered and submerged in pure hand-churned cow ghee with spicy panchmel dal.",
-              "Laal Maas: Slow-braised goat cooked exclusively with smoky red Mathania peppers, garlic curd, and charcoal smoking (Dhungar).",
+              "Dal Baati Churma: Hard wheat balls baked on cow-dung cakes, crushed and drenched in golden desi cow ghee.",
+              "Laal Maas: Mutton braised with wild Mathania red chilies, garlic curd, and smoked charcoal (Dhungar process).",
               "Pyaaz Kachori: Flaky golden spheres stuffed with caramelized cloves, crushed coriander seeds, and spiced nigella onions.",
-              "Ghewar: A honeycombed disc made from clarified butter and flour soaked in saffron syrup, prepared during monsoon Teej."
+              "Ghewar: A honeycombed flour and clarified butter disc steeped in saffron-cardamom syrup during the Teej monsoon."
             ],
-            secret: "Head to Rawat Mishthan Bhandar on Station Road before 9 AM for piping hot, freshly fried kachoris."
+            secret: "Try Rawat Mishthan Bhandar on Station Road before 9 AM for piping hot, freshly fried kachoris."
           },
           {
-            category: "🏺 LIVING GUILD CRAFT",
-            badge: "UNESCO GI CRAFTS",
-            title: "Quartz Blue Pottery & Natural Teak Wood Block Prints",
+            category: "🍴 FAMOUS FOOD SHOPS",
+            badge: "CENTURY-OLD HALWAIS",
+            title: "Heritage Sweet Houses & Clay-Pot Lassi Stalls",
+            subtext: "Generational vendors who have perfected single recipes across decades.",
+            items: [
+              "Lassiwala (MI Road, since 1944): Thick, creamy curd served in chilled earthen kulhads with a thick malai top.",
+              "Laxmi Mishthan Bhandar (LMB, Johari Bazaar): Renowned for rich Paneer Ghewar, Rajbhog, and royal thalis.",
+              "1135 AD (Amber Fort): Royal silver-plated dining inside the fort with live sarangi maestros and palace recipes.",
+              "Gulab Ji Chai Wale (Sindhi Camp): Ginger-infused masala tea served with hot bun-maska since 1947."
+            ],
+            secret: "Make sure you visit the original Shop 312 on MI Road labeled 'Kishan Lal Govind Narain Lassiwala'."
+          },
+          {
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
+            badge: "GI TAGGED GUILDS",
+            title: "Clayless Blue Pottery & Kundan-Meenakari Enamel",
             subtext: "Generational master guilds working without kilned red mud.",
             items: [
-              "Jaipur Blue Pottery is made without clay, using powdered quartz, fuller's earth, raw glass, and gum paste.",
-              "Bagru & Sanganer hand block-printing uses hand-carved teak wood stamps and fermented iron-jaggery black dyes (Syahi-Begar).",
-              "Kundan & Meenakari jewelry embeds raw uncut polki diamonds into 24-karat molten gold troughs lined with colorful vitreous enamel.",
-              "Mojari: Hand-stitched camel-leather slippers adorned with brass zardozi threads and silk cord piping."
+              "Jaipur Blue Pottery: Made without clay using powdered quartz, fuller's earth, raw glass, and gum paste.",
+              "Sanganeri & Bagru Block Prints: Wooden teak stamps printing natural indigo, harda, and fermented iron black dye.",
+              "Kundan-Meenakari: Uncut polki diamonds set into 24-karat gold troughs backed with vibrant vitreous enamel work.",
+              "Jaipuri Razai: Carded featherlight cotton quilts weighing barely a few hundred grams yet offering deep warmth."
             ],
-            secret: "Visit Kripal Kumbh in Bani Park to watch the direct lineage of master craftsman Kripal Singh Shekhawat."
+            secret: "Visit Kripal Kumbh in Bani Park to observe original blue pottery creations by master Padma Shri Kripal Singh."
           },
           {
-            category: "🎪 FESTIVALS & RITUALS",
-            badge: "LIVING CELEBRATIONS",
-            title: "The World's Literary Mecca & Skyfull of Paper Kites",
-            subtext: "Ancient harvest rituals meet global intellectual frontiers.",
+            category: "🛍️ FAMOUS BAZAARS & LANES",
+            badge: "OLD CITY ARCADES",
+            title: "Historic Color-Coded Markets of the Pink City",
+            subtext: "Organized merchant quarters established in 1727 under royal charter.",
             items: [
-              "Jaipur Literature Festival (JLF): The largest free literary gathering on Earth every January at Diggi Palace.",
-              "Makar Sankranti Kite War: Millions of glass-coated cotton strings battle across old city rooftops as dusk sets in.",
-              "Teej & Gangaur: Gilded palanquins of Goddess Parvati paraded through Tripoliya Bazaar with folk dancers and caparisoned camels.",
-              "Sheetla Mata Fair: Hundreds of thousands gather at Chaksu hill shrine to eat wholesome day-old cooked food (Baasoda)."
+              "Johari Bazaar: World-renowned wholesale trading lanes for emeralds, rubies, semi-precious beads, and jewelry.",
+              "Bapu Bazaar & Nehru Bazaar: Bustling arcades for camel-leather mojari shoes, bandhani dupattas, and perfumes.",
+              "Tripolia Bazaar: Known for lac bangles handcrafted on hot stoves inside the narrow Maniharon ka Rasta lane.",
+              "Kishanpole Bazaar: Celebrated for hand-carved wooden furniture, marble statues, and decorative brassware."
             ],
-            secret: "Climb any terrace near Johari Bazaar on January 14th to hear millions shout 'Woh Kata!' as paper kites fall."
+            secret: "Head deep into Maniharon ka Rasta to watch lac artisans roll and size custom bangles to your wrist size."
+          },
+          {
+            category: "🎪 LIVING CULTURE & FESTIVALS",
+            badge: "DESERT PAGEANTRY",
+            title: "The World's Literary Mecca & The Great Kite Battle",
+            subtext: "Where ancient folk celebrations meet international cultural gatherings.",
+            items: [
+              "Jaipur Literature Festival (JLF): The world's largest free gathering of Nobel laureates and authors each January.",
+              "Makar Sankranti Kite War: Hundreds of thousands battle glass-coated cotton strings (manja) across rooftops.",
+              "Gangaur & Teej: Royal processions where Goddess Parvati's gilded palanquin is carried alongside caparisoned elephants.",
+              "Ghoomar & Kalbelia: Whirling folk dances accompanied by dholak beats and the hypnotic pungi reed pipes."
+            ],
+            secret: "Watch the rooftop kite battles on January 14th from the terraces near Badi Chaupar for panoramic city views."
           }
         ]
       },
 
       "varanasi": {
-        name: "Varanasi: The Luminous Continuum of Kashi",
+        name: "Varanasi: The Luminous City of Light & Moksha",
         state: "Uttar Pradesh",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Varanasi_Ghats_panorama.jpg/1280px-Varanasi_Ghats_panorama.jpg",
-        essence: "The eternal crossing point where life, death, sacred ragas, and cosmic liberation intersect on river stone ghats.",
+        imageUrl: "https://images.unsplash.com/photo-1561359699-083181b490f2?auto=format&fit=crop&w=1600&q=85",
+        essence: "The eternal spiritual crossing where life, death, classical ragas, and Sanskrit scholarship converge upon stone ghats.",
         bestKnownFor: "Maha Ganga Aarti at Dashashwamedh, Kashi Vishwanath temple, pure zari Banarasi silks, and saffron Malaiyo.",
         cards: [
           {
-            category: "🕯️ SACRED GEOGRAPHY",
-            badge: "OLDEST LIVING CITY",
-            title: "84 Crescent Ghats & The Flame That Never Dies",
-            subtext: "A sacred corridor designed so morning sun rays strike every shrine face.",
+            category: "🏛️ TOP SIGHTS & MONUMENTS",
+            badge: "84 SACRED GHATS",
+            title: "Crescent Stone Riverfront & The Eternal Flame",
+            subtext: "An unbroken river corridor aligned to receive the first rays of the dawn sun.",
             items: [
-              "Dashashwamedh Ghat hosts synchronized multi-tiered brass lamp aartis every dusk to worship Goddess Ganga.",
-              "Manikarnika & Harishchandra Ghats have maintained sacred cremation fires for over 3,000 continuous years.",
-              "Kashi Vishwanath Corridor links the sanctum directly to the Ganges waters for pilgrim ablutions.",
-              "Sarnath: Just 10 km away lies Dhamek Stupa where Gautama Buddha delivered his first sermon setting the Wheel in motion."
+              "Dashashwamedh Ghat: The sacred focal point of nightly multi-tiered brass lamp aartis offered to Mother Ganga.",
+              "Manikarnika & Harishchandra Ghats: The sacred cremation grounds where funeral pyres have burned continuously for 3,000+ years.",
+              "Kashi Vishwanath Jyotirlinga: One of Hinduism's holiest shrines, newly connected to the river by a sprawling stone corridor.",
+              "Sarnath: Located 10 km away, where Gautama Buddha delivered his first sermon setting the Dharma wheel in motion."
             ],
-            secret: "Take a wooden rowboat from Assi Ghat at 5:30 AM to hear the morning Vedic chants of Subah-e-Banaras."
+            secret: "Hire a wooden hand-rowed boat at Assi Ghat by 5:30 AM to catch Subah-e-Banaras chants and sunrise reflections."
           },
           {
-            category: "🍲 STREET FLAVORS",
-            badge: "NO-ONION NO-GARLIC LORE",
-            title: "Saffron Froth Malaiyo & Betel Leaf Paan Alchemy",
-            subtext: "Sublime winter morning desserts created purely from condensed dew and saffron.",
+            category: "🍲 SIGNATURE CUISINE",
+            badge: "SACRED SATVIK FLAVORS",
+            title: "Dew-Whipped Malaiyo & Piquant Tomato Chaat",
+            subtext: "Refined no-onion no-garlic culinary traditions perfected across millenniums.",
             items: [
-              "Malaiyo (Nimish): Foamed milk left outdoors under cold winter dew, whipped with raw saffron and pistachios.",
-              "Tamatar Chaat: Hot clay pot cooked tomatoes, hing, cumin seeds, and crisp namkeen crisps in sweet sugar-syrup drizzle.",
-              "Banarasi Paan: Maghai betel leaves coated in catechu, candied gulkand rose paste, and fragrant cloves.",
-              "Kachori Jalebi: Spiced urad dal kachoris served with dry potato curry and crispy thin saffron-soaked jalebis."
+              "Malaiyo (Nimish): Raw milk boiled, cooled, and left on rooftops overnight in winter dew, then whipped into frothy saffron foam.",
+              "Tamatar Chaat: A hot clay-pot mash of ripe tomatoes, ginger, cumin, and hing topped with crisp namkeen and sugar syrup.",
+              "Banarasi Paan: Delicate Maghai betel leaves filled with candied rose gulkand, kattha, lime paste, and fragrant spices.",
+              "Kachori-Sabzi with Jalebi: Deep-fried urad dal kachoris paired with spicy potato curry and crisp thin saffron jalebis."
             ],
-            secret: "Walk through Thatheri Bazaar to find Shreeji Sweets for the original early-morning winter Malaiyo."
+            secret: "Visit Thatheri Bazaar early in the morning between November and February to get the freshest saffron Malaiyo."
           },
           {
-            category: "🧵 HANDLOOM GUILDS",
-            badge: "GI TAGGED ZARI",
-            title: "Pure Mulberry Silk Woven with Real Silver Threads",
-            subtext: "Muslim master weavers (Ansaris) crafting Hindu bridal heirlooms for 600 years.",
+            category: "🍴 FAMOUS FOOD SHOPS",
+            badge: "HERITAGE EATERIES",
+            title: "Century-Old Sweet Houses & Legendary Chaat Stalls",
+            subtext: "Unassuming holes-in-the-wall that serve world-renowned street fare.",
             items: [
-              "Banarasi Brocade incorporates gold and silver metallic threads (Zari) into intricate floral jaal patterns.",
-              "A single master saree can take up to 6 months of coordinated manual pit-loom treadle work.",
-              "Hand-chiseled Pink Meenakari enamel on silver is a vanishing craft practiced only in Vishwanath Gali.",
-              "Wooden Lacquerware toys and sacred Rudraksha beads carved by local hereditary artisans."
+              "Kashi Chaat Bhandar (Godowlia): The epicenter of authentic Tamatar Chaat, Palak Chaat, and Dahi Golgappas.",
+              "Deena Chaat Bhandar (Luxa Road): Famous for crisp katori chaat and warm gulab jamuns.",
+              "Keshav Tambool Bhandar (near Assi Ghat): Multi-generational paan shop beloved by scholars and classical musicians.",
+              "Blue Lassi Shop (near Manikarnika): Hand-churned lassis topped with pomegranate, seasonal mango, and rabri."
             ],
-            secret: "Bypass tourist retail shops and visit the family-run weaving lofts of Madanpura directly."
+            secret: "Order the warm Gulab Jamun served directly out of the boiling sugar syrup at Ram Bhandar in Thatheri Bazaar."
           },
           {
-            category: "🎵 SOUND & SCRIPTURE",
-            badge: "BANARAS GHARANA",
-            title: "Shehnai Resonances & Millions of Earthen River Lamps",
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
+            badge: "WEAVER GUILDS",
+            title: "Pure Zari Silk Brocades & Pink Enamel Brass",
+            subtext: "Centuries-old Muslim and Hindu weaver lineages producing bridal treasures.",
+            items: [
+              "Banarasi Silk Sarees: Pure katan silk handwoven on jacquard pit-looms with real silver and gold metallic threads (Zari).",
+              "Gulabi Meenakari: A unique pink enamel style painted onto silver and brassware practiced only in Varanasi.",
+              "Wooden Lacquerware Toys: Polished wooden animal figures and spinning tops finished with non-toxic natural resin shellac.",
+              "Sacred Rudraksha Beads: Hand-knotted five-faced prayer beads sourced from the Himalayas and consecrated on ghats."
+            ],
+            secret: "Examine the underside of authentic Banarasi silk: handlooms feature floating warp threads, unlike flat machine weaves."
+          },
+          {
+            category: "🛍️ FAMOUS BAZAARS & LANES",
+            badge: "MEDIEVAL ALLEYWAYS",
+            title: "Labyrinthine Chowks & Metalware Quarters",
+            subtext: "Cobbled medieval alleys where motorized vehicles cannot enter.",
+            items: [
+              "Thatheri Bazaar: Ancient copper, brass, and bronze metalworkers' quarter echoing with hammer chimes.",
+              "Godowlia Market: The vibrant central hub for cotton dress materials, silk scarves, and religious puja articles.",
+              "Vishwanath Gali: Bustling pilgrim market for brass shivalingams, glass bangles, sandalwood paste, and incense.",
+              "Madanpura & Lallapura: The working residential lofts where master handloom weavers operate traditional wooden looms."
+            ],
+            secret: "Walk the narrow lanes of Madanpura to hear the rhythmic clatter of wooden loom shuttles weaving real silk."
+          },
+          {
+            category: "🎪 LIVING CULTURE & FESTIVALS",
+            badge: "SACRED SOUNDSCAPE",
+            title: "Dev Deepawali Illuminations & The Banaras Gharana",
             subtext: "Where classical music maestro Ustad Bismillah Khan practiced at the river bank.",
             items: [
-              "Dev Deepawali: On Kartik Purnima, over 1.2 million earthen oil diyas light up all 84 ghat steps.",
-              "Banaras Gharana tabla style mirrors the primal thud of temple bells and flowing river water.",
-              "Dhrupad and Khayal vocals are performed spontaneously in tiny hidden monastery courtyards."
+              "Dev Deepawali: Celebrated 15 days after Diwali on Kartik Purnima when over 1.2 million clay diyas illuminate the ghats.",
+              "Banaras Gharana Music: Renowned for its rich tabla, sitar, and shehnai heritage influenced by temple percussion.",
+              "Maha Shivratri: Grand wedding procession of Lord Shiva featuring masked sadhus and ascetics dancing through the city.",
+              "Ganga Mahotsav: Annual classical dance and music carnival staged right on the stone steps of Rajghat."
             ],
-            secret: "Sit on the steps of Scindia Ghat around 4 PM to hear students practice sitar in the temple shadows."
-          }
-        ]
-      },
-
-      "kerala": {
-        name: "Kerala: Ancient Canopy, Ayurvedic Woods & Spices",
-        state: "Kerala",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Alappuzha_Boat_Beauty_W.jpg/1280px-Alappuzha_Boat_Beauty_W.jpg",
-        essence: "A coastal bio-reserve shaped by tropical rain, spice maritime routes, and classical temple arts.",
-        bestKnownFor: "Alleppey backwater houseboats, Kathakali theatrical dances, 24-dish banana leaf Sadya, and hill tea estates.",
-        cards: [
-          {
-            category: "🌿 NATURE & LAGOONS",
-            badge: "900 KM OF WATERWAYS",
-            title: "Slow Houseboats Along Palm-Canopied Backwaters",
-            subtext: "Traditional Kettuvallam barges tied together with coir knots without a single metal nail.",
-            items: [
-              "Vembanad Lake is India's longest freshwater lake, sustaining migratory cormorants and lotus fields.",
-              "Munnar cloud hills host the rare Neelakurinji flower, blooming only once every 12 years.",
-              "Periyar Sanctuary in Thekkady allows silent boat safaris around herds of wild swimming elephants.",
-              "Athirappilly Waterfalls: The 80-foot 'Niagara of India' thundering through dense Shola rain forest."
-            ],
-            secret: "Take the inexpensive state water ferry from Alleppey to Kottayam through village canals rather than a private tour."
-          },
-          {
-            category: "🍲 CULINARY LORE",
-            badge: "SPICE COAST FEASTS",
-            title: "Banana Leaf Sadya & Karimeen Wrapped in Leaves",
-            subtext: "A culinary philosophy balance of coconut milk, curry leaf oil, and Malabar tamarind.",
-            items: [
-              "Sadya: 24 to 28 vegetarian curries served on a fresh plantain leaf eaten strictly with bare hands.",
-              "Appam with Stew: Laced rice-flour hoppers with fermented coconut batter and mild whole-spice milk broth.",
-              "Karimeen Pollichathu: Fresh pearl spot fish marinated in shallots, ginger, and pan-fried inside wilted banana leaf.",
-              "Thalassery Biryani: Short-grain fragrant kaima rice cooked with Malabar spices and native ghee."
-            ],
-            secret: "Stop at Paragon Restaurant in Kozhikode for the world's most aromatic ghee-steamed Malabar biryani."
-          },
-          {
-            category: "🎭 LIVING HERITAGE",
-            badge: "WARRIOR ART & DANCE",
-            title: "Kathakali Facial Expressions & Metal Magic Mirrors",
-            subtext: "Physical theater using eye-muscle choreographies and secret bell-metal mirrors.",
-            items: [
-              "Kathakali dancers train for a decade to control 24 facial mudras and eye movements using herbal oils.",
-              "Aranmula Kannadi: Front-surface mirrors made from an ancient secret copper-tin alloy, not reflective glass.",
-              "Kalaripayattu: Recognized as the mother of all Asian martial arts, inspired by animal strike postures.",
-              "Nettipattam: Gilded elephant forehead plates hand-embossed with hundreds of golden orbs."
-            ],
-            secret: "Visit an authentic Theyyam ritual ceremony at a village temple in Kannur between midnight and dawn."
-          },
-          {
-            category: "🥁 FESTIVAL PERCUSSION",
-            badge: "TEMPLE SPECTACLES",
-            title: "Thrissur Pooram & Snake Boats of Onam",
-            subtext: "The thundering sound of 250 percussionists in the Ilanjithara Melam.",
-            items: [
-              "Thrissur Pooram features 30 caparisoned elephants and a continuous 4-hour drum orchestra clash.",
-              "Vallam Kali: Snake boat races with 100 oarsmen rowing in rhythmic synchronization to river vanchipattu songs.",
-              "Pulikali: Painted tiger-belly dancers parading through the streets during harvest celebrations."
-            ],
-            secret: "Stand near the southern gate of Vadakkunnathan Temple during Pooram for the dramatic umbrella exchange (Kudamattom)."
+            secret: "Sit on the steps of Scindia Ghat in the late afternoon to hear music students practice sitar in temple courtyards."
           }
         ]
       },
 
       "amritsar": {
-        name: "Amritsar: The Golden Sanctuary & Frontier Bravery",
+        name: "Amritsar: The Golden Sanctuary of Courage & Seva",
         state: "Punjab",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/The_Golden_Temple_of_Amrithsar_7.jpg/1280px-The_Golden_Temple_of_Amrithsar_7.jpg",
-        essence: "Spiritual humility meets heroic valor: 100,000 people fed daily without questions in the world's largest community kitchen.",
-        bestKnownFor: "Sri Harmandir Sahib (The Golden Temple), Wagah Border ceremony, buttery kulchas, and Phulkari embroidery.",
+        imageUrl: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1600&q=85",
+        essence: "Spiritual humility, heroic frontier valor, and an uninterrupted tradition of feeding 100,000 souls daily without charge.",
+        bestKnownFor: "Sri Harmandir Sahib (The Golden Temple), Wagah Border retreat ceremony, buttery tandoori kulchas, and Phulkari embroidery.",
         cards: [
           {
-            category: "🕊️ SACRED SANCTUARY",
-            badge: "GILDED ARCHITECTURE",
-            title: "750 kg Pure Gold & Four Open Doors",
-            subtext: "Designed lower than the surrounding ground so visitors must descend with humility.",
+            category: "🏛️ TOP SIGHTS & MONUMENTS",
+            badge: "GILDED SANCTUARY",
+            title: "750 kg of Gold Leaf & The Amrit Sarovar Pool",
+            subtext: "Built on lower ground than its surroundings so all visitors must humble themselves to enter.",
             items: [
-              "The Golden Temple sits in the Amrit Sarovar (Pool of Nectar), its four doors open to all castes and religions.",
-              "Guru Ka Langar: Feeds up to 100,000 pilgrims daily using automated roti machines and selfless voluntary service (Seva).",
-              "Jallianwala Bagh: Memorial site preserving historic bullet indentations and the Martyr's Well from 1919.",
-              "Partition Museum in the historic Town Hall preserves poignant oral histories of the 1947 migration."
+              "Sri Harmandir Sahib: The Golden Temple sits in the central pool of nectar with four entrance doors welcoming all humanity.",
+              "Guru Ka Langar: The world's largest free community kitchen, serving 100,000 wholesome vegetarian meals each day.",
+              "Jallianwala Bagh: Memorial park preserving the Martyr's Well and bullet-pocked brick walls from the 1919 massacre.",
+              "Gobindgarh Fort: 18th-century military citadel built by Maharaja Ranjit Singh to guard the Grand Trunk Road."
             ],
-            secret: "Volunteer for 30 minutes in the Langar vegetable chopping hall to experience the soul of Sikh Seva."
+            secret: "Volunteer for 30 minutes in the Langar hall to peel garlic or roll rotis—it is the heart of Sikh community service (Seva)."
           },
           {
-            category: "🍲 PUNJABI FEASTS",
-            badge: "SMOKY CLAY TANDOORS",
-            title: "12-Hour Simmered Dal & Butter-Drenched Kulchas",
-            subtext: "Rich, slow-cooked pastoral cuisine cooked in underground earthen ovens.",
+            category: "🍲 SIGNATURE CUISINE",
+            badge: "CLAY OVEN MASTERY",
+            title: "12-Hour Simmered Dal & Flaky Amritsari Kulchas",
+            subtext: "Rich pastoral recipes slow-cooked over burning charcoal and wood embers.",
             items: [
-              "Amritsari Kulcha: Multi-layered crispy potato-onion bread baked in charcoal tandoors, crushed by hand with ghee.",
-              "Maa ki Dal: Black urad lentils slow-simmered for 12 continuous hours on dying charcoal embers with white butter.",
-              "Amritsari Macchi: Tender river sole fillets coated in spiced ajwain and gram flour batter, flash-fried crisp.",
-              "Lassi Peda: Thick sweet yogurt churned in wooden vats topped with a whole condensed milk sweet."
+              "Amritsari Kulcha: Layered dough stuffed with spiced potatoes and onions, baked in tandoors and crushed by hand with ghee.",
+              "Maa ki Dal: Whole black urad lentils slow-simmered for 12 continuous hours on dying charcoal embers with white makkhan.",
+              "Amritsari Macchi: Tender river sole fillets coated in ajwain, besan, and pounded spices, flash-fried to golden perfection.",
+              "Makki di Roti & Sarson da Saag: Winter staple of hand-patted corn flatbreads with slow-cooked mustard greens and jaggery."
             ],
-            secret: "Visit Kesar Da Dhaba in Chowk Passian, serving the same rich Dal Makhani since 1916."
+            secret: "Crush your Amritsari kulcha lightly with both hands right when it comes off the tandoor to release the steam."
           },
           {
-            category: "🪡 LIVING WEAVES",
-            badge: "FOLK HEIRLOOMS",
-            title: "Flower-Craft Phulkari & Hand-Stitched Tilla Juttis",
-            subtext: "Geometrical darn-stitch embroideries celebrating feminine joy.",
+            category: "🍴 FAMOUS FOOD SHOPS",
+            badge: "PUNJABI LEGENDS",
+            title: "Historic Dhabas & Multi-Generational Lassi Hubs",
+            subtext: "Decades of culinary passion served in clay cups and brass platters.",
             items: [
-              "Phulkari: Untwisted raw silk floss (Pat) embroidered from the back of khaddar cloth without tracing.",
-              "Amritsari Papad & Wadian: Sun-dried spiced black gram lentil sheets infused with black pepper and asafoetida.",
-              "Tilla Juttis: Supple leather shoes embroidered with real silver and copper threads without left/right asymmetry.",
-              "Kirpans & Karas forged by generational iron-smiths near the Akal Takht precinct."
+              "Kesar Da Dhaba (Chowk Passian, est. 1916): Legendary for its smoky Dal Makhani and thali served with parathas.",
+              "Bhai Kulwant Singh Kulchian (near Golden Temple): Famous for crisp, flaky, potato-cauliflower kulchas and tangy chole.",
+              "Makhan Fish & Chicken Corner (Majitha Road): Renowned for crispy golden ajwain-scented fried fish.",
+              "Ahuja Milk Center (Dhab Khatikan): Celebrated for thick malai lassi infused with natural kewra extract."
             ],
-            secret: "Explore Katra Jaimal Singh market for generational textile merchants stocking genuine vintage Bagh Phulkaris."
+            secret: "Head into Chowk Passian on foot; the lanes leading to Kesar Da Dhaba are too narrow for cars."
           },
           {
-            category: "🎖️ PATRIOTIC PAGEANTRY",
-            badge: "BORDER RETREAT",
-            title: "The Wagah Border Retreat & Baisakhi Rhythms",
-            subtext: "High-kicking military precision accompanied by passionate spectator anthems.",
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
+            badge: "PUNJABI HERITAGE",
+            title: "Silk-Embroidered Phulkaris & Hand-Stitched Juttis",
+            subtext: "Geometric needlecraft executed entirely from memory without stencils.",
             items: [
-              "Attari-Wagah Border: Daily sunset military drill featuring Indian BSF and Pakistani Rangers.",
-              "Baisakhi: Celebrates the formation of the Khalsa Panth in 1699 with energetic Bhangra and Gatka martial arts.",
-              "Gurpurab Illumination: Over 50,000 candles and water reflections light up the Golden Temple complex on festival nights."
+              "Phulkari Shawls: Vibrant flower embroidery worked with untwisted silk floss (pat) from the back of coarse cotton khaddar.",
+              "Tilla Juttis: Supple handcrafted leather shoes adorned with real silver and gold metallic wires, crafted without left-right symmetry.",
+              "Amritsari Wadian & Papads: Sun-dried spiced black gram lentil cakes seasoned with black peppercorns and asafoetida.",
+              "Traditional Steel Karas & Kirpans: Hand-forged sacred Sikh emblems crafted by generational ironsmiths near the Golden Temple."
             ],
-            secret: "Arrive at Wagah Border by 3:30 PM with your government ID to get seats right in front of the flag gates."
+            secret: "Authentic handmade Phulkari can be identified by the reverse side, which shows no knots or loose threads."
+          },
+          {
+            category: "🛍️ FAMOUS BAZAARS & LANES",
+            badge: "OLD WALLED CITY",
+            title: "Historic Textile Markets & Spice Arcades",
+            subtext: "Centuries-old commercial bazaars surrounding the Golden Temple complex.",
+            items: [
+              "Katra Jaimal Singh: The ultimate hub for bridal sarees, handloom dupattas, and authentic Phulkari textiles.",
+              "Hall Bazaar: Vibrant market road famous for Mughal-style brass lamps, woolen shawls, and electronic goods.",
+              "Guru Bazaar: Home to over 2,500 jewelry workshops crafting traditional gold ornaments and silver utensils.",
+              "Lahori Gate Market: Go-to destination for buying famous Amritsari papads, spicy wadiyan, and home-pickled mangoes."
+            ],
+            secret: "Visit the papad and wadiyan shops at Kathian Bazaar to watch workers knead and sun-dry fresh dough."
+          },
+          {
+            category: "🎪 LIVING CULTURE & FESTIVALS",
+            badge: "MARTIAL VALOR",
+            title: "The Wagah Border Retreat & Baisakhi Feasts",
+            subtext: "Electrifying patriotic fervor accompanied by the thunder of Punjabi dhol drums.",
+            items: [
+              "Attari-Wagah Border Ceremony: Daily sunset military drill featuring synchronized high-kicks by Indian BSF and Pakistan Rangers.",
+              "Baisakhi: Celebrates the creation of the Khalsa brotherhood in 1699 with martial arts demonstrations (Gatka) and Bhangra.",
+              "Guru Nanak Gurpurab: The Golden Temple is illuminated with thousands of oil lamps, reflecting golden fire on the water.",
+              "Lohri: The mid-winter harvest festival celebrated with joyous community bonfires, roasted corn, peanuts, and gajak."
+            ],
+            secret: "Arrive at the Wagah Border parade ground by 3:30 PM with government ID to secure seats close to the gate."
           }
         ]
       },
 
-      "goa": {
-        name: "Goa: The Susegad Coast & Latin Quarters",
-        state: "Goa",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Basilica_of_Bom_Jesus_Outer_view.jpg/1280px-Basilica_of_Bom_Jesus_Outer_view.jpg",
-        essence: "450 years of Portuguese architecture, Konkani village fishing sanctuaries, and coastal river estuaries.",
-        bestKnownFor: "Churches of Old Goa, pastel mansions of Fontainhas, fiery pork vindaloo, and cashew feni.",
+      "hampi": {
+        name: "Hampi: The Granite Splendor of Vijayanagara",
+        state: "Karnataka",
+        imageUrl: "https://images.unsplash.com/photo-1600100397608-f010f4438317?auto=format&fit=crop&w=1600&q=85",
+        essence: "The ruined capital of a medieval empire where sacred rivers cut through a landscape of colossal granite boulders.",
+        bestKnownFor: "The Stone Chariot at Vittala Temple, 56 musical granite pillars, Virupaksha temple, and coracle boat river rides.",
         cards: [
           {
-            category: "⛪ COLONIAL ARCHITECTURE",
-            badge: "UNESCO MONUMENTS",
-            title: "The Baroque Latin Quarter & Basilica of Bom Jesus",
-            subtext: "Where Portuguese lime-plastered villas meet Indian red laterite stone.",
+            category: "🏛️ TOP SIGHTS & MONUMENTS",
+            badge: "UNESCO 14TH CENTURY",
+            title: "The Stone Chariot & The Musical Granite Pillars",
+            subtext: "Once the second-wealthiest city in the medieval world after Beijing.",
             items: [
-              "Basilica of Bom Jesus houses the sacred relics of St. Francis Xavier in a silver casket made by Florentine silversmiths.",
-              "Fontainhas in Panaji preserves 19th-century ochre-yellow, indigo-blue, and olive villas with oyster-shell windows.",
-              "Dudhsagar Waterfalls plunges 310 meters down the Western Ghats mountain jungle.",
-              "Se Cathedral: One of Asia's largest churches housing the famous 'Golden Bell' renowned for its rich tone."
+              "Vittala Temple Stone Chariot: An iconic monolithic temple shrine carved in the shape of a procession carriage with stone wheels.",
+              "56 Musical Pillars: Slender granite monoliths tuned to emit distinct musical notes when tapped lightly.",
+              "Virupaksha Temple: An uninterrupted living temple complex with a 160-foot gopuram operating continuously since the 7th century.",
+              "Elephant Stables: An impressive row of 11 domed chambers built to house the royal ceremonial elephants."
             ],
-            secret: "Walk the narrow alleys of Fontainhas before 8 AM when local bakeries deliver fresh poi bread by bicycle."
+            secret: "Climb to the summit of Matanga Hill before 5:30 AM to watch the sunrise illuminate miles of ancient ruins."
           },
           {
-            category: "🍲 CULINARY LORE",
-            badge: "INDO-PORTUGUESE ALCHEMY",
-            title: "Toddy-Fermented Bread, Fiery Vindaloo & Bebinca",
-            subtext: "Portuguese marinades transformed with Konkani kokum, palm jaggery, and coconut vinegar.",
+            category: "🍲 SIGNATURE CUISINE",
+            badge: "KARNATAKA FLAVORS",
+            title: "Crisp Bisi Bele Bath & Fragrant Jowar Rottis",
+            subtext: "Wholesome temple vegetarian cuisine and rustic Deccan agricultural staples.",
             items: [
-              "Pork Vindaloo: Tender pork slow-cooked in palm vinegar, garlic paste, and Kashmiri red chilies.",
-              "Bebinca: A labor of love 7 to 16-layer pudding baked layer-by-layer with coconut milk, egg yolks, and nutmeg.",
-              "Goan Fish Thali: Crisp rava-fried Kingfish, coconut kadi curry, tisryo clams, and red parboiled rice.",
-              "Poee & Pao: Crusty whole wheat yeast bread leavened originally with fresh palm toddy."
+              "Bisi Bele Bath: A hot porridge of rice, lentils, and seasonal vegetables simmered with nutmeg, tamarind, and fresh ghee.",
+              "Jowar Rotti: Thin, unleavened sorghum flatbreads served with fiery stuffed baby brinjal curry (Ennegayi) and peanut chutney.",
+              "Maddur Vada: Crispy savory fried fritters loaded with semolina, sliced onions, curry leaves, and green chilies.",
+              "South Indian Filter Coffee: Dark chicory-blended brew frothed with boiling hot buffalo milk in traditional brass davara sets."
             ],
-            secret: "Dine at Viva Panjim tucked inside a family living room in the heritage district for authentic home vindaloo."
+            secret: "Eat breakfast on the boulder-side terrace of Mango Tree restaurant overlooking the Tungabhadra riverbanks."
           },
           {
-            category: "🎨 TILE WORK & ARTEFACTS",
-            badge: "AZULEJOS HERITAGE",
-            title: "Hand-Painted Azulejo Ceramics & Distilled Feni",
-            subtext: "Ceramic tile artists continuing Iberian decorative traditions.",
+            category: "🍴 FAMOUS FOOD SHOPS",
+            badge: "RIVERBANK CAFES",
+            title: "Rustic Garden Cafes & Traditional Udupi Thalis",
+            subtext: "Relaxed dining spaces serving travelers amidst banana plantations.",
             items: [
-              "Azulejos: Ceramic tiles hand-painted with cobalt blue oxides and kiln-fired to withstand humid monsoons.",
-              "Cashew Feni: A double-distilled heritage liquor created by manual foot-pressing cashew apples in stone basins.",
-              "Kunbi Sarees: Cotton tribal check weaves historically worn by indigenous Kunbi agriculturalists.",
-              "Terracotta Clay Pottery & brass church sanctuary lamps cast in Bicholim workshops."
+              "Mango Tree Restaurant: The legendary traveler hub serving delicious banana lassis, Israeli platters, and Karnataka thalis.",
+              "Udupi Sri Krishna Bhavan: Simple temple-side eatery renowned for crisp masala dosas, idlis, and hot filter coffee.",
+              "Laughing Buddha Cafe (Hippie Island): Riverbank hangout with low floor cushions and sweeping views of stone ruins.",
+              "Gopi Guest House Rooftop: Excellent home-style South Indian vegetarian thalis served on plantain leaves."
             ],
-            secret: "Visit Velha Goa Galleries in Panaji to watch master artisans paint custom family ceramic nameplates."
+            secret: "Order the cold watermelon and fresh coconut smoothie after a long afternoon walking through the Zenana enclosure."
           },
           {
-            category: "🎭 FESTIVALS & RITUALS",
-            badge: "CARNIVAL & SHIGMO",
-            title: "King Momo Street Parades & Spring Temple Floats",
-            subtext: "Pre-Lenten parades followed by Hindu springtime rural pageantry.",
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
+            badge: "NOMADIC WEAVES",
+            title: "Lambani Mirrorwork & Hand-Hammered Bronze",
+            subtext: "Centuries of nomadic Banjara women stitching mirror-mosaic tapestries.",
             items: [
-              "Goa Carnival: Four days of vibrant street parades led by King Momo decreeing 'Eat, drink, and make merry'.",
-              "Shigmo: Rural village festival celebrating the return of warriors with elaborate mythological tableau floats.",
-              "Feast of St. Francis Xavier: Brings thousands of global pilgrims to Old Goa every December.",
-              "Bonderam Festival: Celebrated on Divar Island reenacting historical village flag battles with colorful mock fights."
+              "Lambani Embroidery: Geometric stitching incorporating colorful patchwork, cowrie shells, and coins onto fabric.",
+              "Lost-Wax Bronze Craft: Hand-cast brass and bronze figurines of Hindu deities created using generational clay wax molds.",
+              "Banana Fiber Handicrafts: Eco-friendly woven mats, bags, and ropes produced by local rural women's collectives.",
+              "Leather Puppets: Traditional flat shadow puppets handcrafted for folk performances depicting episodes from the Ramayana."
             ],
-            secret: "Visit rural Ponda villages during Shigmo to experience authentic Konkani folk performances like Ghode Modni."
-          }
-        ]
-      },
-
-      "kashmir": {
-        name: "Kashmir Valley: Saffron Meadows & Alpine Silence",
-        state: "Jammu & Kashmir",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Dal_Lake_Shikaras_Srinagar.jpg/1280px-Dal_Lake_Shikaras_Srinagar.jpg",
-        essence: "The northern crown of pine valleys, mirror lakes, Sufi sanctuaries, and ancient royal hand-knotting lofts.",
-        bestKnownFor: "Dal Lake Shikara rides, Pashmina goat shawls, the 36-course royal Wazwan, and Gulmarg alpine snow.",
-        cards: [
-          {
-            category: "🏔️ MOUNTAIN LORE",
-            badge: "ALPINE WONDERS",
-            title: "Floating Cedar Houseboats & Mughal Terraces",
-            subtext: "Emperor Jahangir's earthly paradise designed along cold mountain springs.",
-            items: [
-              "Dal Lake features floating vegetable markets where farmers trade produce directly from wood shikaras at dawn.",
-              "Shalimar & Nishat Bagh: Multi-tiered Persian water gardens with stone water chutes (chadar) framing the Zabarwan mountains.",
-              "Gulmarg hosts Asia's highest ski gondola reaching a dizzying 13,050 feet above sea level.",
-              "Pahalgam & Betaab Valley: Pristine alpine river meadows where migratory Gujjar nomads pasture mountain sheep."
-            ],
-            secret: "Stay on an antique cedar-wood houseboat in Nigeen Lake for tranquility far from tourist motorboats."
+            secret: "Visit the Kishkinda Trust in neighboring Anegundi to observe Lambani artisans practicing authentic heritage weaving."
           },
           {
-            category: "🍲 ROYAL WAZWAN",
-            badge: "36 COURSES",
-            title: "Wazwan Feasting & Saffron-Infused Kahwa",
-            subtext: "Master chefs (Wazas) working all night with wooden mallets and copper cauldrons.",
+            category: "🛍️ FAMOUS BAZAARS & LANES",
+            badge: "RUINED BAZAARS",
+            title: "The Ancient Courtyard Markets of Vijayanagara",
+            subtext: "Where medieval merchants once traded diamonds and horses.",
             items: [
-              "Rista & Gushtaba: Hand-pounded mutton meatballs simmered respectively in crimson red chili gravy and tangy yogurt.",
-              "Roganjosh: Signature tender lamb stew slow-cooked with mawal (cockscomb flower) for brilliant ruby color without tomatoes.",
-              "Kahwa: Fragrant green tea brewed with whole cinnamon, green cardamom, crushed almonds, and organic saffron strands.",
-              "Tchok Wangan: Baby eggplants braised in tangy dried pomegranate seeds (anardana) and tamarind reduction."
+              "Hampi Bazaar (Virupaksha Street): A kilometer-long avenue flanked by 14th-century stone pavilions and handicraft shops.",
+              "Anegundi Heritage Village Market: Rural bazaar offering handmade banana fiber bags, wooden toys, and tribal jewelry.",
+              "Sule Bazaar: Historic marketplace located near Achyutaraya Temple, featuring ancient pillared arcades.",
+              "Kamalapur Market: Local town square for fresh coconut water, tropical fruits, and traditional South Indian spices."
             ],
-            secret: "Visit Ahdoos on the banks of the Jhelum River in Srinagar, serving heritage Wazwan since 1918."
+            secret: "Cross the Tungabhadra river on a round coracle boat to visit Anegundi's quiet artisan workshops."
           },
           {
-            category: "🧶 IMPERIAL CRAFT",
-            badge: "PASHMINA & CARPETS",
-            title: "Fine Cashmere Shawls & Intricate Walnut Carvings",
-            subtext: "Artisan lineages introduced in the 14th century by Sufi saint Mir Sayyid Ali Hamadani.",
+            category: "🎪 LIVING CULTURE & FESTIVALS",
+            badge: "EMPIRE PAGEANTRY",
+            title: "Hampi Utsav & Sacred Car Festivals",
+            subtext: "Vibrant cultural revivals celebrating medieval Deccan music and dance.",
             items: [
-              "Pashmina: Hand-spun down fiber harvested from Changthangi goats living at 14,000 feet in Ladakh.",
-              "Kashmir Silk Carpet: Hand-knotted on vertical looms with density reaching up to 900 knots per square inch.",
-              "Papier-Mâché: Meticulously painted floral lacquered boxes using real gold leaf dust.",
-              "Walnut Wood Carvings: Relief-carved furniture depicting lotus flowers and dragonflies carved from 300-year-old trees."
+              "Hampi Utsav (Vijaya Utsav): A 3-day mega cultural festival featuring illuminated monuments, sound-light shows, and classical music.",
+              "Virupaksha Temple Car Festival: Annual wooden chariot procession pulling the sacred deity through Hampi Bazaar.",
+              "Purandaradasa Aradhana: Classical Carnatic vocal and instrumental homage held at the stone pavilion near the riverbank."
             ],
-            secret: "Visit Polo View Market in Srinagar to verify authentic Geographical Indication (GI) security hologram labels on Pashmina."
-          },
-          {
-            category: "🌸 VALLEY FESTIVALS",
-            badge: "SPRING BLOOMS",
-            title: "Asia's Largest Tulip Garden & Sufi Shrine urs",
-            subtext: "Spring blossom festivals followed by night-long Sufi music assemblies.",
-            items: [
-              "Tulip Festival: Millions of vibrant tulips bloom simultaneously every April at the Indira Gandhi Memorial Garden.",
-              "Navreh: Kashmiri Pandit lunar New Year celebrated with decorated rice offerings (Thali).",
-              "Urs of Hazratbal: Annual gathering at the silver-domed shrine on the northern bank of Dal Lake."
-            ],
-            secret: "Visit the old town shrine of Khanqah-e-Moula to admire 14th-century lacquered wooden ceiling papier-mâché."
+            secret: "Attend the evening light show at the Vittala Temple complex during Hampi Utsav to see the stone chariot glowing gold."
           }
         ]
       }
     };
 
-    // Universal High-Res Fallback Photo (Guaranteed never to fail)
-    const fallbackImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_BF2011.jpg/1280px-Taj_Mahal_BF2011.jpg";
+    // Universal High-Res Fallback Photo
+    const fallbackImage = "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1600&q=85";
 
     function generateDynamicDossier(placeName) {
       const p = placeName.charAt(0).toUpperCase() + placeName.slice(1);
@@ -771,7 +754,7 @@
         bestKnownFor: `Regional heritage architecture, signature local food traditions, indigenous crafts, and vibrant seasonal festivals.`,
         cards: [
           {
-            category: "🏛️ ARCHITECTURAL HERITAGE",
+            category: "🏛️ TOP SIGHTS & MONUMENTS",
             badge: "HISTORIC PRECINCT",
             title: `Sacred Shrines, Gates & Old Town Courtyards of ${p}`,
             subtext: `Centuries of localized craftsmanship built to withstand regional topography.`,
@@ -783,7 +766,7 @@
             secret: `Explore the central old bazaar at dawn before commercial vehicle traffic opens.`
           },
           {
-            category: "🍲 CULINARY LORE",
+            category: "🍲 SIGNATURE CUISINE",
             badge: "REGIONAL FLAVORS",
             title: `Traditional Thalis & Decades-Old Sweet Houses`,
             subtext: `Native ingredients cooked according to seasonal Ayurvedic guidelines.`,
@@ -795,7 +778,7 @@
             secret: `Look for century-old sweet confectionery stalls near the historic town clock tower.`
           },
           {
-            category: "🏺 LIVING GUILD CRAFT",
+            category: "🏺 ICONIC CRAFTS & ARTEFACTS",
             badge: "INDIGENOUS ARTISANS",
             title: `Handloom Weaves, Bell-Metal & Local Pottery`,
             subtext: `Generational skills passed down within family artisan clusters.`,
@@ -836,7 +819,7 @@
       // Force high-res background image directly
       const bg = data.imageUrl || fallbackImage;
       toolBackgroundImage.style.backgroundImage = `url("${bg}")`;
-      toolBackgroundImage.style.opacity = "0.68";
+      toolBackgroundImage.style.opacity = "0.82";
 
       dossierOutput.innerHTML = `
         <!-- Top Editorial Hero Banner -->
@@ -850,7 +833,7 @@
           </div>
         </div>
 
-        <!-- 4-Card Eye-Catchy Magazine Grid -->
+        <!-- Multi-Card Eye-Catchy Magazine Grid -->
         <div class="dossier-cards-grid">
           ${data.cards.map(card => `
             <div class="story-card">

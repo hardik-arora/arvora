@@ -920,13 +920,13 @@
             <span class="telemetry"><span class="telemetry-dot"></span> SPATIAL / COORDINATES TELEMETRY</span>
             <span class="telemetry" id="overview-region-badge" style="color: var(--accent-emerald);">CITY / ADMINISTRATIVE</span>
           </div>
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 6px;" id="overview-title">DELHI SPATIAL NODE</h3>
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 6px;" id="overview-title" class="telemetry-name">DELHI SPATIAL NODE</h3>
           
-          <div style="font-family:'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-emerald); margin-bottom: 10px;" id="overview-coords-telemetry">
+          <div style="font-family:'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-emerald); margin-bottom: 10px;" id="overview-coords-telemetry" class="telemetry-coords">
             📍 28.6139° N, 77.2090° E
           </div>
           
-          <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.55; margin-bottom: 14px;" id="overview-description">Loading spatial summary...</p>
+          <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.55; margin-bottom: 14px;" id="overview-description" class="intel-desc">Loading spatial summary...</p>
 
           <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; padding: 8px 10px; font-family:'JetBrains Mono', monospace; font-size: 0.68rem; color: #94a3b8; margin-bottom: 16px;" id="overview-bbox-telemetry">
             <span style="color:#64748b;">BBOX BOUNDS:</span> [28.4042, 28.8834, 76.8378, 77.3475]
@@ -952,7 +952,7 @@
           <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px; padding: 14px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04);" id="weather-main-box">
             <div style="font-size: 2.2rem;" id="weather-icon-display">🌤️</div>
             <div>
-              <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="live-temp-display">-- °C</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #fff;" id="live-temp-display" class="env-temp">-- °C</div>
               <div style="font-size: 0.78rem; color: #94a3b8;" id="live-weather-desc">Fetching Open-Meteo current forecast...</div>
             </div>
           </div>
@@ -962,10 +962,10 @@
           <div style="font-family:'JetBrains Mono', monospace; font-size: 0.68rem; color: #94a3b8; margin-bottom: 10px;">ATMOSPHERIC & ACCESSIBILITY MATRIX</div>
           <div id="amenities-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family:'JetBrains Mono', monospace; font-size: 0.70rem;">
             <div style="padding: 8px 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
-              <span style="color:#64748b;">WIND 10M:</span> <span id="amenity-wind" style="color:#fff;">-- km/h</span>
+              <span style="color:#64748b;">WIND 10M:</span> <span id="amenity-wind" style="color:#fff;" class="env-wind">-- km/h</span>
             </div>
             <div style="padding: 8px 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
-              <span style="color:#64748b;">HUMIDITY:</span> <span id="amenity-humidity" style="color:#fff;">-- %</span>
+              <span style="color:#64748b;">HUMIDITY:</span> <span id="amenity-humidity" style="color:#fff;" class="env-humidity">-- %</span>
             </div>
             <div style="padding: 8px 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
               <span style="color:#64748b;">TRANSIT:</span> <span id="amenity-transit" style="color:#10b981;">HIGH DENSITY</span>
@@ -1666,6 +1666,132 @@
       ArvoraState.selectPlace(name);
     }
     window.selectAutocompleteSuggestion = selectAutocompleteSuggestion;
+
+    
+    /* ====================================================================
+       CLEAN CENTRAL SEARCH & DISPATCH ENGINE
+    ==================================================================== */
+    async function handleLocationSearch(searchQuery) {
+      try {
+        // 1. Resolve coordinates via Nominatim (Free, No API Key required)
+        const geoRes = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=1`,
+          { headers: { "Accept": "application/json" } }
+        );
+        const geoData = await geoRes.json();
+
+        if (!geoData || geoData.length === 0) {
+          alert("Location not found");
+          return;
+        }
+
+        const { lat, lon, display_name } = geoData[0];
+        const latitude = parseFloat(lat);
+        const longitude = parseFloat(lon);
+
+        // 2. Fly Leaflet Map to target & set marker
+        const targetMap = arvoraMap || window.map;
+        if (targetMap) {
+          targetMap.flyTo([latitude, longitude], 13, { animate: true, duration: 1.5 });
+          if (activeLocationMarker || window.activeMarker) {
+            const marker = activeLocationMarker || window.activeMarker;
+            marker.setLatLng([latitude, longitude]);
+            marker.bindPopup(`<b>${display_name}</b>`).openPopup();
+          } else if (typeof L !== "undefined") {
+            const marker = L.marker([latitude, longitude]).addTo(targetMap);
+            marker.bindPopup(`<b>${display_name}</b>`).openPopup();
+            window.activeMarker = marker;
+            activeLocationMarker = marker;
+          }
+        }
+
+        // 3. Update Feature 1: Spatial Telemetry
+        updateSpatialTelemetry(latitude, longitude, display_name);
+
+        // 4. Update Feature 2: Live Weather via Open-Meteo (Free, No Key)
+        updateEnvironmentalData(latitude, longitude);
+
+        // 5. Update Feature 3: Context / POI via Wikipedia API (Free, No Key)
+        updateLocalIntelligence(latitude, longitude);
+
+        // Synchronize with ArvoraState store
+        if (typeof ArvoraState !== "undefined") {
+          ArvoraState.setPlace({
+            placeId: searchQuery.toLowerCase(),
+            name: searchQuery,
+            region: display_name ? display_name.split(',').slice(1, 3).join(',').trim() : "Verified Node",
+            coordinates: { lat: latitude, lng: longitude },
+            coordsFormatted: `LAT ${latitude.toFixed(4)}° N // LON ${longitude.toFixed(4)}° E`,
+            osmDisplayName: display_name
+          });
+        }
+
+      } catch (error) {
+        console.error("Failed to sync location features:", error);
+      }
+    }
+
+    // Feature 1: Coordinates & Spatial Data
+    function updateSpatialTelemetry(lat, lng, name) {
+      const coordEl = document.querySelector("#feature-coordinates, .telemetry-coords, #overview-coords-telemetry");
+      const nameEl = document.querySelector("#feature-location-name, .telemetry-name, #overview-title");
+      
+      const latStr = lat >= 0 ? `${lat.toFixed(4)}° N` : `${Math.abs(lat).toFixed(4)}° S`;
+      const lngStr = lng >= 0 ? `${lng.toFixed(4)}° E` : `${Math.abs(lng).toFixed(4)}° W`;
+
+      if (coordEl) coordEl.textContent = `📍 ${latStr}, ${lngStr}`;
+      if (nameEl) nameEl.textContent = name.toUpperCase().includes("NODE") ? name.toUpperCase() : `${name.toUpperCase()} SPATIAL NODE`;
+    }
+
+    // Feature 2: Live Atmospheric Metrics
+    async function updateEnvironmentalData(lat, lng) {
+      try {
+        const res = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,wind_speed_10m`
+        );
+        const data = await res.json();
+        const current = data.current;
+
+        const tempEl = document.querySelector("#feature-weather-temp, .env-temp, #live-temp-display");
+        const windEl = document.querySelector("#feature-weather-wind, .env-wind, #amenity-wind");
+        const humidityEl = document.querySelector("#feature-weather-humidity, .env-humidity, #amenity-humidity");
+
+        if (tempEl && current.temperature_2m !== undefined) tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
+        if (windEl && current.wind_speed_10m !== undefined) windEl.textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+        if (humidityEl && current.relative_humidity_2m !== undefined) humidityEl.textContent = `${Math.round(current.relative_humidity_2m)}%`;
+      } catch (err) {
+        console.warn("Weather sync failed:", err);
+      }
+    }
+
+    // Feature 3: Local Overview / POI via Wikipedia
+    async function updateLocalIntelligence(lat, lng) {
+      try {
+        const geoUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lng}&gsradius=10000&gslimit=1&format=json&origin=*`;
+        const geoRes = await fetch(geoUrl);
+        const geoData = await geoRes.json();
+
+        if (geoData.query && geoData.query.geosearch && geoData.query.geosearch.length > 0) {
+          const title = geoData.query.geosearch[0].title;
+          const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+          const summary = await summaryRes.json();
+
+          const titleEl = document.querySelector("#wiki-poi-title");
+          const descEl = document.querySelector("#feature-summary-text, .intel-desc, #overview-description");
+
+          if (titleEl) titleEl.textContent = summary.title || title;
+          if (descEl) descEl.textContent = summary.extract || "No detailed summary available.";
+        }
+      } catch (err) {
+        console.warn("Intelligence sync failed:", err);
+      }
+    }
+
+    // Window global bindings
+    window.handleLocationSearch = handleLocationSearch;
+    window.updateSpatialTelemetry = updateSpatialTelemetry;
+    window.updateEnvironmentalData = updateEnvironmentalData;
+    window.updateLocalIntelligence = updateLocalIntelligence;
 
     /* ====================================================================
        UNIVERSAL SEARCH BRIDGE ENGINE

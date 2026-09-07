@@ -1112,7 +1112,7 @@
       return true;
     }
 
-    // Panel 2: Environmental & Weather Metrics via Open-Meteo (100% Keyless)
+        // Panel 2: Environmental & Weather Metrics via Open-Meteo (100% Keyless, NO Custom Headers)
     async function updatePanel2_OpenMeteoWeather(lat, lon) {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
       
@@ -1151,7 +1151,7 @@
       }
     }
 
-    // Panel 3: Local Intelligence via Wikipedia Geosearch & REST API
+        // Panel 3: Local Intelligence via Wikipedia Geosearch & REST API (NO Custom Headers, origin=*)
     async function updatePanel3_WikiLocalIntelligence(lat, lon, displayName) {
       const geosearchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=10000&gslimit=1&format=json&origin=*`;
       
@@ -1341,7 +1341,7 @@
 
         try {
           const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalized)}&limit=1`;
-          const res = await fetch(nominatimUrl, { headers: { "Accept": "application/json" } });
+          const res = await fetch(nominatimUrl);
 
           if (res.ok) {
             const data = await res.json();
@@ -1431,22 +1431,20 @@
     }
 
     /* ==================================================================== */
-    // Subscribe Leaflet Map
+        // Subscribe Leaflet Map with safeZoom & safeLat/safeLon guards
     ArvoraState.subscribe((state) => {
-      const mapInst = state.mapInstance || window.arvoraMap || window.map;
-      const rawLat = state.lat ?? (state.currentLocation && state.currentLocation.coordinates ? state.currentLocation.coordinates.lat : null);
-      const rawLon = state.lon ?? state.lng ?? (state.currentLocation && state.currentLocation.coordinates ? (state.currentLocation.coordinates.lng ?? state.currentLocation.coordinates.lon) : null);
-      const nLat = Number(rawLat);
-      const nLon = Number(rawLon);
+      const targetMap = window.map || window.arvoraMap || state.mapInstance;
+      const safeLat = Number(state.lat ?? (state.currentLocation && state.currentLocation.coordinates ? state.currentLocation.coordinates.lat : NaN));
+      const safeLon = Number(state.lon ?? state.lng ?? (state.currentLocation && state.currentLocation.coordinates ? (state.currentLocation.coordinates.lng ?? state.currentLocation.coordinates.lon) : NaN));
+      const safeZoom = Number.isFinite(Number(state.zoom)) ? Number(state.zoom) : (targetMap && typeof targetMap.getZoom === 'function' ? (targetMap.getZoom() || 13) : 13);
 
-      if (mapInst && isValidLatLng(nLat, nLon)) {
-        const targetZoom = getValidZoom(13, mapInst);
+      if (Number.isFinite(safeLat) && Number.isFinite(safeLon) && targetMap) {
         try {
-          mapInst.flyTo([nLat, nLon], targetZoom, { duration: 1.5 });
+          targetMap.flyTo([safeLat, safeLon], safeZoom, { duration: 1.5 });
           
-          let marker = state.activeMarker || window.activeLocationMarker || window.activeMarker;
+          let marker = window.activeMarker || window.activeLocationMarker || state.activeMarker;
           if (marker) {
-            marker.setLatLng([nLat, nLon]);
+            marker.setLatLng([safeLat, safeLon]);
           } else if (typeof L !== 'undefined') {
             const customIcon = L.divIcon({
               className: 'custom-arvora-marker',
@@ -1454,20 +1452,21 @@
               iconSize: [22, 22],
               iconAnchor: [11, 11]
             });
-            marker = L.marker([nLat, nLon], { icon: customIcon }).addTo(mapInst);
-            state.activeMarker = marker;
-            window.activeLocationMarker = marker;
+            marker = L.marker([safeLat, safeLon], { icon: customIcon }).addTo(targetMap);
             window.activeMarker = marker;
+            window.activeLocationMarker = marker;
+            state.activeMarker = marker;
           }
           
-          if (marker && state.displayName) {
-            marker.bindPopup(`<b>${state.displayName}</b>`).openPopup();
+          if (marker) {
+            const popupText = state.displayName || (state.currentLocation ? state.currentLocation.osmDisplayName || state.currentLocation.name : "Active Target Node");
+            marker.bindPopup(`<b>${popupText}</b>`).openPopup();
           }
         } catch(e) {
           console.warn("Leaflet state subscriber update warning:", e);
         }
-      } else if (mapInst) {
-        console.warn(`[Arvora Leaflet Safety Guard] Suppressed flyTo/setLatLng due to invalid LatLng: (${rawLat}, ${rawLon})`);
+      } else if (targetMap) {
+        console.warn(`[Arvora Leaflet Safety Guard] Suppressed flyTo/setLatLng due to invalid LatLng: (${safeLat}, ${safeLon})`);
       }
     });
 
@@ -1505,7 +1504,7 @@
             await syncLocationData(query);
           } else {
             try {
-              const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`, { headers: { "Accept": "application/json" } });
+              const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
               const data = await res.json();
               if (data && data.length > 0) {
                 ArvoraState.setLocation(data[0].lat, data[0].lon, data[0].display_name);
@@ -1914,22 +1913,21 @@
     var arvoraMap = null;
     var activeLocationMarker = null;
 
-            function initArvoraMap() {
+                function initArvoraMap() {
       const mapContainer = document.getElementById("arvora-spatial-map");
       if (!mapContainer || typeof L === "undefined") return null;
       if (window.arvoraMap || arvoraMap) return window.arvoraMap || arvoraMap;
 
       const stateLat = window.ArvoraState ? window.ArvoraState.lat : null;
       const stateLon = window.ArvoraState ? (window.ArvoraState.lon ?? window.ArvoraState.lng) : null;
-      const initLat = isValidLatLng(stateLat, stateLon) ? Number(stateLat) : 28.6139;
-      const initLng = isValidLatLng(stateLat, stateLon) ? Number(stateLon) : 77.2090;
-      const initZoom = getValidZoom(12, null);
+      const initLat = Number.isFinite(Number(stateLat)) ? Number(stateLat) : 28.6139;
+      const initLng = Number.isFinite(Number(stateLon)) ? Number(stateLon) : 77.2090;
 
       try {
         arvoraMap = L.map("arvora-spatial-map", {
           zoomControl: true,
           scrollWheelZoom: false
-        }).setView([initLat, initLng], initZoom);
+        }).setView([initLat, initLng], 13);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
@@ -1973,11 +1971,7 @@
       let geocodeSuccess = false;
 
       try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=1`, {
-          headers: {
-            "Accept": "application/json"
-          }
-        });
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=1`);
         if (res.ok) {
           const data = await res.json();
           if (data && data.length > 0) {

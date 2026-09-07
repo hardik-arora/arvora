@@ -3,173 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARVORA — Fall into Reverie | Spatial Intelligence & Cultural Portal</title>
-  <meta name="description" content="ARVORA is an immersive spatial intelligence portal for authentic Indian heritage, UNESCO 3D monuments, 36 States cultural dossiers, GI craft marketplace, intercity route matrix, boutique stays, and eco trails.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="styles.css">
+  <title>ARVORA — Fall into Reverie</title>
+  <link rel="icon" href="data:,">
+  <style>
+    /* =========================================================================
+       1. GLOBAL RESET & BASE THEME
+       ========================================================================= */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: #030805; color: #edf4ec; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+    
+    /* =========================================================================
+       2. REVERIE PORTAL UI & TASKBAR
+       ========================================================================= */
+    .quick-taskbar { position: fixed; top: 0; left: 0; right: 0; height: 58px; background: rgba(4, 10, 7, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(237, 244, 236, 0.12); display: flex; align-items: center; gap: 12px; padding: 0 20px; z-index: 1000; }
+    .brand-logo { font-weight: 700; letter-spacing: 0.15em; font-size: 14px; color: #edf4ec; white-space: nowrap; text-decoration: none; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .search-wrap { position: relative; flex-shrink: 0; }
+    .search-input { background: rgba(237, 244, 236, 0.07); border: 1px solid rgba(237, 244, 236, 0.15); border-radius: 999px; padding: 6px 14px 6px 30px; color: #edf4ec; font-size: 12px; width: 170px; outline: none; transition: width 0.2s, border-color 0.2s; }
+    .search-input:focus { width: 220px; border-color: #8ca892; }
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #8ca892; pointer-events: none; }
+    .chips-scroll { display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-right: 20px; }
+    .chips-scroll::-webkit-scrollbar { display: none; }
+    .feature-chip { background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.14); color: #cad8cb; font-size: 12px; padding: 5px 14px; border-radius: 999px; text-decoration: none; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+    .feature-chip:hover { background: rgba(237, 244, 236, 0.18); color: #edf4ec; border-color: rgba(237, 244, 236, 0.35); transform: translateY(-1px); }
+    .feature-chip.lead-chip { background: rgba(140, 210, 160, 0.18); border-color: rgba(140, 210, 160, 0.45); color: #edf4ec; font-weight: 500; }
+
+    /* =========================================================================
+       3. NATURECORE PORTAL VIEWPORT STAGE (UNCHANGED)
+       ========================================================================= */
+    .naturecore-viewport { position: relative; margin-top: 80px; margin-bottom: 40px; width: min(94vw, 1420px); height: min(84vh, 840px); min-height: 600px; border-radius: 28px; border: 1px solid rgba(237, 244, 236, 0.12); box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 80px rgba(12, 36, 20, 0.3); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; z-index: 10; }
+    .viewport-artwork { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; background: radial-gradient(circle at 50% 30%, rgba(130, 220, 160, 0.2) 0%, transparent 60%), linear-gradient(180deg, rgba(3, 8, 5, 0.3) 0%, rgba(3, 8, 5, 0.85) 100%), url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat; }
+    .portal-arch-center { position: absolute; inset: 0; width: 100%; height: 100%; background: linear-gradient(140deg, rgba(235, 255, 220, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(3, 8, 5, 0.75) 75%); z-index: 2; }
+    .arch-svg-graphic { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -46%); width: min(88vw, 680px); height: auto; z-index: 3; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.9)); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease; pointer-events: none; }
+    .naturecore-viewport.entering .arch-svg-graphic { transform: translate(-50%, -46%) scale(1.45); filter: blur(2px) drop-shadow(0 0 50px rgba(140, 210, 160, 0.7)); }
+    
+    /* Portal content layers (we will display: none; these in JS when tool launches) */
+    .mythic-nav { position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 24px 36px; font-size: 11px; letter-spacing: 0.22em; }
+    .nav-cluster { display: flex; gap: 24px; }
+    .mythic-nav a { color: rgba(237, 244, 236, 0.7); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    .mythic-nav a:hover { color: #edf4ec; }
+    .nav-star { color: #edf4ec; font-size: 15px; opacity: 0.85; text-shadow: 0 0 12px rgba(255, 255, 255, 0.8); }
+    .hero-lockup { position: relative; z-index: 10; padding: 0 44px 44px; max-width: 480px; }
+    .hero-title { font-family: "Georgia", "Times New Roman", serif; font-size: clamp(2.8rem, 5vw, 4.4rem); font-weight: 400; line-height: 0.95; letter-spacing: 0.08em; color: #edf4ec; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.9); margin-bottom: 18px; }
+    .hero-subtitle { font-size: 13px; line-height: 1.55; color: #8ca892; max-width: 320px; margin-bottom: 24px; }
+    .hero-button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px; background: rgba(237, 244, 236, 0.1); border: 1px solid rgba(237, 244, 236, 0.25); color: #edf4ec; font-size: 12px; letter-spacing: 0.12em; text-decoration: none; cursor: pointer; backdrop-filter: blur(10px); transition: background 0.2s, transform 0.2s; }
+    .hero-button:hover { background: rgba(237, 244, 236, 0.2); transform: translateY(-2px); }
+    .reverie-glass-tray { position: absolute; right: 36px; bottom: 44px; z-index: 10; display: flex; flex-direction: column; gap: 10px; min-width: 260px; }
+    .tray-item { background: rgba(6, 16, 10, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(237, 244, 236, 0.12); border-radius: 14px; padding: 12px 18px; color: #cad8cb; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s ease; }
+    .tray-item:hover { background: rgba(14, 30, 20, 0.8); color: #edf4ec; border-color: rgba(237, 244, 236, 0.28); }
+
+    /* =========================================================================
+       4. FEATURE POPUP MODAL (UNCHANGED)
+       ========================================================================= */
+    .feature-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
+    .feature-modal.active { display: flex; }
+    .modal-box { background: #08140c; border: 1px solid rgba(237, 244, 236, 0.2); border-radius: 20px; padding: 32px; width: min(90vw, 440px); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9); text-align: left; }
+    .modal-kicker { font-size: 11px; letter-spacing: 0.18em; color: #8ca892; text-transform: uppercase; margin-bottom: 8px; }
+    .modal-title { font-size: 20px; color: #edf4ec; margin-bottom: 12px; }
+    .modal-desc { font-size: 14px; color: #9eb5a3; line-height: 1.5; margin-bottom: 24px; }
+    .modal-actions { display: flex; gap: 12px; }
+    .modal-btn { flex: 1; padding: 10px 16px; border-radius: 10px; font-size: 13px; cursor: pointer; text-align: center; text-decoration: none; border: none; }
+    .modal-btn.primary { background: #8ca892; color: #040a06; font-weight: 600; }
+    .modal-btn.secondary { background: rgba(255, 255, 255, 0.08); color: #edf4ec; }
+
+    /* =========================================================================
+       5. ACTIVE TOOL DASHBOARD & FADED IMAGE BACKGROUND (THE FIX)
+       ========================================================================= */
+    #tool-viewport { display: none; position: absolute; inset: 16px; border-radius: 22px; background: rgba(5, 14, 9, 0.8); border: 1px solid rgba(237, 244, 236, 0.16); z-index: 100; flex-direction: column; padding: 0; overflow: hidden; }
+    
+    /* Dedicated layer for FADED, blurred location background */
+    #tool-image-background { position: absolute; inset: 0; width: 100%; height: 100%; background-position: center; background-size: cover; background-repeat: no-repeat; opacity: 0.25; filter: blur(4px); transition: background-image 0.5s ease-in-out, opacity 0.5s ease; z-index: 1; }
+    
+    /* Content layer is ABOVE the faded background */
+    #tool-content-shell { position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column; padding: 24px 30px; overflow-y: auto; }
+    
+    #tool-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(237, 244, 236, 0.12); padding-bottom: 16px; margin-bottom: 18px; flex-shrink: 0; }
+    #tool-header-title { font-family: Georgia, serif; font-size: 24px; color: #edf4ec; }
+    #tool-back-btn { background: rgba(237, 244, 236, 0.1); border: 1px solid rgba(237, 244, 236, 0.2); color: #fff; padding: 6px 16px; border-radius: 999px; cursor: pointer; font-size: 12px; transition: background 0.2s; }
+    #tool-back-btn:hover { background: rgba(237, 244, 236, 0.22); }
+    
+    /* Showcase Deep Search UI */
+    .showcase-search-shell { display: flex; gap: 10px; margin-bottom: 14px; flex-shrink: 0; }
+    .showcase-search-input { flex: 1; background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.18); border-radius: 12px; padding: 12px 18px; color: #edf4ec; font-size: 14px; outline: none; transition: all 0.2s; }
+    .showcase-search-input:focus { border-color: #8ca892; background: rgba(237, 244, 236, 0.12); }
+    
+    .quick-regions { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: none; flex-shrink: 0; }
+    .quick-regions::-webkit-scrollbar { display: none; }
+    .region-chip { font-size: 11px; padding: 5px 12px; border-radius: 999px; background: rgba(237, 244, 236, 0.05); border: 1px solid rgba(237, 244, 236, 0.12); color: #cad8cb; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .region-chip:hover { background: rgba(140, 210, 160, 0.15); border-color: rgba(140, 210, 160, 0.35); color: #edf4ec; }
+
+    /* Dossier Results Grid: Refined styled blocks with backdrop filtering */
+    .dossier-wrap { display: flex; flex-direction: column; gap: 16px; }
+    .dossier-hero-card { background: rgba(237, 244, 236, 0.04); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(237, 244, 236, 0.12); border-radius: 16px; padding: 20px; }
+    .dossier-headline { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+    .dossier-headline h3 { font-family: Georgia, serif; font-size: 22px; color: #edf4ec; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .dossier-essence { font-size: 13px; color: #8ca892; font-style: italic; }
+    .dossier-summary { font-size: 13px; line-height: 1.55; color: #cad8cb; }
+    
+    .dossier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+    .dossier-block { background: rgba(237, 244, 236, 0.03); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(237, 244, 236, 0.08); border-radius: 14px; padding: 14px 16px; }
+    .dossier-block-title { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #8ca892; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .dossier-block-content { font-size: 12px; line-height: 1.6; color: #edf4ec; }
+
+    /* =========================================================================
+       6. SLIDE-IN FEATURE EXPLORER DRAWER (UNCHANGED)
+       ========================================================================= */
+    .portal-drawer { position: fixed; top: 0; right: -100%; width: min(580px, 92vw); height: 100vh; background: rgba(4, 12, 8, 0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-left: 1px solid rgba(237, 244, 236, 0.15); box-shadow: -20px 0 60px rgba(0, 0, 0, 0.85); z-index: 3000; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; padding: 32px; }
+    .portal-drawer.active { right: 0; }
+    .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .drawer-kicker { font-size: 11px; letter-spacing: 0.2em; color: #8ca892; text-transform: uppercase; }
+    .drawer-header h2 { font-family: Georgia, serif; font-size: 26px; color: #edf4ec; margin-top: 4px; }
+    .drawer-close { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #edf4ec; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .drawer-close:hover { background: rgba(255, 255, 255, 0.2); }
+    .drawer-search input { width: 100%; padding: 12px 18px; background: rgba(237, 244, 236, 0.06); border: 1px solid rgba(237, 244, 236, 0.15); border-radius: 12px; color: #edf4ec; outline: none; font-size: 14px; margin-bottom: 20px; }
+    .drawer-search input:focus { border-color: #8ca892; }
+    .drawer-grid { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 6px; }
+    .drawer-card { background: rgba(237, 244, 236, 0.04); border: 1px solid rgba(237, 244, 236, 0.1); padding: 16px; border-radius: 14px; cursor: pointer; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+    .drawer-card:hover { background: rgba(237, 244, 236, 0.1); border-color: rgba(140, 210, 160, 0.4); transform: translateX(4px); }
+    .drawer-card h4 { font-size: 15px; color: #edf4ec; margin-bottom: 4px; }
+    .drawer-card p { font-size: 12px; color: #9eb5a3; line-height: 1.4; }
+  </style>
 </head>
 <body>
 
-  <!-- Background Ambient Canvas for Floating Spores/Particles -->
-  <canvas id="ambient-canvas"></canvas>
-
-  <!-- Top Quick-Access Taskbar -->
+  <!-- Top Taskbar: "36 States & UTs Showcase" is #1 FIRST in the list -->
   <nav class="quick-taskbar" aria-label="Feature Directory">
-    <a href="#" class="brand-logo" id="nav-brand-logo">
-      <span class="logo-spark">✦</span> ARVORA
-    </a>
+    <a href="#" class="brand-logo">ARVORA ✦</a>
     
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input type="search" id="feature-search" class="search-input" placeholder="Search 180+ features, states, tools..." aria-label="Search tools and features" />
+      <input type="search" id="feature-search" class="search-input" placeholder="Search 180+ features..." />
     </div>
 
     <div class="chips-scroll" id="chips-container">
-      <!-- Feature #1 Lead Chip: 36 States & UTs Showcase -->
-      <button class="feature-chip lead-chip active-chip" data-tool-id="showcase" data-title="36 States & UTs Showcase" data-desc="Complete cultural & spatial dossier: sights, signature cuisine, heritage eateries, artisan bazaars, crafts, living festivals, and local traditions for any Indian city or state.">36 States & UTs Showcase</button>
-      <button class="feature-chip" data-tool-id="marketplace" data-title="GI Craft & Artisan Marketplace" data-desc="Discover verified local craft producers, master artisans, Bidriware, Tanjore, Pashmina, and authentic products with live craft calculator and order simulation.">GI Craft & Artisan Marketplace</button>
-      <button class="feature-chip" data-tool-id="heritage" data-title="UNESCO Monuments 3D Scanner" data-desc="Interactive digital twin tours of ancient temple complexes and forts with point-cloud rendering, architectural hot-spots, and audio guide.">UNESCO Monuments 3D Scanner</button>
-      <button class="feature-chip" data-tool-id="route-matrix" data-title="Smart Intercity Route Matrix" data-desc="Real-time multi-modal connectivity routing across Vande Bharat trains, flight express, highways, EV cabs, and eco carbon scores.">Smart Intercity Route Matrix</button>
-      <button class="feature-chip" data-tool-id="stays" data-title="Boutique Heritage Stays" data-desc="Handpicked Havelis, tea estate bungalows, and restored forest lodges with ambient atmospheric soundscapes.">Boutique Heritage Stays</button>
-      <button class="feature-chip" data-tool-id="bharat-travel" data-title="Bharat Travel Intelligence" data-desc="Complete spatial intelligence, AI itinerary engine, budget planner, weather forecast, and packing assistant.">Bharat Travel Intelligence</button>
-      <button class="feature-chip" data-tool-id="transport" data-title="5-Mode Transport & Fares" data-desc="Real-time unified price aggregator across bus, rail, cab, metro, and ferry with live timetables.">5-Mode Transport & Fares</button>
-      <button class="feature-chip" data-tool-id="eco-trails" data-title="Sacred Groves & Eco Trails" data-desc="Curated off-grid trekking trails through biodiversity-rich protected forests with elevation profiles and permit guides.">Sacred Groves & Eco Trails</button>
-    </div>
-
-    <!-- Audio Atmosphere Controller Bar -->
-    <div class="taskbar-audio-ctrl" id="taskbar-audio-ctrl" title="Ambient Soundscape Toggle">
-      <button class="audio-toggle-btn" id="audio-toggle-btn">
-        <span class="sound-wave-icon">🎵</span>
-        <span class="audio-label" id="audio-label">Ambient Off</span>
-      </button>
-      <div class="audio-presets-dropdown" id="audio-presets-dropdown">
-        <button class="sound-option active" data-sound="rain">🌧️ Forest Canopy Rain</button>
-        <button class="sound-option" data-sound="chimes">🔔 Temple Chimes & Wind</button>
-        <button class="sound-option" data-sound="crickets">🌙 Night Grove Crickets</button>
-        <button class="sound-option" data-sound="waves">🌊 Ghat Waves & Water</button>
-      </div>
+      <!-- Feature #1 First in List -->
+      <a href="#showcase" class="feature-chip lead-chip" data-title="36 States & UTs Showcase" data-desc="Complete cultural & spatial dossier: sights, signature cuisine, heritage eateries, artisan bazaars, crafts, living festivals, and local traditions for any Indian city or state.">36 States & UTs Showcase</a>
+      <a href="#marketplace" class="feature-chip" data-title="GI Craft & Artisan Marketplace" data-desc="Discover verified local craft producers, master artisans, and authentic geographical indication products.">GI Craft & Artisan Marketplace</a>
+      <a href="#heritage" class="feature-chip" data-title="UNESCO Monuments 3D Scanner" data-desc="Interactive digital twin tours and architectural scans of ancient temple complexes and forts.">UNESCO Monuments 3D Scanner</a>
+      <a href="#route-matrix" class="feature-chip" data-title="Smart Intercity Route Matrix" data-desc="Real-time multi-modal connectivity routing across trains, air, and express highways.">Smart Intercity Route Matrix</a>
+      <a href="#stays" class="feature-chip" data-title="Boutique Heritage Stays" data-desc="Handpicked Havelis, palace homestays, and restored forest lodges.">Boutique Heritage Stays</a>
+      <a href="#bharat-travel" class="feature-chip" data-title="Bharat Travel Intelligence" data-desc="Complete spatial intelligence, AI itinerary engine, and regional transport explorer.">Bharat Travel Intelligence</a>
+      <a href="#transport" class="feature-chip" data-title="5-Mode Transport & Fares" data-desc="Real-time unified price aggregator across bus, rail, cab, metro, and ferry.">5-Mode Transport & Fares</a>
+      <a href="#eco-trails" class="feature-chip" data-title="Sacred Groves & Eco Trails" data-desc="Curated off-grid trekking trails through biodiversity-rich protected forests.">Sacred Groves & Eco Trails</a>
     </div>
   </nav>
 
-  <!-- Viewport Stage Container -->
-  <main class="naturecore-viewport" id="naturecore-viewport">
+  <!-- Viewport Stage -->
+  <main class="naturecore-viewport">
     <div class="viewport-artwork"></div>
     <div class="portal-arch-center">
       <svg class="arch-svg-graphic" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="archGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgba(140, 210, 160, 0.5)"/>
-            <stop offset="50%" stop-color="rgba(40, 100, 60, 0.3)"/>
-            <stop offset="100%" stop-color="rgba(8, 22, 14, 0.9)"/>
-          </linearGradient>
-          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="12" result="blur"/>
-            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-          </filter>
-        </defs>
-        <path d="M120 700 V 380 C 120 200, 480 200, 480 380 V 700 H 420 V 390 C 420 260, 180 260, 180 390 V 700 Z" fill="rgba(8, 22, 14, 0.85)" stroke="url(#archGrad)" stroke-width="4"/>
-        <path d="M150 700 V 385 C 150 220, 450 220, 450 385 V 700" stroke="rgba(180, 240, 190, 0.25)" stroke-width="2" stroke-dasharray="8 8"/>
-        <!-- Mystical Foliage / Stars Orbs -->
-        <circle cx="140" cy="270" r="18" fill="rgba(60, 130, 80, 0.7)" filter="url(#glow)"/>
+        <path d="M120 700 V 380 C 120 200, 480 200, 480 380 V 700 H 420 V 390 C 420 260, 180 260, 180 390 V 700 Z" fill="rgba(8, 22, 14, 0.85)" stroke="rgba(140, 210, 160, 0.4)" stroke-width="4"/>
+        <path d="M150 700 V 385 C 150 220, 450 220, 450 385 V 700" stroke="rgba(180, 240, 190, 0.2)" stroke-width="2" stroke-dasharray="8 8"/>
+        <circle cx="140" cy="270" r="18" fill="rgba(60, 130, 80, 0.7)"/>
         <circle cx="160" cy="230" r="24" fill="rgba(40, 100, 60, 0.8)"/>
         <circle cx="210" cy="180" r="30" fill="rgba(70, 150, 90, 0.6)"/>
-        <circle cx="300" cy="150" r="38" fill="rgba(140, 210, 160, 0.4)" filter="url(#glow)"/>
+        <circle cx="300" cy="150" r="38" fill="rgba(50, 120, 75, 0.7)"/>
         <circle cx="390" cy="175" r="28" fill="rgba(75, 160, 100, 0.65)"/>
         <circle cx="440" cy="225" r="25" fill="rgba(45, 110, 70, 0.75)"/>
         <circle cx="465" cy="285" r="20" fill="rgba(65, 140, 85, 0.7)"/>
       </svg>
     </div>
 
-    <!-- Mythic Navigation Header -->
+    <!-- Portal content layers (we will display: none; these in JS when tool launches) -->
     <header class="mythic-nav">
       <div class="nav-cluster">
-        <a href="#worlds" data-nav="worlds">WORLDS</a>
-        <a href="#atelier" data-nav="atelier">ATELIER</a>
-        <a href="#immersions" data-nav="immersions">IMMERSIONS</a>
+        <a href="#worlds">WORLDS</a>
+        <a href="#atelier">ATELIER</a>
+        <a href="#immersions">IMMERSIONS</a>
       </div>
-      <div class="nav-star" id="nav-star-toggle" title="Toggle Celestial Glow">✦</div>
+      <div class="nav-star">✦</div>
       <div class="nav-cluster">
-        <a href="#craft" data-nav="craft">CRAFT</a>
-        <a href="#codex" data-nav="codex">CODEX</a>
-        <a href="#connect" data-nav="connect">CONNECT</a>
+        <a href="#craft">CRAFT</a>
+        <a href="#codex">CODEX</a>
+        <a href="#connect">CONNECT</a>
       </div>
     </header>
 
-    <!-- Hero Title Lockup -->
-    <div class="hero-lockup" id="hero-lockup">
-      <div class="hero-kicker">✦ SPATIAL HERITAGE ENGINE</div>
+    <div class="hero-lockup">
       <h1 class="hero-title">FALL INTO<br>REVERIE</h1>
       <p class="hero-subtitle">
-        An immersive portal through ancient canopy, 3D monument digital twins &amp; spatial intelligence across Bharat.
+        An immersive portal through ancient canopy &amp; spatial intelligence.
       </p>
       <button class="hero-button" id="explore-btn">
         <span>EXPLORE PORTAL</span>
-        <span class="btn-arrow">→</span>
+        <span>→</span>
       </button>
     </div>
 
-    <!-- Reverie Right-Side Glass Tray -->
-    <div class="reverie-glass-tray" id="reverie-glass-tray">
+    <div class="reverie-glass-tray">
       <div class="tray-item" data-action="map">
-        <span>View Interactive Map</span>
-        <span class="tray-icon">↗</span>
+        <span>View Map</span>
+        <span>↗</span>
       </div>
       <div class="tray-item" data-action="worlds">
-        <span>12 Mystic Worlds</span>
-        <span class="tray-icon">✦</span>
+        <span>12 Worlds</span>
+        <span>✦</span>
       </div>
       <div class="tray-item" data-action="reel">
-        <span>Ambient Sound Reel</span>
-        <span class="tray-icon">▶</span>
+        <span>View Reel</span>
+        <span>▶</span>
       </div>
     </div>
 
-    <!-- Glass Dashboard Active Tool Container with Faded Location Background Layer -->
+    <!-- =========================================================================
+         IN-VIEWPORT DASHBOARD & DYNAMIC FADED PHOTO BACKGROUND
+         ========================================================================= -->
     <div id="tool-viewport">
-      <!-- Dedicated FADED, blurred location background layer -->
+      <!-- Dedicated layer for FADED, blurred location background -->
       <div id="tool-image-background"></div>
-
-      <!-- Content Shell layer above background -->
+      
       <div id="tool-content-shell">
         <div id="tool-header-bar">
-          <div class="tool-header-info">
-            <div class="modal-kicker" id="tool-header-kicker">SPATIAL DOSSIER ENGINE</div>
+          <div>
             <h2 id="tool-header-title">Tool Name</h2>
+            <div class="modal-kicker">SPATIAL DOSSIER ENGINE</div>
           </div>
-          <div class="tool-header-actions">
-            <div class="tool-quick-filters" id="tool-quick-filters"></div>
-            <button id="tool-back-btn">← Back to Portal</button>
+          <button id="tool-back-btn">← Back to Portal</button>
+        </div>
+
+        <!-- Specific UI for "36 States & UTs Showcase" Deep Search -->
+        <div id="showcase-tool-container" style="display: flex; flex-direction: column; height: 100%; overflow-y: auto;">
+          <div class="showcase-search-shell">
+            <input 
+              type="text" 
+              id="showcase-search-input" 
+              class="showcase-search-input" 
+              placeholder="Search any place: Jaipur, Varanasi, Kerala, Amritsar, Goa, Kashmir, Hampi, Ladakh..." 
+              value="Goa"
+            />
+          </div>
+
+          <div class="quick-regions" id="quick-regions">
+            <span class="region-chip" data-dest="Jaipur">Jaipur (Rajasthan)</span>
+            <span class="region-chip" data-dest="Varanasi">Varanasi (UP)</span>
+            <span class="region-chip" data-dest="Kerala">Kerala (Backwaters)</span>
+            <span class="region-chip" data-dest="Amritsar">Amritsar (Punjab)</span>
+            <span class="region-chip" data-dest="Goa">Goa (Coastal)</span>
+            <span class="region-chip" data-dest="Kashmir">Kashmir (Valley)</span>
+            <span class="region-chip" data-dest="Hampi">Hampi (Karnataka)</span>
+            <span class="region-chip" data-dest="Ladakh">Ladakh (Highland)</span>
+          </div>
+
+          <div id="dossier-output" class="dossier-wrap">
+            <!-- Populated dynamically based on user search -->
           </div>
         </div>
 
-        <!-- Dynamic Tool Content Body -->
-        <div id="tool-content-body" class="tool-content-body">
-          <!-- Content will be injected dynamically by app.js -->
+        <!-- Generic Interface for other features (UNCHANGED) -->
+        <div id="generic-tool-container" style="display: none; flex: 1; align-items: center; justify-content: center; color: #8ca892; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px dashed rgba(237, 244, 236, 0.2); border-radius: 12px;">
+          [TOOL ENGINE SYNCHRONIZED — READY]
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Feature Preview Popup Modal -->
+  <!-- Feature Popup Modal -->
   <div class="feature-modal" id="feature-modal">
     <div class="modal-box">
-      <div class="modal-kicker" id="modal-kicker">FEATURE TOOL</div>
+      <div class="modal-kicker">FEATURE TOOL</div>
       <h2 class="modal-title" id="modal-title">Feature Name</h2>
       <p class="modal-desc" id="modal-desc">Feature details will appear here.</p>
-      <div class="modal-highlights" id="modal-highlights">
-        <div class="highlight-chip">⚡ Real-time Data</div>
-        <div class="highlight-chip">🎨 High Fidelity</div>
-        <div class="highlight-chip">🏛️ Verified Source</div>
-      </div>
       <div class="modal-actions">
         <button class="modal-btn secondary" id="modal-close">Close</button>
-        <button class="modal-btn primary" id="modal-launch">Access Feature Tool →</button>
+        <button class="modal-btn primary" id="modal-launch">Access Feature Tool</button>
       </div>
     </div>
   </div>
@@ -178,28 +274,525 @@
   <div class="portal-drawer" id="portal-drawer">
     <div class="drawer-header">
       <div>
-        <span class="drawer-kicker">ARVORA DIRECTORY & SPATIAL CATALOG</span>
-        <h2>Explore Features & Tools</h2>
+        <span class="drawer-kicker">ARVORA DIRECTORY</span>
+        <h2>Explore Features</h2>
       </div>
-      <button class="drawer-close" id="drawer-close" aria-label="Close directory drawer">✕</button>
+      <button class="drawer-close" id="drawer-close">✕</button>
     </div>
     <div class="drawer-search">
-      <input type="text" id="drawer-search-input" placeholder="Filter 180+ tools, routes, 36 states, sacred groves..." />
-    </div>
-    <div class="drawer-category-tabs" id="drawer-category-tabs">
-      <button class="tab-chip active" data-category="all">All Tools</button>
-      <button class="tab-chip" data-category="heritage">Heritage & 3D</button>
-      <button class="tab-chip" data-category="transit">Transport & Routes</button>
-      <button class="tab-chip" data-category="craft">Craft & Stays</button>
-      <button class="tab-chip" data-category="nature">Groves & Trails</button>
+      <input type="text" id="drawer-search-input" placeholder="Filter tools, routes, states..." />
     </div>
     <div class="drawer-grid" id="drawer-grid"></div>
   </div>
 
-  <!-- Notification Toast Container -->
-  <div class="toast-container" id="toast-container"></div>
+  <script>
+    // =========================================================================
+    // 1. DEEP LOCATION DATABASE + BACKGROUND PHOTOS FOR "36 STATES SHOWCASE"
+    // =========================================================================
+    const destinationDossiers = {
+      "jaipur": {
+        name: "Jaipur, Rajasthan",
+        state: "Rajasthan",
+        imageUrl: "https://images.unsplash.com/photo-1599661046289-e318978b39a4?q=80&w=1600&auto=format&fit=crop", // Hawa Mahal
+        essence: "The Pink City of Astronomical Forts, Regal Dynasties & Artisanal Alchemy",
+        overview: "Founded in 1727, Jaipur is India's first planned city, blending Vedic Vastu Shastra with Mughal and Rajput architectural grandeur.",
+        bestKnownFor: "Hawa Mahal, Amber Fort, Hand block-printing, Jaipur blue pottery, and royal diamond jewelry.",
+        sights: [
+          "Amber Fort & Sheesh Mahal (Mirror Palace)",
+          "Hawa Mahal (Palace of Winds)",
+          "Jantar Mantar (UNESCO Astronomical Observatory)",
+          "City Palace Complex",
+          "Nahargarh & Jaigarh Forts"
+        ],
+        foodDishes: [
+          "Dal Baati Churma (Baked wheat balls in ghee)",
+          "Laal Maas (Fiery Mathania chili mutton)",
+          "Pyaaz Kachori (Crispy spiced onion pastry)",
+          "Ghewar & Mawa Kachori (Sweet confections)"
+        ],
+        foodShops: [
+          "Rawat Mishthan Bhandar (Pyaaz Kachori hub)",
+          "LMB — Laxmi Mishthan Bhandar (Johari Bazaar)",
+          "1135 AD (Regal dining inside Amber Fort)",
+          "Lassiwala (Kulhad lassi since 1944, MI Road)"
+        ],
+        artefacts: [
+          "Jaipur Blue Pottery (Quartz clay, GI tagged)",
+          "Hand Block-Printed Cottons (Sanganeri & Bagru)",
+          "Kundan-Meenakari Enamel & Polki Jewelry",
+          "Mojari Leather Juttis"
+        ],
+        craftShops: [
+          "Johari Bazaar (Precious gems & Kundan work)",
+          "Bapu Bazaar & नेहरू Bazaar (Textiles & Mojaris)",
+          "Kripal Kumbh (Authentic Blue Pottery masters)",
+          "Anokhi Museum of Hand Printing (Amber)"
+        ],
+        culture: "Warm Marwari hospitality of 'Padharo Mhare Des', Ghoomar folk dance, Kalbelia snake charmer rhythms, and royal Rajput chivalric heritage.",
+        festivals: [
+          "Jaipur Literature Festival (World's greatest lit festival, Jan)",
+          "Gangaur & Teej (Regal processions through old city)",
+          "Jaipur Kite Festival & Elephant Festival (Jan)"
+        ]
+      },
+      "varanasi": {
+        name: "Varanasi (Kashi / Banaras), Uttar Pradesh",
+        state: "Uttar Pradesh",
+        imageUrl: "https://images.unsplash.com/photo-1561359699-083181b490f2?q=80&w=1600&auto=format&fit=crop", // Ganga Aarti
+        essence: "The Eternal City of Light, Sacred Ghats & Moksha",
+        overview: "One of the oldest continuously inhabited cities on Earth, seated on the crescent bank of the holy Ganges river.",
+        bestKnownFor: "Ganga Aarti at Dashashwamedh Ghat, Banarasi pure silk sarees, classical music, and spiritual liberation.",
+        sights: [
+          "Dashashwamedh Ghat (Maha Aarti location)",
+          "Kashi Vishwanath Temple Corridor",
+          "Assi Ghat (Subah-e-Banaras sunrise rituals)",
+          "Manikarnika & Harishchandra Burning Ghats",
+          "Sarnath (Buddhist preachment site)"
+        ],
+        foodDishes: [
+          "Banarasi Paan (Rose petal betel leaf)",
+          "Kachori Sabzi & Jalebi breakfast",
+          "Tamatar Chaat (Spiced tomato reduction)",
+          "Malaiyo / Nimish (Frothy winter milk foam)"
+        ],
+        foodShops: [
+          "Kashi Chaat Bhandar (Godowlia Chowk)",
+          "Deena Chaat Bhandar (Luxa Road)",
+          "Shreeji Sweets (Thatheri Bazaar for Malaiyo)",
+          "Keshav Tambool Bhandar (Banarasi Paan legend)"
+        ],
+        artefacts: [
+          "Banarasi Brocade & Zari Handwoven Silk Sarees (GI tagged)",
+          "Pink Meenakari Enamelled Brassware",
+          "Wooden Lacquerware & Sacred Rudraksha Beads",
+          "Silver & Copper Puja Utensils"
+        ],
+        craftShops: [
+          "Thatheri Bazaar (Brass & copper metal craft)",
+          "Godowlia & Chowk Bazaars (Handloom Banarasi silks)",
+          "Loom Clusters (Lallapura silk hubs)",
+          "Vishwanath Gali (Spiritual relics, beads & wooden idols)"
+        ],
+        culture: "Heart of the Banaras Gharana of classical music, Sanskrit scholarship, and sacred Hindu philosophical traditions.",
+        festivals: [
+          "Dev Deepawali (Million lamps on ghats, Kartik Purnima)",
+          "Maha Shivratri (Grand temple procession)",
+          "Ganga Mahotsav (Music & boat races)"
+        ]
+      },
+      "kerala": {
+        name: "Kerala Backwaters & Hills",
+        state: "Kerala",
+        imageUrl: "https://images.unsplash.com/photo-1593181629936-11c609b8db9b?q=80&w=1600&auto=format&fit=crop", // Backwaters Houseboat
+        essence: "God's Own Country of Serene Lagoons, Spices & Ayurveda",
+        overview: "Tucked between the Arabian Sea and the Western Ghats, famed for palm-fringed backwaters, spice hills, and high human development.",
+        bestKnownFor: "Alleppey houseboat cruises, Kathakali theatrical dances, Ayurveda, and Munnar tea hills.",
+        sights: [
+          "Vembanad Lake Houseboat cruises (Alleppey)",
+          "Munnar Tea Hill Stations",
+          "Fort Kochi (Chinese Fishing Nets & Mattancherry)",
+          "Periyar Wildlife Sanctuary (Elephant sightings)",
+          "Athirappilly Waterfalls"
+        ],
+        foodDishes: [
+          "Kerala Sadya (banana leaf feast)",
+          "Appam with Stew (Rice hoppers with coconut milk)",
+          "Malabar Parotta with Pepper Chicken Roast",
+          "Karimeen Pollichathu (Pearl spot fish baked in leaves)"
+        ],
+        foodShops: [
+          "Paragon Restaurant (Malabar Biryani legend, Kozhikode)",
+          "Kayees Rahmathulla Hotel (Mattancherry, Kochi)",
+          "Grand Pavilion SADYA (Ernakulam)",
+          "Kashi Art Cafe (Fort Kochi heritage spot)"
+        ],
+        artefacts: [
+          "Aranmula Kannadi (Sacred handmade metal alloy mirrors, GI tagged)",
+          "Kathakali papier-mâché masks & Bell-metal lamps",
+          "Nettipattam (Elephant gold caparisons)",
+          "Coir floorings, coconut shell carvings & Spices"
+        ],
+        craftShops: [
+          "Jew Town & Antique District (Mattancherry)",
+          "Aranmula Heritage Craft Village",
+          "Connemara Spice Market (Palayam, Thiruvananthapuram)",
+          "Kairali Kerala State Handicrafts Emporium"
+        ],
+        culture: "Kalaripayattu (world's oldest martial art), Sopana Sangeetham music, and matrilineal traditions.",
+        festivals: [
+          "Onam (Harvest with Snake boat races)",
+          "Thrissur Pooram (Elephant festival & complex percussion)",
+          "Theyyam Ritual Ceremonies (North Malabar temples)"
+        ]
+      },
+      "amritsar": {
+        name: "Amritsar, Punjab",
+        state: "Punjab",
+        imageUrl: "https://images.unsplash.com/photo-1592984180173-b26a6c40e1f7?q=80&w=1600&auto=format&fit=crop", // Golden Temple
+        essence: "The Spiritual Sanctuary of Golden Temples, Gallantry & Community Feasts",
+        overview: "Founded in 1577, Amritsar is the spiritual heart of Sikhism and a historic frontier of Indian patriotism.",
+        bestKnownFor: "The Golden Temple, Langar community kitchen, Wagah Border retreat, and crisp Kulchas.",
+        sights: [
+          "Sri Harmandir Sahib (The Golden Temple)",
+          "Jallianwala Bagh Memorial & Partition Museum",
+          "Attari-Wagah Border Beating Retreat Ceremony",
+          "Gobindgarh Fort"
+        ],
+        foodDishes: [
+          "Amritsari Kulcha (flaky stuffed bread with chole)",
+          "Maa ki Dal & Sarson ka Saag (cooked for 12 hours)",
+          "Amritsari Fish (Crispy batter-fried river sole)",
+          "Punjabi Lassi topped with malai"
+        ],
+        foodShops: [
+          "Bhai Kulwant Singh Kulchian (Near Golden Temple)",
+          "Kesar Da Dhaba (Iconic 100-year-old dal lane)",
+          "Makhan Fish (Majitha Road)",
+          "Ahuja Lassi (Hindu College)"
+        ],
+        artefacts: [
+          "Phulkari Hand-Embroidered Dupattas & Shawls",
+          "Punjabi Tilla Juttis (traditional footwear)",
+          "Amritsari Papad & Wadian",
+          "Sikh Kirpans & Karas"
+        ],
+        craftShops: [
+          "Hall Bazaar & Katra Jaimal Singh (Phulkari hub)",
+          "Guru Bazaar (Ceremonial swords)",
+          "Lahori Gate Market (Papad, local pickles)"
+        ],
+        culture: "Unmatched spirit of 'Seva' (community service), vibrant Bhangra & Giddha folk dances.",
+        festivals: [
+          "Baisakhi (Khalsa founding celebration, April)",
+          "Guru Nanak Gurpurab (Grand illuminations)",
+          "Lohri (Winter bonfire celebrations)"
+        ]
+      },
+      "goa": {
+        name: "Goa (Konkan Coast)",
+        state: "Goa",
+        imageUrl: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=1600&auto=format&fit=crop", // Coastal Beach
+        essence: "Sunlit Beaches, Indo-Portuguese Villas & Susegad Lifestyle",
+        overview: "A coastal state shaped by 450 years of Portuguese influence and indigenous Konkani village traditions.",
+        bestKnownFor: "Churches of Old Goa, clean beaches, spice plantations, and fresh seafood vindaloo.",
+        sights: [
+          "Basilica of Bom Jesus (UNESCO Old Goa Churches)",
+          "Fontainhas (Latin Quarter in Panaji with colorful villas)",
+          "Dudhsagar Waterfalls & Chapora Fort (Vagator)",
+          "Anjuna & Palolem Beaches"
+        ],
+        foodDishes: [
+          "Goan Fish Curry with steamed rice",
+          "Pork Vindaloo & Chicken Xacuti",
+          "Bebinca (traditional 7-layer Indo-Portuguese pudding)",
+          "Feni (Cashew/Coconut spirit)"
+        ],
+        foodShops: [
+          "Viva Panjim (Fontainhas heritage home)",
+          "Fisherman's Wharf (Cavelossim riverbank)",
+          "Ritz Classic (Authentic Goan Fish Thali in Panjim)",
+          "Martin's Corner (Betalbatim beach side)"
+        ],
+        artefacts: [
+          "Azulejos (Hand-painted Portuguese ceramic tiles)",
+          "Cashew Fenis in local decanter bottles",
+          "Kunbi Sarees (traditional tribal weave)",
+          "Terracotta pottery"
+        ],
+        craftShops: [
+          "Fontainhas Art Galleries (Panaji for Azulejos tiles)",
+          "Anjuna Flea Market (Wednesday fair)",
+          "Mapusa Municipal Market (Spices, pottery & dried fish)"
+        ],
+        culture: "'Susegad' (unhurried contentment), Konkani Mando folk songs, and brass band processions.",
+        festivals: [
+          "Goa Carnival (Float parades before Lent, Feb)",
+          "Shigmo (Konkani Hindu spring festival floats)",
+          "Feast of St. Francis Xavier (Old Goa)"
+        ]
+      }
+    };
 
-  <!-- Application Logic -->
-  <script src="app.js"></script>
+    // Generic fallback for any other place typed (UNCHANGED)
+    function generateDynamicDossier(query) {
+      const q = query.charAt(0).toUpperCase() + query.slice(1);
+      return {
+        name: `${q} Explorer`,
+        state: "India Regional Node",
+        essence: `The Authentic Heritage, Sacred Landmarks & Cultural Tapestry of ${q}`,
+        overview: `${q} holds a distinct place in the spatial landscape of India, characterized by historical trade routes, regional folklore, indigenous artisans, and local culinary traditions.`,
+        bestKnownFor: `Local heritage monuments, regional cuisine, native craft clusters, and traditional festivals celebrated with community fervor.`,
+        sights: [`Historic Old Quarter Precinct`, `Sacred Shrines & Forest Groves`, `Landmark Architecture`, `Local Cultural Museum`],
+        foodDishes: [`Traditional regional thali`, `Native flatbreads & lentils`, `Sweet milk confection`],
+        foodShops: [`Decades-old sweet houses`, `Heritage thali restaurants`, `Main Market confectioners`],
+        artefacts: [`Regional handloom textiles`, `Traditional brassware & pottery`, `Wood carvings`],
+        craftShops: [`Central Municipal Bazaar`, `Government Khadi Emporium`, `Weekly open-air haat`],
+        culture: `Rooted community traditions, traditional folk songs, and celebratory harvests.`,
+        festivals: [`Seasonal harvests & Temple processions`, `Annual state cultural fairs`]
+      };
+    }
+
+    // =========================================================================
+    // 2. RENDER DOSSIER & UPDATE FADED BACKGROUND
+    // =========================================================================
+    const dossierOutput = document.getElementById('dossier-output');
+    const showcaseSearchInput = document.getElementById('showcase-search-input');
+    const toolBackgroundImage = document.getElementById('tool-image-background'); // NEW Backgrund layer
+
+    function renderDossier(locationKey) {
+      const cleanKey = locationKey.toLowerCase().trim();
+      const data = destinationDossiers[cleanKey] || generateDynamicDossier(locationKey);
+
+      // --- NEW: Update the faded blurred background photo ---
+      if (data.imageUrl) {
+        toolBackgroundImage.style.backgroundImage = `url(${data.imageUrl})`;
+        toolBackgroundImage.style.opacity = "0.25"; // Set fade value
+      } else {
+        // Fallback or generic places get no photo or main portal background
+        toolBackgroundImage.style.backgroundImage = "none";
+        toolBackgroundImage.style.opacity = "0"; 
+      }
+      // -----------------------------------------------------
+
+      // Render the information blocks as before (but they now backdrop filter)
+      dossierOutput.innerHTML = `
+        <div class="dossier-hero-card">
+          <div class="dossier-headline">
+            <h3>${data.name}</h3>
+            <span class="dossier-essence">${data.essence}</span>
+          </div>
+          <p class="dossier-summary">${data.overview}</p>
+          <div style="margin-top: 10px; font-size: 12px; color: #8ca892;">
+            <strong>✨ Best Known For:</strong> <span style="color: #edf4ec;">${data.bestKnownFor}</span>
+          </div>
+        </div>
+
+        <div class="dossier-grid">
+          <div class="dossier-block">
+            <div class="dossier-block-title">🏛️ Top Sights &amp; Landmarks</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.sights.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="dossier-block">
+            <div class="dossier-block-title">🍲 Signature Food Dishes</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.foodDishes.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="dossier-block">
+            <div class="dossier-block-title">🍴 Famous Food Shops &amp; Eateries</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.foodShops.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="dossier-block">
+            <div class="dossier-block-title">🏺 Iconic Artefacts &amp; Crafts</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.artefacts.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="dossier-block">
+            <div class="dossier-block-title">🛍️ Famous Bazaars for Buying Artefacts</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.craftShops.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="dossier-block">
+            <div class="dossier-block-title">🎭 Living Culture &amp; Heritage</div>
+            <p class="dossier-block-content">${data.culture}</p>
+          </div>
+
+          <div class="dossier-block" style="grid-column: 1 / -1;">
+            <div class="dossier-block-title">🎪 Unique Celebrated Festivals</div>
+            <ul class="dossier-block-content" style="padding-left: 18px;">
+              ${data.festivals.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    // Deep universal location search listening (UNCHANGED)
+    showcaseSearchInput.addEventListener('input', (e) => {
+      const val = e.target.value.trim();
+      if (val.length >= 2) {
+        renderDossier(val);
+      }
+    });
+
+    // Quick chips click (UNCHANGED)
+    document.querySelectorAll('.region-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const dest = chip.dataset.dest;
+        showcaseSearchInput.value = dest;
+        renderDossier(dest);
+      });
+    });
+
+    // Initial default render
+    renderDossier("Goa");
+
+    // =========================================================================
+    // 3. TASKBAR & MODAL CONTROLLER (UNCHANGED)
+    // =========================================================================
+    const searchInput = document.getElementById('feature-search');
+    const chips = Array.from(document.querySelectorAll('.feature-chip'));
+    const toolViewport = document.getElementById('tool-viewport');
+    const toolHeaderTitle = document.getElementById('tool-header-title');
+    const showcaseContainer = document.getElementById('showcase-tool-container');
+    const genericContainer = document.getElementById('generic-tool-container');
+
+    // Filter top taskbar chips
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      chips.forEach(chip => {
+        const text = chip.textContent.toLowerCase();
+        chip.style.display = text.includes(query) ? 'inline-block' : 'none';
+      });
+    });
+
+    // Pop-up Feature Modal
+    const modal = document.getElementById('feature-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalLaunch = document.getElementById('modal-launch');
+    const modalClose = document.getElementById('modal-close');
+
+    function openModal(title, desc) {
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+      modal.classList.add('active');
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(chip.dataset.title || chip.textContent, chip.dataset.desc);
+      });
+    });
+
+    modalClose.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    // Right-Side Glass Tray
+    document.querySelectorAll('.tray-item').forEach(item => {
+      item.addEventListener('click', () => {
+        openModal(item.textContent.trim(), "Curated environmental spatial layer.");
+      });
+    });
+
+    // Parallax mouse motion
+    const archGraphic = document.querySelector('.arch-svg-graphic');
+    const viewport = document.querySelector('.naturecore-viewport');
+    window.addEventListener('pointermove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 24;
+      const y = (e.clientY / window.innerHeight - 0.5) * 16;
+      if (archGraphic && !viewport.classList.contains('entering')) {
+        archGraphic.style.transform = `translate(calc(-50% + ${x}px), calc(-46% + ${y}px))`;
+      }
+    }, { passive: true });
+
+    // Slide-over Drawer
+    const exploreBtn = document.getElementById('explore-btn');
+    const drawer = document.getElementById('portal-drawer');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawerGrid = document.getElementById('drawer-grid');
+    const drawerSearch = document.getElementById('drawer-search-input');
+
+    function populateDrawer() {
+      drawerGrid.innerHTML = '';
+      chips.forEach(chip => {
+        const card = document.createElement('div');
+        card.className = 'drawer-card';
+        card.innerHTML = `<h4>${chip.dataset.title || chip.textContent}</h4><p>${chip.dataset.desc}</p>`;
+        card.addEventListener('click', () => {
+          drawer.classList.remove('active');
+          viewport.classList.remove('entering');
+          openModal(chip.dataset.title || chip.textContent, chip.dataset.desc);
+        });
+        drawerGrid.appendChild(card);
+      });
+    }
+    populateDrawer();
+
+    drawerSearch.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('.drawer-card').forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+      });
+    });
+
+    function openPortal() {
+      populateDrawer();
+      viewport.classList.add('entering');
+      setTimeout(() => {
+        drawer.classList.add('active');
+        drawerSearch.focus();
+      }, 200);
+    }
+
+    exploreBtn.addEventListener('click', openPortal);
+    drawerClose.addEventListener('click', () => {
+      drawer.classList.remove('active');
+      viewport.classList.remove('entering');
+    });
+    document.querySelector('.brand-logo').addEventListener('click', (e) => { e.preventDefault(); openPortal(); });
+
+    document.querySelectorAll('.mythic-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPortal();
+        drawerSearch.value = link.textContent.trim();
+        drawerSearch.dispatchEvent(new Event('input'));
+      });
+    });
+
+    // =========================================================================
+    // 4. ACCESS FEATURE TOOL CLICK -> NATIVE IN-PAGE TOOL LAUNCH (UPDATED)
+    // =========================================================================
+    const mainViewportHero = document.querySelector('.hero-lockup');
+    const mainViewportNav = document.querySelector('.mythic-nav');
+    const mainViewportTray = document.querySelector('.reverie-glass-tray');
+    const toolBackBtn = document.getElementById('tool-back-btn');
+
+    modalLaunch.addEventListener('click', () => {
+      modal.classList.remove('active');
+
+      // Hide default hero layers
+      mainViewportHero.style.display = 'none';
+      mainViewportNav.style.display = 'none';
+      mainViewportTray.style.display = 'none';
+
+      // Open in-viewport tool dashboard
+      toolViewport.style.display = 'flex';
+      toolHeaderTitle.textContent = modalTitle.textContent;
+
+      // Check if "36 States..." was opened
+      if (modalTitle.textContent.includes("36 States")) {
+        showcaseContainer.style.display = 'flex';
+        genericContainer.style.display = 'none';
+        showcaseSearchInput.focus();
+      } else {
+        showcaseContainer.style.display = 'none';
+        genericContainer.style.display = 'flex';
+      }
+    });
+
+    // Back to portal view
+    toolBackBtn.addEventListener('click', () => {
+      toolViewport.style.display = 'none';
+      mainViewportHero.style.display = 'flex';
+      mainViewportNav.style.display = 'flex';
+      mainViewportTray.style.display = 'flex';
+    });
+  </script>
 </body>
 </html>

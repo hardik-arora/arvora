@@ -1293,7 +1293,7 @@
         }
 
         if (!Number.isFinite(parsedLat) || !Number.isFinite(parsedLon)) {
-          console.warn("[Arvora State Guard] Suppressed setPlace with invalid coordinates:", firstArg, secondArg);
+          console.warn("[Arvora State Guard] Aborted setPlace & notify due to invalid non-finite coordinates:", firstArg, secondArg);
           return;
         }
 
@@ -1804,10 +1804,18 @@
       const placeName = location.name || "Target Location";
       const popupText = location.osmDisplayName || `${placeName} (${location.coordsFormatted || ''})`;
 
-      if (location.leafletBounds && Array.isArray(location.leafletBounds) && location.leafletBounds.length === 2) {
-        try {
-          arvoraMap.fitBounds(location.leafletBounds, { padding: [50, 50], duration: 1.5 });
-        } catch(e) {
+      if (location.leafletBounds && Array.isArray(location.leafletBounds) && location.leafletBounds.length === 2 && Array.isArray(location.leafletBounds[0]) && Array.isArray(location.leafletBounds[1])) {
+        const s = parseFloat(location.leafletBounds[0][0]);
+        const w = parseFloat(location.leafletBounds[0][1]);
+        const n = parseFloat(location.leafletBounds[1][0]);
+        const e = parseFloat(location.leafletBounds[1][1]);
+        if ([s, w, n, e].every(Number.isFinite)) {
+          try {
+            arvoraMap.fitBounds([[s, w], [n, e]], { padding: [50, 50], duration: 1.5 });
+          } catch(e) {
+            arvoraMap.flyTo([lat, lng], 13, { duration: 1.5, easeLinearity: 0.25 });
+          }
+        } else {
           arvoraMap.flyTo([lat, lng], 13, { duration: 1.5, easeLinearity: 0.25 });
         }
       } else {
@@ -2056,12 +2064,18 @@
         const targetZoom = typeof getValidZoom === "function" ? getValidZoom(13, targetMap) : 13;
         
         if (boundingBox && Array.isArray(boundingBox) && boundingBox.length === 4) {
-          try {
-            targetMap.fitBounds([
-              [parseFloat(boundingBox[0]), parseFloat(boundingBox[2])],
-              [parseFloat(boundingBox[1]), parseFloat(boundingBox[3])]
-            ], { padding: [50, 50], duration: 1.5 });
-          } catch(e) {
+          const s = parseFloat(boundingBox[0]);
+          const n = parseFloat(boundingBox[1]);
+          const w = parseFloat(boundingBox[2]);
+          const e = parseFloat(boundingBox[3]);
+
+          if ([s, n, w, e].every(Number.isFinite)) {
+            try {
+              targetMap.fitBounds([[s, w], [n, e]], { padding: [50, 50], duration: 1.5 });
+            } catch(e) {
+              targetMap.flyTo([lat, lon], targetZoom, { duration: 1.5, easeLinearity: 0.25 });
+            }
+          } else {
             targetMap.flyTo([lat, lon], targetZoom, { duration: 1.5, easeLinearity: 0.25 });
           }
         } else {

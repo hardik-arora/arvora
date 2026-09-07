@@ -1112,12 +1112,12 @@
       return true;
     }
 
-        // Panel 2: Environmental & Weather Metrics via Open-Meteo (100% Keyless, NO Custom Headers)
+        // Panel 2: Environmental & Weather Metrics via Open-Meteo (Clean GET, NO headers)
     async function updatePanel2_OpenMeteoWeather(lat, lon) {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
       try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Weather fetch failed: ${res.status}`);
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
+        const res = await fetch(url); // Clean GET with NO custom headers
+        if (!res.ok) throw new Error(`Weather error: ${res.status}`);
         const data = await res.json();
         const current = data.current || {};
 
@@ -1145,31 +1145,29 @@
 
         return true;
       } catch (err) {
-        console.warn("Panel 2 weather fetch bypassed:", err);
+        console.warn("Panel 2 (Weather) fetch failed:", err);
         return false;
       }
     }
 
-        // Panel 3: Local Intelligence via Wikipedia Geosearch & REST API (NO Custom Headers, origin=*)
+        // Panel 3: Local Intelligence via Wikipedia Geosearch & REST API (Clean GET, NO headers, origin=*)
     async function updatePanel3_WikiLocalIntelligence(lat, lon, displayName) {
-      const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=10000&gslimit=1&format=json&origin=*`;
-      
-      const titleEl = document.getElementById("wiki-poi-title");
-      const extractEl = document.getElementById("wiki-poi-extract") || document.getElementById("feature-summary-text");
-      const badgeEl = document.getElementById("poi-count-badge");
-
       try {
-        const res = await fetch(wikiUrl);
-        if (!res.ok) throw new Error(`Wiki geosearch failed: ${res.status}`);
+        const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=10000&gslimit=1&format=json&origin=*`;
+        const res = await fetch(wikiUrl); // Clean GET with &origin=* and NO custom headers
+        if (!res.ok) throw new Error(`Wiki error: ${res.status}`);
         const data = await res.json();
+        const page = data.query?.geosearch?.[0];
 
-        if (data.query?.geosearch?.length > 0) {
-          const title = data.query.geosearch[0].title;
-          const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+        if (page?.title) {
+          const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(page.title)}`);
           if (summaryRes.ok) {
             const summary = await summaryRes.json();
-            if (titleEl) titleEl.innerText = summary.title || title;
-            
+            const titleEl = document.getElementById("wiki-poi-title");
+            const extractEl = document.getElementById("wiki-poi-extract") || document.getElementById("feature-summary-text");
+            const badgeEl = document.getElementById("poi-count-badge");
+
+            if (titleEl) titleEl.innerText = summary.title || page.title;
             let extract = summary.extract ? (summary.extract.length > 180 ? summary.extract.slice(0, 180) + "..." : summary.extract) : "Wikipedia spatial node located within 10km radius.";
             if (extractEl) extractEl.innerText = extract;
             if (badgeEl) badgeEl.innerText = "WIKIPEDIA GEOSEARCH";
@@ -1180,7 +1178,7 @@
                 const thumbImg = document.createElement("img");
                 thumbImg.id = "wiki-poi-thumb";
                 thumbImg.src = summary.thumbnail.source;
-                thumbImg.alt = summary.title || title;
+                thumbImg.alt = summary.title || page.title;
                 thumbImg.style.cssText = "width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.08);";
                 wikiContainer.appendChild(thumbImg);
               } else if (document.getElementById("wiki-poi-thumb")) {
@@ -1191,9 +1189,12 @@
           }
         }
       } catch (err) {
-        console.warn("Panel 3 wiki fetch bypassed:", err);
+        console.warn("Panel 3 (Wiki) fetch failed:", err);
       }
 
+      const titleEl = document.getElementById("wiki-poi-title");
+      const extractEl = document.getElementById("wiki-poi-extract") || document.getElementById("feature-summary-text");
+      const badgeEl = document.getElementById("poi-count-badge");
       const placeName = displayName ? displayName.split(',')[0].trim() : "TARGET NODE";
       if (titleEl) titleEl.innerText = placeName.toUpperCase();
       if (extractEl) extractEl.innerText = `Verified spatial reconnaissance node at ${placeName}. Primary regional heritage coordinates active.`;
@@ -1265,39 +1266,51 @@
       },
 
       setLocation(lat, lon, displayName) {
-        const nLat = parseFloat(lat);
-        const nLon = parseFloat(lon ?? arguments[1]);
-        if (typeof isValidLatLng === "function" && !isValidLatLng(nLat, nLon)) {
-          console.warn(`[Arvora State Guard] Suppressed setLocation with invalid coordinates: (${lat}, ${lon})`);
-          return;
-        }
-        this.lat = nLat;
-        this.lon = nLon;
-        this.displayName = displayName || '';
-        this.currentLocation = {
-          ...this.currentLocation,
-          name: displayName ? displayName.split(',')[0].trim() : this.currentLocation.name,
-          coordinates: { lat: this.lat, lng: this.lon },
-          coordsFormatted: `LAT ${this.lat >= 0 ? this.lat.toFixed(4) + '° N' : Math.abs(this.lat).toFixed(4) + '° S'} // LON ${this.lon >= 0 ? this.lon.toFixed(4) + '° E' : Math.abs(this.lon).toFixed(4) + '° W'}`,
-          osmDisplayName: displayName
-        };
-        this.syncURL();
-        this.notify();
+        this.setPlace(lat, lon, displayName);
       },
 
-      setPlace(locationData) {
-        if (!locationData) return;
-        this.currentLocation = { ...this.currentLocation, ...locationData };
-        if (locationData.coordinates) {
-          this.lat = locationData.coordinates.lat;
-          this.lon = locationData.coordinates.lng;
+      setPlace(firstArg, secondArg, thirdArg) {
+        if (firstArg === undefined || firstArg === null) return;
+        let parsedLat, parsedLon, name, locationData;
+
+        if (typeof firstArg === 'object' && firstArg !== null) {
+          locationData = firstArg;
+          const coords = locationData.coordinates || locationData;
+          const rawLat = locationData.lat ?? locationData.latitude ?? coords.lat;
+          const rawLon = locationData.lon ?? locationData.lng ?? locationData.longitude ?? coords.lng ?? coords.lon;
+          parsedLat = parseFloat(rawLat);
+          parsedLon = parseFloat(rawLon);
+          name = locationData.name || locationData.displayName || locationData.osmDisplayName || '';
+        } else {
+          parsedLat = parseFloat(firstArg);
+          parsedLon = parseFloat(secondArg);
+          name = thirdArg || '';
+          locationData = {
+            name: name,
+            osmDisplayName: name,
+            coordinates: { lat: parsedLat, lng: parsedLon }
+          };
         }
-        if (locationData.name) {
-          this.query = locationData.name;
+
+        if (!Number.isFinite(parsedLat) || !Number.isFinite(parsedLon)) {
+          console.warn("[Arvora State Guard] Suppressed setPlace with invalid coordinates:", firstArg, secondArg);
+          return;
         }
-        if (locationData.osmDisplayName) {
-          this.displayName = locationData.osmDisplayName;
-        }
+
+        this.lat = parsedLat;
+        this.lon = parsedLon;
+        this.lng = parsedLon;
+        this.displayName = name || this.displayName || '';
+
+        this.currentLocation = {
+          ...this.currentLocation,
+          ...locationData,
+          name: name ? name.split(',')[0].trim() : (this.currentLocation ? this.currentLocation.name : ''),
+          coordinates: { lat: parsedLat, lng: parsedLon },
+          coordsFormatted: `LAT ${parsedLat >= 0 ? parsedLat.toFixed(4) + '° N' : Math.abs(parsedLat).toFixed(4) + '° S'} // LON ${parsedLon >= 0 ? parsedLon.toFixed(4) + '° E' : Math.abs(parsedLon).toFixed(4) + '° W'}`,
+          osmDisplayName: locationData?.osmDisplayName || name || (this.currentLocation ? this.currentLocation.osmDisplayName : '')
+        };
+
         this.syncURL();
         this.notify();
       },
@@ -1326,11 +1339,29 @@
         }
       },
 
-      async selectPlace(queryOrName) {
-        if (!queryOrName) return;
-        const normalized = queryOrName.trim();
+      async selectPlace(placeOrQuery) {
+        if (!placeOrQuery) return;
         if (typeof showLoadingSkeletons === "function") showLoadingSkeletons();
 
+        if (typeof placeOrQuery === 'object' && placeOrQuery !== null) {
+          const place = placeOrQuery;
+          const rawLat = place.lat ?? place.latitude;
+          const rawLon = place.lon ?? place.lng ?? place.longitude;
+          const parsedLat = parseFloat(rawLat);
+          const parsedLon = parseFloat(rawLon);
+
+          if (!Number.isFinite(parsedLat) || !Number.isFinite(parsedLon)) {
+            console.warn("Invalid place coordinates", place);
+            if (typeof hideLoadingSkeletons === "function") hideLoadingSkeletons();
+            return;
+          }
+
+          this.setPlace(place);
+          if (typeof hideLoadingSkeletons === "function") hideLoadingSkeletons();
+          return;
+        }
+
+        const normalized = String(placeOrQuery).trim();
         let locationObj = null;
 
         try {
@@ -1341,27 +1372,39 @@
             const data = await res.json();
             if (data && data.length > 0) {
               const item = data[0];
-              const lat = parseFloat(item.lat);
-              const lng = parseFloat(item.lon ?? item.lng);
-              const bbox = item.boundingbox;
+              const rawLat = item.lat ?? item.latitude;
+              const rawLon = item.lon ?? item.lng ?? item.longitude;
+              const parsedLat = parseFloat(rawLat);
+              const parsedLon = parseFloat(rawLon);
 
-              locationObj = {
-                placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
-                name: item.name || normalized,
-                region: item.display_name ? item.display_name.split(',').slice(1, 3).join(',').trim() : "Verified Spatial Node",
-                categoryType: `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase(),
-                coordinates: { lat, lng },
-                coordsFormatted: `LAT ${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'} // LON ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}`,
-                boundingBox: bbox ? [parseFloat(bbox[0]), parseFloat(bbox[1]), parseFloat(bbox[2]), parseFloat(bbox[3])] : null,
-                osmDisplayName: item.display_name,
-                placeDetails: null
-              };
+              if (!Number.isFinite(parsedLat) || !Number.isFinite(parsedLon)) {
+                console.warn("Invalid place coordinates", item);
+              } else {
+                const bbox = item.boundingbox;
+                locationObj = {
+                  placeId: item.place_id ? item.place_id.toString() : normalized.toLowerCase(),
+                  name: item.name || normalized,
+                  region: item.display_name ? item.display_name.split(',').slice(1, 3).join(',').trim() : "Verified Spatial Node",
+                  categoryType: `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase(),
+                  coordinates: { lat: parsedLat, lng: parsedLon },
+                  lat: parsedLat,
+                  lon: parsedLon,
+                  lng: parsedLon,
+                  coordsFormatted: `LAT ${parsedLat >= 0 ? parsedLat.toFixed(4) + '° N' : Math.abs(parsedLat).toFixed(4) + '° S'} // LON ${parsedLon >= 0 ? parsedLon.toFixed(4) + '° E' : Math.abs(parsedLon).toFixed(4) + '° W'}`,
+                  boundingBox: bbox ? [parseFloat(bbox[0]), parseFloat(bbox[1]), parseFloat(bbox[2]), parseFloat(bbox[3])] : null,
+                  osmDisplayName: item.display_name,
+                  placeDetails: null
+                };
 
-              if (bbox) {
-                locationObj.leafletBounds = [
-                  [parseFloat(bbox[0]), parseFloat(bbox[2])],
-                  [parseFloat(bbox[1]), parseFloat(bbox[3])]
-                ];
+                if (bbox && Array.isArray(bbox) && bbox.length === 4) {
+                  const s = parseFloat(bbox[0]);
+                  const n = parseFloat(bbox[1]);
+                  const w = parseFloat(bbox[2]);
+                  const e = parseFloat(bbox[3]);
+                  if ([s, n, w, e].every(Number.isFinite)) {
+                    locationObj.leafletBounds = [[s, w], [n, e]];
+                  }
+                }
               }
             }
           }
@@ -1384,6 +1427,7 @@
                 region: cData.tag || "VERIFIED REGION",
                 categoryType: "CITY / ADMINISTRATIVE",
                 coordinates: { lat, lng },
+                lat, lon: lng, lng,
                 coordsFormatted: cData.coords,
                 boundingBox: null,
                 placeDetails: cData
@@ -1399,6 +1443,7 @@
             region: "INDIAN SPATIAL NODE",
             categoryType: "CITY / ADMINISTRATIVE",
             coordinates: { lat: 28.6139, lng: 77.2090 },
+            lat: 28.6139, lon: 77.2090, lng: 77.2090,
             coordsFormatted: "LAT 28.6139° N // LON 77.2090° E",
             boundingBox: null,
             placeDetails: null
@@ -1425,34 +1470,22 @@
     }
 
     /* ==================================================================== */
-        // Subscribe Leaflet Map with safeZoom & safeLat/safeLon guards and safe boundingbox fitBounds parser
+        // Subscribe Leaflet Map with safe validation and flyTo
     ArvoraState.subscribe((state) => {
-      const lat = Number(state.lat ?? (state.currentLocation && state.currentLocation.coordinates ? state.currentLocation.coordinates.lat : NaN));
-      const lon = Number(state.lon ?? state.lng ?? (state.currentLocation && state.currentLocation.coordinates ? (state.currentLocation.coordinates.lng ?? state.currentLocation.coordinates.lon) : NaN));
+      const lat = Number(state.lat);
+      const lon = Number(state.lon ?? state.lng);
       const zoom = Number.isFinite(Number(state.zoom)) ? Number(state.zoom) : 13;
-      const boundingbox = state.boundingbox || state.boundingBox || (state.currentLocation ? state.currentLocation.boundingBox : null);
+
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        return; // Silently skip Leaflet update if coordinates are not yet numbers
+      }
+
       const targetMap = window.map || window.arvoraMap || state.mapInstance;
 
-      if (Number.isFinite(lat) && Number.isFinite(lon) && targetMap) {
+      if (targetMap) {
         if (!window.map) window.map = targetMap;
+        window.map.flyTo([lat, lon], zoom, { duration: 1.2 });
 
-        // If boundingbox exists, convert Nominatim [south, north, west, east] to Leaflet [[s, w], [n, e]]
-        if (boundingbox && Array.isArray(boundingbox) && boundingbox.length === 4) {
-          const s = parseFloat(boundingbox[0]);
-          const n = parseFloat(boundingbox[1]);
-          const w = parseFloat(boundingbox[2]);
-          const e = parseFloat(boundingbox[3]);
-
-          if ([s, n, w, e].every(Number.isFinite)) {
-            targetMap.fitBounds([[s, w], [n, e]], { maxZoom: 15, padding: [20, 20] });
-          } else {
-            targetMap.flyTo([lat, lon], zoom, { duration: 1.2 });
-          }
-        } else {
-          targetMap.flyTo([lat, lon], zoom, { duration: 1.2 });
-        }
-
-        // Update or place marker safely
         let marker = window.activeMarker || window.activeLocationMarker || state.activeMarker;
         if (marker) {
           marker.setLatLng([lat, lon]);
@@ -1463,18 +1496,16 @@
             iconSize: [22, 22],
             iconAnchor: [11, 11]
           });
-          marker = L.marker([lat, lon], { icon: customIcon }).addTo(targetMap);
+          marker = L.marker([lat, lon], { icon: customIcon }).addTo(window.map);
           window.activeMarker = marker;
           window.activeLocationMarker = marker;
           state.activeMarker = marker;
         }
         
         const displayName = state.displayName || (state.currentLocation ? state.currentLocation.osmDisplayName || state.currentLocation.name : "");
-        if (marker && displayName) {
-          marker.bindPopup(`<b>${displayName}</b>`).openPopup();
+        if (window.activeMarker && displayName) {
+          window.activeMarker.bindPopup(`<b>${displayName}</b>`).openPopup();
         }
-      } else if (targetMap) {
-        console.warn(`[Arvora Leaflet Safety Guard] Suppressed flyTo/setLatLng due to invalid LatLng: (${lat}, ${lon})`);
       }
     });
 

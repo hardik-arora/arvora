@@ -1051,6 +1051,17 @@
 
     <!-- SYSTEM JAVASCRIPT -->
   <script>
+
+    // Strict LatLng Validation Helper Guard
+    function isValidLatLng(lat, lng) {
+      const nLat = Number(lat);
+      const nLng = Number(lng);
+      return typeof lat !== 'undefined' && typeof lng !== 'undefined' &&
+             !isNaN(nLat) && !isNaN(nLng) &&
+             Number.isFinite(nLat) && Number.isFinite(nLng) &&
+             nLat >= -90 && nLat <= 90 && nLng >= -180 && nLng <= 180;
+    }
+
     /* ====================================================================
        1. GLOBAL STATE DEFINITION (Must be first)
        ==================================================================== */
@@ -1090,10 +1101,16 @@
         });
       },
 
-      // Central method to update state from Search or Map clicks
+            // Central method to update state from Search or Map clicks
       setLocation(lat, lon, displayName) {
-        this.lat = parseFloat(lat);
-        this.lon = parseFloat(lon);
+        const nLat = parseFloat(lat);
+        const nLon = parseFloat(lon ?? arguments[1]);
+        if (!isValidLatLng(nLat, nLon)) {
+          console.warn(`[Arvora State Guard] Suppressed setLocation with invalid coordinates: (${lat}, ${lon})`);
+          return;
+        }
+        this.lat = nLat;
+        this.lon = nLon;
         this.displayName = displayName || '';
         this.currentLocation = {
           ...this.currentLocation,
@@ -1238,18 +1255,29 @@
        2. FEATURE INTEGRATIONS & LISTENERS
        ========================================== */
 
-    // Subscribe Leaflet Map
+        // Subscribe Leaflet Map with Strict Safety Guards
     ArvoraState.subscribe((state) => {
       const mapInst = state.mapInstance || window.arvoraMap || window.map;
-      if (mapInst && state.lat && state.lon) {
+      const rawLat = state.lat ?? (state.currentLocation && state.currentLocation.coordinates ? state.currentLocation.coordinates.lat : null);
+      const rawLon = state.lon ?? state.lng ?? (state.currentLocation && state.currentLocation.coordinates ? (state.currentLocation.coordinates.lng ?? state.currentLocation.coordinates.lon) : null);
+      const nLat = Number(rawLat);
+      const nLon = Number(rawLon);
+
+      if (mapInst && isValidLatLng(nLat, nLon)) {
         try {
-          mapInst.flyTo([state.lat, state.lon], 13, { duration: 1.5 });
+          mapInst.flyTo([nLat, nLon], 13, { duration: 1.5 });
           
           let marker = state.activeMarker || window.activeLocationMarker || window.activeMarker;
           if (marker) {
-            marker.setLatLng([state.lat, state.lon]);
+            marker.setLatLng([nLat, nLon]);
           } else if (typeof L !== 'undefined') {
-            marker = L.marker([state.lat, state.lon]).addTo(mapInst);
+            const customIcon = L.divIcon({
+              className: 'custom-arvora-marker',
+              html: `<div style="width:22px; height:22px; background:#10b981; border:3px solid #ffffff; border-radius:50%; box-shadow:0 0 20px #10b981, 0 0 40px #10b981; transform:translate(-50%, -50%);"></div>`,
+              iconSize: [22, 22],
+              iconAnchor: [11, 11]
+            });
+            marker = L.marker([nLat, nLon], { icon: customIcon }).addTo(mapInst);
             state.activeMarker = marker;
             window.activeLocationMarker = marker;
             window.activeMarker = marker;
@@ -1261,6 +1289,8 @@
         } catch(e) {
           console.warn("Leaflet state subscriber update warning:", e);
         }
+      } else if (mapInst) {
+        console.warn(`[Arvora Leaflet Safety Guard] Suppressed flyTo/setLatLng due to invalid LatLng: (${rawLat}, ${rawLon})`);
       }
     });
 
@@ -1540,17 +1570,23 @@
     }
 
     /* REFACTORED LEAFLET MAP CONTROLLER */
-    function updateMapToLocation(location) {
+        function updateMapToLocation(location) {
       if (typeof L === "undefined") return;
       if (!arvoraMap) initArvoraMap();
       if (!arvoraMap || !location || !location.coordinates) return;
 
-      const { lat, lng } = location.coordinates;
+      const lat = Number(location.coordinates.lat);
+      const lng = Number(location.coordinates.lng ?? location.coordinates.lon);
+
+      if (!isValidLatLng(lat, lng)) {
+        console.warn(`[Arvora Leaflet Safety Guard] Invalid LatLng object: (${lat}, ${lng}). Aborting updateMapToLocation.`);
+        return;
+      }
+
       const placeName = location.name || "Target Location";
       const popupText = location.osmDisplayName || `${placeName} (${location.coordsFormatted || ''})`;
 
-      // 1. Update Leaflet instance: fitBounds if boundingBox/leafletBounds provided, else flyTo
-      if (location.leafletBounds) {
+      if (location.leafletBounds && Array.isArray(location.leafletBounds) && location.leafletBounds.length === 2) {
         try {
           arvoraMap.fitBounds(location.leafletBounds, { padding: [50, 50], duration: 1.5 });
         } catch(e) {
@@ -1560,29 +1596,28 @@
         arvoraMap.flyTo([lat, lng], 13, { duration: 1.5, easeLinearity: 0.25 });
       }
 
-      // 2. Clear existing location pins & drop active marker with custom popup
       if (activeLocationMarker) {
-        arvoraMap.removeLayer(activeLocationMarker);
+        activeLocationMarker.setLatLng([lat, lng]);
+      } else {
+        const customIcon = L.divIcon({
+          className: 'custom-arvora-marker',
+          html: `<div style="
+            width: 22px;
+            height: 22px;
+            background: #10b981;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #10b981, 0 0 40px #10b981;
+            transform: translate(-50%, -50%);
+          "></div>`,
+          iconSize: [22, 22],
+          iconAnchor: [11, 11]
+        });
+
+        activeLocationMarker = L.marker([lat, lng], { icon: customIcon }).addTo(arvoraMap);
+        window.activeLocationMarker = activeLocationMarker;
+        window.activeMarker = activeLocationMarker;
       }
-
-      const customIcon = L.divIcon({
-        className: 'custom-arvora-marker',
-        html: `<div style="
-          width: 22px;
-          height: 22px;
-          background: #10b981;
-          border: 3px solid #ffffff;
-          border-radius: 50%;
-          box-shadow: 0 0 20px #10b981, 0 0 40px #10b981;
-          transform: translate(-50%, -50%);
-        "></div>`,
-        iconSize: [22, 22],
-        iconAnchor: [11, 11]
-      });
-
-      activeLocationMarker = L.marker([lat, lng], { icon: customIcon }).addTo(arvoraMap);
-      window.activeLocationMarker = activeLocationMarker;
-      window.activeMarker = activeLocationMarker;
 
       const popupContent = `
         <div style="padding: 6px 4px; max-width: 260px;">
@@ -1707,16 +1742,21 @@
     var arvoraMap = null;
     var activeLocationMarker = null;
 
-    function initArvoraMap() {
+        function initArvoraMap() {
       const mapContainer = document.getElementById("arvora-spatial-map");
       if (!mapContainer || typeof L === "undefined") return null;
       if (window.arvoraMap || arvoraMap) return window.arvoraMap || arvoraMap;
+
+      const stateLat = window.ArvoraState ? window.ArvoraState.lat : null;
+      const stateLon = window.ArvoraState ? (window.ArvoraState.lon ?? window.ArvoraState.lng) : null;
+      const initLat = isValidLatLng(stateLat, stateLon) ? Number(stateLat) : 28.6139;
+      const initLng = isValidLatLng(stateLat, stateLon) ? Number(stateLon) : 77.2090;
 
       try {
         arvoraMap = L.map("arvora-spatial-map", {
           zoomControl: true,
           scrollWheelZoom: false
-        }).setView([28.6139, 77.2090], 12);
+        }).setView([initLat, initLng], 12);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
@@ -1730,11 +1770,12 @@
           iconAnchor: [11, 11]
         });
 
-        activeLocationMarker = L.marker([28.6139, 77.2090], { icon: customIcon }).addTo(arvoraMap);
+        activeLocationMarker = L.marker([initLat, initLng], { icon: customIcon }).addTo(arvoraMap);
         activeLocationMarker.bindPopup("<b>DELHI SPATIAL NODE</b><br/>National Capital Territory, India").openPopup();
 
         window.arvoraMap = arvoraMap;
         window.map = arvoraMap;
+        if (window.ArvoraState) window.ArvoraState.mapInstance = arvoraMap;
         window.activeLocationMarker = activeLocationMarker;
         window.activeMarker = activeLocationMarker;
 

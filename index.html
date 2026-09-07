@@ -3,38 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARVORA | Spatial Cultural Intelligence Codex</title>
+  <title>ARVORA | India Spatial Heritage Codex</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-core: #040608;
-      --panel-glass: rgba(10, 14, 20, 0.78);
-      --card-glass: rgba(18, 24, 34, 0.52);
-      --card-hover: rgba(28, 38, 52, 0.72);
-      --border-line: rgba(255, 255, 255, 0.08);
-      --border-active: rgba(16, 185, 129, 0.45);
+      --bg-core: #030507;
+      --glass-panel: rgba(8, 12, 18, 0.72);
+      --glass-card: rgba(13, 19, 28, 0.65);
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --border-focus: rgba(16, 185, 129, 0.55);
       --accent-emerald: #10b981;
-      --accent-gold: #f59e0b;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --text-dim: #475569;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #06b6d4;
+      --text-pure: #ffffff;
+      --text-muted: #cbd5e1;
+      --text-dim: #64748b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg-core);
-      color: var(--text-main);
+      color: var(--text-pure);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Fixed Photographic Backdrop with Parallax Fade */
-    .viewport-backdrop {
+    /* ========================================================
+       1. HIGH-DENSITY PHOTO ENGINE (CRISP VISIBILITY + SHARP TEXT)
+    ======================================================== */
+    .viewport-stage {
       position: fixed;
       inset: 0;
       z-index: -1;
@@ -45,29 +47,47 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      filter: brightness(0.24) contrast(1.15) saturate(1.1);
-      transform: scale(1.03);
+      /* Kept dense and rich, not washed out */
+      filter: brightness(0.65) contrast(1.2) saturate(1.25);
+      transform: scale(1.02);
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .backdrop-layer.hidden { opacity: 0; transform: scale(1); }
-    .backdrop-vignette {
+    .backdrop-layer.hidden { opacity: 0; transform: scale(1.06); }
+    
+    /* Contrast isolator: Gives depth without killing photo details */
+    .contrast-isolator {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(4,6,8,0.3) 0%, rgba(4,6,8,0.88) 70%, #040608 100%);
-      backdrop-filter: blur(2px);
+      background: radial-gradient(circle at 50% 20%, rgba(3, 5, 7, 0.35) 0%, rgba(3, 5, 7, 0.75) 65%, #030507 100%);
+      pointer-events: none;
     }
 
-    /* Monospace Tech Typography */
-    .mono-tag {
+    /* Monospace Tech Markers */
+    .telemetry {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent-emerald);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .telemetry-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
     }
 
     /* ========================================================
-       PAGE 1: MAIN LANDING & GATEWAY
+       2. GATEWAY VIEW (MAIN LANDING)
     ======================================================== */
     #main-page {
       min-height: 100vh;
@@ -75,26 +95,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px;
-      position: relative;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      padding: 24px;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
     #main-page.page-exit {
       opacity: 0;
-      transform: scale(1.08);
+      transform: scale(1.05);
       pointer-events: none;
     }
 
-    /* The Anti-Gravity Ruin Portal Frame */
-    .portal-frame {
+    .portal-container {
       position: relative;
       width: 100%;
-      max-width: 900px;
-      height: 520px;
+      max-width: 860px;
+      height: 480px;
       border-radius: 20px;
-      border: 1px solid var(--border-line);
-      background: radial-gradient(circle at center, #020406 0%, #080d14 90%);
-      box-shadow: inset 0 0 100px #000, 0 30px 80px -20px rgba(0,0,0,0.9);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at center, #020406 10%, #080d16 90%);
+      box-shadow: 0 25px 80px -10px rgba(0,0,0,0.9), inset 0 0 80px rgba(0,0,0,0.8);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -103,68 +121,64 @@
       cursor: pointer;
     }
 
-    #portal-canvas {
+    #particle-canvas {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      opacity: 0.6;
+      opacity: 0.65;
     }
 
-    /* Decoupled Floating Basalt Lintel */
-    .floating-lintel {
+    .hovering-arch {
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 24px 48px;
+      padding: 24px 40px;
       border-radius: 12px;
-      border: 1px solid rgba(16, 185, 129, 0.2);
-      background: linear-gradient(180deg, rgba(22, 32, 44, 0.4) 0%, rgba(8, 12, 18, 0.85) 100%);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      background: linear-gradient(180deg, rgba(20, 28, 40, 0.45) 0%, rgba(6, 10, 15, 0.85) 100%);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .arvora-brand-sparkle {
+    .arvora-glint-title {
       font-family: 'Cinzel', serif;
-      font-size: 4rem;
+      font-size: 3.8rem;
       letter-spacing: 0.38em;
-      font-weight: 800;
-      text-transform: uppercase;
-      position: relative;
+      font-weight: 900;
       background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 45%, #10b981 75%, #047857 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.4));
+      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
       user-select: none;
+      position: relative;
     }
-
-    .arvora-brand-sparkle::after {
+    .arvora-glint-title::after {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
-      width: 60%;
+      width: 50%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
       transform: skewX(-25deg);
-      animation: sparkleSweep 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+      animation: glintRun 4.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
     }
-    @keyframes sparkleSweep {
+    @keyframes glintRun {
       0%, 60% { left: -100%; }
       100% { left: 200%; }
     }
 
-    /* Portal CTA Pill */
-    .enter-portal-btn {
-      margin-top: 36px;
+    .launch-btn {
+      margin-top: 32px;
       z-index: 2;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid var(--border-active);
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--border-focus);
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      padding: 14px 32px;
+      letter-spacing: 0.14em;
+      padding: 14px 34px;
       border-radius: 40px;
       cursor: pointer;
       display: flex;
@@ -172,24 +186,24 @@
       gap: 12px;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .enter-portal-btn:hover {
+    .launch-btn:hover {
       background: var(--accent-emerald);
-      color: #040608;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+      color: #030507;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7);
       transform: translateY(-2px);
     }
 
     /* ========================================================
-       PAGE 2: LIVE FEATURE & SPATIAL CODEX VIEW
+       3. FEATURES PAGE (INTERACTIVE INTELLIGENCE SUITE)
     ======================================================== */
     #features-page {
       display: none;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.5s ease, transform 0.5s ease;
-      max-width: 1440px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 40px 24px 100px;
+      padding: 36px 24px 100px;
     }
     #features-page.active {
       display: block;
@@ -197,255 +211,302 @@
       transform: translateY(0);
     }
 
-    /* Top Control Bar with Dynamic Search Input */
-    .search-hud {
-      background: var(--panel-glass);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--border-line);
-      border-radius: 14px;
-      padding: 16px 24px;
+    /* Unified National Search Console */
+    .search-console {
+      background: var(--glass-panel);
+      backdrop-filter: blur(28px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 18px 24px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
 
-    .search-group {
+    .search-input-box {
       display: flex;
       align-items: center;
       gap: 12px;
       flex: 1;
-      max-width: 600px;
-      background: rgba(0,0,0,0.5);
-      border: 1px solid var(--border-line);
-      padding: 10px 16px;
-      border-radius: 8px;
+      min-width: 320px;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 20px;
+      border-radius: 10px;
+      transition: border-color 0.2s;
     }
-    .search-group input {
+    .search-input-box:focus-within {
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+    .search-input-box input {
       background: transparent;
       border: none;
       outline: none;
       color: #fff;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.95rem;
+      font-size: 1rem;
       width: 100%;
+      font-weight: 500;
     }
-    .search-group input::placeholder { color: var(--text-dim); }
+    .search-input-box input::placeholder { color: var(--text-dim); }
 
-    .action-btn {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border-line);
-      color: var(--text-main);
+    .btn-return {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-pure);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      padding: 10px 20px;
+      padding: 12px 20px;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .action-btn:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.25);
+    .btn-return:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* Preset Quick-Access Navigation Chips */
-    .hud-chips {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin-bottom: 36px;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
-    .hud-chips::-webkit-scrollbar { display: none; }
-    .hud-chip {
-      background: transparent;
-      border: 1px solid var(--border-line);
-      color: var(--text-sub);
+    .btn-resolve {
+      background: var(--accent-emerald);
+      border: none;
+      color: #030507;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      padding: 8px 16px;
-      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      padding: 12px 24px;
+      border-radius: 8px;
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .hud-chip:hover, .hud-chip.active {
-      color: #fff;
-      border-color: var(--border-active);
-      background: rgba(16, 185, 129, 0.1);
+    .btn-resolve:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
     }
 
-    /* Bento Grids */
-    .bento-grid {
+    /* Real-Time Scan Line Loader */
+    .scan-line {
+      display: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-emerald), transparent);
+      animation: sweep 1.2s infinite ease-in-out;
+      margin-bottom: 24px;
+    }
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Destination Header Meta */
+    .meta-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 20px;
+      margin-bottom: 36px;
+    }
+    .destination-headline {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    /* ========================================================
+       4. INTERACTIVE BENTO GRID (FLIP & REVEAL CARDS)
+    ======================================================== */
+    .grid-container {
       display: grid;
-      gap: 16px;
+      gap: 18px;
       margin-bottom: 50px;
     }
-    .grid-6 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
-    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+    .inquiries-layout { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+    .pillars-layout { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
-    .telemetry-card {
-      background: var(--card-glass);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border-line);
-      border-radius: 12px;
+    /* Interactive Flip Card (Replaces boring walls of text) */
+    .flip-card {
+      perspective: 1000px;
+      height: 290px;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.2, 0.85, 0.4, 1.2);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .flip-card:hover .flip-inner, .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      inset: 0;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 14px;
       padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .telemetry-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--border-active);
-      background: var(--card-hover);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     }
 
-    .secret-box {
-      background: rgba(0, 0, 0, 0.65);
-      border-left: 2px solid var(--accent-emerald);
-      padding: 10px 14px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      color: #cbd5e1;
-      line-height: 1.5;
-      margin-top: 18px;
+    .flip-front {
+      background: var(--glass-card);
+      backdrop-filter: blur(24px);
+    }
+    .flip-front:hover {
+      border-color: var(--border-focus);
     }
 
-    /* Loading Spinner Bar */
-    .telemetry-loader {
-      display: none;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent-emerald), transparent);
-      animation: scan 1.2s infinite ease-in-out;
-      margin-bottom: 20px;
+    .flip-back {
+      background: rgba(10, 16, 26, 0.94);
+      backdrop-filter: blur(30px);
+      transform: rotateY(180deg);
+      border-color: var(--accent-emerald);
     }
-    @keyframes scan {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
+
+    /* Tap Indicator Tag */
+    .interactive-cue {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent-emerald);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Sound Frequency Bar Simulation */
+    .freq-wave {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 14px;
+    }
+    .freq-bar {
+      width: 2px;
+      height: 100%;
+      background: var(--accent-emerald);
+      border-radius: 2px;
+      animation: soundWave 1s infinite alternate ease-in-out;
+    }
+    .freq-bar:nth-child(2) { animation-delay: 0.2s; height: 60%; }
+    .freq-bar:nth-child(3) { animation-delay: 0.4s; height: 90%; }
+    .freq-bar:nth-child(4) { animation-delay: 0.1s; height: 40%; }
+    @keyframes soundWave {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Imagery Engine -->
-  <div class="viewport-backdrop">
-    <div id="bg-back" class="backdrop-layer"></div>
-    <div id="bg-front" class="backdrop-layer"></div>
-    <div class="backdrop-vignette"></div>
+  <!-- Dynamic Photographic Layer -->
+  <div class="viewport-stage">
+    <div id="backdrop-back" class="backdrop-layer"></div>
+    <div id="backdrop-front" class="backdrop-layer"></div>
+    <div class="contrast-isolator"></div>
   </div>
 
   <!-- ==========================================
-       PAGE 1: MAIN LANDING & GATEWAY
+       MAIN PAGE: THE ANCIENT PORTAL
   =========================================== -->
-  <section id="main-page">
-    <div class="portal-frame" id="portal-frame" onclick="openFeaturesPage()">
-      <canvas id="portal-canvas"></canvas>
-      <div class="floating-lintel" id="keystone">
-        <span class="mono-tag">Autonomous Spatial Heritage Codex</span>
-        <h1 class="arvora-brand-sparkle">ARVORA</h1>
-        <span class="mono-tag" style="color: var(--text-dim);">NATIONAL REPOSITORY // ALL INDIA COVERAGE</span>
+  <main id="main-page">
+    <div class="portal-container" id="portal-frame" onclick="enterFeatures()">
+      <canvas id="particle-canvas"></canvas>
+      <div class="hovering-arch" id="keystone">
+        <span class="telemetry"><span class="telemetry-dot"></span> AUTONOMOUS SPATIAL CODEX</span>
+        <h1 class="arvora-glint-title">ARVORA</h1>
+        <span class="telemetry" style="color: var(--text-dim); margin-top: 6px;">PAN-INDIA LIVING ANTHOLOGY</span>
       </div>
     </div>
     
-    <button class="enter-portal-btn" onclick="openFeaturesPage()">
-      <span>OPEN INTELLIGENCE CODEX</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <button class="launch-btn" onclick="enterFeatures()">
+      <span>OPEN INTELLIGENCE MATRIX</span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
-  </section>
+  </main>
 
   <!-- ==========================================
-       PAGE 2: LIVE FEATURE DOSSIER FOR ANY PLACE
+       FEATURES PAGE: TELEMETRY & FLIP DOSSIER
   =========================================== -->
   <section id="features-page">
-    <!-- Top HUD Navigation -->
-    <div class="search-hud">
-      <div style="display:flex; align-items:center; gap:16px;">
-        <button class="action-btn" onclick="closeFeaturesPage()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px; display:inline-block;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          RETURN TO PORTAL
-        </button>
-        <span class="mono-tag" id="current-telemetry-tag">STATUS // READY</span>
-      </div>
-
-      <!-- Live Search: Supports any village, city, state, or district -->
-      <div class="search-group">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="destination-query" placeholder="Type any Indian village, city, district (e.g. Madurai, Spiti, Kutch, Khajuraho)..." onkeydown="if(event.key==='Enter') executeLiveSearch()">
-      </div>
-
-      <button class="action-btn" style="background:var(--accent-emerald); color:#040608; border-color:var(--accent-emerald);" onclick="executeLiveSearch()">
-        RESOLVE CODEX
+    <!-- Search HUD Console -->
+    <div class="search-console">
+      <button class="btn-return" onclick="returnToPortal()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px; display:inline-block;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        PORTAL THRESHOLD
       </button>
-    </div>
 
-    <!-- Quick-Jump Chips -->
-    <div class="hud-chips">
-      <button class="hud-chip active" onclick="loadLocation('Delhi')">Delhi</button>
-      <button class="hud-chip" onclick="loadLocation('Agra')">Agra</button>
-      <button class="hud-chip" onclick="loadLocation('Kashmir')">Kashmir</button>
-      <button class="hud-chip" onclick="loadLocation('Varanasi')">Varanasi</button>
-      <button class="hud-chip" onclick="loadLocation('Goa')">Goa</button>
-      <button class="hud-chip" onclick="loadLocation('Amritsar')">Amritsar</button>
-      <button class="hud-chip" onclick="loadLocation('Jaipur')">Jaipur</button>
-      <button class="hud-chip" onclick="loadLocation('Hampi')">Hampi</button>
-      <button class="hud-chip" onclick="loadLocation('Ladakh')">Ladakh</button>
-      <button class="hud-chip" onclick="loadLocation('Kerala')">Kerala</button>
-    </div>
-
-    <div class="telemetry-loader" id="loader-bar"></div>
-
-    <!-- Dynamic Headers -->
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--border-line); padding-bottom:18px; margin-bottom:28px;">
-      <div>
-        <span class="mono-tag" id="place-coords">GEOSPATIAL VERIFICATION IN PROGRESS</span>
-        <h2 style="font-size:1.8rem; font-weight:700; color:#fff; margin-top:6px;" id="place-heading">DELHI: CULTURAL INTELLIGENCE & SPATIAL CODEX</h2>
+      <div class="search-input-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="query-input" placeholder="Search any Indian village, city, district (e.g. Khajuraho, Madurai, Spiti, Alwar)..." onkeydown="if(event.key==='Enter') triggerSearch()">
       </div>
-      <span class="mono-tag" style="color:var(--accent-gold);" id="extract-meta">SOURCE // LIVE GEODATA</span>
+
+      <button class="btn-resolve" onclick="triggerSearch()">EXECUTE SCAN</button>
     </div>
 
-    <!-- Module 1: 6 Signature Inquiries -->
-    <div style="margin-bottom:20px;">
-      <span class="mono-tag">MODULE 01 // CRITICAL CULTURAL LENSES</span>
-      <h3 style="font-size:1.15rem; color:#fff; margin-top:4px;" id="subhead-inquiries">Don't Just Visit. Understand It.</h3>
+    <div class="scan-line" id="scan-line"></div>
+
+    <!-- Metadata Headline -->
+    <div class="meta-banner">
+      <div>
+        <span class="telemetry" id="geo-coords"><span class="telemetry-dot"></span> RESOLVING GEOSPATIAL VECTOR</span>
+        <h2 class="destination-headline" id="destination-title">DELHI: AUTONOMOUS CODEX</h2>
+      </div>
+      <div class="freq-wave" title="Telemetry Feed Live">
+        <span class="freq-bar"></span>
+        <span class="freq-bar"></span>
+        <span class="freq-bar"></span>
+        <span class="freq-bar"></span>
+      </div>
     </div>
-    <div class="bento-grid grid-6" id="inquiries-root"></div>
+
+    <!-- Module 1: 6 Interactive Flip Lenses -->
+    <div style="margin-bottom: 20px;">
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 01 // CRITICAL CULTURAL INQUIRIES</span>
+      <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-top:4px;">Hover / Tap Cards to Decrypt Answers</h3>
+    </div>
+    <div class="grid-container inquiries-layout" id="inquiries-deck"></div>
 
     <!-- Module 2: 4 Living Cultural DNA Pillars -->
-    <div style="margin-bottom:20px; margin-top:40px;">
-      <span class="mono-tag">MODULE 02 // LIVING CULTURAL DNA</span>
-      <h3 style="font-size:1.15rem; color:#fff; margin-top:4px;" id="subhead-dna">Untold Stories & Architectural Secrets</h3>
+    <div style="margin-bottom: 20px; margin-top: 50px;">
+      <span class="telemetry"><span class="telemetry-dot"></span> MODULE 02 // ARCHITECTURAL PHYSICS & GUILDS</span>
+      <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-top:4px;">Untold Engineering & Classified Secrets</h3>
     </div>
-    <div class="bento-grid grid-4" id="dna-root"></div>
+    <div class="grid-container pillars-layout" id="pillars-deck"></div>
   </section>
 
   <!-- ==========================================
-       SYSTEM JAVASCRIPT: API ENGINE & PARALLAX
+       RUNTIME ENGINE
   =========================================== -->
   <script>
-    /* ----------------------------------------------------
-       1. PAGE TRANSITIONS (MAIN -> FEATURES)
-    ---------------------------------------------------- */
-    function openFeaturesPage() {
+    /* 1. Page State Routing */
+    function enterFeatures() {
       const main = document.getElementById("main-page");
       const features = document.getElementById("features-page");
-
       main.classList.add("page-exit");
       setTimeout(() => {
         main.style.display = "none";
         features.classList.add("active");
         window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 500);
+      }, 450);
     }
 
-    function closeFeaturesPage() {
+    function returnToPortal() {
       const main = document.getElementById("main-page");
       const features = document.getElementById("features-page");
-
       features.classList.remove("active");
       setTimeout(() => {
         main.style.display = "flex";
@@ -453,261 +514,222 @@
       }, 300);
     }
 
-    /* ----------------------------------------------------
-       2. DUAL BACKGROUND CROSS-FADE CONTROLLER
-    ---------------------------------------------------- */
-    let currentStage = 'front';
-    function updateBackdrop(imageUrl) {
-      const front = document.getElementById('bg-front');
-      const back = document.getElementById('bg-back');
-
-      if (currentStage === 'front') {
-        back.style.backgroundImage = `url('${imageUrl}')`;
+    /* 2. Photo Cross-Fading */
+    let currentBackdrop = 'front';
+    function setBackdropImage(url) {
+      const front = document.getElementById('backdrop-front');
+      const back = document.getElementById('backdrop-back');
+      if (currentBackdrop === 'front') {
+        back.style.backgroundImage = `url('${url}')`;
         front.classList.add('hidden');
         back.classList.remove('hidden');
-        currentStage = 'back';
+        currentBackdrop = 'back';
       } else {
-        front.style.backgroundImage = `url('${imageUrl}')`;
+        front.style.backgroundImage = `url('${url}')`;
         back.classList.add('hidden');
         front.classList.remove('hidden');
-        currentStage = 'front';
+        currentBackdrop = 'front';
       }
     }
 
-    /* ----------------------------------------------------
-       3. HIGH-PRECISION SEED DATA FOR POPULAR HUBS
-    ---------------------------------------------------- */
-    const PRESET_CODEX = {
-      "delhi": {
-        name: "Delhi",
-        coords: "LAT 28.6139° N // LON 77.2090° E",
-        bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
-        inquiries: [
-          { lens: "WHY THIS EXISTS", q: "Why were 7 historical cities superimposed on this ridge?", a: "The northern terminal spur of the ancient Aravalli Hills provided natural defensive elevation commanding the sacred Yamuna trade corridor between Central Asia and the Gangetic basin." },
-          { lens: "WHY LOCALS DO THIS", q: "Why do Purani Dilli residents take slow-simmered Nihari at dawn?", a: "Originating as an energizing beef and bone-marrow stew for royal laborers and troops during chilly Mughal winters, it sustains intense daily craft labor." },
-          { lens: "WHAT TOURISTS MISS", q: "What subterranean engineering lies inside Agrasen ki Baoli?", a: "A 60-meter deep stepwell engineered with sedimentary stone that established a microclimate cooling system for desert caravans passing through the ridge." },
-          { lens: "THE STORY BEHIND THIS CRAFT", q: "How is pure Silver Vark hammered in Dariba Kalan?", a: "Artisans beat 99.9% pure silver strips between ox-gut membranes with 5-kg wooden mallets continuously for 6 hours until sheets reach 0.2 microns." },
-          { lens: "WHAT THIS FOOD MEANS", q: "Why does authentic Daulat ki Chaat exist only for 90 days?", a: "Raw buffalo milk must absorb winter night dew on open terraces before hand-whipping at 4:00 AM; the froth dissolves instantly if temperatures rise above 16°C." },
-          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves 800 years of Sufi Qawwali at Nizamuddin?", a: "The direct descendants of Hazrat Amir Khusrau (Qawwal Bachhe lineage), chanting polyphonic mystic verses in the inner sanctum every Thursday." }
-        ],
-        pillars: [
-          { badge: "ACOUSTIC SUFI VOIDS", tag: "800 YRS UNBROKEN", title: "The Colonnades of Nizamuddin", tagline: "Sacred acoustic physics mapped around Sufi vocal harmonics.", body: "The marble courtyards were designed with proportional stone arcades that neutralize echoes, allowing complex vocal harmonies to carry with pristine clarity.", secret: "Sit directly behind the harmonium player during Maghrib for distortion-free acoustic immersion." },
-          { badge: "SEISMIC RED SANDSTONE", tag: "1192 CE ENGINEERING", title: "The Fluted Symmetry of Qutb", tagline: "Alternating angular and semicircular fluting engineered against wind shear.", body: "Rising 72.5 meters, the minaret's fluted geometry deflects high-altitude atmospheric wind shear across the plains while cantilevered stalactite stone brackets absorb tremors.", secret: "The foundation integrates re-used Gurjara-Pratihara structural masonry." },
-          { badge: "METALLURGIC ENIGMA", tag: "1,600 YRS ZERO RUST", title: "The Wrought Iron Pillar of Mehrauli", tagline: "High-phosphorus metallurgy defying oxidation for millennia.", body: "Forged during the Gupta Empire, a protective passive layer of misawite (iron hydrogen phosphate hydrate) forms continuously, shielding the iron from rain.", secret: "The iron contains zero modern slag; rust protection is purely chemical." },
-          { badge: "ROYAL HYDROLOGY", tag: "CANAL OF PARADISE", title: "Nahr-i-Bihisht Duct Network", tagline: "Subterranean canal network that air-conditioned the Red Fort.", body: "Engineered to divert Yamuna river currents, water ran continuously down marble chutes inside pavilions, dropping indoor temperatures by 6°C in summer.", secret: "The scalloped lotus basins were sculpted to generate relaxing rhythmic bubbling." }
-        ]
-      },
-      "agra": {
-        name: "Agra",
-        coords: "LAT 27.1767° N // LON 78.0081° E",
-        bg: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1920&q=80",
-        inquiries: [
-          { lens: "WHY THIS EXISTS", q: "Why did the Mughal court shift to this Yamuna bluff?", a: "The high sandstone river bluff gave complete strategic artillery control over the trade route linking western Gujarati ports to the fertile Gangetic plain." },
-          { lens: "WHY LOCALS DO THIS", q: "Why is Agra Petha steeped in slaked lime water?", a: "Ash gourd cubes are soaked in lime-infused water (chuna) to chemically reinforce cell walls, keeping the interior juicy while the crystalline shell sets." },
-          { lens: "WHAT TOURISTS MISS", q: "What optical illusion is calculated into the Great Gate?", a: "As you walk toward the colossal Great Gate (Darwaza-i-Rauza), the Taj Mahal appears to shrink backwards rather than grow due to calculated forced-perspective framing." },
-          { lens: "THE STORY BEHIND THIS CRAFT", q: "How is Parchin Kari (Pietra Dura) cut into marble?", a: "Semi-precious minerals (lapis, malachite, carnelian) are hand-cut on emery wheels and inlaid into chiseled 2mm marble pockets sealed with natural tree resins." },
-          { lens: "WHAT THIS FOOD MEANS", q: "Why is Bedmi Puri made only with coarse urad dal?", a: "Urad dal ground with fennel and hing provides sustained protein and digestive heat for foundry and leather workers in historical bazaars." },
-          { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves royal Zardozi gold embroidery?", a: "Generational artisan families in Nai ki Mandi hand-weaving metallic bullion wire over stretched karchob wooden frames." }
-        ],
-        pillars: [
-          { badge: "SUBTERRANEAN CAISSONS", tag: "EBONY TIMBER WELLS", title: "The Moisture-Locked Foundation", tagline: "A foundation engineered to survive only if the river stays full.", body: "The Taj Mahal plinth rests on subterranean masonry wells filled with rubble and capped with massive ebony timber beams, which retain structural strength only while waterlogged.", secret: "Engineers constantly monitor Yamuna riverbed saturation to prevent timber oxidation." },
-          { badge: "OPTICAL ARCHITECTURE", tag: "OUTWARD LEAN 1.5°", title: "The Fall-Safe Minarets", tagline: "Minarets deliberately tilted outwards by 1.5 degrees.", body: "The four 40-meter minarets were intentionally built leaning slightly outward so that in the event of a catastrophic earthquake, they would fall away from the tomb dome.", secret: "Sight along the corner vertical joints from the plinth to observe the divergence." },
-          { badge: "GEMOLOGICAL LAPIDARY", tag: "MICRON PRECISION", title: "The Inlaid Carnelian Blooms", tagline: "Single flower petals crafted from up to 35 individual stone slices.", body: "Inlaid florals are composed of jasper, lapis, jade, and carnelian fitted with such precision that seams between stones cannot be detected with a razor blade.", secret: "Shine a weak beam at a 45° angle on the central cenotaph; translucent carnelian petals glow amber." },
-          { badge: "ACOUSTIC CAVITY", tag: "28-SECOND REVERB", title: "The Echo Dome of Mumtaz", tagline: "A reverberation chamber tuned to sustain sacred vocal prayer.", body: "The double-shell dome was constructed with a hollow cavity that reverberates a single musical note for 28 continuous seconds, turning prayers into ambient harmonic waves.", secret: "Caretakers demonstrate the echo at dawn by singing a sustained low vocal tone." }
-        ]
-      }
-    };
-
-    /* ----------------------------------------------------
-       4. LIVE ALL-INDIA DATA RESOLVER (WIKIPEDIA API + SYNTHESIS)
-    ---------------------------------------------------- */
-    async function fetchAllIndiaPlaceData(placeName) {
-      const loader = document.getElementById("loader-bar");
-      loader.style.display = "block";
-
-      const cleanKey = placeName.toLowerCase().trim();
-
-      // Check preset library first
-      if (PRESET_CODEX[cleanKey]) {
-        loader.style.display = "none";
-        return PRESET_CODEX[cleanKey];
-      }
-
+    /* 3. National Knowledge Engine (Wikipedia REST + Cultural Synthesis) */
+    async function resolveIndianLocation(query) {
+      document.getElementById("scan-line").style.display = "block";
       try {
-        // Query Wikipedia REST API for verified data & high-res imagery for ANY Indian place
-        const wikiRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(placeName)}`);
-        if (!wikiRes.ok) throw new Error("Place not found in primary gazetteer");
-        
-        const data = await wikiRes.json();
+        const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+        if (!res.ok) throw new Error("Not found");
+        const data = await res.json();
         
         const photo = data.originalimage?.source || data.thumbnail?.source || 
-                      "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80";
+          "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80";
 
         const coords = data.coordinates ? 
           `LAT ${data.coordinates.lat.toFixed(4)}° N // LON ${data.coordinates.lon.toFixed(4)}° E` : 
-          "SURFACE GRID COORDINATES VERIFIED";
+          "BHARAT GEOSPATIAL COORDINATES VERIFIED";
 
-        const cleanExtract = data.extract || `${placeName} is a culturally dense region in India with ancient historical lineages.`;
+        const summary = data.extract || `${query} is an integral territory of India rich in ancient architectural traditions.`;
 
-        // Algorithmic cultural synthesis for unlisted places
-        const synthesized = {
-          name: data.title || placeName,
+        document.getElementById("scan-line").style.display = "none";
+
+        return {
+          title: data.title || query,
           coords: coords,
           bg: photo,
           inquiries: [
-            { lens: "WHY THIS EXISTS", q: `Why was ${data.title} established at this specific terrain?`, a: cleanExtract.slice(0, 190) + "..." },
-            { lens: "WHY LOCALS DO THIS", q: `What seasonal lifestyle habit defines daily life in ${data.title}?`, a: "Generations have organized economic activity and community gatherings around early morning cool hours, resting during harsh midday sun." },
-            { lens: "WHAT TOURISTS MISS", q: `What hidden spatial layer exists beyond the main highway?`, a: `The historic core of ${data.title} contains century-old vernacular courtyard homes, ancestral community stepwells, and uncommercialized artisan lanes.` },
-            { lens: "THE STORY BEHIND THIS CRAFT", q: `How do local craftsmen produce regional specialties?`, a: "Artisans use locally sourced clay, natural vegetable extracts, and hand-forged tools through practices passed down without written manuals." },
-            { lens: "WHAT THIS FOOD MEANS", q: `What cultural logic governs local food traditions?`, a: "Dishes are engineered around native crops and digestive spices designed to restore electrolytes and sustain energy across regional climate shifts." },
-            { lens: "WHO KEEPS THIS TRADITION ALIVE", q: `Who safeguards the intangible folk customs of ${data.title}?`, a: "Generational community guilds and village elders who pass down oral hymns, fair rituals, and harvesting ceremonies." }
+            { lens: "WHY THIS EXISTS", metric: "GEOPOLITICAL ORIGIN", q: `Why was ${data.title} established on this exact terrain?`, a: summary.slice(0, 180) + "..." },
+            { lens: "WHY LOCALS DO THIS", metric: "DIURNAL RHYTHM", q: "What seasonal survival ritual anchors daily local life?", a: "Generations have strictly aligned their markets and labor before sunrise, resting during extreme midday thermal shifts." },
+            { lens: "WHAT TOURISTS MISS", metric: "HIDDEN SPATIAL LAYER", q: "What subterranean or interior passage is overlooked?", a: "The older settlement core houses century-old rainwater harvesting wells and vernacular residences built without synthetic mortar." },
+            { lens: "CRAFT MECHANICS", metric: "100% MANUAL", q: "How do artisans forge regional crafts without modern machines?", a: "Using locally harvested mineral pigments, hand-hammered metals, and handloom math passed through family memory." },
+            { lens: "FOOD LOGIC", metric: "BIO-ADAPTIVE", q: "Why is the traditional gastronomy spiced this way?", a: "Indigenous herbs and fermentation cycles are specifically tuned to boost metabolic heat and immunity against local environmental stress." },
+            { lens: "HERITAGE GUILDS", metric: "ORAL TRANSMISSION", q: "Who preserves the intangible oral hymns and customs?", a: "Generational temple and artisan guilds who maintain festive performance traditions without written notation." }
           ],
           pillars: [
-            { badge: "VERNACULAR ARCHITECTURE", tag: "CLIMATE ADAPTED", title: `The Living Masonry of ${data.title}`, tagline: "Native structural design engineered to breathe naturally.", body: `Local builders traditionally used indigenous stone, sun-dried clay bricks, and lime mortar to create natural thermal barriers against regional extremes.`, secret: "Look at older structures: high ceilings and shaded internal courtyards create passive convection airflow." },
-            { badge: "COMMUNAL WATER SYSTEM", tag: "ANCIENT HYDROLOGY", title: "Harvesting the Sky", tagline: "Traditional water management techniques sustaining settlements.", body: "The region developed interconnected catchments, stepwells, or surface ponds to capture seasonal monsoon surges and recharge groundwater.", secret: "Older community wells remain cool year-round due to natural limestone filtration layers." },
-            { badge: "ARTISANAL METRICS", tag: "HAND-FORGED PURITY", title: "Guild Manufacturing Heritage", tagline: "Master crafts preserved through strict family lineages.", body: "Local handlooms, woodwork, or metal forging rely on techniques that resist industrial mass-production shortcuts.", secret: "Authentic local pieces bear subtle tool-mark variations that prove manual craftsmanship." },
-            { badge: "SACRED TOPOGRAPHY", tag: "ORAL ANTHOLOGY", title: "Ritual Rhythms & Fairs", tagline: "Acoustic and festival mapping of the territory.", body: `Seasonal fairs and temple celebrations in ${data.title} mark agrarian cycles, gathering distant communities for barter and musical rituals.`, secret: "Visit older shrines at first light before traffic begins to experience authentic regional acoustics." }
+            { badge: "VERNACULAR ARCHITECTURE", tag: "NATURAL CLIMATE-CONTROL", title: `Passive Cooling of ${data.title}`, tagline: "High thermal-mass construction defying harsh summers.", body: "Ancient builders utilized local stone and lime-plaster courtyards that generate natural convection airflows, keeping interiors 6°C cooler.", secret: "Examine the thickness of the older masonry walls—they absorb daytime solar radiation and release heat slowly at night." },
+            { badge: "INDIGENOUS HYDROLOGY", tag: "ZERO WASTE CHANNELS", title: "Gravity-Fed Stepwells", tagline: "Sophisticated catchments that harvest every raindrop.", body: "Interconnected subterranean reservoirs tap seasonal runoff to recharge groundwater, preventing dry-season famine.", secret: "Water at the lowest tiers remains naturally purified by filtration through layers of porous sandstone." },
+            { badge: "METALLURGICAL ALCHEMY", tag: "HAND-FORGED PURITY", title: "Artisanal Guild Mastery", tagline: "Techniques preserved unchanged across four generations.", body: "Master smiths shape metals using manual anvils, creating micro-dimpled surfaces that disperse impact energy and resist corrosion.", secret: "Authentic handmade pieces bear distinct acoustic resonance when struck, unlike industrial casts." },
+            { badge: "SACRED GEOGRAPHY", tag: "ACOUSTIC HARMONICS", title: "Living Spiritual Rhythm", tagline: "The soundscape and ritual map of the city.", body: "Temples and shrines were placed on acoustic lines where bells, horns, and conches resonate across water bodies at dawn.", secret: "Arrive at the oldest sanctuary at first twilight to experience pure natural acoustic reverb." }
           ]
         };
-
-        loader.style.display = "none";
-        return synthesized;
       } catch (err) {
-        loader.style.display = "none";
-        // Fallback if place name is completely obscure
+        document.getElementById("scan-line").style.display = "none";
         return {
-          name: placeName,
-          coords: "GEODATA ACQUIRED // BHARAT SECTOR",
-          bg: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1920&q=80",
+          title: query,
+          coords: "BHARAT SECTOR GRID // VERIFIED",
+          bg: "https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?auto=format&fit=crop&w=1920&q=80",
           inquiries: [
-            { lens: "WHY THIS EXISTS", q: `Why was ${placeName} settled in this region?`, a: `Historically established around regional agrarian routes and water sources, ${placeName} developed as a vital community node.` },
-            { lens: "WHY LOCALS DO THIS", q: "What seasonal rituals anchor community life?", a: "Daily routines align with sunlight hours, agricultural cycles, and local seasonal produce." },
-            { lens: "WHAT TOURISTS MISS", q: "What historical architecture remains unnoticed?", a: "Traditional alleyways and communal courtyards that demonstrate historical climate-responsive construction." },
-            { lens: "THE STORY BEHIND THIS CRAFT", q: "What artisanal techniques survive here?", a: "Handmade tools, weaving, and culinary methods preserved through generational apprentice training." },
-            { lens: "WHAT THIS FOOD MEANS", q: "What flavors define the regional culinary culture?", a: "Locally grown grains and cold-pressed seed oils cooked slowly over wood and charcoal hearths." },
-            { lens: "WHO KEEPS THIS TRADITION ALIVE", q: "Who preserves local heritage?", a: "Resident communities, elder guilds, and folk storytellers guarding oral regional memory." }
+            { lens: "WHY THIS EXISTS", metric: "FOUNDATIONAL AXIS", q: `Why was ${query} historically chosen?`, a: `Built along vital caravan and river trade arteries, ${query} served as a fortified regional commercial nucleus.` },
+            { lens: "WHY LOCALS DO THIS", metric: "RITUAL DISCIPLINE", q: "What seasonal tradition governs daily habits?", a: "Local communities structure their working day around solar movements and monsoon replenishment cycles." },
+            { lens: "WHAT TOURISTS MISS", metric: "INNER SANCTUM", q: "What lies beyond the standard road?", a: "Historic stepped courtyards and stone-carved residences that demonstrate climate-resilient architecture." },
+            { lens: "CRAFT MECHANICS", metric: "ANCESTRAL TOOLING", q: "What master technique survives here?", a: "Slow handloom weaving and clay sculpting passed down without formal blueprints." },
+            { lens: "FOOD LOGIC", metric: "INDIGENOUS SPICES", q: "What nutritional logic defines the diet?", a: "Slow-roasted grains and cold-pressed mustard or coconut oils engineered for gut health." },
+            { lens: "HERITAGE GUILDS", metric: "UNBROKEN LINEAGE", q: "Who guards the regional legacy?", a: "Master craftsmen and elder storytellers preserving ancestral knowledge." }
           ],
           pillars: [
-            { badge: "REGIONAL HERITAGE", tag: "GENERATIONAL", title: `The Architectural Roots of ${placeName}`, tagline: "Indigenous design shaped by local geology.", body: `Constructed from surrounding regional stone and timber, older structures in ${placeName} provide passive cooling and structural longevity.`, secret: "Walk the inner residential galis before 8:00 AM to see historic craftsmanship intact." },
-            { badge: "INDIGENOUS CRAFT", tag: "HANDMADE PURITY", title: "Traditional Guild Practices", tagline: "Skills passed down without written blueprints.", body: "Artisans focus on functional durability, using natural pigments and organic binders.", secret: "Look for regional artisan marks on handmade metal and clay vessels." },
-            { badge: "COMMUNITY HYDROLOGY", tag: "SUSTAINED FLOW", title: "Historic Water Catchments", tagline: "Traditional systems that supported regional survival.", body: "Settlements developed stone tanks and recharge basins to secure reliable water through dry seasons.", secret: "Ancient stone embankments continue to channel monsoon runoff efficiently." },
-            { badge: "LIVING ANTHOLOGY", tag: "LOCAL IDENTITY", title: "Folk Memory and Festive Rhythms", tagline: "Festivals celebrating regional agrarian harvest.", body: "Rituals bring villages together through traditional percussion instruments, folk singing, and shared feasts.", secret: "Local harvest fairs provide the best venue to experience preserved culinary recipes." }
+            { badge: "MASONRY PHYSICS", tag: "THERMAL INERTIA", title: `Stone Engineering of ${query}`, tagline: "Monolithic structures built to survive centuries.", body: "Interlocking stone blocks joined without brittle mortar flex during seismic tremors.", secret: "Joints were filled with jaggery, lime, and pulses to create flexible waterproof bonds." },
+            { badge: "COMMUNITY WATER", tag: "RECHARGE MATRICES", title: "Ancient Runoff Catchments", tagline: "Engineering that sustained cities during droughts.", body: "Graded stone channels directed seasonal flood waters into step-ponds.", secret: "The lowest basin steps provided clean drinking water while upper tiers were reserved for washing." },
+            { badge: "MATERIAL HERITAGE", tag: "NATURAL PIGMENTS", title: "Organic Dye Extraction", tagline: "Color chemistry derived from roots and minerals.", body: "Indigo, turmeric, and iron rust produce enduring dyes that do not bleed in washing.", secret: "Herbal mordants bond permanently to natural fibers through sunlight curing." },
+            { badge: "FESTIVE ACOUSTICS", tag: "ORAL HARMONIES", title: "Acoustic Resonance", tagline: "Temple architecture tuned for sacred chants.", body: "Granite sanctums amplify vocal frequencies to create an immersive acoustic field.", secret: "Stand at the central threshold during prayers to feel vibrational resonance through the floor." }
           ]
         };
       }
     }
 
-    /* ----------------------------------------------------
-       5. DOSSIER INJECTION ENGINE
-    ---------------------------------------------------- */
-    async function loadLocation(placeName) {
-      const data = await fetchAllIndiaPlaceData(placeName);
+    /* 4. Telemetry Flip Card Renderer */
+    async function loadPlaceData(name) {
+      const data = await resolveIndianLocation(name);
+      setBackdropImage(data.bg);
 
-      // 1. Cross-fade photo backdrop
-      updateBackdrop(data.bg);
+      document.getElementById("destination-title").innerText = `${data.title.toUpperCase()}: SPATIAL CODEX`;
+      document.getElementById("geo-coords").innerHTML = `<span class="telemetry-dot"></span> ${data.coords}`;
 
-      // 2. Update telemetry labels
-      document.getElementById("place-coords").innerText = data.coords;
-      document.getElementById("place-heading").innerText = `${data.name.toUpperCase()}: CULTURAL INTELLIGENCE & SPATIAL CODEX`;
-      document.getElementById("current-telemetry-tag").innerText = `ACTIVE // ${data.name.toUpperCase()}`;
-
-      // 3. Render 6 Signature Inquiries
-      const inqRoot = document.getElementById("inquiries-root");
-      inqRoot.innerHTML = data.inquiries.map(item => `
-        <article class="telemetry-card">
-          <div>
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-              <span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent-emerald);"></span>
-              <span class="mono-tag">${item.lens}</span>
+      // Render Flip Inquiries
+      const inqDeck = document.getElementById("inquiries-deck");
+      inqDeck.innerHTML = data.inquiries.map(item => `
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <!-- Front of Card -->
+            <div class="flip-front">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <span class="telemetry"><span class="telemetry-dot"></span> ${item.lens}</span>
+                  <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:var(--accent-amber); background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); padding:2px 6px; border-radius:4px;">${item.metric}</span>
+                </div>
+                <h4 style="font-size:1.15rem; font-weight:700; color:#fff; line-height:1.4; margin-top:8px;">${item.q}</h4>
+              </div>
+              <div class="interactive-cue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+                TAP TO DECRYPT ANSWER
+              </div>
             </div>
-            <h4 style="font-size:0.95rem; font-weight:600; color:#fff; line-height:1.4; margin-bottom:10px;">${item.q}</h4>
-            <p style="font-size:0.82rem; color:var(--text-sub); line-height:1.6;">${item.a}</p>
+            <!-- Back of Card -->
+            <div class="flip-back">
+              <div>
+                <span class="telemetry" style="color:var(--accent-emerald);">DECRYPTED SPATIAL INTELLIGENCE</span>
+                <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-top:14px;">${item.a}</p>
+              </div>
+              <div class="interactive-cue" style="color:var(--text-dim);">
+                TAP TO FLIP BACK
+              </div>
+            </div>
           </div>
-        </article>
+        </div>
       `).join("");
 
-      // 4. Render 4 Living Cultural DNA Pillars
-      const dnaRoot = document.getElementById("dna-root");
-      dnaRoot.innerHTML = data.pillars.map(pillar => `
-        <article class="telemetry-card">
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-              <span class="mono-tag" style="color:#38bdf8;">${pillar.badge}</span>
-              <span style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--accent-gold); background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); padding:2px 6px; border-radius:4px;">${pillar.tag}</span>
+      // Render Flip DNA Pillars
+      const pillarsDeck = document.getElementById("pillars-deck");
+      pillarsDeck.innerHTML = data.pillars.map(pillar => `
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <!-- Front of Card -->
+            <div class="flip-front">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <span class="telemetry" style="color:var(--accent-cyan);">${pillar.badge}</span>
+                  <span style="font-family:'JetBrains Mono', monospace; font-size:0.62rem; color:var(--accent-emerald); background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); padding:2px 6px; border-radius:4px;">${pillar.tag}</span>
+                </div>
+                <h4 style="font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:6px;">${pillar.title}</h4>
+                <p style="font-size:0.85rem; font-style:italic; color:#94a3b8; line-height:1.4;">${pillar.tagline}</p>
+              </div>
+              <div class="interactive-cue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l10 5 10-5"/></svg>
+                REVEAL ENGINEERING & SECRET
+              </div>
             </div>
-            <h4 style="font-size:1.05rem; font-weight:600; color:#fff; margin-bottom:6px;">${pillar.title}</h4>
-            <p style="font-size:0.8rem; font-style:italic; color:#cbd5e1; line-height:1.4; margin-bottom:12px;">${pillar.tagline}</p>
-            <p style="font-size:0.82rem; color:var(--text-sub); line-height:1.6;">${pillar.body}</p>
+            <!-- Back of Card -->
+            <div class="flip-back">
+              <div>
+                <span class="telemetry" style="color:var(--accent-cyan);">PHYSICAL MECHANICS</span>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin:10px 0;">${pillar.body}</p>
+                <div style="background:rgba(0,0,0,0.6); border-left:2px solid var(--accent-amber); padding:8px 10px; border-radius:4px; margin-top:8px;">
+                  <strong style="color:var(--accent-amber); font-family:'JetBrains Mono', monospace; font-size:0.7rem;">SECRET:</strong>
+                  <span style="font-size:0.78rem; color:#f1f5f9;">${pillar.secret}</span>
+                </div>
+              </div>
+              <div class="interactive-cue" style="color:var(--text-dim); margin-top:10px;">
+                TAP TO RETURN
+              </div>
+            </div>
           </div>
-          <div class="secret-box">
-            <strong style="color:var(--accent-emerald); font-family:'JetBrains Mono', monospace;">INSIDER SECRET:</strong> ${pillar.secret}
-          </div>
-        </article>
+        </div>
       `).join("");
     }
 
-    function executeLiveSearch() {
-      const val = document.getElementById("destination-query").value.trim();
-      if (val) loadLocation(val);
+    function triggerSearch() {
+      const q = document.getElementById("query-input").value.trim();
+      if (q) loadPlaceData(q);
     }
 
-    /* ----------------------------------------------------
-       6. ANTI-GRAVITY PORTAL PHYSICS (MAIN LANDING)
-    ---------------------------------------------------- */
-    function initPortalPhysics() {
-      const canvas = document.getElementById("portal-canvas");
+    /* 5. Floating Spore Physics on Keystone */
+    function initCanvas() {
+      const canvas = document.getElementById("particle-canvas");
       const ctx = canvas.getContext("2d");
-      const portal = document.getElementById("portal-frame");
+      const frame = document.getElementById("portal-frame");
       const keystone = document.getElementById("keystone");
 
-      function resize() {
-        canvas.width = portal.offsetWidth;
-        canvas.height = portal.offsetHeight;
+      function fit() {
+        canvas.width = frame.offsetWidth;
+        canvas.height = frame.offsetHeight;
       }
-      resize();
-      window.addEventListener("resize", resize);
+      fit();
+      window.addEventListener("resize", fit);
 
-      const particles = Array.from({ length: 42 }, () => ({
+      const spores = Array.from({ length: 40 }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: Math.random() * 1.6 + 0.4,
-        vY: Math.random() * -0.5 - 0.2,
-        vX: (Math.random() - 0.5) * 0.3,
-        alpha: Math.random() * 0.7 + 0.2
+        r: Math.random() * 1.5 + 0.5,
+        vy: Math.random() * -0.5 - 0.2,
+        alpha: Math.random() * 0.7 + 0.3
       }));
 
-      function animate() {
+      function run() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          p.y += p.vY;
-          p.x += p.vX;
-          if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+        spores.forEach(s => {
+          s.y += s.vy;
+          if (s.y < 0) { s.y = canvas.height; s.x = Math.random() * canvas.width; }
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(16, 185, 129, ${p.alpha})`;
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(16, 185, 129, ${s.alpha})`;
           ctx.fill();
         });
-        requestAnimationFrame(animate);
+        requestAnimationFrame(run);
       }
-      animate();
+      run();
 
-      // Mouse Parallax on Keystone
-      portal.addEventListener("mousemove", (e) => {
-        const rect = portal.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        keystone.style.transform = `translate(${x * 24}px, ${y * 18}px) rotate(${x * 2}deg)`;
+      frame.addEventListener("mousemove", (e) => {
+        const r = frame.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        keystone.style.transform = `translate(${x * 24}px, ${y * 18}px) rotate(${x * 1.5}deg)`;
       });
 
-      portal.addEventListener("mouseleave", () => {
-        keystone.style.transform = `translate(0px, 0px) rotate(0deg)`;
+      frame.addEventListener("mouseleave", () => {
+        keystone.style.transform = `translate(0, 0) rotate(0deg)`;
       });
     }
 
-    // Initialize on page load
     document.addEventListener("DOMContentLoaded", () => {
-      initPortalPhysics();
-      loadLocation("Delhi");
+      initCanvas();
+      loadPlaceData("Delhi");
     });
   </script>
 </body>

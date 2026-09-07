@@ -1999,17 +1999,17 @@
       }
     }
 
-    async function syncLocationData(query) {
+        async function syncLocationData(query) {
       if (!query) return;
       const searchQuery = query.trim();
+      console.log(`[Arvora Audit Stage 1: Geocoding Result] Initiating Nominatim geocoding for: "${searchQuery}"`);
 
-      // Stage 1: Geocoding via Nominatim
-      console.log(`[Arvora Audit Stage 1: Geocoding Result] Initiating geocoding for: "${searchQuery}"`);
       let lat = 28.6139;
       let lon = 77.2090;
       let displayName = searchQuery;
       let boundingBox = null;
       let locationType = "CITY / ADMINISTRATIVE";
+      let geocodeSuccess = false;
 
       try {
         const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=1`, {
@@ -2021,14 +2021,23 @@
           const data = await res.json();
           if (data && data.length > 0) {
             const item = data[0];
-            lat = parseFloat(item.lat);
-            lon = parseFloat(item.lon);
-            displayName = item.display_name || searchQuery;
-            boundingBox = item.boundingbox;
-            locationType = `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase();
-            console.log(`[Arvora Audit Stage 1: Geocoding Result] SUCCESS: lat=${lat}, lon=${lon}, type=${locationType}, display_name="${displayName}"`);
+            const parsedLat = parseFloat(item.lat);
+            const parsedLon = parseFloat(item.lon ?? item.lng);
+
+            if (isValidLatLng(parsedLat, parsedLon)) {
+              lat = parsedLat;
+              lon = parsedLon;
+              displayName = item.display_name || searchQuery;
+              boundingBox = item.boundingbox;
+              locationType = `${item.class || 'place'} / ${item.type || 'node'}`.toUpperCase();
+              geocodeSuccess = true;
+              console.log(`[Arvora Audit Stage 1: Geocoding Result] SUCCESS: lat=${lat}, lon=${lon}, type=${locationType}, display_name="${displayName}"`);
+            } else {
+              console.warn(`[Arvora Audit Stage 1: Geocoding Result] Invalid coordinates received for "${searchQuery}": (${item.lat}, ${item.lon}).`);
+            }
           } else {
-            console.warn(`[Arvora Audit Stage 1: Geocoding Result] No Nominatim results found for "${searchQuery}". Using local fallback.`);
+            console.warn(`[Arvora Audit Stage 1: Geocoding Result] Location not found for "${searchQuery}". Using fallback.`);
+            alert(`Location "${searchQuery}" not found. Showing regional node fallback.`);
           }
         } else {
           console.warn(`[Arvora Audit Stage 1: Geocoding Result] Nominatim response error status: ${res.status}`);
@@ -2037,25 +2046,32 @@
         console.error(`[Arvora Audit Stage 1: Geocoding Result] Nominatim fetch error:`, err);
       }
 
-      // Stage 2: Leaflet Map Viewport & Marker Reposition
+      // Update window.ArvoraState with resolved lat, lon, and displayName
+      if (typeof window.ArvoraState !== "undefined" && typeof window.ArvoraState.setLocation === "function") {
+        window.ArvoraState.setLocation(lat, lon, displayName);
+      }
+
+      // Stage 2: Leaflet Map Viewport & Marker Repositioning
       console.log(`[Arvora Audit Stage 2: Map Reposition] Flying Leaflet viewport to [${lat}, ${lon}]`);
       let targetMap = window.arvoraMap || arvoraMap || window.map;
       if (!targetMap && typeof initArvoraMap === "function") {
         targetMap = initArvoraMap();
       }
 
-      if (targetMap && typeof L !== "undefined") {
-        if (boundingBox) {
+      if (targetMap && typeof L !== "undefined" && isValidLatLng(lat, lon)) {
+        const targetZoom = typeof getValidZoom === "function" ? getValidZoom(13, targetMap) : 13;
+        
+        if (boundingBox && Array.isArray(boundingBox) && boundingBox.length === 4) {
           try {
             targetMap.fitBounds([
               [parseFloat(boundingBox[0]), parseFloat(boundingBox[2])],
               [parseFloat(boundingBox[1]), parseFloat(boundingBox[3])]
             ], { padding: [50, 50], duration: 1.5 });
           } catch(e) {
-            targetMap.flyTo([lat, lon], 13, { duration: 1.5, easeLinearity: 0.25 });
+            targetMap.flyTo([lat, lon], targetZoom, { duration: 1.5, easeLinearity: 0.25 });
           }
         } else {
-          targetMap.flyTo([lat, lon], 13, { duration: 1.5, easeLinearity: 0.25 });
+          targetMap.flyTo([lat, lon], targetZoom, { duration: 1.5, easeLinearity: 0.25 });
         }
 
         let marker = window.activeLocationMarker || activeLocationMarker || window.activeMarker;
@@ -2079,13 +2095,18 @@
         const statusEl = document.getElementById("map-target-status");
         if (statusEl) statusEl.innerText = `VECTOR LOCKED // ${searchQuery.toUpperCase()}`;
 
-        setTimeout(() => { if (targetMap) targetMap.invalidateSize(); }, 300);
+        // Invalidate size to prevent grey/missing map tile glitches
+        setTimeout(() => {
+          if (targetMap && typeof targetMap.invalidateSize === "function") {
+            targetMap.invalidateSize();
+          }
+        }, 300);
         console.log(`[Arvora Audit Stage 2: Map Reposition] SUCCESS: Leaflet map flyTo & marker updated, invalidateSize executed.`);
       } else {
-        console.warn(`[Arvora Audit Stage 2: Map Reposition] Leaflet map instance not ready or L undefined.`);
+        console.warn(`[Arvora Audit Stage 2: Map Reposition] Suppressed map reposition: targetMap ready? ${!!targetMap}, isValidLatLng: ${isValidLatLng(lat, lon)}`);
       }
 
-      // Stage 3: Feature Panels 1, 2, and 3 Population
+      // Stage 3: Feature Panels Population
       console.log(`[Arvora Audit Stage 3: Card Population] Populating Feature Panels 1, 2, and 3 with geocoded telemetry.`);
       const locationDataObj = {
         placeId: searchQuery.toLowerCase(),

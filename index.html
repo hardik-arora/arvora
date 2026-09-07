@@ -172,6 +172,17 @@
         linear-gradient(135deg, rgba(235, 255, 220, 0.2) 0%, transparent 48%);
     }
 
+    
+    /* Hovering Decoupled Stone Segment Animation */
+    @keyframes floatingBlock {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0px); }
+    }
+    .hover-stone-left { animation: floatingBlock 6s ease-in-out infinite alternate; }
+    .hover-stone-right { animation: floatingBlock 7s ease-in-out 1s infinite alternate; }
+    .hover-stone-arch { animation: floatingBlock 8s ease-in-out 0.5s infinite alternate; }
+
     /* =========================================================================
        MONUMENTAL REAL-LIFE ROCKY PORTAL ARCH
        ========================================================================= */
